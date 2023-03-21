@@ -2,7 +2,7 @@
    <v-container>
       <v-row>
          <v-col>
-            <v-img aspect-ratio="1" :src="require(`@/assets/product/uploadImgs/${product.productInfo.imageSourcePath}`)" 
+            <v-img aspect-ratio="1" :src="require(`@/assets/product/uploadImgs/${product.productInfo.imageReSourcePath}`)" 
             width="100" >
                <template v-slot:placeholder>
                   <v-row class="fill-height ma-0" align="center" justify="center">
