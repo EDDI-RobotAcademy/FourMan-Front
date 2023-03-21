@@ -2,7 +2,7 @@
     <v-container>
         <v-data-table 
             :headers="headerTitle" 
-            :items="boards"
+            :items="freeBoards"
             :items-per-page="10"
             @click:row="readRow"
             class="elevation-1"
