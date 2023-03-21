@@ -1,9 +1,7 @@
 <template>
    <div justify="center">
       
-
-      <product-list-form :products="products"></product-list-form>
-
+      <product-list-form :products="products" :productImages="productImages"></product-list-form>
    </div>
 </template>
 
@@ -23,16 +21,20 @@ export default {
    },
    computed: {
       ...mapState([
-         'products'
+         'products',
+         'productImages'
       ])
    },
    methods: {
       ...mapActions([
-         'reqProductListToSpring'
+         'requestProductListToSpring',
+         'requestProductImageListToSpring'
       ])
    },
    mounted() {
-      this.reqProductListToSpring()
+      this.requestProductImageListToSpring()
+      this.requestProductListToSpring()
+      console.log('products: ' + JSON.stringify(this.products))
    }
 }
 </script>

@@ -1,5 +1,6 @@
 import {
    REQUEST_PRODUCT_LIST_TO_SPRING,
+   REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
    
 } from './mutation-types'
 
@@ -17,10 +18,18 @@ export default {
               alert('문제 발생!')
           })
    },
-   reqProductListToSpring({ commit }) {
+   requestProductListToSpring({ commit }) {
       return axios.get('http://localhost:8888/product/list')
-         .then((res) => {
-            commit(REQUEST_PRODUCT_LIST_TO_SPRING, res.data)
+      .then((res) => {
+         commit(REQUEST_PRODUCT_LIST_TO_SPRING, res.data)
+         console.log('productList: ' + JSON.stringify(res.data))
+      })
+   },
+   requestProductImageListToSpring({ commit }) {
+      return axios.get('http://localhost:8888/product/imageList')
+      .then((res) => {
+         commit(REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING, res.data)
+         console.log('imageList: ' + JSON.stringify(res.data))
          })
    }
 }
