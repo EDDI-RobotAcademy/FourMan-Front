@@ -31,9 +31,9 @@ export default {
          'requestProductImageListToSpring'
       ])
    },
-   mounted() {
-      this.requestProductImageListToSpring()
-      this.requestProductListToSpring()
+   async mounted() {
+      await this.requestProductImageListToSpring()
+      await this.requestProductListToSpring()
       console.log('products: ' + JSON.stringify(this.products))
    }
 }

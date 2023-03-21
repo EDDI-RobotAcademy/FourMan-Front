@@ -4,13 +4,7 @@
          <v-col v-if="!products || (Array.isArray(products) && products.length === 0)">
             <p>상품이 존재하지 않습니다.</p>
          </v-col>
-         <!-- <v-col v-for="(imagePath, idx) in productImages" :key="idx" cols="12">
-            <product-card-image-form :imagePath="imagePath" />
-         </v-col>
-         <v-col v-for="(product, index) in products" :key="index" cols="12">
-            <product-card-form :product="product"/>
-         </v-col> -->
-         <v-col v-for="(data, index) in datas" :key="index" cols="12">
+         <v-col v-for="(data, index) in datas" :key="index" cols="2">
             <product-card-form :data="data"/>
          </v-col> 
       </v-row>
@@ -19,13 +13,11 @@
 
 <script>
 import ProductCardForm from '@/components/product/ProductCardForm.vue'
-import ProductCardImageForm from '@/components/product/ProductCardImageForm.vue'
 
 export default {
    name: "ProductListForm",
    components: { 
-      ProductCardForm, 
-      ProductCardImageForm 
+      ProductCardForm,  
    },
    data() {
       return {
@@ -40,15 +32,20 @@ export default {
          type: Array,
       }
    },
-   created() {
-      console.log('productImages: ' + JSON.stringify(this.productImages))
-      for(let i = 0; i < this.products.length; i++) {
-         var { datas } = this.datas
-
-         datas[i] = this.products[i].concat(this.productImages[i])
-         console.log('datas: ' + JSON.stringify(datas[i]))
-      }
-   }
+   async beforeUpdate() {
+      const products = this.products
+      const imageList = this.productImages
+      const datas = products.map((product, index) => {
+         return {
+            imageResourcePath: imageList[index].imageResourcePath,
+            productId: product.productId,
+            productName: product.productName,
+            price: product.price
+         }
+      })
+      console.log('datas: ' + JSON.stringify(datas))
+      this.datas = datas
+    },
 
 }
 </script>

@@ -12,7 +12,7 @@
          </v-col>
       </v-row>
       <v-row>
-         <p>{{ data.product_name }}</p>
+         <p>{{ data.productName }}</p>
       </v-row>
       <v-row>
          <p>{{ data.price }}</p> 
@@ -28,7 +28,7 @@ export default {
    name: "ProductCardForm",
    props: {
       data: {
-         type: Array
+         type: Object
       }
    }
 }
