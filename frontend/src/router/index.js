@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignUpPage from "@/views/member/SignUpPage";
-// import SignInPage from "@/views/lecture/member/SignInPage";
-// import SearchMemberPasswordPage from "@/views/lecture/member/SearchMemberPasswordPage";
+
+import SignInPage from "@/views/member/SignInPage";
+// import SearchMemberPasswordPage from "@/views/member/SearchMemberPasswordPage";
 
 import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
 import FreeBoardRegisterPage from '@/views/freeBoard/FreeBoardRegisterPage.vue'
@@ -22,6 +23,7 @@ const routes = [
     component: SignUpPage
   },
   {
+
     path: '/free-board-list-page',
     name: 'FreeBoardListPage',
     component: FreeBoardListPage
@@ -31,11 +33,11 @@ const routes = [
     name: 'FreeBoardRegisterPage',
     component: FreeBoardRegisterPage
   },
-  // {
-  //   path: '/sign-in',
-  //   name: 'SignInPage',
-  //   component: SignInPage
-  // },
+  {
+    path: '/sign-in',
+    name: 'SignInPage',
+    component: SignInPage
+  },
   // {
   //   path: '/search-password',
   //   name: 'SearchMemberPasswordPage',
