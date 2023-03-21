@@ -14,5 +14,8 @@ export default {
   data: () => ({
     //
   }),
+  components:{
+    
+  }
 };
 </script>
