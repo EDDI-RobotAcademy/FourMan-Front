@@ -39,19 +39,15 @@
         <span>회원 탈퇴</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn> -->
-      <v-btn text color="grey">
-        <span>Sign Up</span>
-        <v-icon right>mdi-account-plus-outline</v-icon>
-      </v-btn>
-      <v-btn text color="grey">
+      <v-btn v-if="isTrue == true" text @click="clickToggle">
         <span>Sign In</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn>
-      <v-btn text color="grey">
+      <v-btn v-else text @click="clickToggle">
         <span>Sign Out</span>
-        <v-icon right>mdi-exit-to-app</v-icon>
+        <v-icon right>mdi-logout</v-icon>
       </v-btn>
-    </v-app-bar>
+      </v-app-bar>
 
     <v-navigation-drawer app v-model="navigation_drawer">
       <v-list-item>
@@ -88,6 +84,7 @@ export default {
   name: 'NavigationMenuForm',
   data () {
     return {
+      isTrue: false,
       navigation_drawer: false,
       links: [
       { icon: 'mdi-bulletin-board', text: '게시판', name: 'Board', route: '/board' },
@@ -95,6 +92,11 @@ export default {
               name: 'CafeListPage', route: '/cafe-list-page' },
       ]
   }
+},
+methods: {
+  clickToggle () {
+      this.isTrue = !this.isTrue
+}
 },
 }
 </script>
