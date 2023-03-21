@@ -12,34 +12,42 @@
 
       <v-row>
         <v-col>
+          <router-link to="">
           <v-btn>button 1</v-btn>
+          </router-link>
         </v-col>
         <v-col>
+          <router-link to="">
           <v-btn>button 2</v-btn>
+          </router-link>
         </v-col>
         <v-col>
+          <router-link to="">
           <v-btn>button 3</v-btn>
+          </router-link>
         </v-col>
         <v-col>
+          <router-link to="">
           <v-btn>button 4</v-btn>
+          </router-link>
         </v-col>
 
       </v-row>
 
-
-      <v-btn v-if="isAuthenticated == true" text color="grey" v-on:click="resign">
+      <!-- 회원탈퇴 버튼 필요시 작성 -->
+      <!-- <v-btn text color="grey">
         <span>회원 탈퇴</span>
         <v-icon right>mdi-login</v-icon>
-      </v-btn>
-      <v-btn text color="grey" onclick="location.href='/'">
+      </v-btn> -->
+      <v-btn text color="grey">
         <span>Sign Up</span>
         <v-icon right>mdi-account-plus-outline</v-icon>
       </v-btn>
-      <v-btn v-if="isAuthenticated == false" text color="grey" onclick="location.href='/'">
+      <v-btn text color="grey">
         <span>Sign In</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn>
-      <v-btn v-else text color="grey" v-on:click="logout">
+      <v-btn text color="grey">
         <span>Sign Out</span>
         <v-icon right>mdi-exit-to-app</v-icon>
       </v-btn>
@@ -75,7 +83,6 @@
 
 <script>
 
-import {mapState} from "vuex";
 
 export default {
   name: 'NavigationMenuForm',
@@ -88,16 +95,6 @@ export default {
               name: 'CafeListPage', route: '/cafe-list-page' },
       ]
   }
-},
-computed: {
-    ...mapState(["isAuthenticated"]),
-  },
-  mounted() {
-    if (localStorage.getItem("userInfo")) {
-      this.$store.state.isAuthenticated = true;
-    } else {
-      this.$store.state.isAuthenticated = false;
-    }
 },
 }
 </script>
