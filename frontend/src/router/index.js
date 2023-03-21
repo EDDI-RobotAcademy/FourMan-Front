@@ -4,6 +4,9 @@ import HomeView from '../views/HomeView.vue'
 import SignUpPage from "@/views/member/SignUpPage";
 // import SignInPage from "@/views/lecture/member/SignInPage";
 // import SearchMemberPasswordPage from "@/views/lecture/member/SearchMemberPasswordPage";
+
+import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,6 +19,11 @@ const routes = [
     path: '/sign-up',
     name: 'SignUpPage',
     component: SignUpPage
+  },
+  {
+    path: '/free-board-list-page',
+    name: 'FreeBoardListPage',
+    component: FreeBoardListPage
   },
   // {
   //   path: '/sign-in',
