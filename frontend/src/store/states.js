@@ -1,4 +1,6 @@
 export default {
    products: [],
-   productImages: []
+   productImages: [],
+
+    isAuthenticated: false,//로그인체크
 }

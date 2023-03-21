@@ -11,4 +11,6 @@ export default {
    [REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING](state, passingData) {
       state.productImages = passingData
    }
+
+    
 }

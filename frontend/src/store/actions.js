@@ -2,6 +2,7 @@ import {
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
    
+
 } from './mutation-types'
 
 import axios from 'axios'
@@ -32,4 +33,6 @@ export default {
          console.log('imageList: ' + JSON.stringify(res.data))
          })
    }
+   
+  
 }
