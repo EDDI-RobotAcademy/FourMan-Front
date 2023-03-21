@@ -39,16 +39,23 @@
         <span>회원 탈퇴</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn> -->
-      <v-btn v-if="isTrue == true" text @click="clickToggle">
+      <v-btn text color="grey" onclick="location.href='http://localhost:8887/sign-up'">
+        <span>Sign Up</span>
+        <v-icon right>mdi-account-plus-outline</v-icon>
+      </v-btn>
+      <!-- 로그인 안되어있을경우 -->
+
+      <v-btn v-if="isAuthenticated == false" text color="grey" onclick="location.href='http://localhost:8887/sign-in'">
         <span>Sign In</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn>
-      <v-btn v-else text @click="clickToggle">
+      <v-btn v-else text color="grey" v-on:click="logout">
         <span>Sign Out</span>
-        <v-icon right>mdi-logout</v-icon>
+        <v-icon right>mdi-exit-to-app</v-icon>
       </v-btn>
       </v-app-bar>
 
+    <!-- 왼쪽 슬라이딩메뉴 -->
     <v-navigation-drawer app v-model="navigation_drawer">
       <v-list-item>
         <v-list-item-content>
@@ -78,6 +85,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+import axios from "axios";
 
 
 export default {
@@ -93,10 +102,38 @@ export default {
       ]
   }
 },
+computed: {
+    ...mapState(["isAuthenticated"]),
+  },
+  mounted() {
+    if (localStorage.getItem("userInfo")) {
+      console.log("userinfo가 있습니다")
+      console.log(this.$store.state.isAuthenticated)
+      this.$store.state.isAuthenticated = true;// 로그인되어있음
+    } else {
+      console.log("userinfo가 없습니다.")
+      console.log(this.$store.state.isAuthenticated)
+      this.$store.state.isAuthenticated = false;//로그인안되어있음
+    }
+  },
 methods: {
-  clickToggle () {
-      this.isTrue = !this.isTrue
-}
+
+
+  logout () {
+        console.log('localStorage.getItem("userInfo"): ' + localStorage.getItem("userInfo"))
+          let token = localStorage.getItem("userInfo")
+        const length = token.length
+        console.log('token: ' + token + ', length: ' + length)
+        token = token.substr(1, length - 2)//양쪽에 있는 "" 제거 substr("시작 위치", "길이")
+        console.log('token: ' + token + ', length: ' + token.length)
+        axios.post("http://localhost:8888/member/logout", token)//토큰을 보냄
+            .then(() => {
+              alert("로그아웃 완료");
+              localStorage.removeItem("userInfo");//로컬스토리지에서 제거
+              this.$store.state.isAuthenticated = false;
+            })
+        }
+
 },
 }
 </script>
