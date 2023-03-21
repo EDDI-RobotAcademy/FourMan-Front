@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SignUpPage from "@/views/member/SignUpPage";
-// import SignInPage from "@/views/lecture/member/SignInPage";
-// import SearchMemberPasswordPage from "@/views/lecture/member/SearchMemberPasswordPage";
+import SignInPage from "@/views/member/SignInPage";
+// import SearchMemberPasswordPage from "@/views/member/SearchMemberPasswordPage";
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,11 +17,11 @@ const routes = [
     name: 'SignUpPage',
     component: SignUpPage
   },
-  // {
-  //   path: '/sign-in',
-  //   name: 'SignInPage',
-  //   component: SignInPage
-  // },
+  {
+    path: '/sign-in',
+    name: 'SignInPage',
+    component: SignInPage
+  },
   // {
   //   path: '/search-password',
   //   name: 'SearchMemberPasswordPage',
