@@ -1,5 +1,7 @@
 <template>
-    <MainCarouselForm></MainCarouselForm>
+    <v-container>
+      <main-carousel-form></main-carousel-form>
+    </v-container>
 </template>
 
 <script>

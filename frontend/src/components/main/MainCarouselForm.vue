@@ -18,7 +18,7 @@
 
   <script>
   export default {
-    name: "CarouselPage",
+    name: "MainCarouselForm",
     data () {
         return {
             model: 0,
@@ -31,7 +31,7 @@
             ],
             cycle: true,
             interval: 4000, // ms 단위
-            height: 450,
+            height: 350,
             width: 600,
         }
     }
