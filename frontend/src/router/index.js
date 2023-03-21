@@ -6,6 +6,7 @@ import SignUpPage from "@/views/member/SignUpPage";
 // import SearchMemberPasswordPage from "@/views/lecture/member/SearchMemberPasswordPage";
 
 import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
+import FreeBoardRegisterPage from '@/views/freeBoard/FreeBoardRegisterPage.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,11 @@ const routes = [
     path: '/free-board-list-page',
     name: 'FreeBoardListPage',
     component: FreeBoardListPage
+  },
+  {
+    path: '/free-board-register-page',
+    name: 'FreeBoardRegisterPage',
+    component: FreeBoardRegisterPage
   },
   // {
   //   path: '/sign-in',

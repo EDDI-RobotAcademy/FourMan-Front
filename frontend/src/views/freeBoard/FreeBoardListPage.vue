@@ -2,7 +2,7 @@
     <v-container>
         <h2 class="mt-5 mb-5 text-center">자유게시판</h2>
         <free-board-list-form :boards="boards"/>
-        <router-link class="mt-5 me-3" :to="{ name: 'JpaBoardRegisterPage' }" style="display: flex;
+        <router-link class="mt-5 me-3" :to="{ name: 'FreeBoardRegisterPage' }" style="display: flex;
                                                                                     justify-content: flex-end;">
             <v-btn>
                 게시물 작성
