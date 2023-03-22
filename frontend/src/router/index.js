@@ -47,7 +47,18 @@ const routes = [
   {
     path: '/free-board-register-page',
     name: 'FreeBoardRegisterPage',
-    component: FreeBoardRegisterPage
+    component: FreeBoardRegisterPage,
+    beforeEnter: (to, from, next) => {
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo != null) {
+        // 로그인 되어 있을 때는 페이지 이동을 허용
+        next();
+      } else {
+        // 로그인 되어 있지 않을 때는 로그인 페이지로 이동
+        alert('로그인 후 글을 작성할 수 있습니다.')
+        next('/sign-in');
+      }
+    }
   },
 
 
