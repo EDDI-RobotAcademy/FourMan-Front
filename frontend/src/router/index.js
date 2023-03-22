@@ -1,22 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
-import ProductListPage from '@/views/product/ProductListPage.vue'
 
 import MainPage from "@/views/MainPage.vue"
 
 //로그인관련
 import SignUpPage from "@/views/member/SignUpPage";
 import SignInPage from "@/views/member/SignInPage";
+import SearchMemberPasswordPage from "@/views/member/SearchMemberPasswordPage";
 
 //프리보드관련
 import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
 import FreeBoardRegisterPage from '@/views/freeBoard/FreeBoardRegisterPage.vue'
 
+
 //질문 게시판 관련
 import QuestionBoardListPage from '@/views/questionboard/QuestionBoardListPage.vue'
 import QuestionBoardRegisterPage from '@/views/questionboard/QuestionBoardRegisterPage.vue'
+
+//상품관련
+import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
+import ProductListPage from '@/views/product/ProductListPage.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +30,14 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+
+  {
+    path: '/main',
+    name: 'MainPage',
+    component: MainPage
+  },
+
+//상품 관련
   {
     path: '/product-register-page',
     name: 'ProductRegisterPage',
@@ -36,11 +48,7 @@ const routes = [
     name: 'ProductListPage',
     component: ProductListPage
   },
-  {
-    path: '/main',
-    name: 'MainPage',
-    component: MainPage
-  },
+
 
 //로그인 관련
   {
@@ -53,7 +61,11 @@ const routes = [
     name: 'SignInPage',
     component: SignInPage
   },
-
+  {
+    path: '/search-password',
+    name: 'SearchMemberPasswordPage',
+    component: SearchMemberPasswordPage
+  },
 
 // borard관련
   {
