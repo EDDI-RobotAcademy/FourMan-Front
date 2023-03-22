@@ -44,7 +44,7 @@
         <v-icon right>mdi-account-plus-outline</v-icon>
       </v-btn>
       <!-- 로그인 안되어있을경우 -->
-      
+
       <v-btn v-if="isAuthenticated == false" text color="grey" onclick="location.href='http://localhost:8887/sign-in'">
         <span>Sign In</span>
         <v-icon right>mdi-login</v-icon>
@@ -117,8 +117,8 @@ computed: {
     }
   },
 methods: {
-  
-  
+
+
   logout () {
         console.log('localStorage.getItem("userInfo"): ' + localStorage.getItem("userInfo"))
           let token = localStorage.getItem("userInfo")
