@@ -36,6 +36,18 @@ export default {
          })
    },
    // 보드 관련 
+   requestCreateFreeBoardToSpring ({ }, payload) {
+      const { title, content, writer } = payload
+      return axios.post('http://localhost:8888/free-board/register',
+          { title, content, writer })
+          .then((res) => {
+              alert('게시물 등록 성공!')
+              return res
+          })
+          .catch(() => {
+              alert('문제 발생!')
+          })
+   },
    requestFreeBoardListToSpring ({ commit }) {
         return axios.get('http://localhost:8888/free-board/list')
             .then((res) => {
