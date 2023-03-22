@@ -11,7 +11,7 @@
          </v-row>
       </div>
       <div>
-         <product-cart-form />
+         <product-cart-form :carts="carts" />
       </div>
    </div>
 </template>
@@ -53,6 +53,19 @@ export default {
       })
       console.log('datas: ' + JSON.stringify(datas))
       this.datas = datas
+    },
+    methods: {
+      addCart(receiveData) {
+         var data = receiveData
+         this.carts.push(data)
+         // var carts = this.carts.concat(data)
+         var carts = this.carts
+         if (!carts.includes(data)) {
+            carts.push(data);
+         }
+         this.carts = carts
+         console.log('carts: ' + JSON.stringify(this.carts))
+      }
     },
 }
 </script>
