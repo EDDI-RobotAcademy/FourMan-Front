@@ -19,10 +19,8 @@
           ]),
           async onSubmit (payload) {
               const board = await this.requestCreateFreeBoardToSpring(payload)
-              console.log('board: ' + JSON.stringify(board.data))
               await this.$router.push({
-                  name: 'FreeBoardReadPage',
-                  params: { boardId: board.data.boardId.toString() }
+                  name: 'FreeBoardListPage',
               })
           }
       }
