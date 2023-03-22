@@ -35,7 +35,7 @@ export default {
       ]),
       loginCheck () {
           const userInfo = localStorage.getItem('userInfo');
-          if(userInfo = null) {
+          if(userInfo == null) {
               alter("로그인이 필요 합니다");
               this.$router.push({name: 'SignInPage'})
           } else {
