@@ -1,27 +1,35 @@
 <template>
    <div>
-      <v-row>
-         <v-col v-if="!products || (Array.isArray(products) && products.length === 0)">
-            <p>상품이 존재하지 않습니다.</p>
-         </v-col>
-         <v-col v-for="(data, index) in datas" :key="index" cols="2">
-            <product-card-form :data="data"/>
-         </v-col> 
-      </v-row>
+      <div>
+         <v-row>
+            <v-col v-if="!products || (Array.isArray(products) && products.length === 0)">
+               <p>상품이 존재하지 않습니다.</p>
+            </v-col>
+            <v-col v-for="(data, index) in datas" :key="index" cols="2">
+               <product-card-form :data="data" @addCart="addCart"/>
+            </v-col> 
+         </v-row>
+      </div>
+      <div>
+         <product-cart-form />
+      </div>
    </div>
 </template>
 
 <script>
 import ProductCardForm from '@/components/product/ProductCardForm.vue'
+import ProductCartForm from '@/components/product/ProductCartForm.vue'
 
 export default {
    name: "ProductListForm",
    components: { 
-      ProductCardForm,  
+      ProductCardForm,
+      ProductCartForm
    },
    data() {
       return {
-         datas: []
+         datas: [],
+         carts: [],
       }
    },
    props: {
@@ -46,7 +54,6 @@ export default {
       console.log('datas: ' + JSON.stringify(datas))
       this.datas = datas
     },
-
 }
 </script>
 
