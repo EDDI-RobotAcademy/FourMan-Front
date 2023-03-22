@@ -2,8 +2,11 @@ import {
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
-   // 보드 관련 
+   // 보드 관련
    REQUEST_FREE_BOARD_LIST_TO_SPRING,
+
+   //질문 게시판 관련
+   REQUEST_QUESTION_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
@@ -35,12 +38,20 @@ export default {
          console.log('imageList: ' + JSON.stringify(res.data))
          })
    },
-   // 보드 관련 
+   // 보드 관련
    requestFreeBoardListToSpring ({ commit }) {
         return axios.get('http://localhost:8888/free-board/list')
             .then((res) => {
                 commit(REQUEST_FREE_BOARD_LIST_TO_SPRING, res.data)
             })
    },
-  
+
+
+   // 질문게시판 관련
+   requestQuestionBoardListToSpring ({ commit }) {
+      return axios.get('http://localhost:8888/question-board/list')
+          .then((res) => {
+              commit(REQUEST_QUESTION_BOARD_LIST_TO_SPRING, res.data)
+          })
+ },
 }
