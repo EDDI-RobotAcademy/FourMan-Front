@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
+import ProductListPage from '@/views/product/ProductListPage.vue'
+
 import MainPage from "@/views/MainPage.vue"
 
 //로그인관련
@@ -18,6 +21,16 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/product-register-page',
+    name: 'ProductRegisterPage',
+    component: ProductRegisterPage
+  },
+  {
+    path: '/product-list-page',
+    name: 'ProductListPage',
+    component: ProductListPage
   },
   {
     path: '/main',
