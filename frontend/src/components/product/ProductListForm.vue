@@ -11,7 +11,7 @@
          </v-row>
       </div>
       <div>
-         <product-cart-form :carts="carts" />
+         <product-cart-form :cartItems="cartItems" />
       </div>
    </div>
 </template>
@@ -29,7 +29,7 @@ export default {
    data() {
       return {
          datas: [],
-         carts: [],
+         cartItems: [],
       }
    },
    props: {
@@ -48,7 +48,9 @@ export default {
             imageResourcePath: productImages[index].imageResourcePath,
             productId: product.productId,
             productName: product.productName,
-            price: product.price
+            price: product.price,
+            count: 1,
+            totalPrice: product.price,
          }
       })
       console.log('datas: ' + JSON.stringify(datas))
@@ -57,15 +59,13 @@ export default {
     methods: {
       addCart(receiveData) {
          var data = receiveData
-         console.log('json(carts): ' + JSON.stringify(this.carts))
-         console.log('data: ' + JSON.stringify(data))
-         if((JSON.stringify(this.carts)).includes(JSON.stringify(data))) {
-            console.log('include')
+         
+         if(!((JSON.stringify(this.cartItems)).includes(JSON.stringify(data)))) {
+            this.cartItems.push(data)
          } else {
-            this.carts.push(data)
-            console.log('notInclude')
+            
          }
-         console.log('carts: ' + JSON.stringify(this.carts))
+         console.log('cartItems: ' + JSON.stringify(this.cartItems))
       }
     },
 }
