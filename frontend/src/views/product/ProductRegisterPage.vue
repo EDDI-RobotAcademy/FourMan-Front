@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>상품 등록</h2>
+    <h2 align="center">상품 등록</h2>
     <product-register-form @submit="onSubmit"/>
   </v-container>
 </template>
