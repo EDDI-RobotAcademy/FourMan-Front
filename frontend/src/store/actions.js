@@ -8,6 +8,7 @@ import {
 
    //질문 게시판 관련
    REQUEST_QUESTION_BOARD_LIST_TO_SPRING,
+   REQUEST_QUESTION_BOARD_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
@@ -87,7 +88,7 @@ export default {
     },
 
    // 질문게시판 관련
-   
+
     requestQuestionBoardListToSpring ({ commit }) {
         return axios.get('http://localhost:8888/question-board/list')
             .then((res) => {
@@ -107,4 +108,10 @@ export default {
                 alert('게시물 등록에 실패했습니다')
             })
     },
+    requestQuestionBoardToSpring({commit}, boardId) {
+        return axios.get(`http://localhost:8888/question-board/${boardId}`)
+        .then((res) =>{
+            commit(REQUEST_QUESTION_BOARD_TO_SPRING, res.data)
+        })
+    }
 }
