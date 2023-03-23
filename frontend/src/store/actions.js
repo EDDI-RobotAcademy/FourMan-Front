@@ -39,7 +39,7 @@ export default {
          console.log('imageList: ' + JSON.stringify(res.data))
          })
    },
-   // 보드 관련 
+   // 보드 관련
    requestCreateFreeBoardToSpring ({ }, payload) {
       const { title, content, writer } = payload
       return axios.post('http://localhost:8888/free-board/register',
@@ -87,10 +87,24 @@ export default {
     },
 
    // 질문게시판 관련
-   requestQuestionBoardListToSpring ({ commit }) {
-      return axios.get('http://localhost:8888/question-board/list')
-          .then((res) => {
-              commit(REQUEST_QUESTION_BOARD_LIST_TO_SPRING, res.data)
-          })
- },
+   
+    requestQuestionBoardListToSpring ({ commit }) {
+        return axios.get('http://localhost:8888/question-board/list')
+            .then((res) => {
+                commit(REQUEST_QUESTION_BOARD_LIST_TO_SPRING, res.data)
+            })
+     },
+
+    requestCreateQuestionBoardToSpring({}, payload) {
+        const { title, questionType, writer, content} = payload
+        return axios.post('http://localhost:8888/question-board/register',
+        { title, questionType, writer, content})
+            .then((res) => {
+                alert('게시물 등록 성공')
+                return res;
+            })
+            .catch (() =>{
+                alert('게시물 등록에 실패했습니다')
+            })
+    },
 }

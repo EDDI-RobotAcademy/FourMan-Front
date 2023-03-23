@@ -16,8 +16,9 @@ import FreeBoardReadPage from '@/views/freeBoard/FreeBoardReadPage.vue'
 import FreeBoardModifyPage from "@/views/freeBoard/FreeBoardModifyPage.vue"
 
 //질문 게시판 관련
-import QuestionBoardListPage from '@/views/questionboard/QuestionBoardListPage.vue'
-import QuestionBoardRegisterPage from '@/views/questionboard/QuestionBoardRegisterPage.vue'
+import QuestionBoardListPage from '@/views/questionBoard/QuestionBoardListPage.vue'
+import QuestionBoardRegisterPage from '@/views/questionBoard/QuestionBoardRegisterPage.vue'
+import QuestionBoardReadPage from '@/views/questionBoard/QuestionBoardReadPage.vue'
 
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
@@ -125,11 +126,30 @@ const routes = [
     path: '/question-board-list-page',
     name: 'QuestionBoardListPage',
     component: QuestionBoardListPage
-  },{
+  },
+  {
     path: '/question-board-register-page',
     name: 'QuestionBoardRegisterPage',
-    component: QuestionBoardRegisterPage
+    component: QuestionBoardRegisterPage,
+    beforeEnter: (to, from, next) => {
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo != null) {
+        // 로그인 되어 있을 때는 페이지 이동을 허용
+        next();
+      } else {
+        // 로그인 되어 있지 않을 때는 로그인 페이지로 이동
+        alert('로그인 후 글을 작성할 수 있습니다.')
+        next('/sign-in');
+      }
+    }
   },
+  {
+    path: '/question-board-read-page',
+    name: 'QuestionBoardReadPage',
+    component: QuestionBoardReadPage
+  },
+
+
 
 
 ]
