@@ -3,17 +3,17 @@
       <table>
         <tr>
           <td>
-            <v-text-field label="제목" type="text" v-model="title"/>
+            <v-text-field label="제목" type="text" v-model="title" required />
           </td>
         </tr>
         <tr>
           <td>
-            <v-text-field label="작성자" type="text" v-model="writer"/>
+            <v-text-field label="작성자" type="text" v-model="writer" required/>
           </td>
         </tr>
         <tr>
           <td>
-            <v-textarea label="내용" cols="50" rows="20" v-model="content"/>
+            <v-textarea label="내용" cols="50" rows="20" v-model="content" required/>
           </td>
         </tr>
         <tr>
