@@ -42,10 +42,10 @@ export default {
    },
    async beforeUpdate() {
       const products = this.products
-      const imageList = this.productImages
+      const productImages = this.productImages
       const datas = products.map((product, index) => {
          return {
-            imageResourcePath: imageList[index].imageResourcePath,
+            imageResourcePath: productImages[index].imageResourcePath,
             productId: product.productId,
             productName: product.productName,
             price: product.price
@@ -57,13 +57,14 @@ export default {
     methods: {
       addCart(receiveData) {
          var data = receiveData
-         this.carts.push(data)
-         // var carts = this.carts.concat(data)
-         var carts = this.carts
-         if (!carts.includes(data)) {
-            carts.push(data);
+         console.log('json(carts): ' + JSON.stringify(this.carts))
+         console.log('data: ' + JSON.stringify(data))
+         if((JSON.stringify(this.carts)).includes(JSON.stringify(data))) {
+            console.log('include')
+         } else {
+            this.carts.push(data)
+            console.log('notInclude')
          }
-         this.carts = carts
          console.log('carts: ' + JSON.stringify(this.carts))
       }
     },
