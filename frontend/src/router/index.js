@@ -13,6 +13,7 @@ import SearchMemberPasswordPage from "@/views/member/SearchMemberPasswordPage";
 import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
 import FreeBoardRegisterPage from '@/views/freeBoard/FreeBoardRegisterPage.vue'
 import FreeBoardReadPage from '@/views/freeBoard/FreeBoardReadPage.vue'
+import FreeBoardModifyPage from "@/views/freeBoard/FreeBoardModifyPage.vue"
 
 //질문 게시판 관련
 import QuestionBoardListPage from '@/views/questionboard/QuestionBoardListPage.vue'
@@ -97,6 +98,26 @@ const routes = [
     },
     props: {
       default: true
+    }
+  },
+  {
+    path: '/free-board-modify-page/:boardId',
+    name: 'FreeBoardModifyPage',
+    components: {
+      default: FreeBoardModifyPage
+    },
+    props: {
+      default: true
+    },
+    // 추후 게시글 작성자, 관리자만 수정할 수 있도록 변경 예정
+    beforeEnter: (to, from, next) => {
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo != null) {
+        next();
+      } else {
+        alert('로그인 후 글을 작성할 수 있습니다.')
+        next('/sign-in');
+      }
     }
   },
   //질문 게시판 관련

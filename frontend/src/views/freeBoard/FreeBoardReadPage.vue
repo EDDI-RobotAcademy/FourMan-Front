@@ -3,7 +3,11 @@
       <div align="center">
         <free-board-read-form v-if="freeBoard" :freeBoard="freeBoard"/>
         <p v-else>로딩중 .......... </p>
-        <v-btn>수정</v-btn>
+        <router-link :to="{ name: 'FreeBoardModifyPage', params: { boardId } }">
+          <v-btn>
+            게시물 수정
+          </v-btn>
+        </router-link>
         <v-btn @click="onDelete">삭제</v-btn>
         <router-link :to="{ name: 'FreeBoardListPage' }">
           <v-btn>

@@ -73,6 +73,18 @@ export default {
                 alert("문제 발생!")
             })
     },
+    requestFreeBoardModifyToSpring ({}, payload) {
+        const { title, content, boardId, writer } = payload
+
+        return axios.put(`http://localhost:8888/free-board/${boardId}`,
+            { title, content, writer })
+            .then(() => {
+                alert("수정 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+    },
 
    // 질문게시판 관련
    requestQuestionBoardListToSpring ({ commit }) {
