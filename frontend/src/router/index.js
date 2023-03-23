@@ -12,7 +12,7 @@ import SearchMemberPasswordPage from "@/views/member/SearchMemberPasswordPage";
 //프리보드관련
 import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
 import FreeBoardRegisterPage from '@/views/freeBoard/FreeBoardRegisterPage.vue'
-
+import FreeBoardReadPage from '@/views/freeBoard/FreeBoardReadPage.vue'
 
 //질문 게시판 관련
 import QuestionBoardListPage from '@/views/questionboard/QuestionBoardListPage.vue'
@@ -87,6 +87,16 @@ const routes = [
         alert('로그인 후 글을 작성할 수 있습니다.')
         next('/sign-in');
       }
+    }
+  },
+  {
+    path: '/free-board-read-page/:boardId',
+    name: 'FreeBoardReadPage',
+    components: {
+      default: FreeBoardReadPage
+    },
+    props: {
+      default: true
     }
   },
   //질문 게시판 관련
