@@ -4,7 +4,7 @@
         <free-board-read-form v-if="freeBoard" :freeBoard="freeBoard"/>
         <p v-else>로딩중 .......... </p>
         <v-btn>수정</v-btn>
-        <v-btn>삭제</v-btn>
+        <v-btn @click="onDelete">삭제</v-btn>
         <router-link :to="{ name: 'FreeBoardListPage' }">
           <v-btn>
             돌아가기
@@ -34,7 +34,12 @@
       methods: {
           ...mapActions([
               'requestFreeBoardToSpring',
+              'requestDeleteFreeBoardToSpring',
           ]),
+          async onDelete () {
+              await this.requestDeleteFreeBoardToSpring(this.boardId)
+              await this.$router.push({ name: 'FreeBoardListPage' })
+          }
       },
       created () {
           console.log('boardId: ' + this.boardId)

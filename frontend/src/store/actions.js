@@ -64,6 +64,15 @@ export default {
             commit(REQUEST_FREE_BOARD_TO_SPRING, res.data)
         })
     },
+    requestDeleteFreeBoardToSpring ({}, boardId) {
+        return axios.delete(`http://localhost:8888/free-board/${boardId}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+    },
 
    // 질문게시판 관련
    requestQuestionBoardListToSpring ({ commit }) {
