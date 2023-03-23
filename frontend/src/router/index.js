@@ -15,8 +15,9 @@ import FreeBoardRegisterPage from '@/views/freeBoard/FreeBoardRegisterPage.vue'
 
 
 //질문 게시판 관련
-import QuestionBoardListPage from '@/views/questionboard/QuestionBoardListPage.vue'
-import QuestionBoardRegisterPage from '@/views/questionboard/QuestionBoardRegisterPage.vue'
+import QuestionBoardListPage from '@/views/questionBoard/QuestionBoardListPage.vue'
+import QuestionBoardRegisterPage from '@/views/questionBoard/QuestionBoardRegisterPage.vue'
+import QuestionBoardReadPage from '@/views/questionBoard/QuestionBoardReadPage.vue'
 
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'

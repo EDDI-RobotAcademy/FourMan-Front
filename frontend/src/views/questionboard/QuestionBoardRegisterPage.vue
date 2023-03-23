@@ -7,7 +7,7 @@
 
 <script>
 
-import QuestionBoardRegisterForm from '@/components/questionboard/QuestionBoardRegisterForm.vue';
+import QuestionBoardRegisterForm from '@/components/questionBoard/QuestionBoardRegisterForm.vue';
 import { mapActions } from 'vuex'
 
 

@@ -14,7 +14,7 @@
 
 <script>
 
-import QuestionBoardListForm from '@/components/questionboard/QuestionBoardListForm.vue';
+import QuestionBoardListForm from '@/components/questionBoard/QuestionBoardListForm.vue';
 import { mapActions, mapState } from 'vuex'
 export default {
     name: "QuestionBoardListPage",
