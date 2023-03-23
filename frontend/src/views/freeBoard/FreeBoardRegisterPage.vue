@@ -4,7 +4,7 @@
       <free-board-register-form @submit="onSubmit"/>
     </v-container>
   </template>
-  
+
   <script>
 
   import FreeBoardRegisterForm from '@/components/freeBoard/FreeBoardRegisterForm.vue'
@@ -26,6 +26,6 @@
       }
   }
   </script>
-  
+
   <style>
   </style>

@@ -9,4 +9,5 @@ export default {
 
    // 질문 게시판 관련
    questionBoards: [],
+   
 }
