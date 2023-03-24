@@ -2,6 +2,7 @@ import {
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
+   REQUEST_PRODUCT_CART_TO_SPRING,
    // 보드 관련
    REQUEST_FREE_BOARD_LIST_TO_SPRING,
    REQUEST_FREE_BOARD_TO_SPRING,
@@ -56,7 +57,8 @@ export default {
    requestFreeBoardListToSpring ({ commit }) {
         return axios.get('http://localhost:8888/free-board/list')
             .then((res) => {
-                commit(REQUEST_FREE_BOARD_LIST_TO_SPRING, res.data)
+                alert('게시물 등록 성공!')
+                return res;
             })
    },
    requestFreeBoardToSpring ({ commit }, boardId) {

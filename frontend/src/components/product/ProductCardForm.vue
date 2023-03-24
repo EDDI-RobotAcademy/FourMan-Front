@@ -1,34 +1,45 @@
 <template>
    <v-container>
-      <v-row>
-         <v-col>
-            <v-img aspect-ratio="1" :src="require(`@/assets/product/uploadImgs/${data.imageResourcePath}`)" width="100" >
+      <v-card align="center">
+         <div>
+            <v-img :src="require(`@/assets/product/uploadImgs/${data.imageResourcePath}`)" width="100px" height="150px">
                <template v-slot:placeholder>
-                  <v-row class="fill-height ma-0" align="center" justify="center">
+                  <div class="fill-height ma-0" align="center" justify="center">
                      <v-progress-circular indeterminate color="grey lighten-5"/>
-                  </v-row>
+                  </div>
                </template>
             </v-img>
-         </v-col>
-      </v-row>
-      <v-row>
-         <p>{{ data.productName }}</p>
-      </v-row>
-      <v-row>
-         <p>{{ data.price }}</p> 
-      </v-row>
-      <v-row>
-         <v-btn color="primary">장바구니 담기</v-btn>
-      </v-row>
+         </div>
+         <div>
+            <p>{{ data.productName }}</p>
+         </div>
+         <div>
+            <p>{{ data.price }}원</p> 
+         </div>
+         <div>
+            <v-btn color="blue-grey lighten-1" @click="addCart(data)">장바구니 담기</v-btn>
+         </div>
+      </v-card>
    </v-container>
 </template>
 
 <script>
+
 export default {
    name: "ProductCardForm",
+   data() {
+      return {
+
+      }
+   },
    props: {
       data: {
-         type: Object
+         type: Object,
+      }
+   },
+   methods: {
+      addCart(data) {
+         this.$emit('addCart', data)
       }
    }
 }
