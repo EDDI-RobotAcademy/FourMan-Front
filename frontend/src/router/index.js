@@ -144,9 +144,14 @@ const routes = [
     }
   },
   {
-    path: '/question-board-read-page',
+    path: '/question-board-read-page/:boardId',
     name: 'QuestionBoardReadPage',
-    component: QuestionBoardReadPage
+    components: {
+      default: QuestionBoardReadPage
+    },
+    props: {
+      default: true
+    }
   },
 
 

@@ -34,7 +34,7 @@
       },
       methods: {
           readRow (readValue) {
-              router.push({
+              this.$router.push({
                   name: 'QuestionBoardReadPage',
                   params: { boardId: readValue.boardId.toString() }
               })
