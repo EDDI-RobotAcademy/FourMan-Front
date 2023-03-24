@@ -221,8 +221,10 @@
 export default {
   name: "SignUpAcceptPage",
   props: {
-        managerType: {
-            type: String
+        memberType: {
+            type: String,
+            required: true
+
         }
     },
   data() {
@@ -230,6 +232,9 @@ export default {
       checkedValues: [],
       allChecked: false
     }
+  },
+  mounted: function(){
+    console.log("this.memberType: ", this.memberType)
   },
   
   methods: {
@@ -252,7 +257,7 @@ export default {
         // location.href = "/sign-up"
         this.$router.push({
                 name: 'SignUpPage',
-                params: { managerType: this.managerType }
+                params: { memberType: this.memberType }
             })
       }
     }

@@ -59,7 +59,12 @@ const routes = [
   {
     path: '/sign-up',
     name: 'SignUpPage',
-    component: SignUpPage
+    components: {
+     default: SignUpPage
+    },
+    props: {
+      default: true
+    }
   },
   {
     path: '/sign-in',
@@ -74,13 +79,24 @@ const routes = [
   {
     path: '/sign-up-accept',
     name: 'SignUpAcceptPage',
-    component: SignUpAcceptPage
+    components: {
+      default: SignUpAcceptPage
+     },
+    props: {
+      default: true
+    }
   },
   {
     path: '/sign-up-choice',
     name: 'SignUpChoicePage',
-    component: SignUpChoicePage
+    components: {
+      default: SignUpChoicePage
+     },
+    props: {
+      default: true
+    }
   },
+ 
 
 // borard관련
   {
