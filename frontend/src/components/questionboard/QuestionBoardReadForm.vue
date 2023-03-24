@@ -2,22 +2,22 @@
     <table>
       <tr>
         <td>
-          <v-text-field :value="questionBoard.questionType" readonly/>
+          <v-text-field label="질문 유형" :value="questionBoard.questionType" readonly/>
         </td>
       </tr>
       <tr>
         <td>
-          <v-text-field type="text" :value="questionBoard.title" readonly/>
+          <v-text-field label="제목" type="text" :value="questionBoard.title" readonly/>
         </td>
       </tr>
       <tr>
         <td>
-          <v-text-field type="text" :value="questionBoard.writer" readonly/>
+          <v-text-field label="작성자" type="text" :value="questionBoard.writer" readonly/>
         </td>
       </tr>
       <tr>
         <td>
-          <v-textarea cols="50" rows="20" :value="questionBoard.content" readonly/>
+          <v-textarea label="본문" cols="50" rows="20" :value="questionBoard.content" readonly/>
         </td>
       </tr>
     </table>
