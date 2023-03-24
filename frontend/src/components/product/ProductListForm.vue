@@ -66,8 +66,6 @@ export default {
          } else {
             this.cartItems.push(data)
          }
-
-         console.log('addCartItems: ' + JSON.stringify(this.cartItems))
       }
     },
 }

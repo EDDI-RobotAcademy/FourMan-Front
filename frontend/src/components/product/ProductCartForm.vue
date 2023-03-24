@@ -72,8 +72,7 @@ export default {
          // this.cartItem.totalPrice = this.cartItem.price * this.cartItem.count
       },
       deleteCartItem(index) {
-         
-
+         this.cartItems.splice(index, 1);
       },
    },
    async updated() {
