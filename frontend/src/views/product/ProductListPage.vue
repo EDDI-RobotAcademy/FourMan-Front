@@ -34,7 +34,6 @@ export default {
    async mounted() {
       await this.requestProductImageListToSpring()
       await this.requestProductListToSpring()
-      console.log('products: ' + JSON.stringify(this.products))
    }
 }
 </script>
