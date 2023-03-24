@@ -220,12 +220,18 @@
 
 export default {
   name: "SignUpAcceptPage",
+  props: {
+        managerType: {
+            type: String
+        }
+    },
   data() {
     return {
       checkedValues: [],
       allChecked: false
     }
   },
+  
   methods: {
     allCk() {
       const {allChecked} = this
@@ -243,7 +249,11 @@ export default {
       if (this.checkedValues.length != 3) {
         alert("모두 동의가 필요합니다.")
       } else {
-        location.href = "/sign-up"
+        // location.href = "/sign-up"
+        this.$router.push({
+                name: 'SignUpPage',
+                params: { managerType: this.managerType }
+            })
       }
     }
   }

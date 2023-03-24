@@ -39,7 +39,7 @@
         <span>회원 탈퇴</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn> -->
-      <v-btn text color="grey" onclick="location.href='http://localhost:8887/sign-up-accept'">
+      <v-btn text color="grey" onclick="location.href='http://localhost:8887/sign-up-choice'">
         <span>회원가입</span>
         <v-icon right>mdi-account-plus-outline</v-icon>
       </v-btn>

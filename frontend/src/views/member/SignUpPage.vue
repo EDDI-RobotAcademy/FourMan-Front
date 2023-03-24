@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <sign-up-form @submit="onSubmit"/>
+    <sign-up-form :managerType="managerType" @submit="onSubmit"/>
   </v-container>
 </template>
 
@@ -9,6 +9,11 @@ import axios from "axios";
 import SignUpForm from "@/components/member/SignUpForm";
 export default {
   name: "SignUpPage",
+   props: {
+        managerType: {
+            type: String
+        }
+    },
   components: {
     SignUpForm
   },
