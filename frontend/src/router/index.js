@@ -8,6 +8,7 @@ import MainPage from "@/views/MainPage.vue"
 import SignUpPage from "@/views/member/SignUpPage";
 import SignInPage from "@/views/member/SignInPage";
 import SearchMemberPasswordPage from "@/views/member/SearchMemberPasswordPage";
+import SignUpAcceptPage from "@/views/member/SignUpAcceptPage";
 
 //프리보드관련
 import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
@@ -67,6 +68,11 @@ const routes = [
     path: '/search-password',
     name: 'SearchMemberPasswordPage',
     component: SearchMemberPasswordPage
+  },
+  {
+    path: '/sign-up-accept',
+    name: 'SignUpAcceptPage',
+    component: SignUpAcceptPage
   },
 
 // borard관련
