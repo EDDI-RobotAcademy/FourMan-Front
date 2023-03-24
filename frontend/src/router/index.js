@@ -19,6 +19,7 @@ import FreeBoardModifyPage from "@/views/freeBoard/FreeBoardModifyPage.vue"
 import QuestionBoardListPage from '@/views/questionBoard/QuestionBoardListPage.vue'
 import QuestionBoardRegisterPage from '@/views/questionBoard/QuestionBoardRegisterPage.vue'
 import QuestionBoardReadPage from '@/views/questionBoard/QuestionBoardReadPage.vue'
+import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPage.vue'
 
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
@@ -148,6 +149,16 @@ const routes = [
     name: 'QuestionBoardReadPage',
     components: {
       default: QuestionBoardReadPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/question-board-modify-page/:boardId',
+    name: 'QuestionBoardModifyPage',
+    components: {
+      default: QuestionBoardModifyPage
     },
     props: {
       default: true
