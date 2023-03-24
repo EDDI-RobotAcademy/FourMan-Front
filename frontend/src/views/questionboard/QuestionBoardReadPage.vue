@@ -6,7 +6,9 @@
             <router-link :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
                 <v-btn> 수정 </v-btn>
             </router-link>
+            <router-link :to="{ name: 'QuestionBoardListPage' }">
                 <v-btn @click="onDelete"> 삭제 </v-btn>
+            </router-link>
         </div>
     </v-container>
 </template>
@@ -37,12 +39,12 @@ export default {
             'requestQuestionBoardDeleteToSpring'
     ]),
     async onDelete () {
+        alert
         await this.requestQuestionBoardDeleteToSpring(this.boardId)
         await this.$router.push({ name: 'QuestionBoardListPage'})
     }
 },
     created () {
-        console.log('들어오니?')
         console.log('boardId : ' + this.boardId)
         this.requestQuestionBoardToSpring(this.boardId)
     }

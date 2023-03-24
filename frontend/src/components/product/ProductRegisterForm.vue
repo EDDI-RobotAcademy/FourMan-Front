@@ -1,31 +1,23 @@
 <template>
-  <form @submit.prevent="onSubmit">
-    <table>
-      <tr>
-        <td>사진 등록</td>
-        <td>
-          <input type="file" id="files" ref="files" @change="handleFileUpload"/>
-        </td>
-      </tr>
-      <tr>
-        <td>상품명</td>
-        <td>
-          <input type="text" v-model="productName"/>
-        </td>
-      </tr>
-      <tr>
-        <td>가격</td>
-        <td>
-          <input tpye="text" v-model="price"/>
-        </td>
-      </tr>
-    </table>
+  <form class="register-form" @submit.prevent="onSubmit">
+    <div class="form-field">
+      <label for="files">Register photo</label>
+      <input type="file" id="files" ref="files" @change="handleFileUpload"/>
+    </div>
+    <div class="form-field">
+      <label for="productName">Product name</label>
+      <input type="text" id="productName" v-model="productName"/>
+    </div>
+    <div class="form-field">
+      <label for="price">Price</label>
+      <input type="text" id="price" v-model="price"/>
+    </div>
 
-    <div>
-      <button type="submit">등록</button>
-      <router-link to="{ name: 'ProductListPage' }">
-        취소
-      </router-link>
+    <div class="form-buttons">
+      <button type="submit">Register</button>
+      <button @click="moveToListPage">
+          Cancel
+      </button>
     </div>
   </form>
 </template>
@@ -69,6 +61,11 @@ export default {
         },
         handleFileUpload() {
           this.files = this.$refs.files.files
+        },
+        moveToListPage() {
+          this.$router.push( {
+            name: 'ProductListPage'
+          })
         }
 
     }
@@ -76,6 +73,71 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  width: 100%;
+}
 
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+input[type="file"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  width: 8rem;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+.cancel-button {
+  text-decoration: none;
+  color: white;
+}
 </style>
