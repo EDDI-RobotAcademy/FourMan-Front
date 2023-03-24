@@ -1,5 +1,6 @@
 <template>
     <table>
+      <h2 class="mt-5 mb-5 text-center">Q&A 게시판</h2>
       <tr>
         <td>
           <v-text-field label="질문 유형" :value="questionBoard.questionType" readonly/>

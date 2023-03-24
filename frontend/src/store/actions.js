@@ -113,5 +113,17 @@ export default {
         .then((res) =>{
             commit(REQUEST_QUESTION_BOARD_TO_SPRING, res.data)
         })
-    }
+    },
+    requestQuestionBoardModifyToSpring({}, payload) {
+        const { boardId, title, content} = payload
+        axios.put(`http://localhost:8888/question-board/${boardId}`,
+        { title, content})
+        .then(() => {
+            alert('게시물 수정 성공')
+        })
+        .catch(() => {
+            alert('수정 실패')
+        })
+    },
+ 
 }
