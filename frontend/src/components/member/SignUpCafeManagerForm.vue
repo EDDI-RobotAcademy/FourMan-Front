@@ -11,6 +11,17 @@
               <div class="text-h4 font-weight-black mb-10">회원 가입</div>
 
               <div class="d-flex">
+                  <v-text-field class="mt-3" v-model="codeText" label="카페 사업자 또는 관리자 코드 입력해주세요" outlined :disabled="false"
+                                required color="black"/>
+                  <v-btn text large style="font-size: 13px; height: 55px"
+                                class="mt-3 ml-5 mr-0"
+                                @click="checkCode"
+                                :disabled="authorityPass"
+                       >카페 사업자 또는 관리자 코드확인   
+                  </v-btn>
+                </div>
+
+              <div class="d-flex">
                 <v-text-field
                   v-model="email"
                   label="이메일"
@@ -23,7 +34,7 @@
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateEmail"
                                 :disabled="emailPass"
-              >이메일 중복 확인
+                >이메일 중복 확인
                   </v-btn>
               </div>
 
@@ -52,12 +63,12 @@
 
               <div class="d-flex">
                 <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required outlined color="black"/>
-
                 <v-btn text large style="font-size: 13px; height: 55px"
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateNickName"
-                                :disabled="nickNamePass"
-              >닉네임 중복 확인
+                                :disabled="nickNamePass">
+                                닉네임 중복검사
+                                
                   </v-btn>
               </div>
 
@@ -127,7 +138,7 @@
                 rounded
                 class="mt-6"
                 color="purple lighten-1"
-                :disabled="(emailPass && nickNamePass && streetPass) == false"
+                :disabled="(emailPass && nickNamePass && streetPass &&authorityPass) == false"
               >
                 가입하기
               </v-btn>
@@ -146,11 +157,12 @@ export default {
    props: {
         memberType: {
             type: String,
-            required: true
+             required: true
         }
     },
   data() {
     return {
+      codeText:"",
       email: "",
       password: "",
       password_confirm: "",
@@ -164,6 +176,7 @@ export default {
       emailPass: false, //아디중복체크후 사용가능한 이메일인지 여부
       streetPass: false, //주소입력여부
       nickNamePass:false,//닉네임중복체크후 사용가능한 닉네임인지여부
+      authorityPass:false, // 관리자또는 카페사업자인 여부 확인
       email_rule: [
         (v) => !!v || "이메일을 입력해주세요.",
         (v) => {
@@ -212,7 +225,7 @@ export default {
     onSubmit() {
       if (this.emailPass && this.streetPass) {
         const authorityName = "MEMBER"
-        const code=null;
+        const code=null
         const { email, password,nickName, birthdate,phoneNumber, city, street, addressDetail, zipcode } = this;
         this.$emit("submit", {
           email,
@@ -301,6 +314,34 @@ export default {
         },
       }).open();
     },
+      checkCode() {
+        if(this.memberType==='cafe'){
+          const {cafeCode} = this
+          axios.post(`http://localhost:8888/member/check-cafe/${cafeCode}`)
+          .then((res) => {
+            if (res.data) {
+              alert("카페사업자 코드 확인하였습니다.")
+              this.authorityPass = true
+            } else {
+              alert("일치하는 카페사업자 코드가 없습니다.")
+              this.authorityPass = false
+            }
+          })
+      }
+       else if(this.memberType==='manager'){
+          const {managerCode} = this
+          axios.post(`http://localhost:8888/member/check-manager/${managerCode}`)
+          .then((res) => {
+            if (res.data) {
+              alert("관리자 코드 확인하였습니다.")
+              this.authorityPass = true
+            } else {
+              alert("일치하는 관리자 코드가 없습니다.")
+              this.authorityPass = false
+            }
+          })
+      }
+    }
   },
 };
 </script>

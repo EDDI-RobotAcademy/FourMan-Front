@@ -39,18 +39,18 @@
         <span>회원 탈퇴</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn> -->
-      <v-btn text color="grey" onclick="location.href='http://localhost:8887/sign-up'">
-        <span>Sign Up</span>
+      <v-btn text color="grey" onclick="location.href='http://localhost:8887/sign-up-choice'">
+        <span>회원가입</span>
         <v-icon right>mdi-account-plus-outline</v-icon>
       </v-btn>
       <!-- 로그인 안되어있을경우 -->
 
       <v-btn v-if="isAuthenticated == false" text color="grey" onclick="location.href='http://localhost:8887/sign-in'">
-        <span>Sign In</span>
+        <span>로그인</span>
         <v-icon right>mdi-login</v-icon>
       </v-btn>
       <v-btn v-else text color="grey" v-on:click="logout">
-        <span>Sign Out</span>
+        <span>로그아웃</span>
         <v-icon right>mdi-exit-to-app</v-icon>
       </v-btn>
       </v-app-bar>
