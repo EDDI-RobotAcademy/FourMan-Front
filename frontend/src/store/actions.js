@@ -125,5 +125,13 @@ export default {
             alert('수정 실패')
         })
     },
- 
+    requestQuestionBoardDeleteToSpring ({}, boardId) {
+        return axios.delete(`http://localhost:8888/question-board/${boardId}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+},
 }
