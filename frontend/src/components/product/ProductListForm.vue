@@ -53,19 +53,21 @@ export default {
             totalPrice: product.price,
          }
       })
-      console.log('datas: ' + JSON.stringify(datas))
       this.datas = datas
+      console.log('datas: ' + JSON.stringify(datas))
     },
     methods: {
       addCart(receiveData) {
          var data = receiveData
-         
-         if(!((JSON.stringify(this.cartItems)).includes(JSON.stringify(data)))) {
-            this.cartItems.push(data)
+
+         let item = this.cartItems.find((item) => item.productId === data.productId);
+         if(item) {
+            item.count++;
          } else {
-            
+            this.cartItems.push(data)
          }
-         console.log('cartItems: ' + JSON.stringify(this.cartItems))
+
+         console.log('addCartItems: ' + JSON.stringify(this.cartItems))
       }
     },
 }

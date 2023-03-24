@@ -17,7 +17,7 @@
             <p>{{ data.price }}원</p> 
          </div>
          <div>
-            <v-btn color="blue-grey lighten-1" @click="addCart">장바구니 담기</v-btn>
+            <v-btn color="blue-grey lighten-1" @click="addCart(data)">장바구니 담기</v-btn>
          </div>
       </v-card>
    </v-container>
@@ -38,8 +38,8 @@ export default {
       }
    },
    methods: {
-      addCart() {
-         this.$emit('addCart', this.data)
+      addCart(data) {
+         this.$emit('addCart', data)
       }
    }
 }
