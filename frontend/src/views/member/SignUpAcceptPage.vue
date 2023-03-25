@@ -3,15 +3,7 @@
     <v-container>
       <v-row justify="center" class="logo"><div style="color:#BCAAA4">카페예약사이트</div></v-row>
       <v-layout column class="mx-auto">
-        <v-checkbox
-            class="checkboxSize mb-5"
-            @change="allCk()"
-            label=" 카페예약사이트 이용약관, 개인정보 수집 및 이용동의, 도서 관련 정보 수신 동의에 모두 동의합니다."
-
-            color="#BCAAA4"
-            hide-details
-        >
-        </v-checkbox>
+        
         <v-checkbox
             class="checkboxSize"
             v-model="checkedValues"
@@ -106,6 +98,7 @@
             카페예약사이트 서비스와 관련하여 궁금하신 사항이 있으시면 고객센터로 문의 주시기 바랍니다.
           </div>
         </div>
+         <p/>
         <v-checkbox
             class="checkboxSize"
             v-model="checkedValues"
@@ -187,20 +180,32 @@
         >
           <template v-slot:label>
 
-            도서 관련 정보 수신 동의 &nbsp; <div style="color:#BCAAA4"> (필수) </div>
+            예약 관련 정보 수신 동의 &nbsp; <div style="color:#BCAAA4"> (필수) </div>
           </template>
         </v-checkbox>
-
-        <div class="mt-5">
-          &nbsp; 카페예약사이트 에서 제공하는 예매 알림 서비스를 이메일로 받아보실 수 있습니다.
-          일부 서비스(별도 회원 체계로 운영하거나 카페예약사이트 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우,
-          개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.
-
+        <p/>
+         <div class="article">
+            <div id="a" >
+              &nbsp; 카페예약사이트 에서 제공하는 예매 알림 서비스를 이메일로 받아보실 수 있습니다.
+              일부 서비스(별도 회원 체계로 운영하거나 카페예약사이트 가입 이후 추가 가입하여 이용하는 서비스 등)의 경우,
+              개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.
+            </div>
         </div>
+         <p/>
+        <v-checkbox
+            class="checkboxSize mb-5"
+            @change="allCk()"
+            label=" 카페예약사이트 이용약관, 개인정보 수집 및 이용동의, 예약 관련 정보 수신 동의에 모두 동의합니다."
+
+            color="#BCAAA4"
+            hide-details
+        >
+        </v-checkbox>
+
       </v-layout>
       <v-row class="btnSet" justify="center">
         <v-col cols="auto">
-          <router-link to="/"><v-btn color="white" >CANCLE</v-btn></router-link>
+          <router-link to="/sign-up-choice"><v-btn color="white" >CANCLE</v-btn></router-link>
         </v-col>
         <v-col cols="auto">
 
@@ -235,6 +240,11 @@ export default {
   },
   mounted: function(){
     console.log("this.memberType: ", this.memberType)
+    if (this.memberType===undefined){
+      this.$router.push({
+                name: 'SignUpChoicePage'
+            })
+    }
   },
   
   methods: {
@@ -287,7 +297,7 @@ export default {
 }
 .article{
   display:flex;
-  height:180px;
+  height:160px;
 }
 #a {
   overflow:scroll;
