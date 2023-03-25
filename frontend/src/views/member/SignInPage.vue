@@ -21,6 +21,7 @@ export default {
     };
   },
   mounted() {
+    
     if (this.$store.state.isAuthenticated != false) {//로그인상태이면
       this.isLogin = true;//isLogin은 디버깅용으로 작성해놓은거다.
     } else {//로그인상태가 아니면 
@@ -47,8 +48,9 @@ export default {
               }
             })
             .catch((res) => {
+               alert("아이디 혹은 비밀번호가 존재하지 않거나 틀렸습니다.");
                 console.log("로그인실패");
-              alert(res.response.data.message);
+                console.log(res.response.data.message);
             });
       } else { //로그인상태이면
         alert("이미 로그인이 되어 있습니다!");
