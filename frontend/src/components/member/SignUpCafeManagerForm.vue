@@ -13,7 +13,7 @@
               <div class="d-flex">
                   <v-text-field class="mt-3" v-model="codeText" label="카페 사업자 또는 관리자 코드 입력해주세요" outlined :disabled="false"
                                 required color="black"/>
-                  <v-btn text large style="font-size: 13px; height: 55px"
+                  <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-3 ml-5 mr-0"
                                 @click="checkCode"
                                 :disabled="authorityPass"
@@ -30,7 +30,7 @@
                   :disabled="emailPass"
                   required
                 />
-                <v-btn text large style="font-size: 13px; height: 55px"
+                <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateEmail"
                                 :disabled="emailPass"

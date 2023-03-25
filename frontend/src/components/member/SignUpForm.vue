@@ -19,7 +19,7 @@
                   :disabled="emailPass"
                   required
                 />
-                <v-btn text large style="font-size: 13px; height: 55px"
+                <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateEmail"
                                 :disabled="emailPass"
@@ -53,7 +53,7 @@
               <div class="d-flex">
                 <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required outlined color="black"/>
 
-                <v-btn text large style="font-size: 13px; height: 55px"
+                <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateNickName"
                                 :disabled="nickNamePass"
