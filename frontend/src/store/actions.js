@@ -43,9 +43,9 @@ export default {
    },
    // 보드 관련
    requestCreateFreeBoardToSpring ({ }, payload) {
-      const { title, content, writer } = payload
+      const { title, content, writer, memberId } = payload
       return axios.post('http://localhost:8888/free-board/register',
-          { title, content, writer })
+          { title, content, writer, memberId })
           .then((res) => {
               alert('게시물 등록 성공!')
               return res
@@ -57,8 +57,7 @@ export default {
    requestFreeBoardListToSpring ({ commit }) {
         return axios.get('http://localhost:8888/free-board/list')
             .then((res) => {
-                alert('게시물 등록 성공!')
-                return res;
+                commit(REQUEST_FREE_BOARD_LIST_TO_SPRING, res.data)
             })
    },
    requestFreeBoardToSpring ({ commit }, boardId) {
