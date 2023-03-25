@@ -51,7 +51,7 @@
               </div>
 
               <div class="d-flex">
-                <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required outlined color="black"/>
+                <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required  color="black"/>
 
                 <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-0 ml-5 mr-0"
@@ -63,12 +63,12 @@
 
                 <div class="d-flex">
                   <v-text-field v-model="birthdate" label="생년월일 (8자리)" :disabled="false" :rules="birthdate_rule"
-                                required outlined color="black"/>
+                                required  color="black"/>
                 </div>
 
                 <div class="d-flex">
                   <v-text-field v-model="phoneNumber" label="전화번호 ('-'포함 11자리)" :disabled="false"
-                                :rules="phoneNumber_rule" required outlined color="black"/>
+                                :rules="phoneNumber_rule" required  color="black"/>
                 </div>
 
               <div class="d-flex">
@@ -210,7 +210,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (this.emailPass && this.streetPass) {
+      if (this.emailPass && this.streetPass &&  this.nickNamePass) {
         const authorityName = "MEMBER"
         const code=null;
         const { email, password,nickName, birthdate,phoneNumber, city, street, addressDetail, zipcode } = this;
