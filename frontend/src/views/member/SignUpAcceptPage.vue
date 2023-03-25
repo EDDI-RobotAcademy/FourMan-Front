@@ -200,7 +200,7 @@
       </v-layout>
       <v-row class="btnSet" justify="center">
         <v-col cols="auto">
-          <router-link to="/"><v-btn color="white" >CANCLE</v-btn></router-link>
+          <router-link to="/sign-up-choice"><v-btn color="white" >CANCLE</v-btn></router-link>
         </v-col>
         <v-col cols="auto">
 
@@ -235,6 +235,12 @@ export default {
   },
   mounted: function(){
     console.log("this.memberType: ", this.memberType)
+    if (this.memberType===undefined){
+      this.$router.push({
+                name: 'SignUpChoicePage'
+            })
+
+    }
   },
   
   methods: {
