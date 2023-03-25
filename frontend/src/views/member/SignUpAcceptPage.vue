@@ -3,15 +3,7 @@
     <v-container>
       <v-row justify="center" class="logo"><div style="color:#BCAAA4">카페예약사이트</div></v-row>
       <v-layout column class="mx-auto">
-        <v-checkbox
-            class="checkboxSize mb-5"
-            @change="allCk()"
-            label=" 카페예약사이트 이용약관, 개인정보 수집 및 이용동의, 도서 관련 정보 수신 동의에 모두 동의합니다."
-
-            color="#BCAAA4"
-            hide-details
-        >
-        </v-checkbox>
+        
         <v-checkbox
             class="checkboxSize"
             v-model="checkedValues"
@@ -197,6 +189,17 @@
           개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도 수신 동의에 대해 별도로 안내하고 동의를 받습니다.
 
         </div>
+
+        <v-checkbox
+            class="checkboxSize mb-5"
+            @change="allCk()"
+            label=" 카페예약사이트 이용약관, 개인정보 수집 및 이용동의, 도서 관련 정보 수신 동의에 모두 동의합니다."
+
+            color="#BCAAA4"
+            hide-details
+        >
+        </v-checkbox>
+        
       </v-layout>
       <v-row class="btnSet" justify="center">
         <v-col cols="auto">
@@ -239,7 +242,6 @@ export default {
       this.$router.push({
                 name: 'SignUpChoicePage'
             })
-
     }
   },
   
