@@ -5,19 +5,19 @@
         <router-link to="/">
           <v-img :src="require('@/assets/logo.png')" width="60" class="mb-6" />
         </router-link>
-        <v-card width="460">
+        <v-card width="530">
           <v-card-text class="text-center px-12 py-16">
             <v-form @submit.prevent="onSubmit" ref="form">
               <div class="text-h4 font-weight-black mb-10">회원 가입</div>
 
               <div class="d-flex">
-                  <v-text-field class="mt-3" v-model="codeText" label="카페 사업자 또는 관리자 코드 입력해주세요" outlined :disabled="false"
+                  <v-text-field class="mt-3" v-model="codeText" label="카페 사업자/관리자 코드 입력해주세요" :disabled="authorityPass"
                                 required color="black"/>
                   <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-3 ml-5 mr-0"
                                 @click="checkCode"
                                 :disabled="authorityPass"
-                       >카페 사업자 또는 관리자 코드확인   
+                       >코드 확인   
                   </v-btn>
                 </div>
 
@@ -63,7 +63,7 @@
 
               <div class="d-flex">
                 <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required color="black"/>
-                <v-btn text large style="font-size: 13px; height: 55px"
+                <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateNickName"
                                 :disabled="nickNamePass">
@@ -224,8 +224,16 @@ export default {
   methods: {
     onSubmit() {
       if (this.emailPass && this.streetPass && this.nickNamePass && this.authorityPass) {
-        const authorityName = "MEMBER"
-        const code=null
+        let authorityName;
+          if(this.memberType==='cafe'){
+            authorityName = "CAFE"
+          }else if(this.memberType==='manager'){
+            authorityName = "MANAGER"
+
+          }
+        console.log("this.codeText:",this.codeText)
+        const code= this.codeText
+        console.log("code:",code)
         const { email, password,nickName, birthdate,phoneNumber, city, street, addressDetail, zipcode } = this;
         this.$emit("submit", {
           email,
@@ -316,8 +324,9 @@ export default {
     },
       checkCode() {
         if(this.memberType==='cafe'){
-          const {cafeCode} = this
-          axios.post(`http://localhost:8888/member/check-cafe/${cafeCode}`)
+          console.log("카페사업자코드를 체크합니다")
+          const {codeText} = this
+          axios.post(`http://localhost:8888/member/check-cafe/${codeText}`)
           .then((res) => {
             if (res.data) {
               alert("카페사업자 코드 확인하였습니다.")
@@ -329,8 +338,9 @@ export default {
           })
       }
        else if(this.memberType==='manager'){
-          const {managerCode} = this
-          axios.post(`http://localhost:8888/member/check-manager/${managerCode}`)
+         console.log("매니저 코드를 체크합니다")
+          const {codeText} = this
+          axios.post(`http://localhost:8888/member/check-manager/${codeText}`)
           .then((res) => {
             if (res.data) {
               alert("관리자 코드 확인하였습니다.")
