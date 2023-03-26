@@ -27,6 +27,12 @@ import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPa
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
 import ProductListPage from '@/views/product/ProductListPage.vue'
 
+
+//카페소개 게시판 관련
+import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardListPage.vue'
+import CafeIntroBoardRegisterPage from '@/views/cafeIntroduceBoard/CafeIntroBoardRegisterPage.vue'
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -43,6 +49,18 @@ const routes = [
     component: MainPage
   },
 
+  //카페소개 게시판 관련
+{
+  path: '/cafe-board-list-page',
+  name: 'CafeIntroBoardListPage',
+  component: CafeIntroBoardListPage
+},
+{
+  path: '/cafe-board-register-page',
+  name: 'CafeIntroBoardRegisterPage',
+  component: CafeIntroBoardRegisterPage
+},
+
 //상품 관련
   {
     path: '/product-register-page',
@@ -54,6 +72,7 @@ const routes = [
     name: 'ProductListPage',
     component: ProductListPage
   },
+
 
 
 //로그인 관련
