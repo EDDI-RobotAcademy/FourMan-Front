@@ -224,7 +224,13 @@ export default {
   methods: {
     onSubmit() {
       if (this.emailPass && this.streetPass && this.nickNamePass && this.authorityPass) {
-        const authorityName = "MEMBER"
+        let authorityName;
+          if(this.memberType==='cafe'){
+            authorityName = "CAFE"
+          }else if(this.memberType==='manager'){
+            authorityName = "MANAGER"
+
+          }
         const code=null
         const { email, password,nickName, birthdate,phoneNumber, city, street, addressDetail, zipcode } = this;
         this.$emit("submit", {
