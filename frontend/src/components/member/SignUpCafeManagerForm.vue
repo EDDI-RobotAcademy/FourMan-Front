@@ -231,7 +231,9 @@ export default {
             authorityName = "MANAGER"
 
           }
-        const code=null
+        console.log("this.codeText:",this.codeText)
+        const code= this.codeText
+        console.log("code:",code)
         const { email, password,nickName, birthdate,phoneNumber, city, street, addressDetail, zipcode } = this;
         this.$emit("submit", {
           email,

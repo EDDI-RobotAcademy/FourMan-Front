@@ -35,7 +35,7 @@
           </div>
 
           <div style="margin-right: 30px">
-            <router-link :to="{name: 'SignUpAcceptPage',params: { memberType: 'manaeger' } }" style="text-decoration: none">
+            <router-link :to="{name: 'SignUpAcceptPage',params: { memberType: 'manager' } }" style="text-decoration: none">
               <v-btn width="200" height="150" text large outlined style
                      class="mx-auto" id="signUpButton3" color="#5D4037">
                 <h5 style="font-weight: normal">
