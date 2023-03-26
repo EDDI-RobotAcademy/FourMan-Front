@@ -212,7 +212,6 @@
           <v-btn color="#BCAAA4" dark @click="ckCheck" >NEXT</v-btn>
         </v-col>
       </v-row>
-
     </v-container>
 
   </div>
@@ -251,6 +250,7 @@ export default {
     allCk() {
       const {allChecked} = this
       if (allChecked == false) {
+        this.checkedValues=[]
         this.checkedValues.push("1", "2", "3")
         this.allChecked = true
       } else {
