@@ -7,7 +7,7 @@
                 <v-btn> 수정 </v-btn>
             </router-link>
             <router-link :to="{ name: 'QuestionBoardListPage' }">
-                <v-btn @click="onDelete"> 삭제 </v-btn>
+                <v-btn @click="showConfirm"> 삭제 </v-btn>
             </router-link>
         </div>
     </v-container>
@@ -38,10 +38,13 @@ export default {
             'requestQuestionBoardToSpring',
             'requestQuestionBoardDeleteToSpring'
     ]),
-    async onDelete () {
-        alert
-        await this.requestQuestionBoardDeleteToSpring(this.boardId)
-        await this.$router.push({ name: 'QuestionBoardListPage'})
+    showConfirm() {
+        if(confirm('정말 삭제하시겠습니까?')) {
+            this.requestQuestionBoardDeleteToSpring(this.boardId)
+        } else {
+            this.$router.go((this.$router.currentRoute))
+            //No 버튼을 누르면 페이지를 이동하지않고 그대로 보여줌
+        }
     }
 },
     created () {
