@@ -299,6 +299,7 @@ export default {
           endTime: this.endTime,
           subTitle: this.subTitle,
           description: this.description,
+          code: JSON.parse(localStorage.getItem('userInfo')).code
         };
 
         formData.append(
