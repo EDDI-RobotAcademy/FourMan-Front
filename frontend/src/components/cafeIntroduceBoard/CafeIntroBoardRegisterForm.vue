@@ -2,7 +2,6 @@
   <div id="registerForm">
     <v-form @submit.prevent="onSubmit">
       <div id="title" class="mb-15">
-        <h2>카페 등록하기</h2>
       </div>
       <table>
         <v-row>
@@ -129,7 +128,7 @@
             outlined
             color="grey darken-1"
             placeholder="카페의 간단한 설명을 입력해주세요"
-            v-model="subtitle"
+            v-model="subTitle"
           >
           </v-text-field>
         </v-row>
@@ -251,7 +250,7 @@ export default {
       startTime: "",
       endTime: "",
 
-      subtitle: "",
+      subTitle: "",
       description: "",
       uploadPreImageUrl: [],
       uploadPreThumbnailUrl: [],
@@ -298,7 +297,7 @@ export default {
           cafeTel: this.cafeTel,
           startTime: this.startTime,
           endTime: this.endTime,
-          subTitle: this.subtitle,
+          subTitle: this.subTitle,
           description: this.description,
         };
 
