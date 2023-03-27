@@ -42,12 +42,13 @@
             if(JSON.parse(localStorage.getItem('userInfo'))) {
               const loginId = JSON.parse(localStorage.getItem('userInfo')).id
               const memberId = this.freeBoard.memberId
+              const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
 
-              if(loginId != memberId) {
-                alert("작성자만 해당 게시글을 삭제할 수 있습니다.")
-              } else {
+              if(loginId === memberId  || authorityName === "MANAGER") {
                 await this.requestDeleteFreeBoardToSpring(this.boardId)
                 await this.$router.push({ name: 'FreeBoardListPage' })
+              } else {
+                alert("작성자만 해당 게시글을 삭제할 수 있습니다.")
               }
             }
 
@@ -59,11 +60,12 @@
             if(JSON.parse(localStorage.getItem('userInfo'))) {
               const loginId = JSON.parse(localStorage.getItem('userInfo')).id
               const memberId = this.freeBoard.memberId
+              const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
 
-              if(loginId != memberId) {
-                alert("작성자만 해당 게시글을 수정할 수 있습니다.")
-              } else {
+              if(loginId === memberId || authorityName === "MANAGER") {
                 await this.$router.push({ name: 'FreeBoardModifyPage', params: this.boardId  })
+              } else {
+                alert("작성자만 해당 게시글을 수정할 수 있습니다.")
               }
             }
 

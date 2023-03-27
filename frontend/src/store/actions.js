@@ -87,6 +87,19 @@ export default {
                 alert("문제 발생!")
             })
     },
+    
+    // 리뷰게시판 관련
+    requestCreateReviewBoardToSpring ({}, formData) {
+
+        return axios.post('http://localhost:8888/review-board/register',
+            formData)
+            .then(() => {
+                alert('상품 등록 성공!')
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+    },
 
    // 질문게시판 관련
 
