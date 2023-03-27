@@ -9,9 +9,11 @@
     <!-- <v-pagination -->
         <!-- v-model="page" -->
         <!-- :length="this.$store.state.uploaderCafeInfoList.totalPages"/> -->
-    <router-link :to="{ name: 'CafeIntroBoardRegisterPage' }">
-      카페 등록
-    </router-link>
+    <div v-if="cafePass == 'CAFE' ">
+      <router-link :to="{ name: 'CafeIntroBoardRegisterPage' }">
+        카페 등록
+      </router-link>
+    </div>
   </v-container>
 </template>
 
@@ -30,6 +32,7 @@ export default {
   data() {
     return {
       page: 1,
+      cafePass: JSON.parse(localStorage.getItem('userInfo')).authorityName,
     }
   },
   methods: {
