@@ -23,6 +23,9 @@ import QuestionBoardRegisterPage from '@/views/questionBoard/QuestionBoardRegist
 import QuestionBoardReadPage from '@/views/questionBoard/QuestionBoardReadPage.vue'
 import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPage.vue'
 
+//리뷰 게시판 관련
+import ReviewBoardRegisterPage from '@/views/reviewBoard/ReviewBoardRegisterPage.vue'
+
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
 import ProductListPage from '@/views/product/ProductListPage.vue'
@@ -99,7 +102,7 @@ const routes = [
   },
  
 
-// borard관련
+// 자유 게시판 관련
   {
     path: '/free-board-list-page',
     name: 'FreeBoardListPage',
@@ -150,6 +153,12 @@ const routes = [
         next('/sign-in');
       }
     }
+  },
+  // 리뷰 게시판 관련
+  {
+    path: '/review-board-register-page',
+    name: 'ReviewBoardRegisterPage',
+    component: ReviewBoardRegisterPage
   },
   //질문 게시판 관련
   {
