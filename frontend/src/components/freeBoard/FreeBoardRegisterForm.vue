@@ -8,7 +8,7 @@
         </tr>
         <tr>
           <td>
-            <v-text-field label="작성자" type="text" v-model="writer" required/>
+            <v-text-field label="작성자" type="text" v-model="writer" disabled/>
           </td>
         </tr>
         <tr>
@@ -36,14 +36,15 @@
       data () {
           return {
               title: '',
-              writer: '',
-              content: ''
+              writer: JSON.parse(localStorage.getItem('userInfo')).username,
+              content: '',
+              memberId: JSON.parse(localStorage.getItem('userInfo')).id,
           }
       },
       methods: {
           onSubmit () {
-              const { title, writer, content } = this
-              this.$emit('submit', { title, writer, content })
+              const { title, writer, content, memberId } = this
+              this.$emit('submit', { title, writer, content, memberId })
           }
       }
   }

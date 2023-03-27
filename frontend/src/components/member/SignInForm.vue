@@ -55,7 +55,7 @@
                     <v-col>
                       <router-link
                           class="text-decoration-none purple--text mr-5"
-                          to="/sign-up"
+                          to="/sign-up-choice"
                       >회원가입</router-link>
                     </v-col>
                     <v-col>

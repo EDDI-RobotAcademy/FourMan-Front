@@ -5,10 +5,21 @@
         <router-link to="/">
           <v-img :src="require('@/assets/logo.png')" width="60" class="mb-6" />
         </router-link>
-        <v-card width="460">
+        <v-card width="530">
           <v-card-text class="text-center px-12 py-16">
             <v-form @submit.prevent="onSubmit" ref="form">
               <div class="text-h4 font-weight-black mb-10">회원 가입</div>
+
+              <div class="d-flex">
+                  <v-text-field class="mt-3" v-model="codeText" label="카페 사업자/관리자 코드 입력해주세요" :disabled="authorityPass"
+                                required color="black"/>
+                  <v-btn text large outlined style="font-size: 13px; height: 55px"
+                                class="mt-3 ml-5 mr-0"
+                                @click="checkCode"
+                                :disabled="authorityPass"
+                       >코드 확인   
+                  </v-btn>
+                </div>
 
               <div class="d-flex">
                 <v-text-field
@@ -23,7 +34,7 @@
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateEmail"
                                 :disabled="emailPass"
-              >이메일 중복 확인
+                >이메일 중복 확인
                   </v-btn>
               </div>
 
@@ -51,13 +62,13 @@
               </div>
 
               <div class="d-flex">
-                <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required  color="black"/>
-
+                <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required color="black"/>
                 <v-btn text large outlined style="font-size: 13px; height: 55px"
                                 class="mt-0 ml-5 mr-0"
                                 @click="checkDuplicateNickName"
-                                :disabled="nickNamePass"
-              >닉네임 중복 확인
+                                :disabled="nickNamePass">
+                                닉네임 중복검사
+                                
                   </v-btn>
               </div>
 
@@ -68,7 +79,7 @@
 
                 <div class="d-flex">
                   <v-text-field v-model="phoneNumber" label="전화번호 ('-'포함 11자리)" :disabled="false"
-                                :rules="phoneNumber_rule" required  color="black"/>
+                                :rules="phoneNumber_rule" requiredcolor="black"/>
                 </div>
 
               <div class="d-flex">
@@ -127,7 +138,7 @@
                 rounded
                 class="mt-6"
                 color="purple lighten-1"
-                :disabled="(emailPass && nickNamePass && streetPass) == false"
+                :disabled="(emailPass && nickNamePass && streetPass &&authorityPass) == false"
               >
                 가입하기
               </v-btn>
@@ -146,11 +157,12 @@ export default {
    props: {
         memberType: {
             type: String,
-            required: true
+             required: true
         }
     },
   data() {
     return {
+      codeText:"",
       email: "",
       password: "",
       password_confirm: "",
@@ -164,6 +176,7 @@ export default {
       emailPass: false, //아디중복체크후 사용가능한 이메일인지 여부
       streetPass: false, //주소입력여부
       nickNamePass:false,//닉네임중복체크후 사용가능한 닉네임인지여부
+      authorityPass:false, // 관리자또는 카페사업자인 여부 확인
       email_rule: [
         (v) => !!v || "이메일을 입력해주세요.",
         (v) => {
@@ -210,9 +223,17 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (this.emailPass && this.streetPass &&  this.nickNamePass) {
-        const authorityName = "MEMBER"
-        const code=null;
+      if (this.emailPass && this.streetPass && this.nickNamePass && this.authorityPass) {
+        let authorityName;
+          if(this.memberType==='cafe'){
+            authorityName = "CAFE"
+          }else if(this.memberType==='manager'){
+            authorityName = "MANAGER"
+
+          }
+        console.log("this.codeText:",this.codeText)
+        const code= this.codeText
+        console.log("code:",code)
         const { email, password,nickName, birthdate,phoneNumber, city, street, addressDetail, zipcode } = this;
         this.$emit("submit", {
           email,
@@ -301,6 +322,36 @@ export default {
         },
       }).open();
     },
+      checkCode() {
+        if(this.memberType==='cafe'){
+          console.log("카페사업자코드를 체크합니다")
+          const {codeText} = this
+          axios.post(`http://localhost:8888/member/check-cafe/${codeText}`)
+          .then((res) => {
+            if (res.data) {
+              alert("카페사업자 코드 확인하였습니다.")
+              this.authorityPass = true
+            } else {
+              alert("일치하는 카페사업자 코드가 없습니다.")
+              this.authorityPass = false
+            }
+          })
+      }
+       else if(this.memberType==='manager'){
+         console.log("매니저 코드를 체크합니다")
+          const {codeText} = this
+          axios.post(`http://localhost:8888/member/check-manager/${codeText}`)
+          .then((res) => {
+            if (res.data) {
+              alert("관리자 코드 확인하였습니다.")
+              this.authorityPass = true
+            } else {
+              alert("일치하는 관리자 코드가 없습니다.")
+              this.authorityPass = false
+            }
+          })
+      }
+    }
   },
 };
 </script>

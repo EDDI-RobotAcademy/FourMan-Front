@@ -8,6 +8,8 @@ import MainPage from "@/views/MainPage.vue"
 import SignUpPage from "@/views/member/SignUpPage";
 import SignInPage from "@/views/member/SignInPage";
 import SearchMemberPasswordPage from "@/views/member/SearchMemberPasswordPage";
+import SignUpAcceptPage from "@/views/member/SignUpAcceptPage";
+import SignUpChoicePage from "@/views/member/SignUpChoicePage";
 
 //프리보드관련
 import FreeBoardListPage from '@/views/freeBoard/FreeBoardListPage.vue'
@@ -28,6 +30,7 @@ import ProductListPage from '@/views/product/ProductListPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
+  //공통 페이지 관련
   {
     path: '/',
     name: 'home',
@@ -57,7 +60,12 @@ const routes = [
   {
     path: '/sign-up',
     name: 'SignUpPage',
-    component: SignUpPage
+    components: {
+     default: SignUpPage
+    },
+    props: {
+      default: true
+    }
   },
   {
     path: '/sign-in',
@@ -69,6 +77,27 @@ const routes = [
     name: 'SearchMemberPasswordPage',
     component: SearchMemberPasswordPage
   },
+  {
+    path: '/sign-up-accept',
+    name: 'SignUpAcceptPage',
+    components: {
+      default: SignUpAcceptPage
+     },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/sign-up-choice',
+    name: 'SignUpChoicePage',
+    components: {
+      default: SignUpChoicePage
+     },
+    props: {
+      default: true
+    }
+  },
+ 
 
 // borard관련
   {

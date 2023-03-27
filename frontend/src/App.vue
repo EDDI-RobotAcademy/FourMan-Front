@@ -1,9 +1,13 @@
 <template>
   <v-app>
+  <!-- 헤더 -->
     <navigation-menu-form/>
     <v-main>
+    <!-- 내용 -->
       <router-view/>
     </v-main>
+
+    <!-- 푸터 -->
     <main-footer-form/>
   </v-app>
 </template>

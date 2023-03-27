@@ -2,6 +2,7 @@ import {
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
+   REQUEST_PRODUCT_CART_TO_SPRING,
    // 보드 관련
    REQUEST_FREE_BOARD_LIST_TO_SPRING,
    REQUEST_FREE_BOARD_TO_SPRING,
@@ -42,9 +43,9 @@ export default {
    },
    // 보드 관련
    requestCreateFreeBoardToSpring ({ }, payload) {
-      const { title, content, writer } = payload
+      const { title, content, writer, memberId } = payload
       return axios.post('http://localhost:8888/free-board/register',
-          { title, content, writer })
+          { title, content, writer, memberId })
           .then((res) => {
               alert('게시물 등록 성공!')
               return res
