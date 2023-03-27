@@ -221,7 +221,7 @@
 import axios from "axios";
 
 export default {
-  name: "ProductRegisterForm",
+  name: "CafeIntroBoardRegisterForm",
   computed: {
     timeList() {
       let array = [];
