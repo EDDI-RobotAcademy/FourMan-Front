@@ -25,6 +25,7 @@ import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPa
 
 //리뷰 게시판 관련
 import ReviewBoardRegisterPage from '@/views/reviewBoard/ReviewBoardRegisterPage.vue'
+import ReviewBoardListPage from '@/views/reviewBoard/ReviewBoardListPage.vue'
 
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
@@ -177,13 +178,41 @@ const routes = [
   {
     path: '/review-board-register-page',
     name: 'ReviewBoardRegisterPage',
-    component: ReviewBoardRegisterPage
+    component: ReviewBoardRegisterPage,
+    beforeEnter: (to, from, next) => {
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo != null) {
+        next();
+      } else {
+        alert('로그인 후 글을 작성할 수 있습니다.')
+        next('/sign-in');
+      }
+    }
+  },
+  {
+    path: '/review-board-list-page',
+    name: 'ReviewBoardListPage',
+    component: ReviewBoardListPage
   },
   //질문 게시판 관련
   {
     path: '/question-board-list-page',
     name: 'QuestionBoardListPage',
-    component: QuestionBoardListPage
+    component: QuestionBoardListPage,
+    beforeEnter: (to, from, next) => {
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo != null) {
+        next();
+      } else {
+        alert('로그인 후 글을 작성할 수 있습니다.')
+        next('/sign-in');
+      }
+    }
+  },
+  {
+    path: '/review-board-list-page',
+    name: 'ReviewBoardListPage',
+    component: ReviewBoardListPage
   },
   {
     path: '/question-board-register-page',
