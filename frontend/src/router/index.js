@@ -26,6 +26,7 @@ import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPa
 //리뷰 게시판 관련
 import ReviewBoardRegisterPage from '@/views/reviewBoard/ReviewBoardRegisterPage.vue'
 
+
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
 import ProductListPage from '@/views/product/ProductListPage.vue'
@@ -119,7 +120,7 @@ const routes = [
       default: true
     }
   },
- 
+
 
 // 자유 게시판 관련
   {
