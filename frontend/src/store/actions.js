@@ -2,7 +2,7 @@ import {
     //카페소개 보드 관련
     REQUEST_CAFE_LIST_TO_SPRING,
 
-    
+
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
@@ -106,7 +106,7 @@ export default {
                 alert("문제 발생!")
             })
     },
-    
+
     // 리뷰게시판 관련
     requestCreateReviewBoardToSpring ({}, formData) {
 
@@ -130,9 +130,9 @@ export default {
      },
 
     requestCreateQuestionBoardToSpring({}, payload) {
-        const { title, questionType, writer, content} = payload
+        const { title, questionType, writer, content, memberId} = payload
         return axios.post('http://localhost:8888/question-board/register',
-        { title, questionType, writer, content})
+        { title, questionType, writer, content, memberId})
             .then((res) => {
                 alert('게시물 등록 성공')
                 return res;
@@ -167,4 +167,16 @@ export default {
                 alert("문제 발생!")
             })
 },
+
+//댓글 관련
+    requestQuestionBoardCommentRegisterToSpring( {}, payload) {
+        const {comment, boardId, commentWriter} = payload
+        console.log('데이터보내져랏')
+        return axios.post('http://localhost:8888/question_board/comment/register',
+            {comment, boardId, commentWriter})
+        .then(() =>{
+            alert('댓글 등록 완료')
+        })
+
+    }
 }

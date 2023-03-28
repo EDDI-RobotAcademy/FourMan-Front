@@ -45,7 +45,7 @@ export default {
         return {
             title: '',
             questionType : '',   //select 내역인 questionType v-model 로 바인딩
-            writer: '',
+            writer: JSON.parse(localStorage.getItem('userInfo')).nickName,
             content: ''
         }
     },

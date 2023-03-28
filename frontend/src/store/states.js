@@ -15,4 +15,9 @@ export default {
    // 질문 게시판 관련
    questionBoards: [],
    questionBoard: {},
+
+   //댓글 관련
+   questionBoardComments: [],
+   questionBoardComment: {},
+   resMember: {},
 }
