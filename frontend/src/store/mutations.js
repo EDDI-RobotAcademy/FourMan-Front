@@ -10,7 +10,11 @@ import {
 
    //질문게시판 관련
    REQUEST_QUESTION_BOARD_LIST_TO_SPRING,
-   REQUEST_QUESTION_BOARD_TO_SPRING
+   REQUEST_QUESTION_BOARD_TO_SPRING,
+
+   //리뷰게시판 관련
+   REQUEST_REVIEW_BOARD_LIST_TO_SPRING
+ 
 } from './mutation-types'
 
 export default {
@@ -38,5 +42,10 @@ export default {
    },
    [REQUEST_QUESTION_BOARD_TO_SPRING] (state, passingData) {
       state.questionBoard = passingData
-   }
+   },
+   //리뷰 게시판 관련
+   [REQUEST_REVIEW_BOARD_LIST_TO_SPRING] (state, passingData) {
+      state.reviewBoards = passingData
+  },
+
 }

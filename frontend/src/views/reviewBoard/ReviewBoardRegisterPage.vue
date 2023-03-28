@@ -10,7 +10,6 @@
 
 import ReviewBoardRegisterForm from "@/components/reviewBoard/ReviewBoardRegisterForm.vue";
 import { mapActions } from 'vuex'
-import axios from 'axios';
 
 export default {
     components: { ReviewBoardRegisterForm },
@@ -22,7 +21,7 @@ export default {
           async onSubmit (formData) {
               await this.requestCreateReviewBoardToSpring(formData)
               await this.$router.push({
-                  name: 'MainPage'
+                  name: 'ReviewBoardListPage'
               })
           }
     },
