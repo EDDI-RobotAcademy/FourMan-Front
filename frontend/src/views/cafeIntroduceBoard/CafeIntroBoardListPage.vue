@@ -1,29 +1,27 @@
 <template>
   <v-container>
-    <!-- <v-row>
-      <v-col v-for="info in this.$store.state.cafeList.content" :key="info.id">
-        <CafeIntroListForm :novel-info="info"/>
-      </v-col>
-    </v-row> -->
+   <div class="wrap productWrap">
+    <CafeIntroBoardListForm :cafeLists="cafeLists"></CafeIntroBoardListForm>
+  </div>
 
-    <!-- <v-pagination -->
-        <!-- v-model="page" -->
-        <!-- :length="this.$store.state.uploaderCafeInfoList.totalPages"/> -->
-    <div v-if="cafePass == 'CAFE' ">
-      <router-link :to="{ name: 'CafeIntroBoardRegisterPage' }">
-        카페 등록
-      </router-link>
-    </div>
+    <router-link :to="{ name: 'CafeIntroBoardRegisterPage' }">
+      카페 등록
+    </router-link>
   </v-container>
 </template>
 
 <script>
 import {mapState, mapActions} from "vuex";
-// import CafeIntroListForm from "@/component/CafeIntroListForm/CafeIntroListForm";
+//import CafeIntroBoardCardForm from "@/components/cafeIntroduceBoard/CafeIntroBoardCardForm.vue";
+import CafeIntroBoardListForm from "@/components/cafeIntroduceBoard/CafeIntroBoardListForm.vue";
+
 
 export default {
   name: "CafeIntroBoardListPage",
-//   components: {CafeIntroListForm}, 
+  components: {
+    //CafeIntroBoardCardForm ,
+    CafeIntroBoardListForm,
+    }, 
   computed: {
     ...mapState([
       'cafeLists'
@@ -31,8 +29,6 @@ export default {
   },
   data() {
     return {
-      page: 1,
-      cafePass: JSON.parse(localStorage.getItem('userInfo')).authorityName,
     }
   },
   methods: {
@@ -41,13 +37,9 @@ export default {
 
   },
   mounted() {
-    //  let payload = {
-    //   member_id: 1,
-    //   page: this.page-1,
-    //   size: 5
-    // }
-    // this.requestCafeListToSpring()
-  }
+    this.requestCafeListToSpring()
+    
+  },
 }
 </script>
 <style scoped>
