@@ -1,4 +1,8 @@
 import {
+    //카페소개 보드 관련
+    REQUEST_CAFE_LIST_TO_SPRING,
+
+    
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
@@ -15,6 +19,21 @@ import {
 import axios from 'axios'
 
 export default {
+
+    //카페소개보드 관련
+    requestCafeListToSpring({commit}) {
+        console.log("requestCafeListToSpring() 작동")
+        return axios.get(`http://localhost:8888/cafe/list`)
+            .then((res) => {
+                commit(REQUEST_CAFE_LIST_TO_SPRING, res.data)
+                console.log("res.data : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
+
+
    // 상품 관련
    requestCreateProductToSpring ({}, payload) {
       console.log('payload: ' + payload)
