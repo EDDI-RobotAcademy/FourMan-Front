@@ -15,6 +15,9 @@ import {
    //질문 게시판 관련
    REQUEST_QUESTION_BOARD_LIST_TO_SPRING,
    REQUEST_QUESTION_BOARD_TO_SPRING,
+
+   //리뷰 게시판 관련
+   REQUEST_REVIEW_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
@@ -130,6 +133,12 @@ export default {
             })
             .catch(() => {
                 alert('문제 발생!')
+            })
+    },
+    requestReviewBoardListToSpring ({ commit }) {
+        return axios.get('http://localhost:8888/review-board/list')
+            .then((res) => {
+                commit(REQUEST_REVIEW_BOARD_LIST_TO_SPRING, res.data)
             })
     },
 
