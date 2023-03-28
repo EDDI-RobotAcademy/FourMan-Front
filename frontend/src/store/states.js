@@ -1,6 +1,7 @@
 export default {
    //카페소개보드 관련
    cafeLists:[],
+   cafeCheck:false,
 
    // 상품 관련
    products: [],
