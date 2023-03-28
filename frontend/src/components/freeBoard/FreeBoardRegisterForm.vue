@@ -36,7 +36,7 @@
       data () {
           return {
               title: '',
-              writer: JSON.parse(localStorage.getItem('userInfo')).username,
+              writer: JSON.parse(localStorage.getItem('userInfo')).nickName,
               content: '',
               memberId: JSON.parse(localStorage.getItem('userInfo')).id,
           }
