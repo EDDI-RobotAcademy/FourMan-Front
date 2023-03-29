@@ -81,7 +81,31 @@ export default {
    },
    methods: {
       purchase() {
-        
+        var IMP = window.IMP; 
+        IMP.init("imp60856856");
+
+        // 결제창 호출 코드
+        IMP.request_pay({
+          pg : "kakaopay", 
+          pay_method : 'card',
+          merchant_uid : 'merchant_' + new Date().getTime(),
+          name : '결제',
+          amount : this.totalPrice,
+          buyer_email : '구매자 이메일',
+          buyer_name : '구매자 이름',
+          buyer_tel : '구매자 번호',
+          buyer_addr : '구매자 주소',
+          buyer_postcode : '구매자 주소',
+          m_redirect_url : 'redirect url'
+         }, function(rsp) {
+          if ( rsp.success ) {
+              var msg = '결제가 완료되었습니다.';
+              location.href='http://localhost:8887/';
+          } else {
+              var msg = '결제에 실패하였습니다.';
+              rsp.error_msg;
+          }
+       });
       }
    }
 }
