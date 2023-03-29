@@ -3,7 +3,7 @@ import {
     REQUEST_CAFE_LIST_TO_SPRING,
     REQUEST_CAFE_NUM_TO_SPRING,
     REQUEST_CAFE_DETAIL_TO_SPRING,
-    
+
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
@@ -40,7 +40,7 @@ export default {
         console.log("requestCafeNumToSpring() 작동")
         return axios.post(`http://localhost:8888/cafe/check-code/${ JSON.parse(localStorage.getItem('userInfo')).code}`)
         .then((res)=>{
-            console.log("성공res.data:",res.data) 
+            console.log("성공res.data:",res.data)
             commit(REQUEST_CAFE_NUM_TO_SPRING,res.data)
         })
         .catch((res)=>{
@@ -133,7 +133,7 @@ export default {
                 alert("문제 발생!")
             })
     },
-    
+
     // 리뷰게시판 관련
     requestCreateReviewBoardToSpring ({}, formData) {
 
@@ -200,4 +200,16 @@ export default {
                 alert("문제 발생!")
             })
 },
+    //댓글 관련
+    requestQuestionBoardCommentRegisterToSpring( {}, payload) {
+        const {comment, boardId, commentWriter} = payload
+        console.log('데이터보내져랏')
+        return axios.post('http://localhost:8888/question_board/comment/register',
+            {comment, boardId, commentWriter})
+        .then(() =>{
+            alert('댓글 등록 완료')
+        })
+
+    }
+
 }

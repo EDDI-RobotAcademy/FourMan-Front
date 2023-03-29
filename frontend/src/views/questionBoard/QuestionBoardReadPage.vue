@@ -10,6 +10,11 @@
                 <v-btn @click="showConfirm"> 삭제 </v-btn>
             </router-link>
         </div>
+        <!-- 댓글 등록 form -->
+        <v-divider></v-divider>
+        <div align="center">
+            <question-board-comment-form @submit="onSubmitComment"></question-board-comment-form>
+        </div>
     </v-container>
 </template>
 
@@ -17,12 +22,14 @@
 <script>
 
 import QuestionBoardReadForm from '@/components/questionBoard/QuestionBoardReadForm.vue';
+import QuestionBoardCommentForm from '@/components/questionBoard/comment/QuestionBoardCommentForm.vue'
 import {mapActions, mapState} from 'vuex'
 
 export default {
     name: "QuestionBoardReadPage",
     components: {
         QuestionBoardReadForm,
+        QuestionBoardCommentForm,
     },
 
     props: {
