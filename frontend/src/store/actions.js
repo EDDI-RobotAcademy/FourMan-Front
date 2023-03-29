@@ -18,6 +18,8 @@ import {
 
    //리뷰 게시판 관련
    REQUEST_REVIEW_BOARD_LIST_TO_SPRING,
+   REQUEST_REVIEW_BOARD_TO_SPRING,
+   REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
@@ -152,6 +154,19 @@ export default {
                 commit(REQUEST_REVIEW_BOARD_LIST_TO_SPRING, res.data)
             })
     },
+    requestReviewBoardToSpring ({ commit }, reviewBoardId) {
+        return axios.get(`http://localhost:8888/review-board/${reviewBoardId}`)
+            .then((res) => {
+                commit(REQUEST_REVIEW_BOARD_TO_SPRING, res.data)
+            })
+    },
+    requestReviewBoardImageToSpring ({ commit }, reviewBoardId) {
+        return axios.get(`http://localhost:8888/review-board/imageList/${reviewBoardId}`)
+            .then((res) => {
+                commit(REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING, res.data)
+            })
+    },
+
 
    // 질문게시판 관련
 

@@ -1,0 +1,50 @@
+<template>
+    <v-container>
+      <div align="center">
+        <review-board-read-form v-if="reviewBoard" :reviewBoard="reviewBoard" :reviewBoardImages="reviewBoardImages" />
+        <p v-else>로딩중 .......... </p>
+        <button>수정</button>
+        <button @click="onDelete">삭제</button>
+        <router-link :to="{ name: 'ReviewBoardListPage' }">
+          돌아가기
+        </router-link>
+      </div>
+    </v-container>
+  </template>
+  
+  <script>
+  import ReviewBoardReadForm from '@/components/reviewBoard/ReviewBoardReadForm.vue'
+  import { mapActions, mapState } from 'vuex'
+  export default {
+    components: { ReviewBoardReadForm },
+      name: "ReviewBoardReadPage",
+      props: {
+          reviewBoardId: {
+              type: String,
+              required: true,
+          }
+      },
+      computed: {
+          ...mapState(['reviewBoard', 'reviewBoardImages'])
+      },
+      methods: {
+          ...mapActions([
+              'requestReviewBoardToSpring',
+              'requestDeleteReviewBoardToSpring',
+              'requestReviewBoardImageToSpring',
+          ]),
+          async onDelete () {
+              await this.requestDeleteReviewBoardToSpring(this.reviewBoardId)
+              await this.$router.push({ name: 'ReviewBoardListPage' })
+          }
+      },
+      async created () {
+          console.log('reviewBoardId: ' + this.reviewBoardId)
+          await this.requestReviewBoardToSpring(this.reviewBoardId)
+          await this.requestReviewBoardImageToSpring(this.reviewBoardId)
+      }
+  }
+  </script>
+  
+  <style>
+  </style>
