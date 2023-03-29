@@ -9,12 +9,11 @@
               <v-img src="@/assets/logo.png"> </v-img>
             </div>
 
-            <!--바이디어 정보 -->
             <div style="margin-left: 50px">
               <h4 style="margin-bottom: 10px">(주)FOURMAN</h4>
               <div v-for="(item, index) in buy_diaInfo" :key="index">
                 <h5>팀장: {{ item.teamJang }}</h5>
-                <h5>조원: {{ item.name }}</h5>
+                <h5>팀원: {{ item.name }}</h5>
                 <h5>주소: {{ item.address }}</h5>
                 <h5>사업자등록번호:{{ item.companyNumber }}</h5>
                 <h5>통신판매업: {{ item.mailOrderBusiness }}</h5>
