@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 import MainPage from "@/views/MainPage.vue"
 
@@ -44,12 +43,6 @@ const routes = [
   //공통 페이지 관련
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-
-  {
-    path: '/main',
     name: 'MainPage',
     component: MainPage
   },
