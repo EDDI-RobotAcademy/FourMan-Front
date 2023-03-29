@@ -8,15 +8,11 @@
         :cycle="cycle"
         :interval="interval"
         :height="height"
+        max-height="400px"
+        
       >
         <v-carousel-item v-for="(picture, idx) in pictures" :key="idx">
-          <v-sheet :height="height" tile >
-            <v-row class="fill-height" align="center" justify="center">
-              <div class="">
-                <v-img :src="picture.img" :height="height" contain />
-              </div>
-            </v-row>
-          </v-sheet>
+                <v-img :src="picture.img" :height="height" contain  />
         </v-carousel-item>
       </v-carousel>
     </div>
@@ -36,8 +32,8 @@ export default {
         { img: require("@/assets/carousel/starbucks05.png") },
       ],
       cycle: true,
-      interval: 4000, // ms 단위
-      height: 800,
+      interval: 5000, // ms 단위
+      height: 400,
       width: 600,
     };
   },
