@@ -1,6 +1,6 @@
 <template>
   <v-footer inset padless class="justify-center pl-0">
-    <v-card flat class="text-center white--text" width="100%" color="brown lighten-1">
+    <v-card flat class="text-center white--text" width="100%" color="brown lighten-2">
       <v-divider></v-divider>
       <v-container style="width: 1000px">
         <v-layout>
