@@ -20,6 +20,9 @@ import {
    REQUEST_REVIEW_BOARD_LIST_TO_SPRING,
    REQUEST_REVIEW_BOARD_TO_SPRING,
    REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING,
+
+   //댓글 관련
+   REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -219,12 +222,19 @@ export default {
     requestQuestionBoardCommentRegisterToSpring( {}, payload) {
         const {comment, boardId, commentWriter} = payload
         console.log('데이터보내져랏')
-        return axios.post('http://localhost:8888/question_board/comment/register',
+        return axios.post('http://localhost:8888/question-board/comment/register',
             {comment, boardId, commentWriter})
         .then(() =>{
             alert('댓글 등록 완료')
         })
+    },
 
+    requestQuestionBoardCommentListToSpring( { commit }, boardId ) {
+        console.log('commentList :')
+        return axios.get(`http://localhost:8888/question-board/comment/${boardId}`)
+            .then((res) => {
+                commit(REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING, res.data)
+            })
     }
 
 }

@@ -10,6 +10,8 @@
                 <v-btn @click="showConfirm"> 삭제 </v-btn>
             </router-link>
         </div>
+        <v-divider></v-divider>
+        <question-board-comment-list-form :comments="comments"/>
         <!-- 댓글 등록 form -->
         <v-divider></v-divider>
         <div align="center">
@@ -23,6 +25,7 @@
 
 import QuestionBoardReadForm from '@/components/questionBoard/QuestionBoardReadForm.vue';
 import QuestionBoardCommentForm from '@/components/questionBoard/comment/QuestionBoardCommentForm.vue'
+import QuestionBoardCommentListForm from '@/components/questionBoard/comment/QuestionBoardCommentListForm.vue';
 import {mapActions, mapState} from 'vuex'
 
 export default {
@@ -30,6 +33,7 @@ export default {
     components: {
         QuestionBoardReadForm,
         QuestionBoardCommentForm,
+        QuestionBoardCommentListForm,
     },
 
     props: {
@@ -39,13 +43,14 @@ export default {
         }
     },
     computed: {
-        ...mapState(['questionBoard','questionBoardComments'])
+        ...mapState(['questionBoard','comments'])
     },
     methods: {
         ...mapActions([
             'requestQuestionBoardToSpring',
             'requestQuestionBoardDeleteToSpring',
-            'requestQuestionBoardCommentRegisterToSpring'
+            'requestQuestionBoardCommentRegisterToSpring',
+            'requestQuestionBoardCommentListToSpring'
     ]),
     showConfirm() {
         if(confirm('정말 삭제하시겠습니까?')) {
@@ -66,7 +71,8 @@ export default {
     created () {
         console.log('boardId : ' + this.boardId)
         this.requestQuestionBoardToSpring(this.boardId)
-ㄴ    }
+        this.requestQuestionBoardCommentListToSpring(this.boardId)
+       },
 
 }
 </script>
