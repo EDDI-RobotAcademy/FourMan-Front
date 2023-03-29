@@ -34,8 +34,22 @@
               'requestReviewBoardImageToSpring',
           ]),
           async onDelete () {
-              await this.requestDeleteReviewBoardToSpring(this.reviewBoardId)
-              await this.$router.push({ name: 'ReviewBoardListPage' })
+            if(JSON.parse(localStorage.getItem('userInfo'))) {
+              const loginId = JSON.parse(localStorage.getItem('userInfo')).id
+              const memberId = this.reviewBoard.memberId
+              const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+
+              if(loginId === memberId  || authorityName === "MANAGER") {
+                await this.requestDeleteReviewBoardToSpring(this.reviewBoardId)
+                await this.$router.push({ name: 'ReviewBoardListPage' })
+              } else {
+                alert("작성자만 해당 게시글을 삭제할 수 있습니다.")
+              }
+            }
+
+            if(!JSON.parse(localStorage.getItem('userInfo'))) {
+              alert("작성자만 해당 게시글을 삭제할 수 있습니다.")
+            }
           }
       },
       async created () {
