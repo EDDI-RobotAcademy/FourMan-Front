@@ -166,7 +166,15 @@ export default {
                 commit(REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING, res.data)
             })
     },
-
+    requestDeleteReviewBoardToSpring ({}, reviewBoardId) {
+        return axios.delete(`http://localhost:8888/review-board/${reviewBoardId}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+    },
 
    // 질문게시판 관련
 
