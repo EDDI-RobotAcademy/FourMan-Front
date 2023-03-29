@@ -23,9 +23,9 @@
       </tr>
       <tr>
         <td style="text-align: center;">
-          <v-btn class="me-2" type="submit">등록</v-btn>
+          <v-btn class="me-2 brown lighten-1 white--text" type="submit">등록</v-btn>
           <router-link :to="{name: 'QuestionBoardReadPage', params: {boardId: questionBoard.boardId.toString()} }">
-            <v-btn class2="me-2">뒤로가기</v-btn>
+            <v-btn class="me-2 brown lighten-1 white--text">뒤로가기</v-btn>
           </router-link>
         </td>
       </tr>
