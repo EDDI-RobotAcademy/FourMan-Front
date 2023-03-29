@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar color="#8D6E63" class="flex-grow-0" app dark>
+    <v-app-bar color="brown lighten-1" class="flex-grow-0" app dark>
       <router-link to="/">
         <v-img
           class="mx-2"
