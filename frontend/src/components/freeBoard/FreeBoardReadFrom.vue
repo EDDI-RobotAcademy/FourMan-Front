@@ -39,7 +39,7 @@
   }
   </script>
   
-  <style>
+  <style scoped>
   table.type09 {
     border-collapse: collapse;
     text-align: left;
