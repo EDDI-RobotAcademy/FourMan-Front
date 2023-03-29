@@ -31,6 +31,8 @@ import ReviewBoardListPage from '@/views/reviewBoard/ReviewBoardListPage.vue'
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
 import ProductListPage from '@/views/product/ProductListPage.vue'
 
+//주문 관련
+import TotalOrderPage from '@/views/order/TotalOrderPage'
 
 //카페소개 게시판 관련
 import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardListPage.vue'
@@ -88,6 +90,17 @@ const routes = [
     component: ProductListPage
   },
 
+// 주문 관련
+  {
+    path: '/total-order-page',
+    name: 'TotalOrderPage',
+    components: {
+      default: TotalOrderPage
+    },
+    props: {
+      default: true
+    }
+  },
 
 
 //로그인 관련
