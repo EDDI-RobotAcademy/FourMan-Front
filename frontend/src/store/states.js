@@ -20,4 +20,6 @@ export default {
 
    // 리뷰 게시판 관련
    reviewBoards: [],
+   reviewBoard: {},
+   reviewBoardImages: [],
 }

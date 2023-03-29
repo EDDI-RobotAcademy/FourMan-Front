@@ -25,11 +25,14 @@ import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPa
 //리뷰 게시판 관련
 import ReviewBoardRegisterPage from '@/views/reviewBoard/ReviewBoardRegisterPage.vue'
 import ReviewBoardListPage from '@/views/reviewBoard/ReviewBoardListPage.vue'
+import ReviewBoardReadPage from '@/views/reviewBoard/ReviewBoardReadPage.vue'
 
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
 import ProductListPage from '@/views/product/ProductListPage.vue'
 
+//주문 관련
+import TotalOrderPage from '@/views/order/TotalOrderPage'
 
 //카페소개 게시판 관련
 import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardListPage.vue'
@@ -81,6 +84,17 @@ const routes = [
     component: ProductListPage
   },
 
+// 주문 관련
+  {
+    path: '/total-order-page',
+    name: 'TotalOrderPage',
+    components: {
+      default: TotalOrderPage
+    },
+    props: {
+      default: true
+    }
+  },
 
 
 //로그인 관련
@@ -197,6 +211,16 @@ const routes = [
     path: '/review-board-list-page',
     name: 'ReviewBoardListPage',
     component: ReviewBoardListPage
+  },
+  {
+    path: '/review-board-read-page/:reviewBoardId',
+    name: 'ReviewBoardReadPage',
+    components: {
+      default: ReviewBoardReadPage
+    },
+    props: {
+      default: true
+    }
   },
   //질문 게시판 관련
   {
