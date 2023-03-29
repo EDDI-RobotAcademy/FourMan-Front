@@ -65,7 +65,7 @@ export default {
     created () {
         console.log('boardId : ' + this.boardId)
         this.requestQuestionBoardToSpring(this.boardId)
-    }
+ㄴ    }
 
 }
 </script>
