@@ -22,4 +22,8 @@ export default {
    reviewBoards: [],
    reviewBoard: {},
    reviewBoardImages: [],
+
+   //댓글 관련
+   comments: [],
+   comment: {},
 }
