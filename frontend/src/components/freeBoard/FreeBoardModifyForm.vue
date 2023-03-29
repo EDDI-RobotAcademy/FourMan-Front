@@ -20,9 +20,9 @@
         </table>
   
         <div>
-          <v-btn type="submit" variant="primary">수정 완료</v-btn>
+          <v-btn type="submit" variant="primary" class="brown lighten-1 white--text">수정 완료</v-btn>
           <router-link :to="{ name: 'FreeBoardReadPage', params: { boardId: freeBoard.boardId.toString() } }">
-            <v-btn>
+            <v-btn class="brown lighten-1 white--text">
                 취소
             </v-btn>
           </router-link>

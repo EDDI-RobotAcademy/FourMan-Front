@@ -17,7 +17,7 @@
             <p>{{ data.price }}원</p> 
          </div>
          <div>
-            <v-btn color="blue-grey lighten-1" @click="addCart(data)">장바구니 담기</v-btn>
+            <v-btn class="brown lighten-1 white--text" @click="addCart(data)">장바구니 담기</v-btn>
          </div>
       </v-card>
    </v-container>
