@@ -9,7 +9,7 @@
               sm="3"
               md="3"
               >
-                <v-card class="text-center" :to="{ name: 'ReviewBoardReadPage' }">
+                <v-card class="text-center" :to="{ name: 'ReviewBoardReadPage', params: { reviewBoardId: reviewBoard.reviewBoardId.toString() }}">
                 <v-img
                   :src="reviewBoard.firstPhoto ? getImagePath(reviewBoard.firstPhoto) : ''"
                   aspect-ratio="1"
