@@ -1,7 +1,8 @@
 import {
     //카페소개 보드 관련
     REQUEST_CAFE_LIST_TO_SPRING,
-
+    REQUEST_CAFE_NUM_TO_SPRING,
+    REQUEST_CAFE_DETAIL_TO_SPRING,
 
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
@@ -14,6 +15,9 @@ import {
    //질문 게시판 관련
    REQUEST_QUESTION_BOARD_LIST_TO_SPRING,
    REQUEST_QUESTION_BOARD_TO_SPRING,
+
+   //리뷰 게시판 관련
+   REQUEST_REVIEW_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
@@ -26,6 +30,29 @@ export default {
         return axios.get(`http://localhost:8888/cafe/list`)
             .then((res) => {
                 commit(REQUEST_CAFE_LIST_TO_SPRING, res.data)
+                console.log("res.data : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
+    requestCafeNumToSpring({commit}) {
+        console.log("requestCafeNumToSpring() 작동")
+        return axios.post(`http://localhost:8888/cafe/check-code/${ JSON.parse(localStorage.getItem('userInfo')).code}`)
+        .then((res)=>{
+            console.log("성공res.data:",res.data)
+            commit(REQUEST_CAFE_NUM_TO_SPRING,res.data)
+        })
+        .catch((res)=>{
+          console.log("실패res.data:",res.data)
+          alert("ERROR")
+        })
+    },
+    requestCafeDetailToSpring({commit},cafeId) {
+        console.log("requestCafeDetailToSpring() 작동")
+        return axios.get(`http://localhost:8888/cafe/detail/${cafeId}`)
+            .then((res) => {
+                commit(REQUEST_CAFE_DETAIL_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)
             })
             .catch((error) => {
@@ -117,6 +144,12 @@ export default {
             })
             .catch(() => {
                 alert('문제 발생!')
+            })
+    },
+    requestReviewBoardListToSpring ({ commit }) {
+        return axios.get('http://localhost:8888/review-board/list')
+            .then((res) => {
+                commit(REQUEST_REVIEW_BOARD_LIST_TO_SPRING, res.data)
             })
     },
 

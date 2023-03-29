@@ -1,6 +1,8 @@
 export default {
    //카페소개보드 관련
    cafeLists:[],
+   cafeCheck:false,
+   cafe:{},
 
    // 상품 관련
    products: [],
@@ -20,4 +22,6 @@ export default {
    questionBoardComments: [],
    questionBoardComment: {},
    resMember: {},
+   // 리뷰 게시판 관련
+   reviewBoards: [],
 }
