@@ -1,0 +1,47 @@
+<template>
+  <div>
+    <CafeIntroBoardDetailForm :cafe="cafe" />
+  </div>
+</template>
+
+<script>
+import {mapActions, mapState} from "vuex";
+import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm"
+export default {
+    name: "CafeIntroBoardDetailage",
+    components: {
+        CafeIntroBoardDetailForm
+
+  },
+  data(){
+    return{
+    }
+  },
+  props: {
+    cafeId: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    ...mapState(['cafe' ])
+  },
+   methods: {
+
+    ...mapActions([
+        'requestCafeDetailToSpring' ]),
+   
+  },
+  async created () {
+        // alert("created!")
+        console.log('cafeId: ' + this.cafeId)
+        await this.requestCafeDetailToSpring(this.cafeId)
+    }
+  
+
+}
+</script>
+
+<style>
+
+</style>

@@ -35,6 +35,7 @@ import ProductListPage from '@/views/product/ProductListPage.vue'
 //카페소개 게시판 관련
 import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardListPage.vue'
 import CafeIntroBoardRegisterPage from '@/views/cafeIntroduceBoard/CafeIntroBoardRegisterPage.vue'
+import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardDetailPage.vue'
 
 
 Vue.use(VueRouter)
@@ -63,6 +64,16 @@ const routes = [
   path: '/cafe-board-register-page',
   name: 'CafeIntroBoardRegisterPage',
   component: CafeIntroBoardRegisterPage
+},
+{
+  path: '/cafe-board-detail-page/:cafeId',
+  name: 'CafeIntroBoardDetailPage',
+  components: {
+    default:CafeIntroBoardDetailPage
+  },
+  props: {
+    default: true
+  }
 },
 
 //상품 관련

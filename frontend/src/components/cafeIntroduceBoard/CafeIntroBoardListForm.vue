@@ -10,14 +10,8 @@
       </div>
       <v-row>
       <v-col v-for="(cafe, index) in calData" :key="index" cols="12" sm="6" md="4">
-        <!-- <router-link
-          :to="{
-            name: 'ProductDetailView',
-            params: { productNo: product.productNo.toString() },
-          }"
-        > -->
           <CafeIntroBoardCardForm :cafe="cafe"></CafeIntroBoardCardForm >
-        <!-- </router-link> -->
+
       </v-col>
       </v-row>
     </v-container>
@@ -52,7 +46,9 @@ export default {
       curPageNum: 1,
     };
   },
-  methods: {},
+  methods: {
+    
+  },
   computed: {
     startOffset() {
       return (this.curPageNum - 1) * this.dataPerPage;
