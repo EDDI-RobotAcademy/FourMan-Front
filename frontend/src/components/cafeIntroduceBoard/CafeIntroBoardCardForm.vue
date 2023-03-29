@@ -10,12 +10,19 @@
       </template>
 
       <div class="thumb">
-        <v-img
-          height="250"
-          :src="
-            require(`../../assets/cafe/uploadImgs/${cafe.cafeInfo.thumbnailFileName}`)
-          "
-        />
+      <router-link
+          :to="{
+            name: 'CafeIntroBoardDetailPage',
+            params: { cafeId: cafe.cafeId.toString() },
+          }"
+        >
+          <v-img
+            height="250"
+            :src="
+              require(`../../assets/cafe/uploadImgs/${cafe.cafeInfo.thumbnailFileName}`)
+            "
+          />
+      </router-link>
       </div>
       <v-card-title class="cafeName">{{ cafe.cafeName }}</v-card-title>
 
@@ -64,9 +71,13 @@
 
       <v-card-actions>
         <v-btn color="deep-purple lighten-2" text @click="reserve">
-          Reserve
+          예약
+        </v-btn>
+         <v-btn color="deep-purple lighten-2" text @click="showDetail">
+          상세 보기
         </v-btn>
       </v-card-actions>
+
     </div>
   </v-card>
 </template>
@@ -85,11 +96,16 @@ export default {
     selection: 1,
   }),
   methods: {
+
     reserve() {
       this.loading = true;
-
       setTimeout(() => (this.loading = false), 2000);
     },
+
+    showDetail(){
+       this.$router.push({ name:'CafeIntroBoardDetailPage',
+                           params:{cafeId: this.cafe.cafeId.toString()}});
+    }
   },
 };
 </script>
