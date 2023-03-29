@@ -1,6 +1,6 @@
 <template>
       <div>
-    <h2>댓글</h2>
+    <h4>댓글 : {{ commentSize }} 개</h4>
     <ul>
       <li v-for="comment in comments" :key="comment.commentId">
         <div> {{ comment.commentWriter }} |  {{ comment.comment }}</div>
@@ -19,6 +19,11 @@ export default {
       return {
         comment : JSON.stringify(comments),
       }
+    },
+    computed: {
+      commentSize() {
+        return this.$store.state.comments.length;
+      },
     },
     props : {
         comments : {
