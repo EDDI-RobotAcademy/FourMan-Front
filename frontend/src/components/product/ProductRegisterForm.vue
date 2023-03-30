@@ -5,7 +5,7 @@
       <input type="file" id="files" ref="files" @change="handleFileUpload"/>
     </div>
     <div class="form-field">
-      <label for="price">DrinkType</label>
+      <label>DrinkType</label>
       <v-select v-model="drinkType" @change="drinkTypeSelect" label="DrinkType" :items="drinkTypeList">
       </v-select>
     </div>
@@ -17,12 +17,9 @@
       <label for="price">Price</label>
       <input type="text" id="price" v-model="price"/>
     </div>
-
-    <div class="form-buttons">
-      <button type="submit">Register</button>
-      <button @click="moveToListPage">
-          Cancel
-      </button>
+    <div>
+        <v-btn class="brown darken-2 white--text" @click="onSubmit">Register</v-btn>
+        <v-btn class="brown darken-2 white--text" @click="moveToListPage">Cancel</v-btn>
     </div>
   </form>
 </template>
@@ -42,6 +39,7 @@ export default {
     },
     methods: {
         onSubmit () {
+          
           let formData = new FormData()
 
           for(let idx = 0; idx < this.files.length; idx++) {

@@ -19,10 +19,8 @@
          <product-card-form :datas="datas" @addCart="addCart"/>
       </div>
       <div class="text-right mr-5 mt-15">
-         <v-btn>
-            <router-link :to="{ name: 'ProductRegisterPage' }">
+         <v-btn class="brown darken-2 white--text" @click="registerProduct">
                상품 등록
-            </router-link>
          </v-btn>
       </div>
       <div class="mt-15">
@@ -85,6 +83,11 @@ export default {
             const categoryData = this.datas.filter((value) => value.drinkType == this.category)
             this.$emit('categoryData', categoryData)
          }
+      },
+      registerProduct() {
+         this.$router.push( {
+            name: 'ProductRegisterPage'
+          })
       }
    },
 }
