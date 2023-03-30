@@ -6,7 +6,7 @@
       <v-btn class="me-2 brown darken-2 white--text" @click="onDelete">
         <h4>삭제</h4>
       </v-btn>
-      <v-btn class="me-2 brown darken-2 white--text">
+      <v-btn class="me-2 brown darken-2 white--text" :to="{ name: 'ReviewBoardModifyPage', params: { reviewBoardId } }">
         <h4>수정</h4>
       </v-btn>
       <v-btn class="brown darken-2 white--text" width="10%" height="40px" :to="{ name: 'ReviewBoardListPage' }">

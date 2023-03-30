@@ -187,6 +187,18 @@ export default {
                 alert("문제 발생!")
             })
     },
+    requestReviewBoardModifyToSpring ({}, payload) {
+        const { reviewBoardId, title, content, rating } = payload
+
+        return axios.put(`http://localhost:8888/review-board/${reviewBoardId}`,
+            { title, content, rating })
+            .then(() => {
+                alert("수정 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+    },
 
    // 질문게시판 관련
 
