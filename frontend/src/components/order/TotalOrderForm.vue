@@ -42,7 +42,7 @@
                     <tfoot class="wrap">
                      <tr>
                         <th colspan="3"></th>
-                        <th>TOTAL : {{ totalPrice | comma}}원</th>
+                        <th>TOTAL : {{ totalOrderPrice | comma}}원</th>
                      </tr>
                     </tfoot>
                   </v-simple-table>
@@ -51,7 +51,7 @@
             </div>
           </v-card>
           <v-btn @click="purchase" block x-large class="" color="#5F4F4F" style="color: white; font-size: 1em" >
-            {{ totalPrice | comma }}원 결제하기
+            {{ totalOrderPrice | comma }}원 결제하기
           </v-btn>
         </div>
       </v-col>
@@ -63,16 +63,23 @@
 
 export default {
    name: "TotalOrderForm",
+   data() {
+    return {
+      totalOrderPriceData: Number
+    }
+   },
    props: {
       cartItems: {
-        type: Array
+        type: Array,
+        required: true
       },
-      totalPrice: {
-        type: ""
+      totalOrderPrice: {
+        type: Number,
+        required: true
       }
    },
-   async mounted() {
-      console.log('cartItems: ' + JSON.stringify(this.cartItems))
+   async created() {
+
    },
    filters: {
     comma(val) {
@@ -90,7 +97,7 @@ export default {
           pay_method : 'card',
           merchant_uid : 'merchant_' + new Date().getTime(),
           name : '결제',
-          amount : this.totalPrice,
+          amount : this.totalOrderPrice,
           buyer_email : '구매자 이메일',
           buyer_name : '구매자 이름',
           buyer_tel : '구매자 번호',
@@ -107,7 +114,7 @@ export default {
           }
        });
       }
-   }
+   },
 }
 </script>
 

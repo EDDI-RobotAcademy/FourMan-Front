@@ -11,7 +11,9 @@
             </router-link>
         </div>
         <v-divider></v-divider>
-        <question-board-comment-list-form :comments="comments"/>
+        <question-board-comment-list-form
+            :comments="comments"
+            @click="deleteComment"/>
         <!-- 댓글 등록 form -->
         <v-divider></v-divider>
         <div align="center">
@@ -40,7 +42,11 @@ export default {
         boardId: {
             type: String,
             required: true,
-        }
+        },
+    },
+    comment: {
+        type: Object,
+        required: true
     },
     computed: {
         ...mapState(['questionBoard','comments'])
@@ -50,7 +56,8 @@ export default {
             'requestQuestionBoardToSpring',
             'requestQuestionBoardDeleteToSpring',
             'requestQuestionBoardCommentRegisterToSpring',
-            'requestQuestionBoardCommentListToSpring'
+            'requestQuestionBoardCommentListToSpring',
+            'requestQuestionBoardCommentDeleteToSpring',
     ]),
     showConfirm() {
         if(confirm('정말 삭제하시겠습니까?')) {
@@ -66,7 +73,7 @@ export default {
         console.log("댓글 등록할 boardId:" + boardId)
         await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter})
         await this.$router.go((this.$router.currentRoute))
-    }
+    },
 },
     created () {
         console.log('boardId : ' + this.boardId)

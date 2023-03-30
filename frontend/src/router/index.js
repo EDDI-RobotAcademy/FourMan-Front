@@ -26,6 +26,7 @@ import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPa
 import ReviewBoardRegisterPage from '@/views/reviewBoard/ReviewBoardRegisterPage.vue'
 import ReviewBoardListPage from '@/views/reviewBoard/ReviewBoardListPage.vue'
 import ReviewBoardReadPage from '@/views/reviewBoard/ReviewBoardReadPage.vue'
+import ReviewBoardModifyPage from '@/views/reviewBoard/ReviewBoardModifyPage.vue'
 
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
@@ -217,6 +218,16 @@ const routes = [
     name: 'ReviewBoardReadPage',
     components: {
       default: ReviewBoardReadPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/review-board-modify-page/:reviewBoardId',
+    name: 'ReviewBoardModifyPage',
+    components: {
+      default: ReviewBoardModifyPage
     },
     props: {
       default: true
