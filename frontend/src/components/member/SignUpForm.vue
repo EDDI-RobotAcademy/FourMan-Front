@@ -124,7 +124,7 @@
                 block
                 x-large
                 rounded
-                class="mt-6 darken-2 white--text"
+                class="mt-6 brown darken-2 white--text"
                 :disabled="(emailPass && nickNamePass && streetPass) == false"
               >
                 가입하기
