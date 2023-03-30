@@ -1,6 +1,7 @@
 <template>
    <div justify="center">
-      <product-list-form :products="products" :productImages="productImages"></product-list-form>
+      <!-- <product-list-form :products="products" :productImages="productImages"></product-list-form> -->
+      <product-list-form :datas="allOfProducts"></product-list-form>
    </div>
 </template>
 
@@ -22,18 +23,21 @@ export default {
    computed: {
       ...mapState([
          'products',
-         'productImages'
+         'productImages',
+         'allOfProducts',
       ])
    },
    methods: {
       ...mapActions([
          'requestProductListToSpring',
-         'requestProductImageListToSpring'
+         'requestProductImageListToSpring',
+         'requestAllOfProductToSpring'
       ])
    },
    async mounted() {
       await this.requestProductImageListToSpring()
       await this.requestProductListToSpring()
+      await this.requestAllOfProductToSpring()
    }
 }
 </script>

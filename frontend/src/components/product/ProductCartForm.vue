@@ -18,7 +18,7 @@
             <tr v-else v-for="(cartItem, idx) in cartItems" :key="idx">
                <td>
                   <center>
-                  <v-img :src="require(`@/assets/product/uploadImgs/${cartItem.imageResourcePath}`)" width="50px"/>
+                  <v-img :src="require(`@/assets/product/uploadImgs/${cartItem.imageResourceList[0].imageResourcePath}`)" width="50px"/>
                   </center>
                </td>
                <td>{{ cartItem.productName }}</td>

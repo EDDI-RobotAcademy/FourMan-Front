@@ -27,7 +27,7 @@
                      <tr>
                         <td>
                            <center>
-                           <v-img :src="require(`@/assets/product/uploadImgs/${item.imageResourcePath}`)" width="50px"/>
+                           <v-img :src="require(`@/assets/product/uploadImgs/${item.imageResourceList[0].imageResourcePath}`)" width="50px"/>
                            </center>
                         </td>
                         <td class="product">
