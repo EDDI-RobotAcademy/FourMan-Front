@@ -8,13 +8,13 @@
         <v-card width="530">
           <v-card-text class="text-center px-12 py-16">
             <v-form @submit.prevent="onSubmit" ref="form">
-              <div class="text-h4 font-weight-black mb-10">회원 가입</div>
+              <div class="text-h4 font-weight-black mb-10 brown--text">회원 가입</div>
 
               <div class="d-flex">
                   <v-text-field class="mt-3" v-model="codeText" label="카페 사업자/관리자 코드 입력해주세요" :disabled="authorityPass"
                                 required color="black"/>
                   <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-3 ml-5 mr-0"
+                                class="mt-3 ml-5 mr-0 brown darken-2 white--text"
                                 @click="checkCode"
                                 :disabled="authorityPass"
                        >코드 확인   
@@ -31,7 +31,7 @@
                   required
                 />
                 <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-0 ml-5 mr-0"
+                                class="mt-0 ml-5 mr-0  brown darken-2 white--text"
                                 @click="checkDuplicateEmail"
                                 :disabled="emailPass"
                 >이메일 중복 확인
@@ -64,7 +64,7 @@
               <div class="d-flex">
                 <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required color="black"/>
                 <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-0 ml-5 mr-0"
+                                class="mt-0 ml-5 mr-0  brown darken-2 white--text"
                                 @click="checkDuplicateNickName"
                                 :disabled="nickNamePass">
                                 닉네임 중복검사
@@ -122,8 +122,8 @@
                   large
                   outlined
                   style="font-size: 13px"
-                  class="mt-3 ml-5"
-                  color="blue lighten-1"
+                  class="mt-3 ml-5  brown darken-2 white--text"
+                
                   @click="callDaumAddressApi"
                   :disabled="false"
                 >
@@ -136,8 +136,7 @@
                 block
                 x-large
                 rounded
-                class="mt-6"
-                color="purple lighten-1"
+                class="mt-6  brown darken-2 white--text"
                 :disabled="(emailPass && nickNamePass && streetPass &&authorityPass) == false"
               >
                 가입하기

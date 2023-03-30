@@ -19,7 +19,7 @@
     <v-pagination
       v-model="curPageNum"
       :length="numOfPages"
-      color="brown lighten-1"
+      color="brown darken-2"
       class="mt-10"
       flat
     ></v-pagination>

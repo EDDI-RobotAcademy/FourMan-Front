@@ -202,11 +202,11 @@
         <!-- 등록하기 -->
         <v-row class="justify-center mt-15 mb-5">
           <div>
-            <v-btn @click="cancel" large style="width: 200px; font-size: 18px"
+            <v-btn @click="cancel" class="brown darken-2 white--text" large style="width: 200px; font-size: 18px"
               >취소</v-btn
             >
 
-            <v-btn type="submit" large style="width: 200px; font-size: 18px"
+            <v-btn type="submit" class="brown darken-2 white--text" large style="width: 200px; font-size: 18px"
               >등록
             </v-btn>
           
