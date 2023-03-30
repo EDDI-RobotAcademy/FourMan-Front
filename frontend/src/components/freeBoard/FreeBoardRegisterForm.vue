@@ -18,12 +18,10 @@
         </tr>
         <tr>
           <td style="text-align: center;">
-            <router-link :to="{ name: 'FreeBoardListPage' }">
-              <v-btn class="me-2 brown lighten-1 white--text">
+              <v-btn class="me-2 brown darken-2 white--text" :to="{ name: 'FreeBoardListPage' }">
                 취소
               </v-btn>
-            </router-link>
-            <v-btn type="submit" class="brown lighten-1 white--text">등록</v-btn>
+            <v-btn type="submit" class="brown darken-2 white--text">등록</v-btn>
           </td>
         </tr>
       </table>

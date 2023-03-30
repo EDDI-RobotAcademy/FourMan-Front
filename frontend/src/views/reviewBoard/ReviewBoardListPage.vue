@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <h2 class="mt-5 mb-5 text-center">리뷰 게시판</h2>
-    <review-board-list-form :reviewBoards="reviewBoards"/>
-    <v-btn @click="loginCheck" class="brown lighten-1 white--text">
-        리뷰 등록
+    <review-board-list-form class="mt-5 mb-5" :reviewBoards="reviewBoards"/>
+    <v-btn class="mt-5 mb-5 me-5 brown darken-2 white--text" style="float:right;" @click="loginCheck">
+      <h4>리뷰 등록</h4>
     </v-btn>
   </v-container>
 </template>
