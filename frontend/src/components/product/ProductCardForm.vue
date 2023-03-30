@@ -1,8 +1,8 @@
 <template>
-   <v-container>
+   <div>
       <v-card align="center">
-         <div>
-            <v-img :src="require(`@/assets/product/uploadImgs/${data.imageResourcePath}`)" width="100px" height="150px">
+         <div class="pt-2">
+            <v-img :src="require(`@/assets/product/uploadImgs/${data.imageResourceList[0].imageResourcePath}`)" width="50px" height="100px">
                <template v-slot:placeholder>
                   <div class="fill-height ma-0" align="center" justify="center">
                      <v-progress-circular indeterminate color="grey lighten-5"/>
@@ -10,17 +10,17 @@
                </template>
             </v-img>
          </div>
-         <div>
+         <div class="mt-2">
             <p>{{ data.productName }}</p>
          </div>
          <div>
-            <p>{{ data.price }}원</p> 
+            <p>{{ data.price | comma }}원</p> 
          </div>
-         <div>
+         <div class="pb-2">
             <v-btn color="blue-grey lighten-1" @click="addCart(data)">장바구니 담기</v-btn>
          </div>
       </v-card>
-   </v-container>
+   </div>
 </template>
 
 <script>
@@ -41,7 +41,12 @@ export default {
       addCart(data) {
          this.$emit('addCart', data)
       }
-   }
+   },
+   filters: {
+    comma(val) {
+      return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+   },
 }
 </script>
 

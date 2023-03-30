@@ -7,6 +7,8 @@ export default {
    // 상품 관련
    products: [],
    productImages: [],
+   allOfProducts: [],
+
    // 보드 관련
    freeBoards: [],
    freeBoard: {},

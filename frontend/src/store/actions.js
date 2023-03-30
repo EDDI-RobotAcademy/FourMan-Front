@@ -7,7 +7,8 @@ import {
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
-   REQUEST_PRODUCT_CART_TO_SPRING,
+   REQUEST_ALL_PRODUCT_TO_SPRING,
+
    // 보드 관련
    REQUEST_FREE_BOARD_LIST_TO_SPRING,
    REQUEST_FREE_BOARD_TO_SPRING,
@@ -87,6 +88,14 @@ export default {
          console.log('imageList: ' + JSON.stringify(res.data))
          })
    },
+   requestAllOfProductToSpring ({ commit }) {
+    return axios.get('http://localhost:8888/product/all')
+        .then((res) => {
+            commit(REQUEST_ALL_PRODUCT_TO_SPRING, res.data)
+            console.log("allProduct: " + JSON.stringify(res.data))
+        })
+   },
+
    // 보드 관련
    requestCreateFreeBoardToSpring ({ }, payload) {
       const { title, content, writer, memberId } = payload
