@@ -3,8 +3,8 @@
       <div align="center">
         <review-board-read-form v-if="reviewBoard" :reviewBoard="reviewBoard" :reviewBoardImages="reviewBoardImages" />
         <p v-else>로딩중 .......... </p>
-        <button>수정</button>
-        <button @click="onDelete">삭제</button>
+        <button class="brown lighten-1 white--text">수정</button>
+        <button @click="onDelete" class="brown lighten-1 white--text">삭제</button>
         <router-link :to="{ name: 'ReviewBoardListPage' }">
           돌아가기
         </router-link>

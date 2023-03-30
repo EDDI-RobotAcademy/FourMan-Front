@@ -14,7 +14,7 @@
     </div>
 
     <div class="form-buttons">
-      <button type="submit">Register</button>
+      <button type="submit" class="brown lighten-1 white--text">Register</button>
       <button @click="moveToListPage">
           Cancel
       </button>

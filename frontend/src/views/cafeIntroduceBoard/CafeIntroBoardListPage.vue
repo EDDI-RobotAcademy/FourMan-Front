@@ -8,8 +8,8 @@
       <!-- <router-link :to="{ name: 'CafeIntroBoardRegisterPage' }">
         카페 등록
       </router-link> -->
-      <v-btn type="button" @click="checkCafeNum" large style="width: 200px; font-size: 18px"
-              >카페등록
+      <v-btn type="button" class="brown lighten-1 white--text" @click="checkCafeNum" large style="width: 100px; font-size: 18px"
+              >카페 등록
        </v-btn>
     </div>
   </v-container>

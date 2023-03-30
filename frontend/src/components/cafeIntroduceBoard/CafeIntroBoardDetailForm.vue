@@ -16,7 +16,8 @@
                     cycle
                     hide-delimiter-background
                     show-arrows-on-hover
-                    height="100%">
+                    max-height="400px;"
+                    >
                 <v-carousel-item
                     contain
                 v-for="(imageName,i) in cafe.cafeInfo.cafeImagesName"
@@ -58,10 +59,10 @@
         </v-row>
         <br>
         <v-row>
-        <div class="grey--text font-weight-light">
+        <div class="grey--text ">
         <span>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</span> &nbsp; &nbsp; &nbsp;
         <span>영업 시간: {{ cafe.startTime }} ~ {{ cafe.endTime }}</span> &nbsp; &nbsp; &nbsp;
-        <v-btn color="deep-purple" text @click="reserve">
+        <v-btn class="brown lighten-1 white--text" text @click="reserve">
           예약하기
         </v-btn>
         </div>

@@ -3,7 +3,7 @@
     <div class="cafeInfo">
       <template slot="progress">
         <v-progress-linear
-          color="deep-purple"
+          color="brown lighten-1"
           height="10"
           indeterminate
         ></v-progress-linear>
@@ -58,7 +58,7 @@
       <v-card-text>
         <v-chip-group
           v-model="selection"
-          active-class="deep-purple accent-4 white--text"
+          active-class="brown lighten-1 white--text"
           column
         >
           <!-- 예약시스템 작업후 업데이트요망 -->
@@ -70,10 +70,10 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="deep-purple lighten-2" text @click="reserve">
+        <v-btn class="brown lighten-1 white--text"  text @click="reserve">
           예약
         </v-btn>
-         <v-btn color="deep-purple lighten-2" text @click="showDetail">
+         <v-btn class="brown lighten-1 white--text" text @click="showDetail">
           상세 보기
         </v-btn>
       </v-card-actions>

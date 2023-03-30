@@ -4,10 +4,10 @@
             <question-board-read-form v-if="questionBoard" :questionBoard="questionBoard" />
             <p v-else> 로딩중...</p>
             <router-link :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
-                <v-btn> 수정 </v-btn>
+                <v-btn class="brown lighten-1 white--text"> 수정 </v-btn>
             </router-link>
             <router-link :to="{ name: 'QuestionBoardListPage' }">
-                <v-btn @click="showConfirm"> 삭제 </v-btn>
+                <v-btn @click="showConfirm" class="brown lighten-1 white--text"> 삭제 </v-btn>
             </router-link>
         </div>
         <v-divider></v-divider>
