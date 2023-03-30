@@ -252,6 +252,15 @@ export default {
             .then((res) => {
                 commit(REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING, res.data)
             })
-    }
-
+    },
+    requestQuestionBoardCommentDeleteToSpring ({}, commentId) {
+        console.log('delete 전송 되냐?')
+        return axios.delete(`http://localhost:8888/question-board/comment/${commentId}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+}
 }
