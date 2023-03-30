@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 import MainPage from "@/views/MainPage.vue"
 
@@ -26,6 +25,7 @@ import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPa
 //리뷰 게시판 관련
 import ReviewBoardRegisterPage from '@/views/reviewBoard/ReviewBoardRegisterPage.vue'
 import ReviewBoardListPage from '@/views/reviewBoard/ReviewBoardListPage.vue'
+import ReviewBoardReadPage from '@/views/reviewBoard/ReviewBoardReadPage.vue'
 
 //상품관련
 import ProductRegisterPage from '@/views/product/ProductRegisterPage.vue'
@@ -46,12 +46,6 @@ const routes = [
   //공통 페이지 관련
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-
-  {
-    path: '/main',
     name: 'MainPage',
     component: MainPage
   },
@@ -217,6 +211,16 @@ const routes = [
     path: '/review-board-list-page',
     name: 'ReviewBoardListPage',
     component: ReviewBoardListPage
+  },
+  {
+    path: '/review-board-read-page/:reviewBoardId',
+    name: 'ReviewBoardReadPage',
+    components: {
+      default: ReviewBoardReadPage
+    },
+    props: {
+      default: true
+    }
   },
   //질문 게시판 관련
   {

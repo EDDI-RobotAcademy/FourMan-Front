@@ -74,7 +74,8 @@
       </v-card>
       <v-container style="width: 800px">
           <v-btn width="100%" height="40px" elevation="0" style="background-color: #5F4F4F; color: white"
-                 @click="totalOrder">
+                 @click="totalOrder"
+                 class="brown lighten-1 white--text">
             <h4>구매하기</h4>
           </v-btn>
         </v-container>

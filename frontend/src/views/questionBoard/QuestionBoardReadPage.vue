@@ -4,11 +4,18 @@
             <question-board-read-form v-if="questionBoard" :questionBoard="questionBoard" />
             <p v-else> 로딩중...</p>
             <router-link :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
-                <v-btn> 수정 </v-btn>
+                <v-btn class="brown lighten-1 white--text"> 수정 </v-btn>
             </router-link>
             <router-link :to="{ name: 'QuestionBoardListPage' }">
-                <v-btn @click="showConfirm"> 삭제 </v-btn>
+                <v-btn @click="showConfirm" class="brown lighten-1 white--text"> 삭제 </v-btn>
             </router-link>
+        </div>
+        <v-divider></v-divider>
+        <question-board-comment-list-form :comments="comments"/>
+        <!-- 댓글 등록 form -->
+        <v-divider></v-divider>
+        <div align="center">
+            <question-board-comment-form @submit="onSubmitComment"></question-board-comment-form>
         </div>
     </v-container>
 </template>
@@ -17,12 +24,16 @@
 <script>
 
 import QuestionBoardReadForm from '@/components/questionBoard/QuestionBoardReadForm.vue';
+import QuestionBoardCommentForm from '@/components/questionBoard/comment/QuestionBoardCommentForm.vue'
+import QuestionBoardCommentListForm from '@/components/questionBoard/comment/QuestionBoardCommentListForm.vue';
 import {mapActions, mapState} from 'vuex'
 
 export default {
     name: "QuestionBoardReadPage",
     components: {
         QuestionBoardReadForm,
+        QuestionBoardCommentForm,
+        QuestionBoardCommentListForm,
     },
 
     props: {
@@ -32,13 +43,14 @@ export default {
         }
     },
     computed: {
-        ...mapState(['questionBoard','questionBoardComments'])
+        ...mapState(['questionBoard','comments'])
     },
     methods: {
         ...mapActions([
             'requestQuestionBoardToSpring',
             'requestQuestionBoardDeleteToSpring',
-            'requestQuestionBoardCommentRegisterToSpring'
+            'requestQuestionBoardCommentRegisterToSpring',
+            'requestQuestionBoardCommentListToSpring'
     ]),
     showConfirm() {
         if(confirm('정말 삭제하시겠습니까?')) {
@@ -59,7 +71,8 @@ export default {
     created () {
         console.log('boardId : ' + this.boardId)
         this.requestQuestionBoardToSpring(this.boardId)
-ㄴ    }
+        this.requestQuestionBoardCommentListToSpring(this.boardId)
+       },
 
 }
 </script>

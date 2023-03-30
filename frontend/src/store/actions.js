@@ -3,7 +3,7 @@ import {
     REQUEST_CAFE_LIST_TO_SPRING,
     REQUEST_CAFE_NUM_TO_SPRING,
     REQUEST_CAFE_DETAIL_TO_SPRING,
-    
+
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
@@ -19,6 +19,11 @@ import {
 
    //리뷰 게시판 관련
    REQUEST_REVIEW_BOARD_LIST_TO_SPRING,
+   REQUEST_REVIEW_BOARD_TO_SPRING,
+   REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING,
+
+   //댓글 관련
+   REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -41,7 +46,7 @@ export default {
         console.log("requestCafeNumToSpring() 작동")
         return axios.post(`http://localhost:8888/cafe/check-code/${ JSON.parse(localStorage.getItem('userInfo')).code}`)
         .then((res)=>{
-            console.log("성공res.data:",res.data) 
+            console.log("성공res.data:",res.data)
             commit(REQUEST_CAFE_NUM_TO_SPRING,res.data)
         })
         .catch((res)=>{
@@ -142,7 +147,7 @@ export default {
                 alert("문제 발생!")
             })
     },
-    
+
     // 리뷰게시판 관련
     requestCreateReviewBoardToSpring ({}, formData) {
 
@@ -159,6 +164,27 @@ export default {
         return axios.get('http://localhost:8888/review-board/list')
             .then((res) => {
                 commit(REQUEST_REVIEW_BOARD_LIST_TO_SPRING, res.data)
+            })
+    },
+    requestReviewBoardToSpring ({ commit }, reviewBoardId) {
+        return axios.get(`http://localhost:8888/review-board/${reviewBoardId}`)
+            .then((res) => {
+                commit(REQUEST_REVIEW_BOARD_TO_SPRING, res.data)
+            })
+    },
+    requestReviewBoardImageToSpring ({ commit }, reviewBoardId) {
+        return axios.get(`http://localhost:8888/review-board/imageList/${reviewBoardId}`)
+            .then((res) => {
+                commit(REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING, res.data)
+            })
+    },
+    requestDeleteReviewBoardToSpring ({}, reviewBoardId) {
+        return axios.delete(`http://localhost:8888/review-board/${reviewBoardId}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
             })
     },
 
@@ -209,4 +235,23 @@ export default {
                 alert("문제 발생!")
             })
 },
+    //댓글 관련
+    requestQuestionBoardCommentRegisterToSpring( {}, payload) {
+        const {comment, boardId, commentWriter} = payload
+        console.log('데이터보내져랏')
+        return axios.post('http://localhost:8888/question-board/comment/register',
+            {comment, boardId, commentWriter})
+        .then(() =>{
+            alert('댓글 등록 완료')
+        })
+    },
+
+    requestQuestionBoardCommentListToSpring( { commit }, boardId ) {
+        console.log('commentList :')
+        return axios.get(`http://localhost:8888/question-board/comment/${boardId}`)
+            .then((res) => {
+                commit(REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING, res.data)
+            })
+    }
+
 }

@@ -27,11 +27,11 @@
       <tr>
         <td style="text-align: center;">
           <router-link :to="{ name: 'QuestionBoardListPage' }">
-            <v-btn class="me-2">
+            <v-btn class="me-2 brown lighten-1 white--text">
               취소
             </v-btn>
           </router-link>
-          <v-btn type="submit">등록</v-btn>
+          <v-btn type="submit" class="brown lighten-1 white--text">등록</v-btn>
         </td>
       </tr>
     </table>

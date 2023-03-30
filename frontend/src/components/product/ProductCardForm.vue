@@ -16,8 +16,8 @@
          <div>
             <p>{{ data.price | comma }}원</p> 
          </div>
-         <div class="pb-2">
-            <v-btn color="blue-grey lighten-1" @click="addCart(data)">장바구니 담기</v-btn>
+         <div>
+            <v-btn class="brown lighten-1 white--text" @click="addCart(data)">장바구니 담기</v-btn>
          </div>
       </v-card>
    </div>
