@@ -1,7 +1,6 @@
 <template>
    <div justify="center">
-      <!-- <product-list-form :products="products" :productImages="productImages"></product-list-form> -->
-      <product-list-form :datas="allOfProducts"></product-list-form>
+      <product-list-form :datas="allOfProducts" :categoryDatas="categoryDatas" @categoryData="categoryData"></product-list-form>
    </div>
 </template>
 
@@ -17,7 +16,7 @@ export default {
    },
    data() {
       return {
-         
+         categoryDatas: []
       }
    },
    computed: {
@@ -25,20 +24,23 @@ export default {
          'products',
          'productImages',
          'allOfProducts',
-      ])
+      ]),
    },
    methods: {
       ...mapActions([
          'requestProductListToSpring',
          'requestProductImageListToSpring',
          'requestAllOfProductToSpring'
-      ])
+      ]),
+      categoryData(payload) {
+         this.categoryDatas = payload
+      }
    },
    async mounted() {
       await this.requestProductImageListToSpring()
       await this.requestProductListToSpring()
       await this.requestAllOfProductToSpring()
-   }
+   },
 }
 </script>
 

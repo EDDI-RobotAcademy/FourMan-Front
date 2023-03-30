@@ -1,19 +1,32 @@
 <template>
-   <div>
-      <div>
-         <v-row>
-            <v-col v-if="!products || (Array.isArray(products) && products.length === 0)">
-               <p>상품이 존재하지 않습니다.</p>
-            </v-col>
-            <v-col v-for="(data, index) in datas" :key="index" cols="2">
-               <product-card-form :data="data" @addCart="addCart"/>
-            </v-col> 
-         </v-row>
+   <v-container style="width: 1000px">
+      <div class="mt-2">
+         <v-layout justify-end>
+            <v-btn-toggle borderless dense color="#2f4f4f">
+               <v-btn
+                  v-for="(btn, index) in categoryBtn" :key="index"
+                  elevation="0"
+                  color="white" @click="filterCategory(index)">
+                  <h4>{{ btn.name }}</h4>
+               </v-btn>
+            </v-btn-toggle>
+         </v-layout>
       </div>
-      <div>
+      <div v-if="!(Array.isArray(categoryDatas) && categoryDatas.length === 0)" class="mt-10">
+         <product-card-form :datas="categoryDatas" @addCart="addCart"/>
+      </div>
+      <div v-else class="mt-10">
+         <product-card-form :datas="datas" @addCart="addCart"/>
+      </div>
+      <div class="text-right mr-5 mt-15">
+         <v-btn class="brown darken-2 white--text" @click="registerProduct">
+               상품 등록
+         </v-btn>
+      </div>
+      <div class="mt-15">
          <product-cart-form :cartItems="cartItems" />
       </div>
-   </div>
+   </v-container>
 </template>
 
 <script>
@@ -28,46 +41,55 @@ export default {
    },
    data() {
       return {
-         datas: [],
          cartItems: [],
+         categoryBtn : [
+            {name: "전체 메뉴", btnCheck: false, value: 'ALL'},
+            {name: "커피/라떼", btnCheck: false, value: 'COFFEE & LATTE'},
+            {name: "버블티/논커피", btnCheck: false, value: 'BUBBLETEA & NON-COFFEELATTE'},
+            {name: "스파클링/티", btnCheck: false, value: 'SPARKLING & TEA'},
+            {name: "스무디/과일음료", btnCheck: false, value: 'SMOOTHIE & FRUIT BEVERAGE'},
+         ],
+         category: '',
+         items: []
       }
    },
    props: {
-      products: {
+      datas: {
          type: Array,
+         required: true,
       },
-      productImages: {
+      categoryDatas: {
          type: Array,
+         required: true,
       }
    },
-   async beforeUpdate() {
-      const products = this.products
-      const productImages = this.productImages
-      const datas = products.map((product, index) => {
-         return {
-            imageResourcePath: productImages[index].imageResourcePath,
-            productId: product.productId,
-            productName: product.productName,
-            price: product.price,
-            count: 1,
-            totalPrice: product.price,
-         }
-      })
-      this.datas = datas
-      console.log('datas: ' + JSON.stringify(datas))
-    },
-    methods: {
+   methods: {
       addCart(receiveData) {
          var data = receiveData
 
          let item = this.cartItems.find((item) => item.productId === data.productId);
          if(item) {
             item.count++;
+            item.totalPrice = item.price * item.count
          } else {
             this.cartItems.push(data)
          }
+      },
+      filterCategory(index) {
+         this.category = this.categoryBtn[index].value
+         if(this.category === 'All'){
+            this.$emit('categoryData', this.datas)
+         } else {
+            const categoryData = this.datas.filter((value) => value.drinkType == this.category)
+            this.$emit('categoryData', categoryData)
+         }
+      },
+      registerProduct() {
+         this.$router.push( {
+            name: 'ProductRegisterPage'
+          })
       }
-    },
+   },
 }
 </script>
 

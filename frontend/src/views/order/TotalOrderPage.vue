@@ -1,7 +1,7 @@
 <template>
    <v-container>
       <div>
-         <total-order-form :cartItems="cartItems" :totalPrice="totalPrice" />
+         <total-order-form :cartItems="cartItems" :totalOrderPrice="totalOrderPrice"/>
       </div>
    </v-container>
 </template>
@@ -17,12 +17,14 @@ export default {
    data() {
       return {
          cartItmes: [],
-         totalPrice: 0,
+         totalOrderPrice: 0,
       }
    },
    async created() {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
-      this.totalPrice = localStorage.getItem('totalPrice')
+      for(let i = 0; i < this.cartItems.length; i++) {
+             this.totalOrderPrice += this.cartItems[i].totalPrice
+      } 
    }
 }
 </script>

@@ -5,6 +5,11 @@
       <input type="file" id="files" ref="files" @change="handleFileUpload"/>
     </div>
     <div class="form-field">
+      <label>DrinkType</label>
+      <v-select v-model="drinkType" @change="drinkTypeSelect" label="DrinkType" :items="drinkTypeList">
+      </v-select>
+    </div>
+    <div class="form-field">
       <label for="productName">Product name</label>
       <input type="text" id="productName" v-model="productName"/>
     </div>
@@ -12,12 +17,9 @@
       <label for="price">Price</label>
       <input type="text" id="price" v-model="price"/>
     </div>
-
-    <div class="form-buttons">
-      <button type="submit" class="brown lighten-1 white--text">Register</button>
-      <button @click="moveToListPage">
-          Cancel
-      </button>
+    <div>
+        <v-btn class="brown darken-2 white--text" @click="onSubmit">Register</v-btn>
+        <v-btn class="brown darken-2 white--text" @click="moveToListPage">Cancel</v-btn>
     </div>
   </form>
 </template>
@@ -31,21 +33,25 @@ export default {
             productName: '상품명을 입력하세요.',
             price: 0,
             files: '',
+            drinkTypeList: ['COFFEE & LATTE', 'BUBBLETEA & NON-COFFEELATTE', 'SPARKLING & TEA', 'SMOOTHIE & FRUIT BEVERAGE'],
+            drinkType: ''
         }
     },
     methods: {
         onSubmit () {
+          
           let formData = new FormData()
 
           for(let idx = 0; idx < this.files.length; idx++) {
             formData.append('imageFileList', this.files[idx])
           }
 
-          const { productName, price } = this
+          const { productName, price, drinkType } = this
           
           let productInfo = {
             productName: productName,
             price: price,
+            drinkType: drinkType,
           }
 
           console.log('productInfo: ' + JSON.stringify(productInfo))
@@ -66,8 +72,13 @@ export default {
           this.$router.push( {
             name: 'ProductListPage'
           })
+        },
+        drinkTypeSelect(drinkType) {
+          this.drinkType = drinkType
         }
-
+    },
+    updated() {
+      console.log('drinkType: ' + this.drinkType)
     }
 }
 

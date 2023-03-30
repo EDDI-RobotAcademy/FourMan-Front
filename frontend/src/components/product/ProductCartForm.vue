@@ -41,7 +41,7 @@
               <div>
                 <h5 style="font-weight: normal">상품 금액</h5>
                 <span style="font-size: 30px; font-weight: bold">
-                  {{ this.totalPrice | comma}}
+                  {{ this.totalOrderPrice | comma}}
                 </span>
                 <span>원</span>
               </div>
@@ -63,7 +63,7 @@
               <div>
                 <h5 style="font-weight: normal">총 금액</h5>
                 <span style="font-size: 30px; font-weight: bold">
-                  {{ this.totalPrice + 3000 |comma}}
+                  {{ this.totalOrderPrice + 3000 |comma}}
                 </span>
                 <span>
                   원
@@ -88,7 +88,7 @@ export default {
    name: "ProductCartForm",
    data() {
       return {
-         totalPrice: 0,
+         totalOrderPrice: 0,
       }
    },
    props: {
@@ -109,16 +109,15 @@ export default {
          var item = this.cartItems[cartItem]
          item.count++
          item.totalPrice = item.price * item.count
-         this.totalPrice = item.totalPrice
+         this.totalOrderPrice = item.totalPrice
       },
       deleteCartItem(index) {
          this.cartItems.splice(index, 1);
       },
       totalOrder() {
-         console.log('orderButtonClick: ' + JSON.stringify(this.cartItems) + ' totalPrice:' + this.totalPrice)
+         const cartItems = this.cartItems
          
-         localStorage.setItem("cartItems", JSON.stringify(this.cartItems));
-         localStorage.setItem("totalPrice", JSON.stringify(this.totalPrice));
+         localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
          if((Array.isArray(this.cartItems) && this.cartItems.length === 0)) {
             alert('장바구니에 물품이 존재하지 않습니다.')
@@ -136,9 +135,9 @@ export default {
       cartItems: {
          deep: true,
          handler() {
-            this.totalPrice = 0;
+            this.totalOrderPrice = 0;
             for(let i = 0; i < this.cartItems.length; i++) {
-             this.totalPrice += this.cartItems[i].totalPrice
+             this.totalOrderPrice += this.cartItems[i].totalPrice
             }
          }
       }
