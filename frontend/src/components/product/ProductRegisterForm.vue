@@ -5,6 +5,11 @@
       <input type="file" id="files" ref="files" @change="handleFileUpload"/>
     </div>
     <div class="form-field">
+      <label for="price">DrinkType</label>
+      <v-select v-model="drinkType" @change="drinkTypeSelect" label="DrinkType" :items="drinkTypeList">
+      </v-select>
+    </div>
+    <div class="form-field">
       <label for="productName">Product name</label>
       <input type="text" id="productName" v-model="productName"/>
     </div>
@@ -14,7 +19,7 @@
     </div>
 
     <div class="form-buttons">
-      <button type="submit" class="brown lighten-1 white--text">Register</button>
+      <button type="submit">Register</button>
       <button @click="moveToListPage">
           Cancel
       </button>
@@ -31,6 +36,8 @@ export default {
             productName: '상품명을 입력하세요.',
             price: 0,
             files: '',
+            drinkTypeList: ['COFFEE & LATTE', 'BUBBLETEA & NON-COFFEELATTE', 'SPARKLING & TEA', 'SMOOTHIE & FRUIT BEVERAGE'],
+            drinkType: ''
         }
     },
     methods: {
@@ -41,11 +48,12 @@ export default {
             formData.append('imageFileList', this.files[idx])
           }
 
-          const { productName, price } = this
+          const { productName, price, drinkType } = this
           
           let productInfo = {
             productName: productName,
             price: price,
+            drinkType: drinkType,
           }
 
           console.log('productInfo: ' + JSON.stringify(productInfo))
@@ -66,8 +74,13 @@ export default {
           this.$router.push( {
             name: 'ProductListPage'
           })
+        },
+        drinkTypeSelect(drinkType) {
+          this.drinkType = drinkType
         }
-
+    },
+    updated() {
+      console.log('drinkType: ' + this.drinkType)
     }
 }
 
