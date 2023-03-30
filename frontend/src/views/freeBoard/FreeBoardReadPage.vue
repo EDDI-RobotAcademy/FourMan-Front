@@ -3,15 +3,13 @@
       <div align="center">
         <free-board-read-form v-if="freeBoard" :freeBoard="freeBoard"/>
         <p v-else>로딩중 .......... </p>
-        <v-btn @click="onModify" class="brown lighten-1 white--text">
+        <v-btn @click="onModify" class="brown darken-2 white--text me-2">
           게시물 수정
         </v-btn>
-        <v-btn @click="onDelete">삭제</v-btn>
-        <router-link :to="{ name: 'FreeBoardListPage' }">
-          <v-btn class="brown lighten-1 white--text">
-            돌아가기
-          </v-btn>
-        </router-link>
+        <v-btn class="brown darken-2 white--text me-2" @click="onDelete">삭제</v-btn>
+        <v-btn class="brown darken-2 white--text" :to="{ name: 'FreeBoardListPage' }">
+          돌아가기
+        </v-btn>
       </div>
     </v-container>
   </template>

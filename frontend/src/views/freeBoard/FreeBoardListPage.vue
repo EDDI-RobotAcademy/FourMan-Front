@@ -3,7 +3,7 @@
         <h2 class="mt-5 mb-5 text-center">자유게시판</h2>
         <free-board-list-form :freeBoards="freeBoards"/>
         <div class="text-right">
-          <v-btn class="mt-5 me-3 brown lighten-1 white--text" @click="loginCheck">
+          <v-btn class="mt-5 me-3 brown darken-2 white--text" @click="loginCheck">
             게시물 작성
         </v-btn>
         </div>

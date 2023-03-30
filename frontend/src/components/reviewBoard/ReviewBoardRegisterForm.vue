@@ -42,12 +42,12 @@
           </tr>
           <tr>
             <td style="text-align: center;">
-              <router-link :to="{ name: 'FreeBoardListPage' }">
-                <v-btn class="me-2">
-                  취소
-                </v-btn>
-              </router-link>
-              <v-btn type="submit">등록</v-btn>
+              <v-btn class="me-2 brown darken-2 white--text" :to="{ name: 'ReviewBoardListPage' }">
+                <h4>취소</h4>
+              </v-btn>
+              <v-btn class="brown darken-2 white--text" type="submit">
+                <h4>등록</h4>
+              </v-btn>
             </td>
           </tr>
         </table>
