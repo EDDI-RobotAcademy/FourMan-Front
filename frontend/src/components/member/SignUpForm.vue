@@ -3,12 +3,12 @@
     <v-row justify="center">
       <v-col cols="auto" style="padding-bottom: 90px">
         <router-link to="/">
-          <v-img :src="require('@/assets/logo.png')" width="60" class="mb-6" />
+          <v-img :src="require('@/assets/logo.png')" width="100" class="mx-auto mb-6" />
         </router-link>
         <v-card width="460">
           <v-card-text class="text-center px-12 py-16">
             <v-form @submit.prevent="onSubmit" ref="form">
-              <div class="text-h4 font-weight-black mb-10">회원 가입</div>
+              <div class="text-h4 font-weight-black mb-10 brown--text">회원 가입</div>
 
               <div class="d-flex">
                 <v-text-field
@@ -20,7 +20,7 @@
                   required
                 />
                 <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-0 ml-5 mr-0"
+                                class="mt-0 ml-5 mr-0 brown darken-2 white--text"
                                 @click="checkDuplicateEmail"
                                 :disabled="emailPass"
               >이메일 중복 확인
@@ -54,7 +54,7 @@
                 <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required  color="black"/>
 
                 <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-0 ml-5 mr-0"
+                                class="mt-0 ml-5 mr-0 brown darken-2 white--text"
                                 @click="checkDuplicateNickName"
                                 :disabled="nickNamePass"
               >닉네임 중복 확인
@@ -111,8 +111,7 @@
                   large
                   outlined
                   style="font-size: 13px"
-                  class="mt-3 ml-5"
-                  color="blue lighten-1"
+                  class="mt-3 ml-5 brown darken-2 white--text"
                   @click="callDaumAddressApi"
                   :disabled="false"
                 >
@@ -125,8 +124,7 @@
                 block
                 x-large
                 rounded
-                class="mt-6"
-                color="purple lighten-1"
+                class="mt-6 brown darken-2 white--text"
                 :disabled="(emailPass && nickNamePass && streetPass) == false"
               >
                 가입하기

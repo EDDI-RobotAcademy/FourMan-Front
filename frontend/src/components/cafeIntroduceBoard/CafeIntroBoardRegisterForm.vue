@@ -7,9 +7,9 @@
         <v-row>
           <v-col cols="3">
             <v-row>
-              <h3 class="mt-1 ml-1">대표 이미지</h3>
+              <h3 class="mt-1 ml-1 brown--text">대표 이미지</h3>
               <div>
-                <v-btn class="mt-0" text>
+                <v-btn class="mt-0 ml-2 brown darken-2 white--text" text>
                   <label for="thumbnailFile">
                     <v-icon>mdi-camera</v-icon><v-icon>mdi-plus</v-icon>
                   </label>
@@ -149,7 +149,7 @@
         <v-row class="mt-10">
           <v-col cols="2"><h4>카페 상세 사진</h4></v-col>
           <div class="ml-0">
-            <v-btn class="ma-2" color="#205C37" outlined elevation="1">
+            <v-btn class="ma-2 brown darken-2 white--text"  outlined elevation="1">
               <label for="multipleFiles">
                 upload
                 <v-icon>mdi-camera</v-icon>
@@ -202,11 +202,11 @@
         <!-- 등록하기 -->
         <v-row class="justify-center mt-15 mb-5">
           <div>
-            <v-btn @click="cancel" large style="width: 200px; font-size: 18px"
+            <v-btn @click="cancel" class="brown darken-2 white--text" large style="width: 200px; font-size: 18px"
               >취소</v-btn
             >
 
-            <v-btn type="submit" large style="width: 200px; font-size: 18px"
+            <v-btn type="submit" class="ml-3 brown darken-2 white--text" large style="width: 200px; font-size: 18px"
               >등록
             </v-btn>
           

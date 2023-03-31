@@ -15,7 +15,7 @@
             <v-card-text class="text-center px-12 py-16">
 
               <v-form @submit.prevent="onSubmit">
-                <div class="text-h4 font-weight-black mb-10">로그인</div>
+                <div class="text-h4 font-weight-black mb-10 brown--text">로그인</div>
 
                 <div class="d-flex">
                   <v-text-field
@@ -45,8 +45,7 @@
                     block
                     x-large
                     rounded
-                    color="orange lighten-1"
-                    class="mt-6"
+                    class="mt-6 brown darken-2 white--text"
                     :disabled="false"
                 >로그인</v-btn><br/>
 
@@ -54,13 +53,13 @@
                   <v-row>
                     <v-col>
                       <router-link
-                          class="text-decoration-none purple--text mr-5"
+                          class="text-decoration-none brown--text mr-5"
                           to="/sign-up-choice"
                       >회원가입</router-link>
                     </v-col>
                     <v-col>
                       <router-link
-                          class="text-decoration-none purple--text ml-5 mr-5"
+                          class="text-decoration-none brown--text ml-5 mr-5"
                           to="/search-password"
                       >PW 찾기</router-link>
                     </v-col>

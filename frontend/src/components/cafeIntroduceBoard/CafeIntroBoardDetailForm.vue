@@ -62,7 +62,7 @@
         <div class="grey--text ">
         <span>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</span> &nbsp; &nbsp; &nbsp;
         <span>영업 시간: {{ cafe.startTime }} ~ {{ cafe.endTime }}</span> &nbsp; &nbsp; &nbsp;
-        <v-btn class="brown lighten-1 white--text" text @click="reserve">
+        <v-btn class="brown darken-2 white--text" text @click="reserve">
           예약하기
         </v-btn>
         </div>
