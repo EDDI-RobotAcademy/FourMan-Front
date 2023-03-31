@@ -85,7 +85,7 @@
           <span>회원가입</span>
           <v-icon right>mdi-account-plus-outline</v-icon>
         </v-btn>
-        <v-btn v-else text color="white" >
+        <v-btn v-else text color="white" onclick="location.href='http://localhost:8887/member-my-page'">
           <span>마이 페이지</span>
           <!-- 아이콘 수정 필요  -->
         </v-btn>
