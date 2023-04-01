@@ -29,22 +29,20 @@
           </span>
         </router-link>
 
-        <router-link to="" style="text-decoration: none">
+        <router-link to="seats" style="text-decoration: none">
           <span class="">
-            <v-btn text color="white" dark v-on="on"> 자리 예약 </v-btn>
+            <v-btn text color="white" dark > 자리 예약 </v-btn>
           </span>
         </router-link>
 
         <router-link to="product-list-page" style="text-decoration: none">
           <span class="">
-            <v-btn text color="white" dark v-on="on"> 포장 주문 </v-btn>
+            <v-btn text color="white" dark > 포장 주문 </v-btn>
           </span>
         </router-link>
 
         <v-menu open-on-hover offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn text color="white" dark v-on="on">커뮤니티</v-btn>
-          </template>
+            <v-btn text color="white" dark>커뮤니티</v-btn>
           <v-list color="brown lighten-1">
             <v-list-item
               v-for="(item, index) in comunityList"
@@ -58,9 +56,7 @@
         </v-menu>
 
         <v-menu open-on-hover offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn text color="white" dark v-on="on">고객센터</v-btn>
-          </template>
+            <v-btn text color="white" dark >고객센터</v-btn>
           <v-list color="brown lighten-1">
             <v-list-item
               v-for="(item, index) in serviceCenterList"
@@ -120,12 +116,6 @@ export default {
   name: "NavigationMenuForm",
   data() {
     return {
-      items: [
-        { title: "Click Me" },
-        { title: "Click Me" },
-        { title: "Click Me" },
-        { title: "Click Me 2" },
-      ],
 
       isTrue: false,
       comunityList: ["자유게시판", "리뷰게시판"],

@@ -146,10 +146,10 @@
 export default {
     name:"CafeIntroBoardDetailForm",
     props: {
-    cafe: {
-      type: Object,
-      required: true,
-    },
+      cafe: {
+        type: Object,
+        required: true,
+      },
 
   },
   data: () => ({
