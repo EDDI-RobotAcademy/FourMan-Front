@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import MainPage from "@/views/MainPage.vue"
+import MainPage from "@/views/MainPage.vue";
+
+//예약페이지관련
+
+import HallSeatPage from "@/views/hallSeat/HallSeatPage";
 
 //로그인관련
 import SignUpPage from "@/views/member/SignUpPage";
@@ -49,6 +53,19 @@ const routes = [
     path: '/',
     name: 'MainPage',
     component: MainPage
+  },
+
+  //예약 페이지 관련
+  {
+    path: '/seats',
+    name: 'HallSeatPage',
+    components: {
+      default: HallSeatPage
+    },
+    props: {
+      default: true
+    }
+
   },
 
   //카페소개 게시판 관련
@@ -247,11 +264,6 @@ const routes = [
         next('/sign-in');
       }
     }
-  },
-  {
-    path: '/review-board-list-page',
-    name: 'ReviewBoardListPage',
-    component: ReviewBoardListPage
   },
   {
     path: '/question-board-register-page',
