@@ -55,6 +55,7 @@
   </template>
   
   <script>
+import axios from 'axios';
   export default {
     data() {
       return {
@@ -65,7 +66,7 @@
         files: '',
         memberId: JSON.parse(localStorage.getItem('userInfo')).id,
         rating: 3,
-        cafeList: ['스타벅스', '이디야', '할리스', '탐앤탐스'],
+        cafeList: [],
       };
     },
     methods: {
@@ -95,6 +96,18 @@
         this.$emit('submit', formData)
         },
     },
+    created() {
+      return axios.get(`http://localhost:8888/cafe/list`)
+            .then((res) => {
+                console.log("res.data : " + res.data[0].cafeName)
+                for (let idx = 0; idx < res.data.length; idx++) {
+                  this.cafeList.push(res.data[idx].cafeName)
+                }
+            })
+            .catch((error) => {
+                alert('리뷰를 작성할 카페가 없습니다.')
+            })
+    }
   };
   </script>
   
