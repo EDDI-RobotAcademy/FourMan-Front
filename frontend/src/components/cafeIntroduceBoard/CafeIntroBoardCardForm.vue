@@ -14,6 +14,7 @@
           :to="{
             name: 'CafeIntroBoardDetailPage',
             params: { cafeId: cafe.cafeId.toString() },
+            query: { rating: rating, totalRating: totalRating }
           }"
         >
           <v-img
@@ -29,7 +30,7 @@
       <v-card-text>
         <v-row align="center" class="mx-0">
           <v-rating
-            :value="4.5"
+            :value=rating
             color="amber"
             dense
             half-increments
@@ -38,7 +39,7 @@
           ></v-rating>
 
           <div class="grey--text ms-4">
-            4.5 (413)
+            {{ rating.toFixed(1) }} ({{ totalRating }})
             <!-- 별점과 참여자수 업뎃요망 -->
           </div>
         </v-row>
@@ -83,6 +84,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "CafeIntroBoardCardForm",
   props: {
@@ -94,6 +96,8 @@ export default {
   data: () => ({
     loading: false,
     selection: 1,
+    rating: 0,
+    totalRating: 0,
   }),
   methods: {
 
@@ -107,5 +111,14 @@ export default {
                            params:{cafeId: this.cafe.cafeId.toString()}});
     }
   },
+  created() {
+      return axios.get(`http://localhost:8888/review-board/rating/${this.cafe.cafeName}`)
+            .then((res) => {
+                console.log("res.data : " + res.data)
+                const sum = res.data.reduce((acc, cur) => acc + cur, 0);
+                this.rating = (sum / res.data.length)
+                this.totalRating = res.data.length
+            })
+    }
 };
 </script>
