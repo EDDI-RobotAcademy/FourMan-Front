@@ -1,6 +1,8 @@
 <template>
     <v-container>
-        <h2 class="mt-5 mb-5 text-center">자유게시판</h2>
+      <div class="EULJIRO mt-5 mb-5 text-center">
+        <h1>자유 게시판 <v-icon>mdi-bulletin-board</v-icon></h1>
+    </div>
         <free-board-list-form :freeBoards="freeBoards"/>
         <div class="text-right">
           <v-btn class="mt-5 me-3 brown darken-2 white--text" @click="loginCheck">
