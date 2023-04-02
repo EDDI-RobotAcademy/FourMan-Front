@@ -20,10 +20,10 @@
         </table>
   
         <div>
-          <v-btn type="submit" variant="primary" class="brown darken-2 white--text">수정 완료</v-btn>
-            <v-btn class="brown darken-2 white--text" :to="{ name: 'FreeBoardReadPage', params: { boardId: freeBoard.boardId.toString() } }">
+            <v-btn class="brown darken-2 white--text me-2" :to="{ name: 'FreeBoardReadPage', params: { boardId: freeBoard.boardId.toString() } }">
                 취소
             </v-btn>
+            <v-btn type="submit" variant="primary" class="brown darken-2 white--text">수정 완료</v-btn>
         </div>
       </form>
     </div>
