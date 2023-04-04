@@ -249,10 +249,10 @@ export default {
 },
     //댓글 관련
     requestQuestionBoardCommentRegisterToSpring( {}, payload) {
-        const {comment, boardId, commentWriter} = payload
+        const {comment, boardId, commentWriter,memberId} = payload
         console.log('데이터보내져랏')
         return axios.post('http://localhost:8888/question-board/comment/register',
-            {comment, boardId, commentWriter})
+            {comment, boardId, commentWriter, memberId})
         .then(() =>{
             alert('댓글 등록 완료')
         })
