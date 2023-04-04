@@ -77,10 +77,10 @@ export default {
         }
     },
     async onSubmitComment(payload) {
-        const { comment, commentWriter } = payload
+        const { comment, commentWriter, memberId} = payload
         const boardId = this.boardId
-        console.log("댓글 등록할 boardId:" + boardId)
-        await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter})
+        console.log("댓글 등록할 boardId:" + boardId +"memberId check" + memberId)
+        await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter, memberId})
         await this.$router.go((this.$router.currentRoute))
     },
 },

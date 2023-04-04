@@ -210,9 +210,9 @@ export default {
      },
 
     requestCreateQuestionBoardToSpring({}, payload) {
-        const { title, questionType, writer, content} = payload
+        const { title, questionType, writer, content, memberId} = payload
         return axios.post('http://localhost:8888/question-board/register',
-        { title, questionType, writer, content})
+        { title, questionType, writer, content, memberId})
             .then((res) => {
                 alert('게시물 등록 성공')
                 return res;
