@@ -56,6 +56,7 @@
   
   <script>
 import axios from 'axios';
+import router from '@/router';
   export default {
     data() {
       return {
@@ -106,6 +107,9 @@ import axios from 'axios';
             })
             .catch((error) => {
                 alert('리뷰를 작성할 카페가 없습니다.')
+                this.$router.push({
+                    name: 'ReviewBoardListPage',
+                })
             })
     }
   };
