@@ -97,11 +97,22 @@ methods: {
     await this.$router.go((this.$router.currentRoute))
   },
 
-  commentAuthorCheck(memberId) {
-            const loginId = JSON.parse(localStorage.getItem('userInfo')).id
-            console.log("memberId : "  + memberId)
-            const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
-            return loginId === memberId || authorityName === "MANAGER";
+  commentAuthorCheck(memberId1) {
+    if(JSON.parse(localStorage.getItem('userInfo'))) {
+      const loginId = JSON.parse(localStorage.getItem('userInfo')).id
+      const memberId = memberId1
+      const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+
+      if(loginId === memberId  || authorityName === "MANAGER") {
+        return true
+      } else {
+        return false
+      }
+    }
+
+    if(!JSON.parse(localStorage.getItem('userInfo'))) {
+      return false
+    }
       //작성자, 관리자만 댓글 삭제, 수정버튼이 나오도록 하는 권한체크
     },
   }
