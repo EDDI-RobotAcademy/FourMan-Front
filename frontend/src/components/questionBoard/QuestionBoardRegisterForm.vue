@@ -46,13 +46,14 @@ export default {
             title: '',
             questionType : '',   //select 내역인 questionType v-model 로 바인딩
             writer: JSON.parse(localStorage.getItem('userInfo')).nickName,
-            content: ''
+            content: '',
+            memberId: JSON.parse(localStorage.getItem('userInfo')).id
         }
     },
     methods: {
         onSubmit () {
-            const { title, questionType, writer, content } = this
-            this.$emit('submit', { title, questionType, writer, content })
+            const { title, questionType, writer, content, memberId } = this
+            this.$emit('submit', { title, questionType, writer, content, memberId })
         }
         // form으로 emit
     }

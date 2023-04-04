@@ -3,17 +3,17 @@
         <div align="center">
             <question-board-read-form v-if="questionBoard" :questionBoard="questionBoard" />
             <p v-else> 로딩중...</p>
-            <router-link :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
+            <router-link v-if="isAuthor" :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
                 <v-btn class="brown lighten-1 white--text"> 수정 </v-btn>
             </router-link>
-            <router-link :to="{ name: 'QuestionBoardListPage' }">
+            <router-link v-if="isAuthor" :to="{ name: 'QuestionBoardListPage' }">
                 <v-btn @click="showConfirm" class="brown lighten-1 white--text"> 삭제 </v-btn>
             </router-link>
         </div>
         <v-divider></v-divider>
         <question-board-comment-list-form
             :comments="comments"
-            @click="deleteComment"/>
+            :dialog="dialog"/>
         <!-- 댓글 등록 form -->
         <v-divider></v-divider>
         <div align="center">
@@ -32,6 +32,11 @@ import {mapActions, mapState} from 'vuex'
 
 export default {
     name: "QuestionBoardReadPage",
+    data () {
+        return {
+            dialog : false,
+        }
+    },
     components: {
         QuestionBoardReadForm,
         QuestionBoardCommentForm,
@@ -44,13 +49,17 @@ export default {
             required: true,
         },
     },
-    comment: {
-        type: Object,
-        required: true
-    },
     computed: {
-        ...mapState(['questionBoard','comments'])
-    },
+        ...mapState(['questionBoard','comments']),
+
+        isAuthor() {
+            const writer = this.questionBoard.writer;
+            const nickName = JSON.parse(localStorage.getItem('userInfo')).nickName
+            const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+            return nickName === writer || authorityName === "MANAGER";
+            //닉네임과 작성자가 일치하거나 매니저일경우에만 삭제, 수정버튼이 활성화됨
+        },
+},
     methods: {
         ...mapActions([
             'requestQuestionBoardToSpring',
@@ -68,10 +77,10 @@ export default {
         }
     },
     async onSubmitComment(payload) {
-        const { comment, commentWriter } = payload
+        const { comment, commentWriter, memberId} = payload
         const boardId = this.boardId
-        console.log("댓글 등록할 boardId:" + boardId)
-        await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter})
+        console.log("댓글 등록할 boardId:" + boardId +"memberId check" + memberId)
+        await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter, memberId})
         await this.$router.go((this.$router.currentRoute))
     },
 },

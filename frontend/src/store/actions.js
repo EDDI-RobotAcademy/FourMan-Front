@@ -210,9 +210,9 @@ export default {
      },
 
     requestCreateQuestionBoardToSpring({}, payload) {
-        const { title, questionType, writer, content} = payload
+        const { title, questionType, writer, content, memberId} = payload
         return axios.post('http://localhost:8888/question-board/register',
-        { title, questionType, writer, content})
+        { title, questionType, writer, content, memberId})
             .then((res) => {
                 alert('게시물 등록 성공')
                 return res;
@@ -249,10 +249,10 @@ export default {
 },
     //댓글 관련
     requestQuestionBoardCommentRegisterToSpring( {}, payload) {
-        const {comment, boardId, commentWriter} = payload
+        const {comment, boardId, commentWriter,memberId} = payload
         console.log('데이터보내져랏')
         return axios.post('http://localhost:8888/question-board/comment/register',
-            {comment, boardId, commentWriter})
+            {comment, boardId, commentWriter, memberId})
         .then(() =>{
             alert('댓글 등록 완료')
         })
@@ -274,5 +274,17 @@ export default {
             .catch(() => {
                 alert("문제 발생!")
             })
-}
+},
+    requestQuestionBoardCommentModifyToSpring(_, payload) {
+        console.log('comment Modify 전송')
+        const { commentId, commentModify } = payload
+        return axios.put(`http://localhost:8888/question-board/comment/${commentId}`,
+        { commentId, comment: commentModify })
+            .then(() => {
+                alert('수정 성공')
+            })
+            .catch(() => {
+                alert('오류 발생')
+            })
+        }
 }
