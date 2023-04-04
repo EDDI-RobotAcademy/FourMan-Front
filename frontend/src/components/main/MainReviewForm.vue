@@ -4,6 +4,9 @@
         <div class="EULJIRO mb-3">
             <h1>실시간 리뷰 <v-icon>mdi-camera</v-icon></h1>
         </div>
+        <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="reviewBoards.length === 0">
+          <h2>작성된 리뷰가 없습니다!</h2>
+        </div>
         <v-row>
           <v-col
             v-for="(reviewBoard, index) in reviewBoards.slice(0, 4)"

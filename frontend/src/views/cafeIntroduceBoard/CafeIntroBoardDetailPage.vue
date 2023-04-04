@@ -1,16 +1,19 @@
 <template>
   <div>
     <CafeIntroBoardDetailForm :cafe="cafe" />
+    <cafe-review-comment-form :cafe="cafe" />
   </div>
 </template>
 
 <script>
 import {mapActions, mapState} from "vuex";
 import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm"
+import CafeReviewCommentForm from '@/components/cafeIntroduceBoard/CafeReviewCommentForm.vue';
 export default {
     name: "CafeIntroBoardDetailage",
     components: {
-        CafeIntroBoardDetailForm
+        CafeIntroBoardDetailForm,
+        CafeReviewCommentForm
 
   },
   data(){

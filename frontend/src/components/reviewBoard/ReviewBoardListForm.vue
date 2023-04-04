@@ -1,6 +1,9 @@
 <template>
   <div class="main-container">
     <v-container>
+      <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="reviewBoards.length === 0">
+        <h2>작성된 리뷰가 없습니다!</h2>
+      </div>
       <v-row>
         <v-col
           v-for="(reviewBoard, index) in calData"
