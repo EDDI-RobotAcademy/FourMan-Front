@@ -36,14 +36,15 @@ export default {
     name: 'QuestionBoardCommentForm',
     data () {
         return {
-    commentWriter : JSON.parse(localStorage.getItem('userInfo')).nickName,
-    comment: '',
+            commentWriter : JSON.parse(localStorage.getItem('userInfo')).nickName,
+            comment: '',
+            memberId: JSON.parse(localStorage.getItem('userInfo')).id
         }
     },
     methods: {
         onSubmitComment() {
-            const {comment, commentWriter} = this
-            this.$emit('submit', {comment, commentWriter})
+            const {comment, commentWriter, memberId} = this
+            this.$emit('submit', {comment, commentWriter, memberId})
         }
     },
 

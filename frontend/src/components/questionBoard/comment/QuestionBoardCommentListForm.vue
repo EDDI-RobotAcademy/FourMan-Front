@@ -5,7 +5,7 @@
   <li v-for="comment in comments" :key="comment.commentId">
     <div> {{ comment.commentWriter }} |  {{ comment.comment }}
       <!-- 댓글 수정 버튼-->
-      <v-btn class="small-button" @click="openDialog(comment.commentId)" icon>
+      <v-btn v-if="commentAuthorCheck(comment.memberId)" class="small-button" @click="openDialog(comment.commentId)" icon>
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-dialog
@@ -27,7 +27,7 @@
         </v-card>
       </v-dialog>
       <!-- 댓글 삭제 -->
-      <v-btn class="small-button" @click="deleteComment(comment.commentId)" icon>
+      <v-btn v-if="commentAuthorCheck(comment.memberId)" class="small-button" @click="deleteComment(comment.commentId)" icon>
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </div>
@@ -55,6 +55,15 @@ computed: {
   commentSize() {
     return this.$store.state.comments.length;
   },
+
+    // commentAuthorCheck() {
+    //         const loginId = JSON.parse(localStorage.getItem('userInfo')).id
+    //         const commentMemberId = this.comment.memberId
+    //         console.log("pageMemberId : "  + commentMemberId)
+    //         const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+    //         return loginId === commentMemberId || authorityName === "MANAGER";
+
+    // },
 
 },
 props : {
@@ -86,7 +95,15 @@ methods: {
     console.log('commentId : / ' + commentId + 'commentModify :' + this.commentModify)
     await this.requestQuestionBoardCommentModifyToSpring( { commentModify, commentId })
     await this.$router.go((this.$router.currentRoute))
-  }
+  },
+
+  commentAuthorCheck(memberId) {
+            const loginId = JSON.parse(localStorage.getItem('userInfo')).id
+            console.log("memberId : "  + memberId)
+            const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+            return loginId === memberId || authorityName === "MANAGER";
+      //작성자, 관리자만 댓글 삭제, 수정버튼이 나오도록 하는 권한체크
+    },
   }
 }
 
