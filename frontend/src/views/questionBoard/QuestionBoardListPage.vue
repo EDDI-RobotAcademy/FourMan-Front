@@ -1,12 +1,14 @@
 <template>
     <v-container>
-        <h2 class="mt-5 mb-5 text-center">Q&A 게시판</h2>
-        <question-board-list-form :questionBoards="questionBoards"/>
-        <div class="text-right">
-          <v-btn class="mt-5 me-3 brown lighten-1 white--text" @click="loginCheck">
-            게시물 작성
+      <div class="EULJIRO mt-5 mb-5 text-center">
+        <h1>Q&A 게시판 <v-icon>mdi-forum</v-icon></h1>
+      </div>
+      <question-board-list-form :questionBoards="questionBoards"/>
+      <div class="text-right">
+        <v-btn v-if="this.$store.state.isAuthenticated" class="mb-10 me-10 brown darken-2 white--text" :to="{ name: 'QuestionBoardRegisterPage' }">
+          게시물 작성
         </v-btn>
-        </div>
+      </div>
     </v-container>
 </template>
 
