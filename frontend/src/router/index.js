@@ -40,6 +40,8 @@ import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardLis
 import CafeIntroBoardRegisterPage from '@/views/cafeIntroduceBoard/CafeIntroBoardRegisterPage.vue'
 import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardDetailPage.vue'
 
+//마이페이지 관련
+import MemberMyPage from '@/views/myPage/MemberMyPage.vue'
 
 Vue.use(VueRouter)
 
@@ -288,6 +290,12 @@ const routes = [
     props: {
       default: true
     }
+  },
+  //마이페이지 관련
+  {
+    path: '/member-my-page',
+    name: 'MemberMyPage',
+    component: MemberMyPage
   },
 
 

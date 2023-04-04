@@ -12,10 +12,10 @@
             </v-btn-toggle>
          </v-layout>
       </div>
-      <div v-if="!(Array.isArray(categoryDatas) && categoryDatas.length === 0)" class="mt-10">
+      <div v-if="!(Array.isArray(categoryDatas) && categoryDatas.length === 0)" class="mt-4">
          <product-card-form :datas="categoryDatas" @addCart="addCart"/>
       </div>
-      <div v-else class="mt-10">
+      <div v-else class="mt-4">
          <product-card-form :datas="datas" @addCart="addCart"/>
       </div>
       <div class="text-right mr-5 mt-15">
