@@ -274,5 +274,17 @@ export default {
             .catch(() => {
                 alert("문제 발생!")
             })
-}
+},
+    requestQuestionBoardCommentModifyToSpring(_, payload) {
+        console.log('comment Modify 전송')
+        const { commentId, commentModify } = payload
+        return axios.put(`http://localhost:8888/question-board/comment/${commentId}`,
+        { commentId, comment: commentModify })
+            .then(() => {
+                alert('수정 성공')
+            })
+            .catch(() => {
+                alert('오류 발생')
+            })
+        }
 }

@@ -13,7 +13,7 @@
         <v-divider></v-divider>
         <question-board-comment-list-form
             :comments="comments"
-            @click="deleteComment"/>
+            :dialog="dialog"/>
         <!-- 댓글 등록 form -->
         <v-divider></v-divider>
         <div align="center">
@@ -32,6 +32,11 @@ import {mapActions, mapState} from 'vuex'
 
 export default {
     name: "QuestionBoardReadPage",
+    data () {
+        return {
+            dialog : false,
+        }
+    },
     components: {
         QuestionBoardReadForm,
         QuestionBoardCommentForm,
@@ -43,10 +48,6 @@ export default {
             type: String,
             required: true,
         },
-    },
-    comment: {
-        type: Object,
-        required: true
     },
     computed: {
         ...mapState(['questionBoard','comments'])
