@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <v-row justify="center" class="logo"><div style="color:#BCAAA4">카페예약사이트</div></v-row>
+      <v-row justify="center" class="logo"><div class="brown--text">카페예약사이트</div></v-row>
       <v-layout column class="mx-auto">
         
         <v-checkbox
@@ -205,11 +205,11 @@
       </v-layout>
       <v-row class="btnSet" justify="center">
         <v-col cols="auto">
-          <router-link to="/sign-up-choice"><v-btn color="white" >CANCLE</v-btn></router-link>
+          <router-link to="/sign-up-choice"><v-btn class="brown darken-2 white--text" >CANCLE</v-btn></router-link>
         </v-col>
         <v-col cols="auto">
 
-          <v-btn color="#BCAAA4" dark @click="ckCheck" >NEXT</v-btn>
+          <v-btn class="brown darken-2 white--text"  dark @click="ckCheck" >NEXT</v-btn>
         </v-col>
       </v-row>
     </v-container>

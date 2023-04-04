@@ -10,9 +10,9 @@
         <router-link to="/">
           <v-img
             class="mx-3"
-            src="@/assets/logo/eddi.png"
-            max-height="40"
-            max-width="40"
+            src="@/assets/logo.png"
+            max-height="70"
+            max-width="70"
             contain
           />
         </router-link>

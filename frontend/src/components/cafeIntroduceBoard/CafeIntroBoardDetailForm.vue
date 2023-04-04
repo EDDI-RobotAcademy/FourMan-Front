@@ -44,7 +44,7 @@
         <v-row align="center" class="mx-0">
             <span class="text-h5">{{cafe.cafeName}}</span>&nbsp; &nbsp; &nbsp;
           <v-rating
-            :value="4.5"
+            :value=rating
             color="amber"
             dense
             half-increments
@@ -53,7 +53,7 @@
           ></v-rating>
 
           <div class="grey--text ms-4">
-            4.5 (413)
+            {{ rating.toFixed(1) }} ({{ totalRating }})
             <!-- 별점과 참여자수 업뎃요망 -->
           </div>
         </v-row>
@@ -62,7 +62,7 @@
         <div class="grey--text ">
         <span>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</span> &nbsp; &nbsp; &nbsp;
         <span>영업 시간: {{ cafe.startTime }} ~ {{ cafe.endTime }}</span> &nbsp; &nbsp; &nbsp;
-        <v-btn class="brown lighten-1 white--text" text @click="reserve">
+        <v-btn class="brown darken-2 white--text" text @click="reserve">
           예약하기
         </v-btn>
         </div>
@@ -143,6 +143,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name:"CafeIntroBoardDetailForm",
     props: {
@@ -155,7 +156,6 @@ export default {
   data: () => ({
       copied: false,
       dialog: false,
-      rating: 10,
     }),
 
     methods: {
@@ -172,6 +172,15 @@ export default {
     },
 
     },
+
+    computed: {
+    rating() {
+      return Number(this.$route.query.rating);
+    },
+    totalRating() {
+      return this.$route.query.totalRating;
+    },
+  }
 
 
 }

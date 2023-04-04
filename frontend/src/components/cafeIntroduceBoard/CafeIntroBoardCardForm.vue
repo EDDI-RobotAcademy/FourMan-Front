@@ -3,7 +3,7 @@
     <div class="cafeInfo">
       <template slot="progress">
         <v-progress-linear
-          color="brown lighten-1"
+          color="brown darken-2"
           height="10"
           indeterminate
         ></v-progress-linear>
@@ -14,6 +14,7 @@
           :to="{
             name: 'CafeIntroBoardDetailPage',
             params: { cafeId: cafe.cafeId.toString() },
+            query: { rating: rating, totalRating: totalRating }
           }"
         >
           <v-img
@@ -29,7 +30,7 @@
       <v-card-text>
         <v-row align="center" class="mx-0">
           <v-rating
-            :value="4.5"
+            :value=rating
             color="amber"
             dense
             half-increments
@@ -38,7 +39,7 @@
           ></v-rating>
 
           <div class="grey--text ms-4">
-            4.5 (413)
+            {{ rating.toFixed(1) }} ({{ totalRating }})
             <!-- 별점과 참여자수 업뎃요망 -->
           </div>
         </v-row>
@@ -58,7 +59,7 @@
       <v-card-text>
         <v-chip-group
           v-model="selection"
-          active-class="brown lighten-1 white--text"
+          active-class="brown darken-2 white--text"
           column
         >
           <!-- 예약시스템 작업후 업데이트요망 -->
@@ -70,10 +71,10 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn class="brown lighten-1 white--text"  text @click="reserve">
+        <v-btn class="brown darken-2 white--text"  text @click="reserve">
           예약
         </v-btn>
-         <v-btn class="brown lighten-1 white--text" text @click="showDetail">
+         <v-btn class="brown darken-2 white--text" text @click="showDetail">
           상세 보기
         </v-btn>
       </v-card-actions>
@@ -83,6 +84,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "CafeIntroBoardCardForm",
   props: {
@@ -94,6 +96,8 @@ export default {
   data: () => ({
     loading: false,
     selection: 1,
+    rating: 0,
+    totalRating: 0,
   }),
   methods: {
 
@@ -107,5 +111,14 @@ export default {
                            params:{cafeId: this.cafe.cafeId.toString()}});
     }
   },
+  created() {
+      return axios.get(`http://localhost:8888/review-board/rating/${this.cafe.cafeName}`)
+            .then((res) => {
+                console.log("res.data : " + res.data)
+                const sum = res.data.reduce((acc, cur) => acc + cur, 0);
+                this.rating = (sum / res.data.length)
+                this.totalRating = res.data.length
+            })
+    }
 };
 </script>

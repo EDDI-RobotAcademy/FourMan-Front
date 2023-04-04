@@ -3,7 +3,7 @@
     <div class="white" style="font-family: Arial">
       <v-col cols="auto" style="padding-bottom: 90px">
         <v-img
-            :src="require('@/assets/사과.png')" width="400" class="mx-auto mb-6"/>
+            :src="require('@/assets/logo.png')" width="200" class="mx-auto mb-6"/>
         <h5 class="text-md-center" style="font-weight: normal">
           회원 타입을 선택해주세요.</h5>
           <br><br>
