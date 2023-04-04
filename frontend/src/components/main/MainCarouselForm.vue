@@ -9,7 +9,6 @@
         :interval="interval"
         :height="height"
         max-height="400px"
-        
       >
         <v-carousel-item v-for="(picture, idx) in pictures" :key="idx">
                 <v-img :src="picture.img" :height="height" contain  />
@@ -25,6 +24,8 @@ export default {
   data() {
     return {
       pictures: [
+        { img: require("@/assets/carousel/banner1.jpg") },
+        { img: require("@/assets/carousel/banner2.jpg") },
         { img: require("@/assets/carousel/starbucks01.png") },
         { img: require("@/assets/carousel/starbucks02.png") },
         { img: require("@/assets/carousel/starbucks03.png") },
