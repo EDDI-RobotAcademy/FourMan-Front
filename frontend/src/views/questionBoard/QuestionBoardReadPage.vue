@@ -3,12 +3,15 @@
         <div align="center">
             <question-board-read-form v-if="questionBoard" :questionBoard="questionBoard" />
             <p v-else> 로딩중...</p>
-            <router-link v-if="loginCheck()" :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
-                <v-btn class="brown lighten-1 white--text"> 수정 </v-btn>
-            </router-link>
-            <router-link v-if="loginCheck()" :to="{ name: 'QuestionBoardListPage' }">
-                <v-btn @click="showConfirm" class="brown lighten-1 white--text"> 삭제 </v-btn>
-            </router-link>
+            <v-btn v-if="loginCheck()" class="brown darken-2 white--text me-2" :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
+                <h4>수정</h4>
+              </v-btn>
+            <v-btn v-if="loginCheck()" class="me-2 brown darken-2 white--text" @click="showConfirm">
+                <h4>삭제</h4>
+            </v-btn>
+            <v-btn class="brown darken-2 white--text" :to="{ name: 'QuestionBoardListPage' }">
+                돌아가기
+            </v-btn>
         </div>
         <v-divider></v-divider>
         <question-board-comment-list-form
@@ -77,13 +80,12 @@ export default {
             return false
           }
         },
-    showConfirm() {
+    async showConfirm() {
         if(confirm('정말 삭제하시겠습니까?')) {
-            this.requestQuestionBoardDeleteToSpring(this.boardId)
-        } else {
-            this.$router.go((this.$router.currentRoute))
-            //No 버튼을 누르면 페이지를 이동하지않고 그대로 보여줌
+            await this.requestQuestionBoardDeleteToSpring(this.boardId)
+            await this.$router.push({ name: 'QuestionBoardListPage' })
         }
+        //No 버튼을 누르면 페이지를 이동하지않고 그대로 보여줌
     },
     async onSubmitComment(payload) {
         const { comment, commentWriter, memberId} = payload
