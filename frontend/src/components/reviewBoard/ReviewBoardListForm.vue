@@ -44,7 +44,7 @@
     <v-pagination
       v-model="curPageNum"
       :length="numOfPages"
-      color="#2c4636"
+      color="#5D4037"
       class="mt-10"
       flat
     ></v-pagination>
