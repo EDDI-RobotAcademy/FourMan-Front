@@ -1,7 +1,9 @@
 <template>
     <v-container>
-        <h2 class="mt-5 mb-5 text-center">Q&A 게시판</h2>
-        <search-bar-form v-model="searchText" @search="onSearch" />
+      <div class="EULJIRO mt-5 mb-5 text-center">
+        <h1>Q&A 게시판 <v-icon>mdi-bulletin-board</v-icon></h1>
+      </div>
+        <search-bar-form class="mb-2 me-7" style="float: right;" v-model="searchText" @search="onSearch" />
         <div v-if="searchBoards.length === 0">
         <question-board-list-form :questionBoards="questionBoards"/>
         </div>
