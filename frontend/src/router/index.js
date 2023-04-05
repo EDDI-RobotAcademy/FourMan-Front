@@ -240,20 +240,6 @@ const routes = [
     path: '/question-board-list-page',
     name: 'QuestionBoardListPage',
     component: QuestionBoardListPage,
-    beforeEnter: (to, from, next) => {
-      const userInfo = localStorage.getItem('userInfo');
-      if (userInfo != null) {
-        next();
-      } else {
-        alert('로그인 후 글을 작성할 수 있습니다.')
-        next('/sign-in');
-      }
-    }
-  },
-  {
-    path: '/review-board-list-page',
-    name: 'ReviewBoardListPage',
-    component: ReviewBoardListPage
   },
   {
     path: '/question-board-register-page',

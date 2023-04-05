@@ -1,7 +1,7 @@
 <template>
     <div class="main-container ms-10 me-10 mt-10 mb-10">
       <v-container>
-        <div class="EULJIRO mb-3">
+        <div class="EULJIRO">
             <h1>카페 소개 <v-icon>mdi-coffee</v-icon></h1>
         </div>
         <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="
