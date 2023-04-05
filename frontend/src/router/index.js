@@ -242,11 +242,6 @@ const routes = [
     component: QuestionBoardListPage,
   },
   {
-    path: '/review-board-list-page',
-    name: 'ReviewBoardListPage',
-    component: ReviewBoardListPage
-  },
-  {
     path: '/question-board-register-page',
     name: 'QuestionBoardRegisterPage',
     component: QuestionBoardRegisterPage,
