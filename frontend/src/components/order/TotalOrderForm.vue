@@ -61,6 +61,8 @@
 
 <script>
 
+import { mapState, mapActions } from "vuex";
+
 export default {
    name: "TotalOrderForm",
    data() {
@@ -86,8 +88,20 @@ export default {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
    },
+   computed: {
+      ...mapState([
+        'orderInformations'
+      ]),
+   },
    methods: {
+      ...mapActions([
+        'requestOrderInformationsToSpring'
+      ]),
       purchase() {
+        this.kakaoPayAPI()
+        this.saveOrderInformations()
+      },
+      kakaoPayAPI() {
         var IMP = window.IMP; 
         IMP.init("imp60856856");
 
@@ -107,12 +121,44 @@ export default {
          }, function(rsp) {
           if ( rsp.success ) {
               var msg = '결제가 완료되었습니다.';
-              location.href='http://localhost:8887/';
+              location.href='http://localhost:8887/member-my-page';
+              alert(msg)
           } else {
               var msg = '결제에 실패하였습니다.';
               rsp.error_msg;
+              alert(msg)
           }
-       });
+        });
+      },
+      saveOrderInformations() {
+        let formData = new FormData()
+        let customer = JSON.parse(localStorage.getItem('userInfo')).nickName
+        let totalQuantity = 0
+        for(let i = 0; i < this.cartItems.length; i++) {
+          totalQuantity += this.cartItems[i].count
+        }
+        let totalPrice = this.totalOrderPrice
+        let cartItemList = []
+
+        for(let i = 0; i < this.cartItems.length; i++) {
+          cartItemList.push({productId: this.cartItems[i].productId, count: this.cartItems[i].count})
+        }
+
+        let orderInfo = {
+          customer: customer,
+          totalQuantity: totalQuantity,
+          totalPrice: totalPrice,
+          cartItemList: cartItemList
+        } 
+
+        console.log('orderInfo: ' + JSON.stringify(orderInfo))
+        
+        formData.append(
+            "orderInfo",
+            new Blob([JSON.stringify(orderInfo)], { type: "application/json" })
+        )
+
+        this.requestOrderInformationsToSpring(formData)
       }
    },
 }
