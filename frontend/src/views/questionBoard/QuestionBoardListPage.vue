@@ -1,12 +1,16 @@
 <template>
     <v-container>
-      <div class="EULJIRO mt-5 mb-5 text-center">
-        <h1>Q&A 게시판 <v-icon>mdi-forum</v-icon></h1>
-      </div>
-      <question-board-list-form :questionBoards="questionBoards"/>
-      <div class="text-right">
-        <v-btn v-if="this.$store.state.isAuthenticated" class="mb-10 me-10 brown darken-2 white--text" :to="{ name: 'QuestionBoardRegisterPage' }">
-          게시물 작성
+        <h2 class="mt-5 mb-5 text-center">Q&A 게시판</h2>
+        <search-bar-form v-model="searchText" @search="onSearch" />
+        <div v-if="searchBoards.length === 0">
+        <question-board-list-form :questionBoards="questionBoards"/>
+        </div>
+        <div v-else>
+          <search-result-form :searchBoards="searchBoards" />
+        </div>
+        <div class="text-right">
+          <v-btn v-if="this.$store.state.isAuthenticated" class="mt-5 me-3 brown lighten-1 white--text" @click="loginCheck">
+            게시물 작성
         </v-btn>
       </div>
     </v-container>
@@ -17,22 +21,36 @@
 <script>
 
 import QuestionBoardListForm from '@/components/questionBoard/QuestionBoardListForm.vue';
+import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
+import SearchResultForm from '@/components/searchBoard/SearchResultForm.vue'
 import { mapActions, mapState } from 'vuex'
+
 export default {
     name: "QuestionBoardListPage",
-    components : { QuestionBoardListForm },
+    data () {
+      return {
+        searchText: '',
+      }
+    },
+    components : {
+      QuestionBoardListForm,
+      SearchBarForm,
+      SearchResultForm,
+     },
 
     computed: {
       ...mapState([
-        'questionBoards'
+        'questionBoards', 'searchBoards'
       ]),
     },
       mounted () {
         this.requestQuestionBoardListToSpring()
+        this.requestSearchBoardToSpring()
   },
     methods: {
         ...mapActions([
          'requestQuestionBoardListToSpring',
+         'requestSearchBoardToSpring'
 
       ]),
       loginCheck () {
@@ -44,6 +62,13 @@ export default {
               this.$router.push({ name: 'QuestionBoardRegisterPage'})
           }
       },
-   },
+      onSearch(searchText) {
+        console.log('searchText 내용 :' + searchText)
+        if(searchText !== '') {
+          this.requestSearchBoardToSpring(searchText)
+      }
     }
+  }
+}
+
 </script>
