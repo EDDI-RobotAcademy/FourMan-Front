@@ -23,7 +23,10 @@ import {
    REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING,
 
    //댓글 관련
-   REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING
+   REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
+
+   //게시물 검색 관련
+   REQUEST_SEARCH_BOARD_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
@@ -286,5 +289,18 @@ export default {
             .catch(() => {
                 alert('오류 발생')
             })
-        }
+        },
+
+    //게시물 검색 관련
+    requestSearchBoardToSpring({commit}, searchText) {
+        console.log('requestSearchBoardToSpring 작동')
+        return axios.get(`http://localhost:8888/question-board/search/${searchText}`)
+            .then((res) => {
+                commit(REQUEST_SEARCH_BOARD_TO_SPRING, res.data)
+                console.log('searchBoard res.data' + res.data)
+            })
+            .catch(() => {
+                alert('검색 실패')
+            })
+    }
 }

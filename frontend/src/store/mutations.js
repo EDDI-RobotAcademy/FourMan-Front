@@ -25,6 +25,9 @@ import {
    //댓글 관련
    REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
 
+   //게시물 검색 관련
+   REQUEST_SEARCH_BOARD_TO_SPRING,
+
 } from './mutation-types'
 
 export default {
@@ -49,7 +52,7 @@ export default {
    [REQUEST_ALL_PRODUCT_TO_SPRING](state, passingData) {
       state.allOfProducts = passingData
    },
-   
+
    // 보드 관련
    [REQUEST_FREE_BOARD_LIST_TO_SPRING] (state, passingData) {
       state.freeBoards = passingData
@@ -65,7 +68,7 @@ export default {
    [REQUEST_QUESTION_BOARD_TO_SPRING] (state, passingData) {
       state.questionBoard = passingData
    },
-   
+
    //리뷰 게시판 관련
    [REQUEST_REVIEW_BOARD_LIST_TO_SPRING] (state, passingData) {
       state.reviewBoards = passingData
@@ -79,5 +82,9 @@ export default {
    //댓글 관련
    [REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING] (state, passingData) {
       state.comments = passingData
+   },
+   //게시물 검색 관련
+   [REQUEST_SEARCH_BOARD_TO_SPRING] (state, passingData) {
+      state.searchBoards = passingData
    }
 }
