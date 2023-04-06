@@ -28,10 +28,14 @@ export default {
    //댓글 관련
    comments: [],
    comment: {},
-   
+
    //주문 관련
    orderInformations: [],
 
    //게시물 검색 관련
    searchBoards: [],
+
+   //공지사항 관련
+   noticeBoards: [],
+   noticeBoard: {},
 }
