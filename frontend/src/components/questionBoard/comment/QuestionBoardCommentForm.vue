@@ -1,18 +1,32 @@
 <template>
     <v-container>
-        <form @submit.prevent="onSubmitComment" >
+      <v-divider class="mt-7 mb-7"></v-divider>
+        <form @submit.prevent="onSubmitComment" class="me-10 ms-10">
             <div class="card shadow-lg comment-box">
                 <div class="card-body">
           
                   <!-- 댓글 입력창 요소 -->
                   <div class="comment-area-field mb-5">
                     <p class="comment-count-txt">총 {{ commentSize }}개의 댓글</p>
-                    <textarea
-                      v-if="this.$store.state.isAuthenticated"
-                      class="comment-area"
-                      v-model="comment"
-                      placeholder="댓글을 작성하세요."
-                    />
+                    
+                    <div style="display: flex;">
+                        <textarea
+                            v-if="this.$store.state.isAuthenticated"
+                            class="comment-area"
+                            v-model="comment"
+                            placeholder="댓글을 작성하세요."
+                        />
+                        <v-btn
+                        v-if="this.$store.state.isAuthenticated"
+                        type="submit"
+                        class="brown darken-2 white--text ms-5 mt-1"
+                        width="15%"
+                        height="85">
+                            <h4>
+                                댓글등록
+                            </h4>
+                        </v-btn>
+                    </div>
                     <textarea
                       v-if="!this.$store.state.isAuthenticated"
                       class="comment-area"
@@ -21,13 +35,6 @@
                       readonly
                       @click="login"
                     />
-                    <v-btn
-                      type="submit"
-                      class="brown darken-2 white--text"
-                      width="30%"
-                      height="40">
-                      댓글등록
-                      </v-btn>
                   </div>
                 </div>
             </div>
