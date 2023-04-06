@@ -112,11 +112,9 @@ export default {
       filterCategory(index) {
          this.category = this.categoryBtn[index].value
          if(this.category === 'ALL'){
-            // this.$emit('categoryData', this.productList)
             this.filteredItems = this.productList
          } else {
             const categoryData = this.productList.filter((value) => value.drinkType == this.category)
-            // this.$emit('categoryData', categoryData)
             this.filteredItems = categoryData
          }
       },
