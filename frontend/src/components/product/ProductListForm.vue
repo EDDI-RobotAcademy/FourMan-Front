@@ -43,11 +43,11 @@ export default {
       return {
          cartItems: [],
          categoryBtn : [
-            {name: "전체 메뉴", btnCheck: false, value: 'ALL'},
-            {name: "커피/라떼", btnCheck: false, value: 'COFFEE & LATTE'},
-            {name: "버블티/논커피", btnCheck: false, value: 'BUBBLETEA & NON-COFFEELATTE'},
-            {name: "스파클링/티", btnCheck: false, value: 'SPARKLING & TEA'},
-            {name: "스무디/과일음료", btnCheck: false, value: 'SMOOTHIE & FRUIT BEVERAGE'},
+            {name: "전체 메뉴", value: 'ALL'},
+            {name: "커피/라떼", value: 'COFFEE & LATTE'},
+            {name: "버블티/논커피", value: 'BUBBLETEA & NON-COFFEE'},
+            {name: "에이드/티", value: 'ADE & TEA'},
+            {name: "스무디/과일음료", value: 'SMOOTHIE & FRUIT BEVERAGE'},
          ],
          category: '',
          items: []
