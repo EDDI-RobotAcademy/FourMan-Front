@@ -1,6 +1,5 @@
 <template>
     <v-container>
-      <v-divider class="mt-7 mb-7"></v-divider>
         <form @submit.prevent="onSubmitComment" class="me-10 ms-10">
             <div class="card shadow-lg comment-box">
                 <div class="card-body">
