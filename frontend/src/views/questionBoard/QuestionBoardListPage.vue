@@ -11,7 +11,7 @@
           <search-result-form :searchBoards="searchBoards" />
         </div>
         <div class="text-right">
-          <v-btn v-if="this.$store.state.isAuthenticated" class="mt-5 me-3 brown lighten-1 white--text" @click="loginCheck">
+          <v-btn v-if="this.$store.state.isAuthenticated" class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
             게시물 작성
         </v-btn>
       </div>
