@@ -1,6 +1,7 @@
 <template>
    <div>
       <my-page-side-bar-form />
+      
       <v-container style="width: 1000px">
          <member-my-page-form />
       </v-container>
@@ -8,8 +9,8 @@
 </template>
 
 <script>
-import MemberMyPageForm from '@/components/myPage/MemberMyPageForm.vue'
-import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
+import MemberMyPageForm from '@/components/memberMyPage/MemberMyPageForm.vue'
+import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
 
 export default {
    name: "MemberMyPage",

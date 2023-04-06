@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-navigation-drawer
         permanent
         height="100%"
@@ -56,7 +56,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -105,7 +105,7 @@ export default {
          {
             title: "메뉴 관리",
             icon: "mdi-list-box",
-            route: "/"},
+            route: "/product-manage-page"},
       ]
     }
   },
