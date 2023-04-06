@@ -30,6 +30,9 @@ import {
 
    //게시물 검색 관련
    REQUEST_SEARCH_BOARD_TO_SPRING,
+
+   //공지사항 게시판 관련
+   REQUEST_NOTICE_BOARD_LIST_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -333,4 +336,11 @@ export default {
                 alert('게시물 등록에 실패했습니다')
             })
     },
+    requestNoticeBoardListToSpring({ commit }) {
+        console.log('requestNoticeBoardListToSpring 작동')
+        return axios.get('http://localhost:8888/notice-board/list')
+        .then((res) => {
+            commit(REQUEST_NOTICE_BOARD_LIST_TO_SPRING, res.data)
+        })
+    }
 }

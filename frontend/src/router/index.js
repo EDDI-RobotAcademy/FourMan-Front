@@ -44,8 +44,8 @@ import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardD
 import MemberMyPage from '@/views/myPage/MemberMyPage.vue'
 
 //공지사항관련
-import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage'
-
+import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
+import NoticeBoardListPage from '@/views/noticeBoard/NoticeBoardListPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -293,8 +293,13 @@ const routes = [
     name: 'NoticeBoardRegisterPage',
     component: NoticeBoardRegisterPage
   },
+  {
+    path: '/notice-board-list-page',
+    name: 'NoticeBoardListPage',
+    component: NoticeBoardListPage
+  },
 
-  
+
 ]
 
 const router = new VueRouter({
