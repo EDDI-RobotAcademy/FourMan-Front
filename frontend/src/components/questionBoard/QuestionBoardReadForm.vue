@@ -1,6 +1,6 @@
 <template>
   <div style="margin-left: 100px; margin-right: 100px;">
-    <div class="mt-5 mb-5" style="border: 1px solid #ccc; height: 700px">
+    <div class="mt-5 mb-5" style="border: 1px solid #ccc; min-height: 700px">
       <div style="margin: 20px">
         <div style="color: #00C73C;">
           [{{ questionBoard.questionType }}]

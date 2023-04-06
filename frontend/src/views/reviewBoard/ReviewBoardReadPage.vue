@@ -1,17 +1,8 @@
 <template>
   <v-container>
-    <div align="center">
+    <div>
       <review-board-read-form v-if="reviewBoard" :reviewBoard="reviewBoard" :reviewBoardImages="reviewBoardImages" />
       <p v-else>로딩중 .......... </p>
-      <v-btn v-if="loginCheck()" class="me-2 brown darken-2 white--text" @click="onDelete">
-        <h4>삭제</h4>
-      </v-btn>
-      <v-btn v-if="loginCheck()" class="me-2 brown darken-2 white--text" :to="{ name: 'ReviewBoardModifyPage', params: { reviewBoardId } }">
-        <h4>수정</h4>
-      </v-btn>
-      <v-btn class="brown darken-2 white--text" width="10%" height="40px" :to="{ name: 'ReviewBoardListPage' }">
-        <h4>돌아가기</h4>
-      </v-btn>
     </div>
   </v-container>
 </template>
