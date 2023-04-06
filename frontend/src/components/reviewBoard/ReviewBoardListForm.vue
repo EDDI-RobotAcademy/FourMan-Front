@@ -14,7 +14,7 @@
           >
             <v-card class="text-center" :to="{ name: 'ReviewBoardReadPage', params: { reviewBoardId: reviewBoard.reviewBoardId.toString() }}">
             <v-img
-              :src="reviewBoard.firstPhoto ? getImagePath(reviewBoard.firstPhoto) : ''"
+              :src="reviewBoard.firstPhoto ? getImagePath(reviewBoard.firstPhoto) : require(`@/assets/logo.png`)"
               aspect-ratio="1"
               class="grey lighten-3"
               ></v-img>
