@@ -7,30 +7,30 @@
                       <thead>
                       <tr>
                           <th scope="col" class="th-num">번호</th>
-                          <th scope="col">질문유형</th>
+                          <th scope="col">공지사항</th>
                           <th scope="col" class="th-title">제목</th>
                           <th scope="col" class="th-writer">작성자</th>
                           <th scope="col" class="th-date">등록일</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(questionBoard, index) in calData" :key="index">
-                          <td>{{ questionBoard.boardId }}</td>
-                          <td>{{ questionBoard.questionType }}</td>
+                      <tr v-for="(noticeBoard, index) in calData" :key="index">
+                          <td>{{ noticeBoard.boardId }}</td>
+                          <td>{{ noticeBoard.notice }}</td>
                           <th>
                             <router-link
                                 :to="{
-                                    name: 'QuestionBoardReadPage',
-                                    params: { boardId: questionBoard.boardId.toString() },
+                                    name: 'NoticeBoardReadPage',
+                                    params: { boardId: noticeBoard.boardId.toString() },
                                 }"
-                                >{{ questionBoard.title}}</router-link>
+                                >{{ noticeBoard.title}}</router-link>
                           </th>
-                          <td>{{ questionBoard.writer }}</td>
-                          <td>{{ questionBoard.regDate.slice(0, 10) }}</td>
+                          <td>{{ noticeBoard.writer }}</td>
+                          <td>{{ noticeBoard.regDate.slice(0, 10) }}</td>
                       </tr>
                       </tbody>
                   </table>
-                  <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="searchBoards.length === 0">
+                  <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="noticeBoards.length === 0">
                     <h2>작성된 게시물이 없습니다!</h2>
                     </div>
               </div>
@@ -49,9 +49,9 @@
   <script>
 
   export default {
-      name: "SearchResultForm",
+      name: "NoticeBoardListForm",
       props: {
-          searchBoards: {
+            noticeBoards: {
               type: Array
           }
       },
@@ -59,7 +59,7 @@
           return {
               headerTitle: [
                   { text: '번호', value: 'boardId', width: "70px" },
-                  { text: '질문 유형', value: 'questionType', width: "90px" },
+                  { text: '공지 사항', value: 'notice', width: "90px" },
                   { text: '제목', value: 'title', width: "200px" },
                   { text: '작성자', value: 'writer', width: "100px" },
                   { text: '등록일자', value: 'regDate', width: "100px" },
@@ -70,14 +70,10 @@
           }
       },
       methods: {
-          readRow (readValue) {
-              this.$router.push({
-                  name: 'QuestionBoardReadPage',
-                  params: { boardId: readValue.boardId.toString() }
-              })
-          },
+
       },
       computed: {
+        //페이지네이션
             startOffset() {
                 return (this.curPageNum - 1) * this.dataPerPage;
             },
@@ -85,10 +81,10 @@
                 return this.startOffset + this.dataPerPage;
             },
             numOfPages() {
-                return Math.ceil(this.searchBoards.length / this.dataPerPage);
+                return Math.ceil(this.noticeBoards.length / this.dataPerPage);
             },
             calData() {
-                return this.searchBoards.slice(this.startOffset, this.endOffset);
+                return this.noticeBoards.slice(this.startOffset, this.endOffset);
             },
         },
   }

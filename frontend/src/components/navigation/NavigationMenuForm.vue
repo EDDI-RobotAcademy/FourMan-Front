@@ -6,7 +6,7 @@
       class="d-flex justify-space-around align-center"
       dark
     >
-    
+
         <router-link to="/">
           <v-img
             class="mx-3"
@@ -21,7 +21,7 @@
             <span>FOURMAN</span>
           </v-toolbar-title>
         </router-link>
- 
+
 
         <router-link to="/cafe-board-list-page" style="text-decoration: none">
           <span class="text-center">
@@ -73,7 +73,7 @@
           </v-list>
         </v-menu>
 
-     
+
         <!-- 로그인 안되어있을경우 -->
         <span class="ml-15">
         <v-btn
@@ -180,6 +180,11 @@ export default {
         this.$router.push({
           name: "QuestionBoardListPage",
         });
+      }
+      if(item === "공지사항") {
+        this.$router.push({
+          name: "NoticeBoardListPage"
+        })
       }
     },
   },

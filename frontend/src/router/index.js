@@ -44,6 +44,9 @@ import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardD
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
 
+//공지사항관련
+import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
+import NoticeBoardListPage from '@/views/noticeBoard/NoticeBoardListPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -142,7 +145,7 @@ const routes = [
       default: true
     }
   },
- 
+
 
 // 자유 게시판 관련
   {
@@ -290,7 +293,17 @@ const routes = [
     component: ProductManagePage
   },
 
-
+  // 공지사항 관련
+  {
+    path: '/notice-board-register-page',
+    name: 'NoticeBoardRegisterPage',
+    component: NoticeBoardRegisterPage
+  },
+  {
+    path: '/notice-board-list-page',
+    name: 'NoticeBoardListPage',
+    component: NoticeBoardListPage
+  },
 
 
 ]
