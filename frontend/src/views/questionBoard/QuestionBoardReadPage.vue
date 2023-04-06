@@ -13,15 +13,13 @@
                 돌아가기
             </v-btn>
         </div>
-        <v-divider></v-divider>
-        <question-board-comment-list-form
-            :comments="comments"
-            :dialog="dialog"/>
         <!-- 댓글 등록 form -->
-        <v-divider></v-divider>
         <div align="center">
             <question-board-comment-form @submit="onSubmitComment"></question-board-comment-form>
         </div>
+        <question-board-comment-list-form
+            :comments="comments"
+            :dialog="dialog"/>
     </v-container>
 </template>
 

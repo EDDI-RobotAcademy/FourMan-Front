@@ -7,3 +7,12 @@
     font-family: 'EULJIRO', sans-serif;
     color:  #5D4037;
 }
+
+@font-face {
+    font-family: 'HANNA';
+    src: url('../../public/fonts/BMHANNAAir_ttf.ttf');
+}
+
+.HANNA {
+    font-family: 'HANNA', sans-serif;
+}
