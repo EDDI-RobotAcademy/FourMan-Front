@@ -68,7 +68,14 @@
       flat
       ></v-pagination>
 
-      
+      <!-- 상품 등록 버튼 -->
+      <div class="floating">
+         <router-link style="text-decoration: none;" :to="{ name:'ProductRegisterPage' }">
+            <v-btn class="button" fab dark color="brown darken-2" width="90" height="90" >
+               <v-icon style="width: 300px" size="50"> mdi-plus </v-icon>
+            </v-btn>
+         </router-link>
+      </div>
    </div>
 </template>
 
@@ -145,10 +152,14 @@ export default {
 
 <style scoped>
 .floating {
-  position: fixed;
-  right: 5%;
-  bottom: 30%;
+  /* position: fixed; */
+  position:sticky;
   text-align: center;
   width: 120px;
+}
+
+.button {
+   margin-left: 950px;
+   margin-bottom: 50px;
 }
 </style>
