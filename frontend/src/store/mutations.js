@@ -25,6 +25,8 @@ import {
    //댓글 관련
    REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
 
+   //주문 관련
+   REQUEST_ORDER_INFORMATIONS_TO_SPRING,
    //게시물 검색 관련
    REQUEST_SEARCH_BOARD_TO_SPRING,
 
@@ -82,6 +84,11 @@ export default {
    //댓글 관련
    [REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING] (state, passingData) {
       state.comments = passingData
+   },
+
+   //주문 관련
+   [REQUEST_ORDER_INFORMATIONS_TO_SPRING](state, passingData) {
+      state.orderInformations = passingData
    },
    //게시물 검색 관련
    [REQUEST_SEARCH_BOARD_TO_SPRING] (state, passingData) {

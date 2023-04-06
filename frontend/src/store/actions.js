@@ -25,6 +25,9 @@ import {
    //댓글 관련
    REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
 
+   //주문 관련
+   REQUEST_ORDER_INFORMATIONS_TO_SPRING,
+
    //게시물 검색 관련
    REQUEST_SEARCH_BOARD_TO_SPRING,
 } from './mutation-types'
@@ -249,7 +252,7 @@ export default {
             .catch(() => {
                 alert("문제 발생!")
             })
-},
+    },
     //댓글 관련
     requestQuestionBoardCommentRegisterToSpring( {}, payload) {
         const {comment, boardId, commentWriter,memberId} = payload
@@ -277,7 +280,8 @@ export default {
             .catch(() => {
                 alert("문제 발생!")
             })
-},
+    },
+    
     requestQuestionBoardCommentModifyToSpring(_, payload) {
         console.log('comment Modify 전송')
         const { commentId, commentModify } = payload
@@ -302,5 +306,17 @@ export default {
             .catch(() => {
                 alert('검색 실패')
             })
-    }
+    },
+
+    //주문 관련
+    requestOrderInformationsToSpring({}, payload) {
+        console.log('payload: ' + payload)
+        return axios.post('http://localhost:8888/order/register', payload)
+            .then(() => {
+                alert("저장 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+    },
 }
