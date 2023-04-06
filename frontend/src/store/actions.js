@@ -281,7 +281,7 @@ export default {
                 alert("문제 발생!")
             })
     },
-    
+
     requestQuestionBoardCommentModifyToSpring(_, payload) {
         console.log('comment Modify 전송')
         const { commentId, commentModify } = payload
@@ -317,6 +317,20 @@ export default {
             })
             .catch(() => {
                 alert("문제 발생!")
+            })
+    },
+
+    //공지사항 관련
+    requestNoticeBoardRegisterToSpring({}, payload) {
+        const { title, notice, writer, content, memberId} = payload
+        return axios.post('http://localhost:8888/notice-board/register',
+        { title, notice, writer, content, memberId})
+            .then((res) => {
+                alert('게시물 등록 성공')
+                return res;
+            })
+            .catch (() =>{
+                alert('게시물 등록에 실패했습니다')
             })
     },
 }

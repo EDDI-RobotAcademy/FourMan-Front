@@ -43,6 +43,9 @@ import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardD
 //마이페이지 관련
 import MemberMyPage from '@/views/myPage/MemberMyPage.vue'
 
+//공지사항관련
+import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -141,7 +144,7 @@ const routes = [
       default: true
     }
   },
- 
+
 
 // 자유 게시판 관련
   {
@@ -284,9 +287,14 @@ const routes = [
     component: MemberMyPage
   },
 
+  // 공지사항 관련
+  {
+    path: '/notice-board-register-page',
+    name: 'NoticeBoardRegisterPage',
+    component: NoticeBoardRegisterPage
+  },
 
-
-
+  
 ]
 
 const router = new VueRouter({
