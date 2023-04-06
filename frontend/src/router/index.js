@@ -41,7 +41,8 @@ import CafeIntroBoardRegisterPage from '@/views/cafeIntroduceBoard/CafeIntroBoar
 import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardDetailPage.vue'
 
 //마이페이지 관련
-import MemberMyPage from '@/views/myPage/MemberMyPage.vue'
+import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
+import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
 
 Vue.use(VueRouter)
 
@@ -282,6 +283,11 @@ const routes = [
     path: '/member-my-page',
     name: 'MemberMyPage',
     component: MemberMyPage
+  },
+  {
+    path: '/product-manage-page',
+    name: 'ProductManagePage',
+    component: ProductManagePage
   },
 
 
