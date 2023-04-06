@@ -1,27 +1,16 @@
 <template>
     <v-container>
-        <div align="center">
+        <div>
             <question-board-read-form v-if="questionBoard" :questionBoard="questionBoard" />
             <p v-else> 로딩중...</p>
-            <v-btn v-if="loginCheck()" class="brown darken-2 white--text me-2" :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
-                <h4>수정</h4>
-              </v-btn>
-            <v-btn v-if="loginCheck()" class="me-2 brown darken-2 white--text" @click="showConfirm">
-                <h4>삭제</h4>
-            </v-btn>
-            <v-btn class="brown darken-2 white--text" :to="{ name: 'QuestionBoardListPage' }">
-                돌아가기
-            </v-btn>
         </div>
-        <v-divider></v-divider>
-        <question-board-comment-list-form
-            :comments="comments"
-            :dialog="dialog"/>
         <!-- 댓글 등록 form -->
-        <v-divider></v-divider>
         <div align="center">
             <question-board-comment-form @submit="onSubmitComment"></question-board-comment-form>
         </div>
+        <question-board-comment-list-form
+            :comments="comments"
+            :dialog="dialog"/>
     </v-container>
 </template>
 
@@ -58,35 +47,10 @@ export default {
     methods: {
         ...mapActions([
             'requestQuestionBoardToSpring',
-            'requestQuestionBoardDeleteToSpring',
             'requestQuestionBoardCommentRegisterToSpring',
             'requestQuestionBoardCommentListToSpring',
             'requestQuestionBoardCommentDeleteToSpring',
     ]),
-    loginCheck() {
-          if(JSON.parse(localStorage.getItem('userInfo'))) {
-            const loginId = JSON.parse(localStorage.getItem('userInfo')).id
-            const memberId = this.questionBoard.memberId
-            const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
-
-            if(loginId === memberId  || authorityName === "MANAGER") {
-              return true
-            } else {
-              return false
-            }
-          }
-
-          if(!JSON.parse(localStorage.getItem('userInfo'))) {
-            return false
-          }
-        },
-    async showConfirm() {
-        if(confirm('정말 삭제하시겠습니까?')) {
-            await this.requestQuestionBoardDeleteToSpring(this.boardId)
-            await this.$router.push({ name: 'QuestionBoardListPage' })
-        }
-        //No 버튼을 누르면 페이지를 이동하지않고 그대로 보여줌
-    },
     async onSubmitComment(payload) {
         const { comment, commentWriter, memberId} = payload
         const boardId = this.boardId
