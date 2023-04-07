@@ -48,6 +48,7 @@ import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
 import NoticeBoardListPage from '@/views/noticeBoard/NoticeBoardListPage.vue'
 import NoticeBoardReadPage from '@/views/noticeBoard/NoticeBoardReadPage.vue'
+import NoticeBoardModifyPage from '@/views/noticeBoard/NoticeBoardModifyPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -306,10 +307,20 @@ const routes = [
     component: NoticeBoardListPage
   },
   {
-    path: '/notice-board-read-page',
+    path: '/notice-board-read-page/:boardId',
     name: 'NoticeBoardReadPage',
     components: {
       default: NoticeBoardReadPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/notice-board-modify-page/:boardId',
+    name: 'NoticeBoardModifyPage',
+    components: {
+      default: NoticeBoardModifyPage
     },
     props: {
       default: true

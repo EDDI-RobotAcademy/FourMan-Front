@@ -40,6 +40,8 @@
 
   <script>
 
+  import {mapActions} from 'vuex'
+
   export default {
     name: 'NoticeBoardReadForm',
     props: {
@@ -49,16 +51,16 @@
       }
     },
     methods: {
+          ...mapActions([
+            'requestNoticeBoardDeleteToSpring'
+          ]),
+
           loginCheck() {
               if(JSON.parse(localStorage.getItem('userInfo'))) {
-                const loginId = JSON.parse(localStorage.getItem('userInfo')).id
-                const memberId = this.noticeBoard.memberId
                 const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
 
-                if(loginId === memberId  || authorityName === "MANAGER") {
+                if(authorityName === "MANAGER") {
                   return true
-                } else {
-                  return false
                 }
               }
 
@@ -66,6 +68,18 @@
                 return false
               }
             },
+
+            async onModify () {
+            await this.$router.push({ name: 'NoticeBoardModifyPage', params: this.noticeBoard.boardId  })
+          },
+
+            async onDelete () {
+              if(confirm('정말 삭제하시겠습니까?')) {
+                  //No 버튼을 누르면 페이지를 이동하지않고 그대로 보여줌
+                  await this.requestNoticeBoardDeleteToSpring(this.noticeBoard.boardId)
+                  await this.$router.push({ name: 'NoticeBoardListPage' })
+              }
+          },
         }
   }
   </script>
