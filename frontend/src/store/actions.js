@@ -32,7 +32,8 @@ import {
    REQUEST_SEARCH_BOARD_TO_SPRING,
 
    //공지사항 게시판 관련
-   REQUEST_NOTICE_BOARD_LIST_TO_SPRING
+   REQUEST_NOTICE_BOARD_LIST_TO_SPRING,
+   REQUEST_NOTICE_BOARD_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -341,6 +342,13 @@ export default {
         return axios.get('http://localhost:8888/notice-board/list')
         .then((res) => {
             commit(REQUEST_NOTICE_BOARD_LIST_TO_SPRING, res.data)
+        })
+    },
+    requestNoticeBoardToSpring({ commit }, boardId) {
+        console.log('requestNoticeBoardToSpring 작동')
+        return axios.get(`http://localhost:8888/notice-board/${boardId}`)
+        .then((res) =>{
+            commit(REQUEST_NOTICE_BOARD_TO_SPRING, res.data)
         })
     }
 }
