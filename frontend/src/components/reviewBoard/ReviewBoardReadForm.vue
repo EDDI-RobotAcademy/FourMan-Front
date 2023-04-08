@@ -37,13 +37,13 @@
           </span>
         </div>
         <v-divider class="mt-3 mb-3"></v-divider>
-        <div class="me-7 ms-7 mt-7 mb-7" v-if="reviewBoardImages.length != 0">
+        <div class="mt-10 mb-10" v-if="reviewBoardImages.length != 0" style="margin-left: 100px; margin-right: 100px;">
           <v-carousel hide-delimiters>
             <v-carousel-item
             v-for="(imagePath, idx) in reviewBoardImages" :key="idx"
-            v-img :src="require(`@/assets/reviewImage/${imagePath.reviewBoardImageResourcePath}`)"
-            cover
-              />
+            cover>
+              <img :src="require(`@/assets/reviewImage/${imagePath.reviewBoardImageResourcePath}`)" style="object-fit: contain; width: 100%; height: 100%;">
+            </v-carousel-item>
           </v-carousel>
         </div>
         <div>
