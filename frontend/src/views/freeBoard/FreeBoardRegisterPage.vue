@@ -1,6 +1,5 @@
 <template>
     <v-container>
-      <h2 class="mt-5 mb-5 text-center">게시물 작성</h2>
       <free-board-register-form @submit="onSubmit"/>
     </v-container>
   </template>

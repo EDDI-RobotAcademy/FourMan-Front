@@ -22,9 +22,7 @@
           </span>
         </div>
         <v-divider class="mt-3 mb-3"></v-divider>
-        <div>
-          {{ freeBoard.content }}
-        </div>
+        <div v-html="compiledMarkdown"></div>
       </div>
     </div>
     <div>
@@ -38,6 +36,7 @@
   <script>
 
 import { mapActions } from 'vuex'
+import { marked } from 'marked'
 
   export default {
       name: "FreeBoardReadForm",
@@ -74,7 +73,12 @@ import { mapActions } from 'vuex'
           },
           async onModify () {
             await this.$router.push({ name: 'FreeBoardModifyPage', params: this.freeBoard.boardId  })
-          }
+          },
+      },
+      computed: {
+        compiledMarkdown: function () {
+          return marked(this.freeBoard.content);
+        }
       }
   }
   </script>
