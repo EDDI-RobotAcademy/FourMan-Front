@@ -5,7 +5,7 @@
       style="border: 1px solid black"
       :fluid="true"
     >
-    <div v-if="selectedTime==null">예약 시간을 선택해 주세요!</div>
+      <div v-if="selectedTime == null">예약 시간을 선택해 주세요!</div>
       <hall-seat-form v-else :seatData="seatData" :tableData="tableData" />
     </v-container>
 
@@ -35,6 +35,15 @@
                   <v-col cols="6"
                     ><span class="font-weight-bold mr-10">닉네임:</span>
                     {{ this.nickName }}</v-col
+                  >
+                </v-row>
+                <v-row class="ml-1">
+                  <v-col cols="6"
+                    ><span class="font-weight-bold mr-10">예약일자:</span>
+                    {{ getFormattedDate() }}
+                    <!-- {{seatData}} -->
+                    <!-- {{tableData}} -->
+                    </v-col
                   >
                 </v-row>
 
@@ -105,10 +114,9 @@ export default {
   data() {
     return {
       nickName: JSON.parse(localStorage.getItem("userInfo")).nickName,
-      today: new Date().toISOString().slice(0, 10),
       selectedTime: null,
-      times: [], // 예약 가능한 시간 리스트
-      seats: [], // 예약 가능한 자리 리스트
+      // times: [], // 예약 가능한 시간 리스트
+      // seats: [], // 예약 가능한 자리 리스트
       // seatData: [
       //   { id: 1, x: 10, y: 100, width: 50, height: 50, isReserved: false },
       //   { id: 2, x: 110, y: 100, width: 50, height: 50, isReserved: false },
@@ -155,27 +163,47 @@ export default {
   },
 
   methods: {
-    ...mapActions(["requestCafeSeatToSpring",]),
-    
-  },
-  watch: {
-    async selectedTime() {
-    const payload ={cafeId:this.cafe.cafeId, time:this.selectedTime}
-    await this.requestCafeSeatToSpring(payload)
+    ...mapActions(["requestCafeSeatToSpring"]),
+    async fetchReservations() {
+      try {
+        const payload = { cafeId: this.cafe.cafeId, time: this.selectedTime };
+        await this.requestCafeSeatToSpring(payload);
+      } catch (error) {
+        alert("에러입니다.");
+      }
     },
-
+    cancel() {
+      this.$router.go(-1);
+    },
+    getKoreanDayOfWeek(date) {
+      const dayOfWeek = date.getDay();
+      const koreanDays = ["일", "월", "화", "수", "목", "금", "토"];
+      return koreanDays[dayOfWeek];
+    },
+    getFormattedDate() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const koreanDayOfWeek = this.getKoreanDayOfWeek(now);
+      return `${year}-${month}-${day} (${koreanDayOfWeek})`;
+    },
   },
+  // watch: {
+  //   selectedTime() {
+  //     this.fetchReservations();
+  //   },
+  // },
   async created() {
     console.log("this.cafe.startTime:", this.cafe.startTime);
     console.log(
       "new Date(this.cafe.startTime); ",
       new Date(this.cafe.startTime)
     );
-    console.log("this.today: ", this.today);
-    console.log(
-      "new Date(`${this.today}T${this.cafe.startTime}:00`)",
-      new Date(`${this.today}T${this.cafe.startTime}:00`)
-    );
+    // console.log(
+    //   "new Date(`${this.today}T${this.cafe.startTime}:00`)",
+    //   new Date(`${this.today}T${this.cafe.startTime}:00`)
+    // );
 
     // // 예약 가능한 시간 리스트 초기화
     // this.times = this.getReservationTimes();
@@ -184,7 +212,6 @@ export default {
     // alert("created!")
     console.log("cafe: " + this.cafe);
     console.log("cafeId: " + this.cafe.cafeId);
-
   },
 };
 </script>
