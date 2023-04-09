@@ -239,7 +239,7 @@ export default {
     },
     requestQuestionBoardModifyToSpring({}, payload) {
         const { boardId, title, content} = payload
-        axios.put(`http://localhost:8888/question-board/${boardId}`,
+        return axios.put(`http://localhost:8888/question-board/${boardId}`,
         { title, content})
         .then(() => {
             alert('게시물 수정 성공')
