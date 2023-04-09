@@ -1,46 +1,37 @@
 <template>
-  <form @submit.prevent="onSubmit" style="display: flex; justify-content: center;">
-    <table>
-
-      <tr>
-        <td>
-          <v-select label="질문 유형"
-                    :items="['예약 방법', '시설 문의', '문의 사항']" v-model="questionType">
-          </v-select>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <v-text-field label="제목" type="text" v-model="title"/>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <v-text-field label="작성자" type="text" v-model="writer"/>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <v-textarea label="내용" cols="50" rows="20" v-model="content"/>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">
-          <router-link :to="{ name: 'QuestionBoardListPage' }">
-            <v-btn class="me-2 brown lighten-1 white--text">
-              취소
-            </v-btn>
-          </router-link>
-          <v-btn type="submit" class="brown lighten-1 white--text">등록</v-btn>
-        </td>
-      </tr>
-    </table>
+  <form @submit.prevent="onSubmit" style="justify-content: center; margin-left: 100px; margin-right: 100px;">
+    <div class="mt-10">
+      <span class="HANNA" style="font-size: 30px; font-weight: 800;" bold>Q&A 글쓰기</span>
+      <span style="float: right;"><v-btn type="submit" class="brown darken-2 white--text">등록</v-btn></span>
+    </div>
+    <v-divider class="mt-3 mb-3"></v-divider>
+    <div style="display: flex;">
+      <div class="me-5" style="width: 35%; position: relative; z-index: 9999;">
+        <v-select label="질문 유형"
+            :items="['예약 방법', '시설 문의', '문의 사항']" v-model="questionType">
+        </v-select>
+      </div>
+      <div class="mb-5" style="border: 1px solid #ccc; clear: both; width: 100%">
+        <input type="text" placeholder="제목을 입력하세요." style="box-sizing: border-box; width: 100%; padding: 10px; outline: none;" v-model="title" required>
+      </div>
+    </div>
+    <div class="mb-10">
+      <div id="editor" />
+      <textarea v-model="content" style="display: none;"/>
+    </div>
   </form>
 </template>
 
 <script>
+
+import Editor from '@toast-ui/editor';
+import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
+
 export default {
     name: "QuestionBoardRegisterForm",
+    components: {
+      'editor': Editor,
+    },
     data () {
         return {
             title: '',
@@ -54,9 +45,22 @@ export default {
         onSubmit () {
             const { title, questionType, writer, content, memberId } = this
             this.$emit('submit', { title, questionType, writer, content, memberId })
-        }
+        },
         // form으로 emit
-    }
+    },
+    mounted() {
+        this.editor = new Editor({
+          el: document.querySelector('#editor'),
+          height: '500px',
+          initialEditType: 'wysiwyg',
+          previewStyle: 'vertical',
+          placeholder: '내용을 입력하세요.',
+          usageStatistics: false,
+        });
+        this.editor.on('change', () => {
+          this.content = this.editor.getMarkdown();
+        });
+      }
 }
 </script>
 

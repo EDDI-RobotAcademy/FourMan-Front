@@ -59,10 +59,10 @@ export default {
         await this.$router.go((this.$router.currentRoute))
     },
 },
-    created () {
+    async created () {
         console.log('boardId : ' + this.boardId)
-        this.requestQuestionBoardToSpring(this.boardId)
-        this.requestQuestionBoardCommentListToSpring(this.boardId)
+        await this.requestQuestionBoardToSpring(this.boardId)
+        await this.requestQuestionBoardCommentListToSpring(this.boardId)
        },
 
 }
