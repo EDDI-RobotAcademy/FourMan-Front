@@ -25,9 +25,7 @@
           </span>
         </div>
         <v-divider class="mt-3 mb-3"></v-divider>
-        <div>
-          {{ questionBoard.content }}
-        </div>
+        <div v-html="compiledMarkdown"></div>
       </div>
     </div>
     <div>
@@ -41,6 +39,7 @@
 <script>
 
 import { mapActions } from 'vuex'
+import { marked } from 'marked'
 
 export default {
   name: 'QuestionBoardReadForm',
@@ -81,6 +80,11 @@ export default {
           async onModify () {
             await this.$router.push({ name: 'QuestionBoardModifyPage', params: this.questionBoard.boardId  })
           }
-      }
+  },
+  computed: {
+    compiledMarkdown: function () {
+      return marked(this.questionBoard.content);
+    }
+  }
 }
 </script>
