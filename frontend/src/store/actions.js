@@ -40,7 +40,8 @@ export default {
         return axios.get(`http://localhost:8888/reservation/cafe/${cafeId}/time/${time}`)
             .then((res) => {
                 commit(REQUEST_CAFE_SEAT_TO_SPRING, res.data)
-                console.log("res.data : " + res.data)
+                console.log(" res.data.seatResponse: " + res.data.seatResponse)
+                console.log(" res.data.tableResponse: " + res.data.tableResponse)
             })
             .catch((error) => {
                 alert(error)

@@ -1,7 +1,7 @@
 export default {
    //예약관련
-   seatData:{},
-   tableData:{},
+   seatData:[],
+   tableData:[],
 
    
    //카페소개보드 관련
