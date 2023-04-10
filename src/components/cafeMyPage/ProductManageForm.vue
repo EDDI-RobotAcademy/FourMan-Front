@@ -28,7 +28,12 @@
             <tbody align="center">
                <tr v-if="!productList || (Array.isArray(productList) && productList.length === 0)">
                   <td colspan="6" align="center">
-                     주문 내역이 존재하지 않습니다.
+                     상품 목록이 존재하지 않습니다.
+                  </td>
+               </tr>
+               <tr v-else-if="isExist == false">
+                  <td colspan="6" align="center">
+                     해당 카테고리 상품이 존재하지 않습니다.
                   </td>
                </tr>
                <tr v-else v-for="(product,index) in calData" :key="index">
@@ -103,7 +108,8 @@ export default {
          curPageNum: 1,
          filteredItems: [],
          modifyDialog: false,
-         editedProduct: Object
+         editedProduct: Object,
+         isExist: true,
       }
    },
    props: {
@@ -121,9 +127,14 @@ export default {
       filterCategory(index) {
          this.category = this.categoryBtn[index].value
          if(this.category === 'ALL'){
+            this.isExist = true
             this.filteredItems = this.productList
          } else {
             const categoryData = this.productList.filter((value) => value.drinkType == this.category)
+            if(categoryData.length === 0) {
+               return this.isExist = false
+            }
+            this.isExist = true
             this.filteredItems = categoryData
          }
       },
@@ -157,7 +168,7 @@ export default {
       },
    },
    async updated() {
-      console.log('dialog: ' + this.modifyDialog)
+      console.log(JSON.stringify(this.filteredItems))
    }
 
 }
