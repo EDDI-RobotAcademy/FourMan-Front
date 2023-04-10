@@ -54,6 +54,10 @@ import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage
 import NoticeBoardListPage from '@/views/noticeBoard/NoticeBoardListPage.vue'
 import NoticeBoardReadPage from '@/views/noticeBoard/NoticeBoardReadPage.vue'
 import NoticeBoardModifyPage from '@/views/noticeBoard/NoticeBoardModifyPage.vue'
+
+//나의 게시판 관련
+import MyFreeBoardPage from '@/views/cafeMyPage/MyFreeBoardPage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -367,6 +371,13 @@ const routes = [
     props: {
       default: true
     }
+  },
+
+  //내가 쓴 게시물 관련
+  {
+    path: '/my-free-board-page',
+    name: 'MyFreeBoardPage',
+    component: MyFreeBoardPage
   },
 
 

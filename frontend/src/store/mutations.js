@@ -37,6 +37,8 @@ import {
    REQUEST_NOTICE_BOARD_LIST_TO_SPRING,
    REQUEST_NOTICE_BOARD_TO_SPRING,
 
+   //나의게시판 관련
+   REQUEST_MY_FREE_BOARD_LIST_TO_SPRING
 } from './mutation-types'
 
 export default {
@@ -115,5 +117,10 @@ export default {
    },
    [REQUEST_NOTICE_BOARD_TO_SPRING] (state, passingData) {
       state.noticeBoard = passingData
-   }
+   },
+
+   //나의 게시판 관련
+   [REQUEST_MY_FREE_BOARD_LIST_TO_SPRING] (state, passingData) {
+      state.myFreeBoards = passingData
+   },
 }
