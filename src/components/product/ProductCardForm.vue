@@ -12,7 +12,12 @@
             </v-btn-toggle>
          </v-layout>
       </div>
-      <div class="mt-3">
+      <div v-if="isExist == false" class="mt-10">
+         <center>
+            <h2>해당 카테고리 상품이 존재하지 않습니다.</h2>
+         </center>
+      </div>
+      <div v-else class="mt-3">
          <div class="ma-2" style="display: inline-block;" v-for="(data, index) in calData" :key="index">
             <v-card class="pa-3" align="center">
                <div>
@@ -63,8 +68,9 @@ export default {
          ],
          filteredItems: [],
          category: '',
-         dataPerPage: 8,
+         dataPerPage: 12,
          curPageNum: 1,
+         isExist: true,
       }
    },
    props: {
@@ -81,8 +87,13 @@ export default {
          this.category = this.categoryBtn[index].value
          if(this.category === 'ALL'){
             this.filteredItems = this.datas
+            this.isExist = true
          } else {
             const categoryData = this.datas.filter((value) => value.drinkType == this.category)
+            if(categoryData.length === 0) {
+               return this.isExist = false
+            }
+            this.isExist = true
             this.filteredItems = categoryData
          }
       },
