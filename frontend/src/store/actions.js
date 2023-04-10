@@ -1,4 +1,7 @@
 import {
+    //예약관련
+    REQUEST_CAFE_SEAT_TO_SPRING,
+
     //카페소개 보드 관련
     REQUEST_CAFE_LIST_TO_SPRING,
     REQUEST_CAFE_NUM_TO_SPRING,
@@ -39,6 +42,21 @@ import {
 import axios from 'axios'
 
 export default {
+    //예약 관련
+    
+    requestCafeSeatToSpring({commit},payload) {
+        console.log("requestCafeSeatToSpring 작동")
+        const {cafeId,time}=payload
+        return axios.get(`http://localhost:8888/reservation/cafe/${cafeId}/time/${time}`)
+            .then((res) => {
+                commit(REQUEST_CAFE_SEAT_TO_SPRING, res.data)
+                console.log(" res.data.seatResponse: " + res.data.seatResponse)
+                console.log(" res.data.tableResponse: " + res.data.tableResponse)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
 
     //카페소개보드 관련
     requestCafeListToSpring({commit}) {
