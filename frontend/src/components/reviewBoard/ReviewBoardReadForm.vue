@@ -1,56 +1,68 @@
 <template>
-    <div>
-        <table class="type09 mt-5 mb-5">
-          <thead>
-            <tr style="height: 3em;">
-              <th scope="cols">
-                {{ reviewBoard.cafeName }}
-              </th>
-              <th>
-                <v-rating
-                    v-model= reviewBoard.rating
-                    bg-color="orange-lighten-1"
-                    color="blue"
-                    readonly
-                    />
-              </th>
-            </tr>
-            <tr style="height: 3em;">
-              <td scope="row">
-                {{ reviewBoard.title }}
-              </td>
-              <td scope="row" class="text-right">
-                {{ reviewBoard.writer }}
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="height: 37em;">
-              <td colspan="2" scope="row">
-                {{ reviewBoard.content }}
-              </td>
-            </tr>
-            <tr>
-                <td colspan="2" scope="cols">
-                    <v-row>
-                        <v-col v-for="(imagePath, idx) in reviewBoardImages" :key="idx" cols="12">
-                          <v-img :src="require(`@/assets/reviewImage/${imagePath.reviewBoardImageResourcePath}`)" aspect-ratio="1" class="grey lighten-2">
-                            <template v-slot:placeholder>
-                              <v-row class="fill-height ma-0" align="center" justify="center">
-                                <v-progress-circular indeterminate color="grey lighten-5"/>
-                              </v-row>
-                            </template>
-                          </v-img>
-                        </v-col>
-                      </v-row>
-                </td>
-            </tr>
-          </tbody>
-        </table>
+  <div style="margin-left: 100px; margin-right: 100px;">
+    <div class="mt-5 mb-5" style="border: 1px solid #ccc; min-height: 700px">
+      <div style="margin: 20px">
+        <div style="color: #5D4037;">
+          [{{ reviewBoard.cafeName }}]
+        </div>
+        <div>
+          <span class="HANNA">
+            <h1>{{ reviewBoard.title }}</h1>
+          </span>
+        </div>
+        <div>
+          <span>{{ reviewBoard.writer }}</span>
+        </div>
+        <div>
+          <span>
+            <v-rating
+              :value=reviewBoard.rating
+              color="amber"
+              dense
+              half-increments
+              readonly
+              size="14"
+            ></v-rating>
+          </span>
+        </div>
+        <div>
+          <span v-if="reviewBoard.regDate" style="color: gray; font-size: 13px;">{{ reviewBoard.regDate.slice(0, 10) }} {{ reviewBoard.regDate.slice(11, 16) }}</span>
+          <span style="float: right;">
+            <v-btn v-if="loginCheck()" @click="onModify" icon>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn v-if="loginCheck()" @click="onDelete" icon>
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </span>
+        </div>
+        <v-divider class="mt-3 mb-3"></v-divider>
+        <div class="mt-10 mb-10" v-if="reviewBoardImages.length != 0" style="margin-left: 100px; margin-right: 100px;">
+          <v-carousel hide-delimiters>
+            <v-carousel-item
+            v-for="(imagePath, idx) in reviewBoardImages" :key="idx"
+            cover>
+              <img :src="require(`@/assets/reviewImage/${imagePath.reviewBoardImageResourcePath}`)" style="object-fit: contain; width: 100%; height: 100%;">
+            </v-carousel-item>
+          </v-carousel>
+        </div>
+        <div>
+          {{ reviewBoard.content }}
+        </div>
       </div>
+    </div>
+    <div>
+      <v-btn class="brown darken-2 white--text mb-5" :to="{ name: 'ReviewBoardListPage' }" style="float: right;">
+        목록
+      </v-btn>
+    </div>
+  </div>
   </template>
   
   <script>
+
+import { mapActions } from 'vuex'
+
   export default {
       name: "ReviewBoardReadForm",
       props: {
@@ -62,38 +74,40 @@
               type: Array,
           }
       },
+      methods: {
+        ...mapActions([
+            'requestDeleteReviewBoardToSpring',
+        ]),
+        loginCheck() {
+            if(JSON.parse(localStorage.getItem('userInfo'))) {
+              const loginId = JSON.parse(localStorage.getItem('userInfo')).id
+              const memberId = this.reviewBoard.memberId
+              const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+
+              if(loginId === memberId  || authorityName === "MANAGER") {
+                return true
+              } else {
+                return false
+              }
+            }
+
+            if(!JSON.parse(localStorage.getItem('userInfo'))) {
+              return false
+            }
+          },
+          async onDelete () {
+            await this.requestDeleteReviewBoardToSpring(this.reviewBoard.reviewBoardId)
+            await this.$router.push({ name: 'ReviewBoardListPage' })
+          },
+          async onModify () {
+            await this.$router.push({ name: 'ReviewBoardModifyPage', params: this.reviewBoard.reviewBoardId  })
+          }
+      },
       created() {
           console.log('reviewBoardImages: ' + this.reviewBoardImages)
       }
   }
   </script>
   
-  <style scoped>
-  table.type09 {
-    border-collapse: collapse;
-    text-align: left;
-    line-height: 1.5;
-  
-  }
-  table.type09 thead th {
-    padding: 10px;
-    font-weight: bold;
-    vertical-align: top;
-    color: #369;
-    border-bottom: 3px solid #036;
-  }
-  table.type09 tbody th {
-    width: 150px;
-    padding: 10px;
-    font-weight: bold;
-    vertical-align: top;
-    border-bottom: 1px solid #ccc;
-    background: #f3f6f7;
-  }
-  table.type09 td {
-    width: 350px;
-    padding: 10px;
-    vertical-align: top;
-    border-bottom: 1px solid #ccc;
-  }
+  <style>
   </style>

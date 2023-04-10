@@ -6,7 +6,7 @@
       class="d-flex justify-space-around align-center"
       dark
     >
-    
+
         <router-link to="/">
           <v-img
             class="mx-3"
@@ -21,7 +21,7 @@
             <span>FOURMAN</span>
           </v-toolbar-title>
         </router-link>
- 
+
 
         <router-link to="/cafe-board-list-page" style="text-decoration: none">
           <span class="text-center">
@@ -69,7 +69,7 @@
           </v-list>
         </v-menu>
 
-     
+
         <!-- 로그인 안되어있을경우 -->
         <span class="ml-15">
         <v-btn
@@ -81,7 +81,7 @@
           <span>회원가입</span>
           <v-icon right>mdi-account-plus-outline</v-icon>
         </v-btn>
-        <v-btn v-else text color="white" >
+        <v-btn v-else text color="white" onclick="location.href='http://localhost:8887/member-my-page'">
           <span>마이 페이지</span>
           <!-- 아이콘 수정 필요  -->
         </v-btn>
@@ -170,6 +170,11 @@ export default {
         this.$router.push({
           name: "QuestionBoardListPage",
         });
+      }
+      if(item === "공지사항") {
+        this.$router.push({
+          name: "NoticeBoardListPage"
+        })
       }
     },
   },

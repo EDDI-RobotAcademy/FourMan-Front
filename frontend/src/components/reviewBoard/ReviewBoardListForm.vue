@@ -1,6 +1,9 @@
 <template>
   <div class="main-container">
     <v-container>
+      <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="reviewBoards.length === 0">
+        <h2>작성된 리뷰가 없습니다!</h2>
+      </div>
       <v-row>
         <v-col
           v-for="(reviewBoard, index) in calData"
@@ -11,7 +14,7 @@
           >
             <v-card class="text-center" :to="{ name: 'ReviewBoardReadPage', params: { reviewBoardId: reviewBoard.reviewBoardId.toString() }}">
             <v-img
-              :src="reviewBoard.firstPhoto ? getImagePath(reviewBoard.firstPhoto) : ''"
+              :src="reviewBoard.firstPhoto ? getImagePath(reviewBoard.firstPhoto) : require(`@/assets/logo.png`)"
               aspect-ratio="1"
               class="grey lighten-3"
               ></v-img>
@@ -41,7 +44,7 @@
     <v-pagination
       v-model="curPageNum"
       :length="numOfPages"
-      color="#2c4636"
+      color="#5D4037"
       class="mt-10"
       flat
     ></v-pagination>

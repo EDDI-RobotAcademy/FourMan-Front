@@ -1,9 +1,7 @@
 <template>
     <v-container>
-      <div align="center">
         <free-board-modify-form v-if="freeBoard" :freeBoard="freeBoard" @submit="onSubmit"/>
         <p v-else>로딩중 ........</p>
-      </div>
     </v-container>
   </template>
   

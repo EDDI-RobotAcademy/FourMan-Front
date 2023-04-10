@@ -1,29 +1,14 @@
 <template>
    <v-container style="width: 1000px">
-      <div class="mt-2">
-         <v-layout justify-end>
-            <v-btn-toggle borderless dense color="#2f4f4f">
-               <v-btn
-                  v-for="(btn, index) in categoryBtn" :key="index"
-                  elevation="0"
-                  color="white" @click="filterCategory(index)">
-                  <h4>{{ btn.name }}</h4>
-               </v-btn>
-            </v-btn-toggle>
-         </v-layout>
+      <div v-if="!datas || (Array.isArray(datas) && datas.length === 0)" class="mt-2">
+         <center>
+            <h2>상품이 존재하지 않습니다.</h2>
+         </center>
       </div>
-      <div v-if="!(Array.isArray(categoryDatas) && categoryDatas.length === 0)" class="mt-10">
-         <product-card-form :datas="categoryDatas" @addCart="addCart"/>
-      </div>
-      <div v-else class="mt-10">
+      <div v-else class="mt-2">
          <product-card-form :datas="datas" @addCart="addCart"/>
       </div>
-      <div class="text-right mr-5 mt-15">
-         <v-btn class="brown darken-2 white--text" @click="registerProduct">
-               상품 등록
-         </v-btn>
-      </div>
-      <div class="mt-15">
+      <div class="mt-8">
          <product-cart-form :cartItems="cartItems" />
       </div>
    </v-container>
@@ -42,15 +27,6 @@ export default {
    data() {
       return {
          cartItems: [],
-         categoryBtn : [
-            {name: "전체 메뉴", btnCheck: false, value: 'ALL'},
-            {name: "커피/라떼", btnCheck: false, value: 'COFFEE & LATTE'},
-            {name: "버블티/논커피", btnCheck: false, value: 'BUBBLETEA & NON-COFFEELATTE'},
-            {name: "스파클링/티", btnCheck: false, value: 'SPARKLING & TEA'},
-            {name: "스무디/과일음료", btnCheck: false, value: 'SMOOTHIE & FRUIT BEVERAGE'},
-         ],
-         category: '',
-         items: []
       }
    },
    props: {
@@ -73,15 +49,6 @@ export default {
             item.totalPrice = item.price * item.count
          } else {
             this.cartItems.push(data)
-         }
-      },
-      filterCategory(index) {
-         this.category = this.categoryBtn[index].value
-         if(this.category === 'All'){
-            this.$emit('categoryData', this.datas)
-         } else {
-            const categoryData = this.datas.filter((value) => value.drinkType == this.category)
-            this.$emit('categoryData', categoryData)
          }
       },
       registerProduct() {

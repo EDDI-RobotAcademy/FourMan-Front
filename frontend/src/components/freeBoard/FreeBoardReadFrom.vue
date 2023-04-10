@@ -1,33 +1,43 @@
 <template>
-    <div>
-      <table class="type09 mt-5 mb-5">
-        <thead>
-          <tr style="height: 3em;">
-            <th colspan="2" scope="cols">
-              {{ freeBoard.title }}
-            </th>
-          </tr>
-          <tr style="height: 3em;">
-            <td scope="row">
-              {{ freeBoard.writer }}
-            </td>
-            <td scope="row" class="text-right">
-              {{ freeBoard.regDate }}
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="height: 37em;">
-            <td colspan="2" scope="row">
-              {{ freeBoard.content }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div style="margin-left: 100px; margin-right: 100px;">
+    <div class="mt-5 mb-5" style="border: 1px solid #ccc; min-height: 700px">
+      <div style="margin: 20px">
+        <div>
+          <span class="HANNA">
+            <h1>{{ freeBoard.title }}</h1>
+          </span>
+        </div>
+        <div>
+          <span>{{ freeBoard.writer }}</span>
+        </div>
+        <div>
+          <span v-if="freeBoard.regDate" style="color: gray; font-size: 13px;">{{ freeBoard.regDate.slice(0, 10) }} {{ freeBoard.regDate.slice(11, 16) }}</span>
+          <span style="float: right;">
+            <v-btn v-if="loginCheck()" @click="onModify" icon>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn v-if="loginCheck()" @click="onDelete" icon>
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </span>
+        </div>
+        <v-divider class="mt-3 mb-3"></v-divider>
+        <div v-html="compiledMarkdown"></div>
+      </div>
     </div>
+    <div>
+      <v-btn class="brown darken-2 white--text mb-5" :to="{ name: 'FreeBoardListPage' }" style="float: right;">
+        목록
+      </v-btn>
+    </div>
+  </div>
   </template>
   
   <script>
+
+import { mapActions } from 'vuex'
+import { marked } from 'marked'
+
   export default {
       name: "FreeBoardReadForm",
       props: {
@@ -35,36 +45,43 @@
               type: Object,
               required: true,
           }
+      },
+      methods: {
+        ...mapActions([
+            'requestDeleteFreeBoardToSpring',
+        ]),
+        loginCheck() {
+            if(JSON.parse(localStorage.getItem('userInfo'))) {
+              const loginId = JSON.parse(localStorage.getItem('userInfo')).id
+              const memberId = this.freeBoard.memberId
+              const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+
+              if(loginId === memberId  || authorityName === "MANAGER") {
+                return true
+              } else {
+                return false
+              }
+            }
+
+            if(!JSON.parse(localStorage.getItem('userInfo'))) {
+              return false
+            }
+          },
+          async onDelete () {
+            await this.requestDeleteFreeBoardToSpring(this.freeBoard.boardId)
+            await this.$router.push({ name: 'FreeBoardListPage' })
+          },
+          async onModify () {
+            await this.$router.push({ name: 'FreeBoardModifyPage', params: this.freeBoard.boardId  })
+          },
+      },
+      computed: {
+        compiledMarkdown: function () {
+          return marked(this.freeBoard.content);
+        }
       }
   }
   </script>
   
   <style scoped>
-  table.type09 {
-    border-collapse: collapse;
-    text-align: left;
-    line-height: 1.5;
-  
-  }
-  table.type09 thead th {
-    padding: 10px;
-    font-weight: bold;
-    vertical-align: top;
-    color: #369;
-    border-bottom: 3px solid #036;
-  }
-  table.type09 tbody th {
-    width: 150px;
-    padding: 10px;
-    font-weight: bold;
-    vertical-align: top;
-    border-bottom: 1px solid #ccc;
-    background: #f3f6f7;
-  }
-  table.type09 td {
-    width: 350px;
-    padding: 10px;
-    vertical-align: top;
-    border-bottom: 1px solid #ccc;
-  }
   </style>

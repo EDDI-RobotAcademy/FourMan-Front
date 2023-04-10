@@ -1,8 +1,10 @@
 <template>
   <v-container>
-    <h2 class="mt-5 mb-5 text-center">리뷰 게시판</h2>
-    <review-board-list-form class="mt-5 mb-5" :reviewBoards="reviewBoards"/>
-    <v-btn class="mt-5 mb-5 me-5 brown darken-2 white--text" style="float:right;" @click="loginCheck">
+    <div class="EULJIRO mt-5 mb-5 text-center">
+            <h1>리뷰 게시판 <v-icon>mdi-camera</v-icon></h1>
+        </div>
+    <review-board-list-form class="mt-5" :reviewBoards="reviewBoards"/>
+    <v-btn v-if="this.$store.state.isAuthenticated" class="mb-10 me-10 brown darken-2 white--text" style="float:right;" @click="loginCheck">
       <h4>리뷰 등록</h4>
     </v-btn>
   </v-container>

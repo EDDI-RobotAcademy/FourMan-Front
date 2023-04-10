@@ -33,7 +33,7 @@ export default {
             productName: '상품명을 입력하세요.',
             price: 0,
             files: '',
-            drinkTypeList: ['COFFEE & LATTE', 'BUBBLETEA & NON-COFFEELATTE', 'SPARKLING & TEA', 'SMOOTHIE & FRUIT BEVERAGE'],
+            drinkTypeList: ['COFFEE & LATTE', 'BUBBLETEA & NON-COFFEE', 'ADE & TEA', 'SMOOTHIE & FRUIT BEVERAGE'],
             drinkType: ''
         }
     },

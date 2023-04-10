@@ -44,7 +44,15 @@ import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardLis
 import CafeIntroBoardRegisterPage from '@/views/cafeIntroduceBoard/CafeIntroBoardRegisterPage.vue'
 import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardDetailPage.vue'
 
+//마이페이지 관련
+import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
+import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
 
+//공지사항관련
+import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
+import NoticeBoardListPage from '@/views/noticeBoard/NoticeBoardListPage.vue'
+import NoticeBoardReadPage from '@/views/noticeBoard/NoticeBoardReadPage.vue'
+import NoticeBoardModifyPage from '@/views/noticeBoard/NoticeBoardModifyPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -156,7 +164,7 @@ const routes = [
       default: true
     }
   },
- 
+
 
 // 자유 게시판 관련
   {
@@ -301,8 +309,49 @@ const routes = [
       default: true
     }
   },
+  //마이페이지 관련
+  {
+    path: '/member-my-page',
+    name: 'MemberMyPage',
+    component: MemberMyPage
+  },
+  {
+    path: '/product-manage-page',
+    name: 'ProductManagePage',
+    component: ProductManagePage
+  },
 
-
+  // 공지사항 관련
+  {
+    path: '/notice-board-register-page',
+    name: 'NoticeBoardRegisterPage',
+    component: NoticeBoardRegisterPage
+  },
+  {
+    path: '/notice-board-list-page',
+    name: 'NoticeBoardListPage',
+    component: NoticeBoardListPage
+  },
+  {
+    path: '/notice-board-read-page/:boardId',
+    name: 'NoticeBoardReadPage',
+    components: {
+      default: NoticeBoardReadPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/notice-board-modify-page/:boardId',
+    name: 'NoticeBoardModifyPage',
+    components: {
+      default: NoticeBoardModifyPage
+    },
+    props: {
+      default: true
+    }
+  },
 
 
 ]

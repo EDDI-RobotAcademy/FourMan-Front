@@ -1,24 +1,16 @@
 <template>
     <v-container>
-        <div align="center">
+        <div>
             <question-board-read-form v-if="questionBoard" :questionBoard="questionBoard" />
             <p v-else> 로딩중...</p>
-            <router-link :to="{ name: 'QuestionBoardModifyPage', params: {boardId} }">
-                <v-btn class="brown lighten-1 white--text"> 수정 </v-btn>
-            </router-link>
-            <router-link :to="{ name: 'QuestionBoardListPage' }">
-                <v-btn @click="showConfirm" class="brown lighten-1 white--text"> 삭제 </v-btn>
-            </router-link>
         </div>
-        <v-divider></v-divider>
-        <question-board-comment-list-form
-            :comments="comments"
-            @click="deleteComment"/>
         <!-- 댓글 등록 form -->
-        <v-divider></v-divider>
         <div align="center">
             <question-board-comment-form @submit="onSubmitComment"></question-board-comment-form>
         </div>
+        <question-board-comment-list-form
+            :comments="comments"
+            :dialog="dialog"/>
     </v-container>
 </template>
 
@@ -32,6 +24,11 @@ import {mapActions, mapState} from 'vuex'
 
 export default {
     name: "QuestionBoardReadPage",
+    data () {
+        return {
+            dialog : false,
+        }
+    },
     components: {
         QuestionBoardReadForm,
         QuestionBoardCommentForm,
@@ -44,41 +41,28 @@ export default {
             required: true,
         },
     },
-    comment: {
-        type: Object,
-        required: true
-    },
     computed: {
-        ...mapState(['questionBoard','comments'])
-    },
+        ...mapState(['questionBoard','comments']),
+},
     methods: {
         ...mapActions([
             'requestQuestionBoardToSpring',
-            'requestQuestionBoardDeleteToSpring',
             'requestQuestionBoardCommentRegisterToSpring',
             'requestQuestionBoardCommentListToSpring',
             'requestQuestionBoardCommentDeleteToSpring',
     ]),
-    showConfirm() {
-        if(confirm('정말 삭제하시겠습니까?')) {
-            this.requestQuestionBoardDeleteToSpring(this.boardId)
-        } else {
-            this.$router.go((this.$router.currentRoute))
-            //No 버튼을 누르면 페이지를 이동하지않고 그대로 보여줌
-        }
-    },
     async onSubmitComment(payload) {
-        const { comment, commentWriter } = payload
+        const { comment, commentWriter, memberId} = payload
         const boardId = this.boardId
-        console.log("댓글 등록할 boardId:" + boardId)
-        await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter})
+        console.log("댓글 등록할 boardId:" + boardId +"memberId check" + memberId)
+        await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter, memberId})
         await this.$router.go((this.$router.currentRoute))
     },
 },
-    created () {
+    async created () {
         console.log('boardId : ' + this.boardId)
-        this.requestQuestionBoardToSpring(this.boardId)
-        this.requestQuestionBoardCommentListToSpring(this.boardId)
+        await this.requestQuestionBoardToSpring(this.boardId)
+        await this.requestQuestionBoardCommentListToSpring(this.boardId)
        },
 
 }
