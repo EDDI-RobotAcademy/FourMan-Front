@@ -36,14 +36,17 @@ import {
 
    //공지사항 게시판 관련
    REQUEST_NOTICE_BOARD_LIST_TO_SPRING,
-   REQUEST_NOTICE_BOARD_TO_SPRING
+   REQUEST_NOTICE_BOARD_TO_SPRING,
+
+   //질문 게시판 관련
+   REQUEST_MY_FREE_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
 
 export default {
     //예약 관련
-    
+
     requestCafeSeatToSpring({commit},payload) {
         console.log("requestCafeSeatToSpring 작동")
         const {cafeId,time}=payload
@@ -389,5 +392,12 @@ export default {
             .catch(() => {
                 alert("문제 발생!")
             })
-}
+    },
+    requestMyFreeBoardListToSpring({ commit }, memberId) {
+        console.log('requestMyFreeBoardListToSpring 작동')
+        return axios.get('http://localhost:8888/my-freeboard/list')
+        .then((res) => {
+            commit(REQUEST_MY_FREE_BOARD_LIST_TO_SPRING, res.data)
+        })
+    },
 }
