@@ -40,6 +40,9 @@ import {
 
    //질문 게시판 관련
    REQUEST_MY_FREE_BOARD_LIST_TO_SPRING,
+
+   // 마이페이지 내 정보 관련
+   REQUEST_MY_INFO_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -420,4 +423,12 @@ export default {
             commit(REQUEST_MY_FREE_BOARD_LIST_TO_SPRING, res.data)
         })
     },
+    // 마이페이지 내 정보 관련
+    requestMyInfoToSpring({ commit }, memberId) {
+        console.log('requestMyInfoToSpring 작동')
+        return axios.get(`http://localhost:8888/my-info/${memberId}`)
+        .then((res) => {
+            commit(REQUEST_MY_INFO_TO_SPRING, res.data)
+        })
+    }
 }

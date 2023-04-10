@@ -47,4 +47,7 @@ export default {
    //나의 게시판 관련
    myFreeBoards: [],
    myFreeBoard: {},
+
+   // 마이페이지 내 정보 관련
+   myInfo: {},
 }
