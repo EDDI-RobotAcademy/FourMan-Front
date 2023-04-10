@@ -20,7 +20,7 @@ export default {
             const product = await this.requestCreateProductToSpring(payload) 
             console.log('product: ' + JSON.stringify(product.data))
             await this.$router.push({ 
-                name: 'ProductListPage',
+                name: 'ProductManagePage',
             })
         }
     }

@@ -44,11 +44,13 @@
                   <td>{{ product.productName }}</td>
                   <td>{{ product.drinkType }}</td>
                   <td>{{ product.price | comma }}원</td>
+
+                  <!-- 수정 -->
                   <td>
-                     <v-btn elevation="0">
-                        수정
-                     </v-btn>
+                     <v-btn elevation="0" @click="modifyBtn(product)">수정</v-btn> <!-- 버튼을 눌렀을 때 v-card가 보여진다. -->
                   </td>
+
+                  <!-- 삭제 -->
                   <td>
                      <v-btn elevation="0">
                         삭제
@@ -80,8 +82,13 @@
 </template>
 
 <script>
+import ProductModifyForm from '@/components/cafeMyPage/ProductModifyForm.vue'
+
 export default {
    name: "ProductManageForm",
+   components: {
+      ProductModifyForm
+   },
    data() {
       return {
          categoryBtn : [
@@ -95,6 +102,8 @@ export default {
          dataPerPage: 8,
          curPageNum: 1,
          filteredItems: [],
+         modifyDialog: false,
+         editedProduct: Object
       }
    },
    props: {
@@ -117,6 +126,12 @@ export default {
             const categoryData = this.productList.filter((value) => value.drinkType == this.category)
             this.filteredItems = categoryData
          }
+      },
+      modifyBtn(product) {
+         this.$router.push({
+               name: "ProductModifyPage",
+               params: { modifyProduct: product }
+            })
       },
    },
    computed: {
@@ -141,8 +156,8 @@ export default {
          }
       },
    },
-   async created() {
-
+   async updated() {
+      console.log('dialog: ' + this.modifyDialog)
    }
 
 }
