@@ -6,76 +6,73 @@
       class="d-flex justify-space-around align-center"
       dark
     >
+      <router-link to="/">
+        <v-img
+          class="mx-3"
+          src="@/assets/logo.png"
+          max-height="70"
+          max-width="70"
+          contain
+        />
+      </router-link>
+      <router-link to="/" style="text-decoration: none">
+        <v-toolbar-title class="text--darken-4 white--text ml-3 mr-15">
+          <span>FOURMAN</span>
+        </v-toolbar-title>
+      </router-link>
 
-        <router-link to="/">
-          <v-img
-            class="mx-3"
-            src="@/assets/logo.png"
-            max-height="70"
-            max-width="70"
-            contain
-          />
-        </router-link>
-        <router-link to="/" style="text-decoration: none">
-          <v-toolbar-title class="text--darken-4 white--text ml-3 mr-15">
-            <span>FOURMAN</span>
-          </v-toolbar-title>
-        </router-link>
+      <router-link to="/cafe-board-list-page" style="text-decoration: none">
+        <span class="text-center">
+          <v-btn text color="white" dark> 카페소개 </v-btn>
+        </span>
+      </router-link>
 
+      <router-link to="seats" style="text-decoration: none">
+        <span class="">
+          <v-btn text color="white" dark> 자리 예약 </v-btn>
+        </span>
+      </router-link>
 
-        <router-link to="/cafe-board-list-page" style="text-decoration: none">
-          <span class="text-center">
-            <v-btn text color="white" dark> 카페소개 </v-btn>
-          </span>
-        </router-link>
+      <router-link to="product-list-page" style="text-decoration: none">
+        <span class="">
+          <v-btn text color="white" dark> 포장 주문 </v-btn>
+        </span>
+      </router-link>
 
-        <router-link to="" style="text-decoration: none">
-          <span class="">
-            <v-btn text color="white" dark v-on="on"> 자리 예약 </v-btn>
-          </span>
-        </router-link>
+      <v-menu open-on-hover offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn text color="white" dark v-on="on">커뮤니티</v-btn>
+        </template>
+        <v-list color="brown lighten-1">
+          <v-list-item
+            v-for="(item, index) in comunityList"
+            :key="index"
+            @click="selectItem(item)"
+            class="white--text"
+          >
+            <v-list-item-title>{{ item }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
-        <router-link to="product-list-page" style="text-decoration: none">
-          <span class="">
-            <v-btn text color="white" dark v-on="on"> 포장 주문 </v-btn>
-          </span>
-        </router-link>
+      <v-menu open-on-hover offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn text color="white" dark v-on="on">고객센터</v-btn>
+        </template>
+        <v-list color="brown lighten-1">
+          <v-list-item
+            v-for="(item, index) in serviceCenterList"
+            :key="index"
+            @click="selectItem(item)"
+            class="white--text"
+          >
+            <v-list-item-title>{{ item }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
-        <v-menu open-on-hover offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn text color="white" dark v-on="on">커뮤니티</v-btn>
-          </template>
-          <v-list color="brown lighten-1">
-            <v-list-item
-              v-for="(item, index) in comunityList"
-              :key="index"
-              @click="selectItem(item)"
-               class="white--text"
-            >
-              <v-list-item-title>{{ item }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-
-        <v-menu open-on-hover offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn text color="white" dark v-on="on">고객센터</v-btn>
-          </template>
-          <v-list color="brown lighten-1">
-            <v-list-item
-              v-for="(item, index) in serviceCenterList"
-              :key="index"
-              @click="selectItem(item)"
-              class="white--text"
-            >
-              <v-list-item-title>{{ item }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-
-
-        <!-- 로그인 안되어있을경우 -->
-        <span class="ml-15">
+      <!-- 로그인 안되어있을경우 -->
+      <span class="ml-15">
         <v-btn
           v-if="isAuthenticated == false"
           text
@@ -85,13 +82,18 @@
           <span>회원가입</span>
           <v-icon right>mdi-account-plus-outline</v-icon>
         </v-btn>
-        <v-btn v-else text color="white" onclick="location.href='http://localhost:8887/member-my-page'">
+        <v-btn
+          v-else
+          text
+          color="white"
+          onclick="location.href='http://localhost:8887/member-my-page'"
+        >
           <span>마이 페이지</span>
           <!-- 아이콘 수정 필요  -->
         </v-btn>
-        </span>
+      </span>
 
-        <span>
+      <span>
         <v-btn
           v-if="isAuthenticated == false"
           text
@@ -106,8 +108,7 @@
           <span>로그아웃</span>
           <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
-        </span>
-
+      </span>
     </v-app-bar>
   </nav>
 </template>
@@ -120,13 +121,6 @@ export default {
   name: "NavigationMenuForm",
   data() {
     return {
-      items: [
-        { title: "Click Me" },
-        { title: "Click Me" },
-        { title: "Click Me" },
-        { title: "Click Me 2" },
-      ],
-
       isTrue: false,
       comunityList: ["자유게시판", "리뷰게시판"],
       serviceCenterList: ["Q&A", "공지사항"],
@@ -181,10 +175,10 @@ export default {
           name: "QuestionBoardListPage",
         });
       }
-      if(item === "공지사항") {
+      if (item === "공지사항") {
         this.$router.push({
-          name: "NoticeBoardListPage"
-        })
+          name: "NoticeBoardListPage",
+        });
       }
     },
   },

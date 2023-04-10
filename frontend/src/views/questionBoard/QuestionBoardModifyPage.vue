@@ -1,10 +1,7 @@
 <template>
     <v-container>
-        <div align="center">
-            <h2 class="mt-5 mb-5 text-center">Q&A 게시판</h2>
-            <question-board-modify-form v-if="questionBoard" :questionBoard="questionBoard" @submit="onSubmit" />
-            <p v-else> 로딩중 </p>
-        </div>
+        <question-board-modify-form v-if="questionBoard" :questionBoard="questionBoard" @submit="onSubmit" />
+        <p v-else> 로딩중 </p>
     </v-container>
 </template>
 

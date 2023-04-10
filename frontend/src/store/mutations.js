@@ -1,4 +1,8 @@
 import {
+   //예약관련
+
+   REQUEST_CAFE_SEAT_TO_SPRING,
+
    // 카페소개보드관련
    REQUEST_CAFE_LIST_TO_SPRING,
    REQUEST_CAFE_NUM_TO_SPRING,
@@ -31,10 +35,18 @@ import {
    REQUEST_SEARCH_BOARD_TO_SPRING,
    //공지사항 게시판 관련
    REQUEST_NOTICE_BOARD_LIST_TO_SPRING,
+   REQUEST_NOTICE_BOARD_TO_SPRING,
 
 } from './mutation-types'
 
 export default {
+   //예약관련
+
+   [REQUEST_CAFE_SEAT_TO_SPRING](state,passingData){
+      state.seatData=passingData.seatResponse
+      state.tableData=passingData.tableResponse
+   },
+
    //카페소개보드관련
    [REQUEST_CAFE_LIST_TO_SPRING](state, passingData) {
       state.cafeLists = passingData
@@ -101,4 +113,7 @@ export default {
    [REQUEST_NOTICE_BOARD_LIST_TO_SPRING] (state, passingData) {
       state.noticeBoards = passingData
    },
+   [REQUEST_NOTICE_BOARD_TO_SPRING] (state, passingData) {
+      state.noticeBoard = passingData
+   }
 }

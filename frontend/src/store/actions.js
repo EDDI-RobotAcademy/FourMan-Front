@@ -1,4 +1,7 @@
 import {
+    //예약관련
+    REQUEST_CAFE_SEAT_TO_SPRING,
+
     //카페소개 보드 관련
     REQUEST_CAFE_LIST_TO_SPRING,
     REQUEST_CAFE_NUM_TO_SPRING,
@@ -32,12 +35,28 @@ import {
    REQUEST_SEARCH_BOARD_TO_SPRING,
 
    //공지사항 게시판 관련
-   REQUEST_NOTICE_BOARD_LIST_TO_SPRING
+   REQUEST_NOTICE_BOARD_LIST_TO_SPRING,
+   REQUEST_NOTICE_BOARD_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
 
 export default {
+    //예약 관련
+    
+    requestCafeSeatToSpring({commit},payload) {
+        console.log("requestCafeSeatToSpring 작동")
+        const {cafeId,time}=payload
+        return axios.get(`http://localhost:8888/reservation/cafe/${cafeId}/time/${time}`)
+            .then((res) => {
+                commit(REQUEST_CAFE_SEAT_TO_SPRING, res.data)
+                console.log(" res.data.seatResponse: " + res.data.seatResponse)
+                console.log(" res.data.tableResponse: " + res.data.tableResponse)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
 
     //카페소개보드 관련
     requestCafeListToSpring({commit}) {
@@ -258,7 +277,7 @@ export default {
     },
     requestQuestionBoardModifyToSpring({}, payload) {
         const { boardId, title, content} = payload
-        axios.put(`http://localhost:8888/question-board/${boardId}`,
+        return axios.put(`http://localhost:8888/question-board/${boardId}`,
         { title, content})
         .then(() => {
             alert('게시물 수정 성공')
@@ -362,5 +381,33 @@ export default {
         .then((res) => {
             commit(REQUEST_NOTICE_BOARD_LIST_TO_SPRING, res.data)
         })
-    }
+    },
+    requestNoticeBoardToSpring({ commit }, boardId) {
+        console.log('requestNoticeBoardToSpring 작동')
+        return axios.get(`http://localhost:8888/notice-board/${boardId}`)
+        .then((res) =>{
+            commit(REQUEST_NOTICE_BOARD_TO_SPRING, res.data)
+        })
+    },
+    requestNoticeBoardModifyToSpring ({}, payload) {
+        const { boardId, title, content} = payload
+        axios.put(`http://localhost:8888/notice-board/${boardId}`,
+        { title, content})
+        .then(() => {
+            alert('게시물 수정 성공')
+        })
+        .catch(() => {
+            alert('수정 실패')
+        })
+    },
+    requestNoticeBoardDeleteToSpring({}, boardId) {
+        console.log('requestNoticeBoardDeleteToSpring 작동')
+        return axios.delete(`http://localhost:8888/notice-board/${boardId}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+}
 }

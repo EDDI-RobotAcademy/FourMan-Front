@@ -1,5 +1,5 @@
 <template>
-  <v-card :loading="loading" class="mx-auto my-12 cafeCard" max-width="374">
+  <v-card class="mx-auto my-12 cafeCard" max-width="374">
     <div class="cafeInfo">
       <template slot="progress">
         <v-progress-linear
@@ -94,7 +94,6 @@ export default {
     },
   },
   data: () => ({
-    loading: false,
     selection: 1,
     rating: 0,
     totalRating: 0,
@@ -102,8 +101,9 @@ export default {
   methods: {
 
     reserve() {
-      this.loading = true;
-      setTimeout(() => (this.loading = false), 2000);
+             this.$router.push({ name:'HallSeatPage',
+                           params:{cafe: this.cafe
+                           }});
     },
 
     showDetail(){

@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import MainPage from "@/views/MainPage.vue"
+import MainPage from "@/views/MainPage.vue";
+
+//예약페이지관련
+
+import HallSeatPage from "@/views/hallSeat/HallSeatPage";
 
 //로그인관련
 import SignUpPage from "@/views/member/SignUpPage";
@@ -48,6 +52,8 @@ import ProductModifyPage from '@/views/cafeMyPage/ProductModifyPage.vue'
 //공지사항관련
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
 import NoticeBoardListPage from '@/views/noticeBoard/NoticeBoardListPage.vue'
+import NoticeBoardReadPage from '@/views/noticeBoard/NoticeBoardReadPage.vue'
+import NoticeBoardModifyPage from '@/views/noticeBoard/NoticeBoardModifyPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -56,6 +62,19 @@ const routes = [
     path: '/',
     name: 'MainPage',
     component: MainPage
+  },
+
+  //예약 페이지 관련
+  {
+    path: '/seats',
+    name: 'HallSeatPage',
+    components: {
+      default: HallSeatPage
+    },
+    props: {
+      default: true
+    }
+
   },
 
   //카페소개 게시판 관련
@@ -245,6 +264,15 @@ const routes = [
     path: '/question-board-list-page',
     name: 'QuestionBoardListPage',
     component: QuestionBoardListPage,
+    beforeEnter: (to, from, next) => {
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo != null) {
+        next();
+      } else {
+        alert('로그인 후 글을 작성할 수 있습니다.')
+        next('/sign-in');
+      }
+    }
   },
   {
     path: '/question-board-register-page',
@@ -319,6 +347,26 @@ const routes = [
     path: '/notice-board-list-page',
     name: 'NoticeBoardListPage',
     component: NoticeBoardListPage
+  },
+  {
+    path: '/notice-board-read-page/:boardId',
+    name: 'NoticeBoardReadPage',
+    components: {
+      default: NoticeBoardReadPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/notice-board-modify-page/:boardId',
+    name: 'NoticeBoardModifyPage',
+    components: {
+      default: NoticeBoardModifyPage
+    },
+    props: {
+      default: true
+    }
   },
 
 

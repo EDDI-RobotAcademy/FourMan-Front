@@ -99,7 +99,7 @@
               <v-col cols="2"><h4>영업 시작</h4></v-col>
               <v-select
                 v-model="startTime"
-                :items="this.timeList"
+                :items="this.times"
                 label="영업 시작 시간"
                 style="width: 200px"
                 outlined
@@ -109,7 +109,7 @@
               <v-col cols="2" align="center"><h4>영업 종료</h4></v-col>
               <v-select
                 v-model="endTime"
-                :items="this.timeList"
+                :items="this.times"
                 label="영업 종료 시간"
                 style="width: 200px"
                 outlined
@@ -222,25 +222,22 @@ import axios from "axios";
 
 export default {
   name: "CafeIntroBoardRegisterForm",
-  computed: {
-    timeList() {
-      let array = [];
-      for (let i = 0; i < 48; i++) {
-        let hour = "";
-        let min = ":00";
+   created() {
+    const startTime = new Date();
+    startTime.setHours(0, 0, 0, 0); // 00:00:00
+    const endTime = new Date();
+    endTime.setHours(23, 59, 0, 0); // 23:59:00
 
-        if (Math.ceil(i / 2) < 13) {
-          hour = Math.floor(i / 2);
-        } else {
-          hour = Math.floor(i / 2);
-        }
-        if (i % 2 != 0) {
-          min = ":30";
-        }
-        array.push(hour + min);
-      }
-      return array;
-    },
+    const intervalMinutes = 30; // 30분 간격
+    let currentTime = startTime;
+
+    while (currentTime <= endTime) {
+      const hour = currentTime.getHours();
+      const minute = currentTime.getMinutes();
+      const timeString = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`;
+      this.times.push(timeString);
+      currentTime = new Date(currentTime.getTime() + intervalMinutes * 60000);
+    }
   },
   data() {
     return {
@@ -249,6 +246,7 @@ export default {
       cafeTel: "",
       startTime: "",
       endTime: "",
+      times: [],
 
       subTitle: "",
       description: "",
