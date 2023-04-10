@@ -3,19 +3,19 @@
       <my-page-side-bar-form />
       
       <v-container style="width: 1000px">
-         <member-my-page-form />
+         <member-my-info-form />
       </v-container>
    </div>
 </template>
 
 <script>
-import MemberMyPageForm from '@/components/memberMyPage/MemberMyPageForm.vue'
+import MemberMyInfoForm from '@/components/memberMyPage/MemberMyInfoForm.vue'
 import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
 
 export default {
    name: "MemberMyPage",
    components: {
-      MemberMyPageForm,
+      MemberMyInfoForm,
       MyPageSideBarForm
    }
 }
