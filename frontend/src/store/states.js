@@ -3,7 +3,7 @@ export default {
    seatData:[],
    tableData:[],
 
-   
+
    //카페소개보드 관련
    cafeLists:[],
    cafeCheck:false,
@@ -43,4 +43,8 @@ export default {
    //공지사항 관련
    noticeBoards: [],
    noticeBoard: {},
+
+   //나의 게시판 관련
+   myFreeBoards: [],
+   myFreeBoard: {},
 }
