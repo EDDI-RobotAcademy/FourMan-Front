@@ -57,7 +57,7 @@
 
                   <!-- 삭제 -->
                   <td>
-                     <v-btn elevation="0">
+                     <v-btn elevation="0" @click="deleteBtn(product)">
                         삭제
                      </v-btn>
                   </td>
@@ -88,6 +88,7 @@
 
 <script>
 import ProductModifyForm from '@/components/cafeMyPage/ProductModifyForm.vue'
+import { mapActions } from 'vuex'
 
 export default {
    name: "ProductManageForm",
@@ -124,6 +125,9 @@ export default {
     }
    },
    methods: {
+      ...mapActions([
+         'requestDeleteProductToSpring'
+      ]),
       filterCategory(index) {
          this.category = this.categoryBtn[index].value
          if(this.category === 'ALL'){
@@ -144,6 +148,14 @@ export default {
                params: { modifyProduct: product }
             })
       },
+      async deleteBtn(product) {
+         console.log(product.productId)
+         let productId = product.productId
+         await this.requestDeleteProductToSpring(productId)
+
+         // 새로고침 
+         this.$router.go()
+      }
    },
    computed: {
       startOffset() {

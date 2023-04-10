@@ -154,6 +154,15 @@ export default {
                 alert('문제 발생!')
             })
    },
+   requestDeleteProductToSpring({}, productId) {
+    return axios.delete(`http://localhost:8888/product/${productId}`)
+       .then(() => {
+          alert("삭제 성공")
+       })
+       .catch(() => {
+          alert("문제 발생!")
+       })
+},
 
    // 보드 관련
    requestCreateFreeBoardToSpring ({ }, payload) {
