@@ -2,7 +2,7 @@
   <v-container>
    <v-row justify="center">
     <v-col cols="auto">
-  <v-dialog v-model="dialogVisible" :transition="dialog-bottom-transition" width="auto">
+  <v-dialog v-model="dialogVisible" transition="dialog-bottom-transition" width="auto">
     <v-card
     class="mx-auto"
     max-width="500">
