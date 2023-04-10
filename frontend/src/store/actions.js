@@ -109,6 +109,26 @@ export default {
             console.log("allProduct: " + JSON.stringify(res.data))
         })
    },
+   requestEditProductWithoutImageToSpring({}, payload) {
+        console.log('payload: ' + payload)
+        return axios.post('http://localhost:8888/product/editProductWithImage', payload )
+            .then(() => {
+                alert('게시물 수정 성공!')
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+   },
+   requestEditProductWithImageToSpring({}, payload) {
+        console.log('payload: ' + payload)
+        return axios.post('http://localhost:8888/product/editProductWithoutImage', payload )
+            .then(() => {
+                alert('게시물 수정 성공!')
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+   },
 
    // 보드 관련
    requestCreateFreeBoardToSpring ({ }, payload) {

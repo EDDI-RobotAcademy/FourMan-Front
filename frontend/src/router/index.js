@@ -43,6 +43,7 @@ import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardD
 //마이페이지 관련
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
+import ProductModifyPage from '@/views/cafeMyPage/ProductModifyPage.vue'
 
 //공지사항관련
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
@@ -290,7 +291,22 @@ const routes = [
   {
     path: '/product-manage-page',
     name: 'ProductManagePage',
-    component: ProductManagePage
+    components: {
+      default: ProductManagePage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/product-modify-page',
+    name: 'ProductModifyPage',
+    components: {
+      default: ProductModifyPage
+    },
+    props: {
+      default: true
+    }
   },
 
   // 공지사항 관련
