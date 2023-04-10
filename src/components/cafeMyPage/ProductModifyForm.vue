@@ -59,7 +59,7 @@ export default {
       'requestEditProductWithoutImageToSpring',
       'requestEditProductWithImageToSpring'
     ]),
-    save() {
+    async save() {
       
       let formData = new FormData()
 
@@ -70,7 +70,7 @@ export default {
             productName: productName,
             price: price,
             drinkType: drinkType,
-          }
+      }
 
       formData.append(
             "editedProductInfo",
@@ -78,10 +78,16 @@ export default {
       )
 
       if(this.file == null) {
-        this.requestEditProductWithoutImageToSpring(formData)
+        await this.requestEditProductWithoutImageToSpring(formData)
+        this.$router.push({
+              name: "ProductManagePage"
+        })
       } else {
         formData.append('editedProductImage', this.file)
-        this.requestEditProductWithImageToSpring(formData)
+        await this.requestEditProductWithImageToSpring(formData)
+        this.$router.push({
+               name: "ProductManagePage"
+         })
       }
     },
     cancel() {

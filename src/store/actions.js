@@ -133,7 +133,7 @@ export default {
    },
    requestEditProductWithoutImageToSpring({}, payload) {
         console.log('payload: ' + payload)
-        return axios.post('http://localhost:8888/product/editProductWithImage', payload )
+        return axios.post('http://localhost:8888/product/editProductWithoutImage', payload )
             .then(() => {
                 alert('게시물 수정 성공!')
             })
@@ -143,7 +143,7 @@ export default {
    },
    requestEditProductWithImageToSpring({}, payload) {
         console.log('payload: ' + payload)
-        return axios.post('http://localhost:8888/product/editProductWithoutImage', payload )
+        return axios.post('http://localhost:8888/product/editProductWithImage', payload )
             .then(() => {
                 alert('게시물 수정 성공!')
             })
