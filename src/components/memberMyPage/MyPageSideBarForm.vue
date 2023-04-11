@@ -8,7 +8,7 @@
         hide-overlay
     >
       <v-divider style="border-color: black; margin-top: 79px" ></v-divider>
-      
+
       <v-list-item style="height: 20%">
         <v-list-item-content>
           <v-list-item-title class="mb-5" style="margin-top: 145px">
@@ -27,7 +27,7 @@
                {{ nickName }} 님
             </div>
             <div align="center" class="mt-1" style="font-size: 15px">
-               {{ memberType }} 
+               {{ memberType }}
             </div>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -79,7 +79,7 @@ export default {
          {
             title: "나의 게시글",
             icon: "mdi-clipboard-text",
-            route: "/"},
+            route: "/my-free-board-page"},
          {
             title: "나의 문의",
             icon: "mdi-comment-question",
