@@ -5,8 +5,17 @@
       style="border: 1px solid black"
       :fluid="true"
     >
-      <div v-if="selectedTime == null">예약 시간을 선택해 주세요!</div>
-      <hall-seat-form v-else :seatData="seatData" :tableData="tableData" />
+      <h1 v-if="selectedTime == null" class="text-center">
+        예약 시간을 선택해 주세요!</h1>
+      <hall-seat-form
+        v-else
+        :seatData="seatData"
+        :tableData="tableData"
+        :cafe="cafe"
+        @onUpdateSelectedSeats="onUpdateSelectedSeats"
+         @update-seats-count="onUpdateSeatsCount"
+        ref="hallSeatForm"
+      />
     </v-container>
 
     <v-container
@@ -41,10 +50,7 @@
                   <v-col cols="6"
                     ><span class="font-weight-bold mr-10">예약일자:</span>
                     {{ getFormattedDate() }}
-                    <!-- {{seatData}} -->
-                    <!-- {{tableData}} -->
-                    </v-col
-                  >
+                  </v-col>
                 </v-row>
 
                 <v-row class="ml-1">
@@ -63,6 +69,32 @@
                     >
                     </v-select>
                   </v-col>
+                </v-row>
+
+                <v-row class=" ml-1">
+                  <v-col cols="6"
+                    ><span class="font-weight-bold mr-15">전체 좌석수:</span>
+                    {{ this.total }} 석</v-col
+                  >
+                </v-row>
+                <v-row class=" ml-1">
+                  <v-col cols="6"
+                    ><span class="font-weight-bold mr-6">예약 가능 좌석수:</span>
+                    {{ this.unreserved }} 석</v-col
+                  >
+                </v-row>
+
+                <v-row class="ml-1">
+                  <v-col cols="12"
+                    ><h3 class="font-weight-bold mr-10 ">선택 좌석</h3>
+                    <div v-if="selectedSeats.length">
+                      <ul>
+                        <li v-for="seat in selectedSeats" :key="seat.seatNo">
+                          {{ seat.seatNo }}
+                        </li>
+                      </ul>
+                    </div></v-col
+                  >
                 </v-row>
               </v-col>
             </v-row>
@@ -96,6 +128,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapActions, mapState } from "vuex";
 import HallSeatForm from "@/components/hallSeat/HallSeatForm.vue";
 // import HallSeatRegisterForm from '@/components/hallSeat/HallSeatRegisterForm.vue'
@@ -115,28 +148,11 @@ export default {
     return {
       nickName: JSON.parse(localStorage.getItem("userInfo")).nickName,
       selectedTime: null,
+      selectedSeats: [],
+      unreserved:0,
+      total:0
       // times: [], // 예약 가능한 시간 리스트
       // seats: [], // 예약 가능한 자리 리스트
-      // seatData: [
-      //   { id: 1, x: 10, y: 100, width: 50, height: 50, isReserved: false },
-      //   { id: 2, x: 110, y: 100, width: 50, height: 50, isReserved: false },
-      //   { id: 3, x: 210, y: 100, width: 50, height: 50, isReserved: false },
-      //   { id: 4, x: 310, y: 100, width: 50, height: 50, isReserved: false },
-      //   { id: 5, x: 10, y: 250, width: 50, height: 50, isReserved: false },
-      //   { id: 6, x: 110, y: 250, width: 50, height: 50, isReserved: false },
-      //   { id: 7, x: 10, y: 400, width: 50, height: 50, isReserved: false },
-      //   { id: 8, x: 110, y: 400, width: 50, height: 50, isReserved: false },
-      //   { id: 9, x: 10, y: 500, width: 50, height: 50, isReserved: false },
-      //   { id: 10, x: 110, y: 500, width: 50, height: 50, isReserved: false },
-      //   { id: 11, x: 10, y: 650, width: 50, height: 50, isReserved: false },
-      //   { id: 12, x: 110, y: 650, width: 50, height: 50, isReserved: false },
-      //   { id: 13, x: 350, y: 200, width: 50, height: 50, isReserved: false },
-      //   { id: 14, x: 470, y: 200, width: 50, height: 50, isReserved: false },
-      //   { id: 15, x: 350, y: 300, width: 50, height: 50, isReserved: false },
-      //   { id: 16, x: 470, y: 300, width: 50, height: 50, isReserved: false },
-      //   { id: 17, x: 350, y: 400, width: 50, height: 50, isReserved: false },
-      //   { id: 18, x: 470, y: 400, width: 50, height: 50, isReserved: false },
-      // ],
     };
   },
   computed: {
@@ -168,6 +184,8 @@ export default {
       try {
         const payload = { cafeId: this.cafe.cafeId, time: this.selectedTime };
         await this.requestCafeSeatToSpring(payload);
+        this.resetSelectedSeats();
+
       } catch (error) {
         alert("에러입니다.");
       }
@@ -188,7 +206,40 @@ export default {
       const koreanDayOfWeek = this.getKoreanDayOfWeek(now);
       return `${year}-${month}-${day} (${koreanDayOfWeek})`;
     },
+    onUpdateSelectedSeats(updatedSeats) {
+      console.log(updatedSeats);
+      this.selectedSeats = updatedSeats;
+    },
+    resetSelectedSeats(){
+       this.selectedSeats = []; // 선택된 자리 초기화
+      this.$refs.hallSeatForm.resetSelectedSeats(); // 
+      
+    },
+    async onSubmit() {
+        const payload= {
+          cafe: this.cafe,
+          memberId: JSON.parse(localStorage.getItem('userInfo')).id,
+          seatList: this.selectedSeats
+        };
+        await axios
+          .post("http://localhost:8888/reservation/register", payload)
+          .then((res) => {
+            alert("예약완료되었습니다.")
+          })
+          .catch((res) => {
+            alert(res.message);
+          });
+
+        await this.$router.push({ name: "CafeIntroBoardListPage" });
+    },
+       onUpdateSeatsCount({ unreserved, total }) {
+      console.log('Unreserved seats:', unreserved);
+      console.log('Total seats:', total);
+      this.unreserved=unreserved;
+      this.total=total;
+    },
   },
+
   // watch: {
   //   selectedTime() {
   //     this.fetchReservations();
@@ -250,4 +301,12 @@ td {
   margin: 0 auto;
   line-height: 24px;
 }
+ ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin-right: 10px;
+  }
 </style>
