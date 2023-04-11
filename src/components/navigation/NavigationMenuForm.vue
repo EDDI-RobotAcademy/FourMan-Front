@@ -21,15 +21,15 @@
         </v-toolbar-title>
       </router-link>
 
-      <router-link to="/cafe-board-list-page" style="text-decoration: none">
+      <router-link to="/=" style="text-decoration: none">
         <span class="text-center">
-          <v-btn text color="white" dark> 카페소개 </v-btn>
+          <v-btn text color="white" dark> 사이트 소개 </v-btn>
         </span>
       </router-link>
 
-      <router-link to="seats" style="text-decoration: none">
+      <router-link to="/cafe-board-list-page" style="text-decoration: none">
         <span class="">
-          <v-btn text color="white" dark> 자리 예약 </v-btn>
+          <v-btn text color="white" dark> 카페 소개/예약</v-btn>
         </span>
       </router-link>
 
