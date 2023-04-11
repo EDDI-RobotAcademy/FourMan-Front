@@ -21,12 +21,15 @@
       ]),
     },
     mounted () {
-      this.requestMyFreeBoardListToSpring()
+      const memberId = JSON.parse(localStorage.getItem('userInfo')).id
+      console.log('memberId : ' + memberId)
+      this.requestMyFreeBoardListToSpring(memberId)
     },
     methods: {
       ...mapActions([
         'requestMyFreeBoardListToSpring'
-      ]),    }
+      ]),
+    },
   }
   </script>
 

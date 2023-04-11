@@ -415,9 +415,10 @@ export default {
     },
     requestMyFreeBoardListToSpring({ commit }, memberId) {
         console.log('requestMyFreeBoardListToSpring 작동')
-        return axios.get('http://localhost:8888/my-freeboard/list')
+        return axios.get(`http://localhost:8888/free-board/myPage/${memberId}`)
         .then((res) => {
             commit(REQUEST_MY_FREE_BOARD_LIST_TO_SPRING, res.data)
+            console.log('내가 쓴 게시물 res.data' + res.data)
         })
     },
 }
