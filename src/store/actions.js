@@ -40,6 +40,9 @@ import {
 
    //질문 게시판 관련
    REQUEST_MY_FREE_BOARD_LIST_TO_SPRING,
+
+   // 마이페이지 내 정보 관련
+   REQUEST_MY_INFO_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -133,7 +136,7 @@ export default {
    },
    requestEditProductWithoutImageToSpring({}, payload) {
         console.log('payload: ' + payload)
-        return axios.post('http://localhost:8888/product/editProductWithImage', payload )
+        return axios.post('http://localhost:8888/product/editProductWithoutImage', payload )
             .then(() => {
                 alert('게시물 수정 성공!')
             })
@@ -143,7 +146,7 @@ export default {
    },
    requestEditProductWithImageToSpring({}, payload) {
         console.log('payload: ' + payload)
-        return axios.post('http://localhost:8888/product/editProductWithoutImage', payload )
+        return axios.post('http://localhost:8888/product/editProductWithImage', payload )
             .then(() => {
                 alert('게시물 수정 성공!')
             })
@@ -151,6 +154,15 @@ export default {
                 alert('문제 발생!')
             })
    },
+   requestDeleteProductToSpring({}, productId) {
+    return axios.delete(`http://localhost:8888/product/${productId}`)
+       .then(() => {
+          alert("삭제 성공")
+       })
+       .catch(() => {
+          alert("문제 발생!")
+       })
+},
 
    // 보드 관련
    requestCreateFreeBoardToSpring ({ }, payload) {
@@ -421,4 +433,12 @@ export default {
             console.log('내가 쓴 게시물 res.data' + res.data)
         })
     },
+    // 마이페이지 내 정보 관련
+    requestMyInfoToSpring({ commit }, memberId) {
+        console.log('requestMyInfoToSpring 작동')
+        return axios.get(`http://localhost:8888/my-info/${memberId}`)
+        .then((res) => {
+            commit(REQUEST_MY_INFO_TO_SPRING, res.data)
+        })
+    }
 }

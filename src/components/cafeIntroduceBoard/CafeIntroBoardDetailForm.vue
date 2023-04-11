@@ -53,7 +53,9 @@
           ></v-rating>
 
           <div class="grey--text ms-4">
-            {{ rating.toFixed(1) }} ({{ totalRating }})
+            <span v-if="cafe.cafeInfo.rating">{{ rating.toFixed(1) }}</span>
+            <span v-else>0</span>
+            <span> ({{ totalRating }})</span>
             <!-- 별점과 참여자수 업뎃요망 -->
           </div>
         </v-row>
