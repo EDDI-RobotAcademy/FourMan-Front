@@ -6,14 +6,16 @@
       :fluid="true"
     >
       <h1 v-if="selectedTime == null" class="text-center">
-        예약 시간을 선택해 주세요!</h1>
+        당일 예약만 가능합니다.<br>
+        예약 시간을 선택해 주세요!
+      </h1>
       <hall-seat-form
         v-else
         :seatData="seatData"
         :tableData="tableData"
         :cafe="cafe"
         @onUpdateSelectedSeats="onUpdateSelectedSeats"
-         @update-seats-count="onUpdateSeatsCount"
+        @update-seats-count="onUpdateSeatsCount"
         ref="hallSeatForm"
       />
     </v-container>
@@ -28,6 +30,31 @@
           <table>
             <v-row>
               <v-col>
+                <div
+                  :class="[{ 'is-reserved': true}, 'seat',]"
+                  :style="{
+                    left: '0px',
+                    top: '0px',
+                    width: '50px',
+                    height: '50px',
+                    display: 'inline-block'
+                  }"
+                >
+                  <svg-icon type="mdi" :path="path"></svg-icon>
+                </div><span>예약 중</span>
+                <div
+                  :class="[{ 'is-reserved': false }, 'seat' , 'ml-10']"
+                  :style="{
+                    left: '0px',
+                    top: '0px',
+                    width: '50px',
+                    height: '50px',
+                    display: 'inline-block'
+                  }"
+                >
+                  <svg-icon type="mdi" :path="path"></svg-icon>
+                </div>예약 가능
+                
                 <v-row class="mt-10 ml-1">
                   <v-col cols="6"
                     ><span class="font-weight-bold mr-10">카페명:</span>
@@ -71,22 +98,24 @@
                   </v-col>
                 </v-row>
 
-                <v-row class=" ml-1">
+                <v-row class="ml-1">
                   <v-col cols="6"
                     ><span class="font-weight-bold mr-15">전체 좌석수:</span>
                     {{ this.total }} 석</v-col
                   >
                 </v-row>
-                <v-row class=" ml-1">
+                <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-6">예약 가능 좌석수:</span>
+                    ><span class="font-weight-bold mr-6"
+                      >예약 가능 좌석수:</span
+                    >
                     {{ this.unreserved }} 석</v-col
                   >
                 </v-row>
 
                 <v-row class="ml-1">
                   <v-col cols="12"
-                    ><h3 class="font-weight-bold mr-10 ">선택 좌석</h3>
+                    ><h3 class="font-weight-bold mr-10">선택 좌석</h3>
                     <div v-if="selectedSeats.length">
                       <ul>
                         <li v-for="seat in selectedSeats" :key="seat.seatNo">
@@ -128,15 +157,16 @@
 </template>
 
 <script>
-import axios from 'axios';
+import SvgIcon from "@jamescoyle/vue-icon";
+import { mdiSeat } from "@mdi/js";
+import axios from "axios";
 import { mapActions, mapState } from "vuex";
 import HallSeatForm from "@/components/hallSeat/HallSeatForm.vue";
-// import HallSeatRegisterForm from '@/components/hallSeat/HallSeatRegisterForm.vue'
 export default {
   name: "HallSeatPage",
   components: {
     HallSeatForm,
-    // HallSeatRegisterForm
+    SvgIcon,
   },
   props: {
     cafe: {
@@ -146,11 +176,12 @@ export default {
   },
   data() {
     return {
+      path: mdiSeat,
       nickName: JSON.parse(localStorage.getItem("userInfo")).nickName,
       selectedTime: null,
       selectedSeats: [],
-      unreserved:0,
-      total:0
+      unreserved: 0,
+      total: 0,
       // times: [], // 예약 가능한 시간 리스트
       // seats: [], // 예약 가능한 자리 리스트
     };
@@ -185,7 +216,6 @@ export default {
         const payload = { cafeId: this.cafe.cafeId, time: this.selectedTime };
         await this.requestCafeSeatToSpring(payload);
         this.resetSelectedSeats();
-
       } catch (error) {
         alert("에러입니다.");
       }
@@ -210,33 +240,32 @@ export default {
       console.log(updatedSeats);
       this.selectedSeats = updatedSeats;
     },
-    resetSelectedSeats(){
-       this.selectedSeats = []; // 선택된 자리 초기화
-      this.$refs.hallSeatForm.resetSelectedSeats(); // 
-      
+    resetSelectedSeats() {
+      this.selectedSeats = []; // 선택된 자리 초기화
+      this.$refs.hallSeatForm.resetSelectedSeats(); //
     },
     async onSubmit() {
-        const payload= {
-          cafe: this.cafe,
-          memberId: JSON.parse(localStorage.getItem('userInfo')).id,
-          seatList: this.selectedSeats
-        };
-        await axios
-          .post("http://localhost:8888/reservation/register", payload)
-          .then((res) => {
-            alert("예약완료되었습니다.")
-          })
-          .catch((res) => {
-            alert(res.message);
-          });
+      const payload = {
+        cafe: this.cafe,
+        memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+        seatList: this.selectedSeats,
+      };
+      await axios
+        .post("http://localhost:8888/reservation/register", payload)
+        .then((res) => {
+          alert("예약완료되었습니다.");
+        })
+        .catch((res) => {
+          alert(res.message);
+        });
 
-        await this.$router.push({ name: "CafeIntroBoardListPage" });
+      await this.$router.push({ name: "CafeIntroBoardListPage" });
     },
-       onUpdateSeatsCount({ unreserved, total }) {
-      console.log('Unreserved seats:', unreserved);
-      console.log('Total seats:', total);
-      this.unreserved=unreserved;
-      this.total=total;
+    onUpdateSeatsCount({ unreserved, total }) {
+      console.log("Unreserved seats:", unreserved);
+      console.log("Total seats:", total);
+      this.unreserved = unreserved;
+      this.total = total;
     },
   },
 
@@ -301,12 +330,25 @@ td {
   margin: 0 auto;
   line-height: 24px;
 }
- ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin-right: 10px;
-  }
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin-right: 10px;
+}
+.seat {
+  position: relative;
+  background-color: rgb(8, 242, 82, 0.8);
+  border: 1px solid #e0dcdc;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+  font-size: 14px;
+}
+.is-reserved {
+  background-color: rgba(216, 17, 17, 0.8);
+  color: #fff;
+}
 </style>
