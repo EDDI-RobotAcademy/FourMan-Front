@@ -48,6 +48,9 @@ export default {
    myFreeBoards: [],
    myFreeBoard: {},
 
+   //나의 질문게시판 관련
+   myQuestionBoards: [],
+
    // 마이페이지 내 정보 관련
    myInfo: {},
 }
