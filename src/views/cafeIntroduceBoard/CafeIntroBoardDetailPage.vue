@@ -9,6 +9,8 @@
 import {mapActions, mapState} from "vuex";
 import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm"
 import CafeReviewCommentForm from '@/components/cafeIntroduceBoard/CafeReviewCommentForm.vue';
+
+const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 export default {
     name: "CafeIntroBoardDetailage",
     components: {
@@ -27,11 +29,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cafe' ])
+    ...mapState(cafeIntroduceBoardModule,['cafe' ])
   },
    methods: {
 
-    ...mapActions([
+    ...mapActions(cafeIntroduceBoardModule, [
         'requestCafeDetailToSpring' ]),
    
   },

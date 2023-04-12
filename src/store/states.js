@@ -1,13 +1,4 @@
 export default {
-   //예약관련
-   seatData:[],
-   tableData:[],
-
-
-   //카페소개보드 관련
-   cafeLists:[],
-   cafeCheck:false,
-   cafe:{},
 
    // 상품 관련
    products: [],

@@ -17,18 +17,15 @@
 
 <script>
 import {mapState, mapActions} from "vuex";
-//import CafeIntroBoardCardForm from "@/components/cafeIntroduceBoard/CafeIntroBoardCardForm.vue";
 import CafeIntroBoardListForm from "@/components/cafeIntroduceBoard/CafeIntroBoardListForm.vue";
-import axios from 'axios';
-
+const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 export default {
   name: "CafeIntroBoardListPage",
   components: {
-    //CafeIntroBoardCardForm ,
     CafeIntroBoardListForm,
     }, 
   computed: {
-    ...mapState([
+    ...mapState(cafeIntroduceBoardModule,[
       'cafeLists','cafeCheck'
     ]),
   },
@@ -39,7 +36,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['requestCafeListToSpring','requestCafeNumToSpring']),
+    ...mapActions(cafeIntroduceBoardModule,['requestCafeListToSpring','requestCafeNumToSpring']),
 
     async checkCafeNum(){
         if(JSON.parse(localStorage.getItem('userInfo')).authorityName =='CAFE'){
