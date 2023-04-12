@@ -11,38 +11,68 @@
                <v-divider class="mt-3 mb-3"></v-divider>
                <div style="display: flex;">
                   <span style="width: 30%; color: gray; font-size: 15px;">닉네임</span>
-                  <v-text-field type="text" v-model="nickName" dense />
+                  <span>{{ myInfo.nickName }}</span>
                </div>
                
                <v-divider class="mt-3 mb-3"></v-divider>
                <div style="display: flex;">
                   <span style="width: 30%; color: gray; font-size: 15px;">생년월일</span>
-                  <v-text-field type="text" v-model="birthdate" dense />
+                  <span>{{ myInfo.birthdate }}</span>
                </div>
 
                <v-divider class="mt-3 mb-3"></v-divider>
                <div style="display: flex;">
                   <span style="width: 30%; color: gray; font-size: 15px;">비밀번호</span>
-                  <v-btn @click="openDialog()">비밀번호 변경</v-btn>
+                  <v-btn @click="openDialog()" >비밀번호 변경</v-btn>
                   <v-dialog
                   v-model="dialog"
                   @open-dialog="openDialog"
                   width="400px"
                   height="300px">
                      <!-- dialog에 나올 UI -->
-                     <v-card>
-                        <v-card-text>
-                        <div class="pt-6">
+                     <v-card width="460">
+                        <v-card-text class="text-center px-12 py-16">
+                           <div class="text-h4 font-weight-black mb-10">
+                              <span class="HANNA">비밀번호 재설정</span>
+                           </div>
+
+                           <div class="d-flex">
+                              <v-text-field
+                              type="password"
+                              v-model="password"
+                              label="비밀번호"
+                              :rules="password_rule"
+                              clearable
+                              prepend-icon="mdi-lock-outline"
+                              :counter="15"
+                              color="orange"
+                              />
+                           </div>
+
                            <div>
-                              <v-text-field type="password" label="비밀번호" v-model="password" />
+                              <v-text-field
+                              type="password"
+                              v-model="passwordConfirm"
+                              label="비밀번호 확인"
+                              :rules="password_confirm_rule"
+                              clearable
+                              prepend-icon="mdi-lock-check-outline"
+                              :counter="15"
+                              color="orange"
+                              />
                            </div>
-                           <div>
-                              <v-text-field type="password" label="비밀번호 확인" v-model="checkPassword" />
-                           </div>
-                           <div class="ms-5 mt-3">
-                              <v-btn dialog =false >확인</v-btn>
-                           </div>
-                        </div>
+
+                           <v-btn
+                              type="submit"
+                              block
+                              x-large
+                              rounded
+                              color="orange lighten-1"
+                              class="mt-6 brown darken-2 white--text"
+                              @click="resetPw"
+                              :disabled="false"
+                              >비밀번호 변경</v-btn
+                           >
                         </v-card-text>
                      </v-card>
                   </v-dialog>
@@ -93,6 +123,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
    name: "MemberMyInfoForm",
@@ -114,12 +145,29 @@ export default {
          addressDetail: this.myInfo.address.addressDetail,
          zipcode: this.myInfo.address.zipcode,
          password: '',
-         checkPassword: '',
+         passwordConfirm: '',
          dialog: false,
+         password_rule: [
+         (v) =>
+            this.state === "ins"
+               ? !!v || "패스워드는 필수 입력사항입니다."
+               : true,
+         (v) =>
+            !(v && v.length > 20) || "패스워드는 20자를 초과 입력할 수 없습니다.",
+         ],
+         password_confirm_rule: [
+         (v) =>
+            this.state === "ins"
+               ? !!v || "패스워드는 필수 입력사항입니다."
+               : true,
+         (v) =>
+            !(v && v.length >= 20) || "패스워드는 20자를 초과 입력할 수 없습니다.",
+         (v) => v === this.password || "패스워드가 일치하지 않습니다.",
+         ],
       }
    },
     methods: {
-      openDialog (commentId) {
+      openDialog () {
          this.dialog = !this.dialog;
       },
       callDaumAddressApi() {
@@ -148,11 +196,43 @@ export default {
             this.streetPass = true;
          },
          }).open();
+         
       },
       onSubmit () {
          const { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode } = this
          this.$emit('submit', { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode })
-      }
+      },
+      async resetPw() {
+         if (this.password != this.passwordConfirm) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return
+         }
+
+         //비밀번호 재설정하기.
+         const { email, password } = this;
+         await axios
+            .post("http://localhost:8888/member/applyNewPassword/", {
+               email, password,
+            })
+            .then(() => {
+               alert("비밀번호가 변경되었습니다 다시 로그인 해주세요.");
+            })
+
+         // 로그아웃
+         let token = localStorage.getItem("userInfo");
+         const length = token.length;
+         token = token.substr(1, length - 2);
+         await axios
+         .post("http://localhost:8888/member/logout", token) //토큰을 보냄
+         .then(() => {
+            localStorage.removeItem("userInfo"); //로컬스토리지에서 제거
+            this.$store.state.isAuthenticated = false;
+         });
+         
+         await this.$router.push({
+            name: 'SignInPage',
+         })
+      },
     }
 }
 </script>
