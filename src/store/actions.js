@@ -39,6 +39,9 @@ import {
 
    //나의 질문게시판 관련
    REQUEST_MY_QUESTION_BOARD_LIST_TO_SPRING,
+
+   //나의 리뷰게시판 관련
+   REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axios from 'axios'
@@ -393,6 +396,16 @@ export default {
         })
     },
 
+    //나의 리뷰게시판 관련
+    requestMyReviewBoardListToSpring({ commit }, memberId) {
+        console.log('requestMyReviewBoardListToSpring 작동')
+        return axios.get(`http://localhost:8888/review-board/myPage/${memberId}`)
+        .then((res) => {
+            commit(REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING, res.data)
+            console.log('내가 쓴 게시물 res.data' + res.data)
+        })
+    },
+
     // 마이페이지 내 정보 관련
     requestMyInfoToSpring({ commit }, memberId) {
         console.log('requestMyInfoToSpring 작동')
@@ -406,7 +419,8 @@ export default {
 
         return axios.put(`http://localhost:8888/my-info/member-info-modify/${memberId}`,
             { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode })
-            .then(() => {
+            .then((res) => {
+                localStorage.setItem("userInfo", JSON.stringify(res.data));
                 alert("수정 성공")
             })
             .catch(() => {
