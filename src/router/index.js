@@ -59,6 +59,9 @@ import NoticeBoardModifyPage from '@/views/noticeBoard/NoticeBoardModifyPage.vue
 //나의 게시판 관련
 import MyFreeBoardPage from '@/views/cafeMyPage/MyFreeBoardPage.vue'
 
+//나의 질문게시판 관련
+import MyQuestionBoardPage from '@/views/cafeMyPage/MyQuestionBoardPage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -389,6 +392,11 @@ const routes = [
     path: '/my-free-board-page',
     name: 'MyFreeBoardPage',
     component: MyFreeBoardPage
+  },
+  {
+    path: '/my-question-board-page',
+    name: 'MyQuestionBoardPage',
+    component: MyQuestionBoardPage
   },
 
 
