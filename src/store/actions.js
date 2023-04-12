@@ -456,5 +456,18 @@ export default {
         .then((res) => {
             commit(REQUEST_MY_INFO_TO_SPRING, res.data)
         })
-    }
+    },
+    requestMemberInfoModifyToSpring ({}, payload) {
+        const { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode } = payload
+
+        return axios.put(`http://localhost:8888/my-info/member-info-modify/${memberId}`,
+            { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode })
+            .then(() => {
+                alert("수정 성공")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+    },
+
 }
