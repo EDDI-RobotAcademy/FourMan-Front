@@ -18,7 +18,7 @@
                           <th>
                             <router-link
                                 :to="{
-                                    name: 'FreeBoardReadPage',
+                                    name: 'QuestionBoardReadPage',
                                     params: { boardId: myQuestionBoards.boardId.toString() },
                                 }"
                                 >{{ myQuestionBoards.title}}</router-link>
@@ -28,7 +28,7 @@
                       </tr>
                       </tbody>
                   </table>
-                  <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="myFreeBoards.length === 0">
+                  <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="myQuestionBoards.length === 0">
                     <h2>작성된 게시물이 없습니다!</h2>
                     </div>
               </div>
@@ -85,7 +85,7 @@ import router from "@/router"
                 return this.startOffset + this.dataPerPage;
             },
             numOfPages() {
-                return Math.ceil(this.myFreeBoards.length / this.dataPerPage);
+                return Math.ceil(this.myQuestionBoards.length / this.dataPerPage);
             },
             calData() {
                 return this.myQuestionBoards.slice(this.startOffset, this.endOffset);
