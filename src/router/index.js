@@ -62,6 +62,9 @@ import MyFreeBoardPage from '@/views/cafeMyPage/MyFreeBoardPage.vue'
 //나의 질문게시판 관련
 import MyQuestionBoardPage from '@/views/cafeMyPage/MyQuestionBoardPage.vue'
 
+//나의 리뷰게시판 관련
+import MyReviewBoardPage from '@/views/cafeMyPage/MyReviewBoardPage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -397,6 +400,11 @@ const routes = [
     path: '/my-question-board-page',
     name: 'MyQuestionBoardPage',
     component: MyQuestionBoardPage
+  },
+  {
+    path: '/my-review-board-page',
+    name: 'MyReviewBoardPage',
+    component: MyReviewBoardPage
   },
 
 

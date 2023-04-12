@@ -87,7 +87,7 @@ export default {
          {
             title: "나의 후기",
             icon: "mdi-star",
-            route: "/"},
+            route: "/my-review-board-page"},
       ],
       menusForManager : [
          {
