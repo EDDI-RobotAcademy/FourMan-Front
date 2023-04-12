@@ -23,7 +23,7 @@
   <script>
   import {mapState, mapActions} from "vuex";
   import CafeIntroBoardCardForm from "@/components/cafeIntroduceBoard/CafeIntroBoardCardForm.vue";
-  
+  const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
   export default {
     name: "MainCafeInfoForm",
     components: {
@@ -37,10 +37,10 @@
       };
     },
     methods: {
-      ...mapActions(['requestCafeListToSpring']),
+      ...mapActions(cafeIntroduceBoardModule,['requestCafeListToSpring']),
     },
     computed: {
-      ...mapState([
+      ...mapState(cafeIntroduceBoardModule,[
         'cafeLists'
       ]),
     },

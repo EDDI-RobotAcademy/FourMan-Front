@@ -1,12 +1,6 @@
 import {
-   //예약관련
 
-   REQUEST_CAFE_SEAT_TO_SPRING,
 
-   // 카페소개보드관련
-   REQUEST_CAFE_LIST_TO_SPRING,
-   REQUEST_CAFE_NUM_TO_SPRING,
-   REQUEST_CAFE_DETAIL_TO_SPRING,
 
    // 상품 관련
    REQUEST_PRODUCT_LIST_TO_SPRING,
@@ -51,23 +45,7 @@ import {
 } from './mutation-types'
 
 export default {
-   //예약관련
 
-   [REQUEST_CAFE_SEAT_TO_SPRING](state,passingData){
-      state.seatData=passingData.seatResponse
-      state.tableData=passingData.tableResponse
-   },
-
-   //카페소개보드관련
-   [REQUEST_CAFE_LIST_TO_SPRING](state, passingData) {
-      state.cafeLists = passingData
-   },
-   [REQUEST_CAFE_NUM_TO_SPRING](state, passingData) {
-      state.cafeCheck = passingData
-   },
-   [REQUEST_CAFE_DETAIL_TO_SPRING](state, passingData) {
-      state.cafe = passingData
-   },
 
    // 상품 관련
    [REQUEST_PRODUCT_LIST_TO_SPRING](state, passingData) {

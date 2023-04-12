@@ -149,6 +149,13 @@
                 </v-btn>
               </div>
             </v-row>
+             <v-btn
+                  @click="reset"
+                  class="ml-3 brown darken-2 white--text"
+                  large
+                  style="width: 200px; font-size: 18px"
+                  >좌석 초기화
+                </v-btn>
           </table>
         </v-form>
       </div>
@@ -161,6 +168,7 @@ import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiSeat } from "@mdi/js";
 import axios from "axios";
 import { mapActions, mapState } from "vuex";
+const reservationModule ='reservationModule'
 import HallSeatForm from "@/components/hallSeat/HallSeatForm.vue";
 export default {
   name: "HallSeatPage",
@@ -187,7 +195,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["seatData", "tableData"]),
+    ...mapState(reservationModule, ["seatData", "tableData"]),
 
     availableTimes() {
       const now = new Date();
@@ -210,7 +218,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["requestCafeSeatToSpring"]),
+    ...mapActions(reservationModule,["requestCafeSeatToSpring","requestDeleteCafeSeatToSpring"]),
     async fetchReservations() {
       try {
         const payload = { cafeId: this.cafe.cafeId, time: this.selectedTime };
@@ -222,6 +230,14 @@ export default {
     },
     cancel() {
       this.$router.go(-1);
+    },
+    async reset(){
+        await this.requestDeleteCafeSeatToSpring();
+        await this.resetSelectedSeats();
+        await this.$router.push({
+                name: 'CafeIntroBoardListPage'
+            })
+
     },
     getKoreanDayOfWeek(date) {
       const dayOfWeek = date.getDay();
