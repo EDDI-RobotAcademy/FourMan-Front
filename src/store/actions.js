@@ -462,7 +462,8 @@ export default {
 
         return axios.put(`http://localhost:8888/my-info/member-info-modify/${memberId}`,
             { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode })
-            .then(() => {
+            .then((res) => {
+                localStorage.setItem("userInfo", JSON.stringify(res.data));
                 alert("수정 성공")
             })
             .catch(() => {

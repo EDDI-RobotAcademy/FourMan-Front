@@ -69,23 +69,46 @@
       width="400px"
       height="300px">
          <!-- dialog에 나올 UI -->
-         <v-card>
-            <v-card-title>비밀번호 확인</v-card-title>
-            <v-card-text>
-            <div>
-               <div>
-                  <v-text-field type="password" label="비밀번호를 입력하세요." v-model="password" :type="showPassword ? 'text' : 'password'" />
-                  <v-checkbox
-                     v-model="showPassword"
-                     label="비밀번호 보기"
-                  ></v-checkbox>
-               </div>
-            </div>
-            </v-card-text>
-            <v-card-actions>
-                  <v-btn class="brown darken-2 white--text" @click="passwordCheck(), dialog =false" >확인</v-btn>
-            </v-card-actions>
-         </v-card>
+         <v-card width="460">
+                        <v-card-text class="text-center px-12 py-16">
+                           <div class="text-h4 font-weight-black mb-10">
+                              <span class="HANNA">비밀번호 확인</span>
+                           </div>
+
+                           <div class="d-flex">
+                              <v-text-field
+                              type="password"
+                              v-model="password"
+                              label="비밀번호"
+                              :rules="password_rule"
+                              clearable
+                              prepend-icon="mdi-lock-outline"
+                              :counter="15"
+                              color="orange"
+                              :type="showPassword ? 'text' : 'password'"
+                              />
+                           </div>
+                           <div>
+                              <v-checkbox
+                                 v-model="showPassword"
+                                 label="비밀번호 보기"
+                              />
+                           </div>
+
+                           <v-btn
+                              type="submit"
+                              block
+                              x-large
+                              rounded
+                              color="orange lighten-1"
+                              class="mt-6 brown darken-2 white--text"
+                              @click="passwordCheck()"
+                              :disabled="false"
+                              dialog =false
+                              >확인</v-btn
+                           >
+                        </v-card-text>
+                     </v-card>
       </v-dialog>
    </div>
   </div>
@@ -109,6 +132,14 @@ export default {
          password: '',
          dialog: false,
          showPassword: false,
+         password_rule: [
+         (v) =>
+            this.state === "ins"
+               ? !!v || "패스워드는 필수 입력사항입니다."
+               : true,
+         (v) =>
+            !(v && v.length > 20) || "패스워드는 20자를 초과 입력할 수 없습니다.",
+         ],
       }
    },
    methods: {
@@ -117,6 +148,7 @@ export default {
       },
       passwordCheck() {
          const { email, password } = this;
+         
          axios
             .post("http://localhost:8888/member/sign-in", { email, password })
             .then((res) => {
