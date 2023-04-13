@@ -83,10 +83,10 @@ props : {
 
 },
 methods: {
-  // ...mapActions(freeBoardModule, [
+  ...mapActions(freeBoardModule, [
   // 'requestQuestionBoardCommentDeleteToSpring',
-  // 'requestQuestionBoardCommentModifyToSpring'
-  // ]),
+  'requestFreeBoardCommentModifyToSpring'
+  ]),
   openDialog (commentId) {
         this.dialog = !this.dialog;
         console.log('commentId :' + commentId)
@@ -99,13 +99,13 @@ methods: {
   //   await this.$router.go((this.$router.currentRoute))
   // },
 
-  // async saveComment() {
-  //   const commentModify = this.commentModify
-  //   const commentId = this.selectCommentId
-  //   console.log('commentId : / ' + commentId + 'commentModify :' + this.commentModify)
-  //   await this.requestQuestionBoardCommentModifyToSpring( { commentModify, commentId })
-  //   await this.$router.go((this.$router.currentRoute))
-  // },
+  async saveComment() {
+    const commentModify = this.commentModify
+    const commentId = this.selectCommentId
+    console.log('commentId : / ' + commentId + 'commentModify :' + this.commentModify)
+    await this.requestFreeBoardCommentModifyToSpring( { commentModify, commentId })
+    await this.$router.go((this.$router.currentRoute))
+  },
 
   commentAuthorCheck(memberId1) {
     if(JSON.parse(localStorage.getItem('userInfo'))) {
