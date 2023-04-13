@@ -17,9 +17,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules:{
+    //영진
     reservationModule : reservationModule,
     cafeIntroduceBoardModule :cafeIntroduceBoardModule,
 
+    //명진
     freeBoardModule: freeBoardModule,
     reviewBoardModule: reviewBoardModule,
     myPageModule: myPageModule,

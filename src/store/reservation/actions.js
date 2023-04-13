@@ -7,7 +7,20 @@ import {
 // import axios from 'axios'
 import axiosInst from '@/utility/axiosObject'
 export default {
+
     //예약 관련
+
+    requestCreateCafeSeatToSpring({},payload) {
+        console.log("requestCreateCafeSeatToSpring 작동")
+        return axiosInst.post("/reservation/register", payload)
+        .then((res) => {
+          alert("예약완료되었습니다.");
+        })
+        .catch((res) => {
+          alert(res.message);
+        });
+
+    },
 
     requestCafeSeatToSpring({commit},payload) {
         console.log("requestCafeSeatToSpring 작동")

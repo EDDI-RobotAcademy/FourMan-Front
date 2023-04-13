@@ -166,7 +166,6 @@
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiSeat } from "@mdi/js";
-import axios from "axios";
 import { mapActions, mapState } from "vuex";
 const reservationModule ='reservationModule'
 import HallSeatForm from "@/components/hallSeat/HallSeatForm.vue";
@@ -218,12 +217,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(reservationModule,["requestCafeSeatToSpring","requestDeleteCafeSeatToSpring"]),
+    ...mapActions(reservationModule,["requestCreateCafeSeatToSpring","requestCafeSeatToSpring","requestDeleteCafeSeatToSpring"]),
     async fetchReservations() {
       try {
         const payload = { cafeId: this.cafe.cafeId, time: this.selectedTime };
         await this.requestCafeSeatToSpring(payload);
-        this.resetSelectedSeats();
+        await this.resetSelectedSeats();
       } catch (error) {
         alert("에러입니다.");
       }
@@ -266,15 +265,7 @@ export default {
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
         seatList: this.selectedSeats,
       };
-      await axios
-        .post("http://localhost:8888/reservation/register", payload)
-        .then((res) => {
-          alert("예약완료되었습니다.");
-        })
-        .catch((res) => {
-          alert(res.message);
-        });
-
+      await this.requestCreateCafeSeatToSpring(payload);
       await this.$router.push({ name: "CafeIntroBoardListPage" });
     },
     onUpdateSeatsCount({ unreserved, total }) {
