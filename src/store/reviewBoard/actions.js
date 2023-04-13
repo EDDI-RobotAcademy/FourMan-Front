@@ -5,11 +5,11 @@ import {
 
 } from './mutation-types'
 
-import axios from 'axios'
+import axiosInst from '@/utility/axiosObject'
 
 export default {
    requestCreateReviewBoardToSpring ({}, formData) {
-        return axios.post('http://localhost:8888/review-board/register',
+        return axiosInst.post('/review-board/register',
             formData)
             .then(() => {
                 alert('상품 등록 성공!')
@@ -19,25 +19,25 @@ export default {
             })
     },
     requestReviewBoardListToSpring ({ commit }) {
-        return axios.get('http://localhost:8888/review-board/list')
+        return axiosInst.get('/review-board/list')
             .then((res) => {
                 commit(REQUEST_REVIEW_BOARD_LIST_TO_SPRING, res.data)
             })
     },
     requestReviewBoardToSpring ({ commit }, reviewBoardId) {
-        return axios.get(`http://localhost:8888/review-board/${reviewBoardId}`)
+        return axiosInst.get(`/review-board/${reviewBoardId}`)
             .then((res) => {
                 commit(REQUEST_REVIEW_BOARD_TO_SPRING, res.data)
             })
     },
     requestReviewBoardImageToSpring ({ commit }, reviewBoardId) {
-        return axios.get(`http://localhost:8888/review-board/imageList/${reviewBoardId}`)
+        return axiosInst.get(`/review-board/imageList/${reviewBoardId}`)
             .then((res) => {
                 commit(REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING, res.data)
             })
     },
     requestDeleteReviewBoardToSpring ({}, reviewBoardId) {
-        return axios.delete(`http://localhost:8888/review-board/${reviewBoardId}`)
+        return axiosInst.delete(`/review-board/${reviewBoardId}`)
             .then(() => {
                 alert("삭제 성공")
             })
@@ -48,7 +48,7 @@ export default {
     requestReviewBoardModifyToSpring ({}, payload) {
         const { reviewBoardId, title, content, rating } = payload
 
-        return axios.put(`http://localhost:8888/review-board/${reviewBoardId}`,
+        return axiosInst.put(`/review-board/${reviewBoardId}`,
             { title, content, rating })
             .then(() => {
                 alert("수정 성공")
