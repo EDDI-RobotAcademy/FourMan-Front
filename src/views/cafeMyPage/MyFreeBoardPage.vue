@@ -11,12 +11,13 @@
 
   import MyFreeBoardForm from '@/components/cafeMyPage/MyFreeBoardForm.vue'
   import { mapActions, mapState } from 'vuex'
+  const myPageModule = 'myPageModule'
 
   export default {
     components: { MyFreeBoardForm },
     name: "MyFreeBoardPage",
     computed: {
-      ...mapState([
+      ...mapState(myPageModule,[
         'myFreeBoards'
       ]),
     },
@@ -26,7 +27,7 @@
       this.requestMyFreeBoardListToSpring(memberId)
     },
     methods: {
-      ...mapActions([
+      ...mapActions(myPageModule,[
         'requestMyFreeBoardListToSpring'
       ]),
     },
