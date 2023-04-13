@@ -37,6 +37,8 @@
 
 import { mapActions } from 'vuex'
 import { marked } from 'marked'
+const freeBoardModule= 'freeBoardModule'
+
 
   export default {
       name: "FreeBoardReadForm",
@@ -47,7 +49,7 @@ import { marked } from 'marked'
           }
       },
       methods: {
-        ...mapActions([
+        ...mapActions(freeBoardModule,[
             'requestDeleteFreeBoardToSpring',
         ]),
         loginCheck() {
