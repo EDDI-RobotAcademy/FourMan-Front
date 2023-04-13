@@ -18,6 +18,7 @@
 
 import NoticeBoardListForm from '@/components/noticeBoard/NoticeBoardListForm.vue';
 import {mapState, mapActions} from 'vuex'
+const noticeBoardModule = 'noticeBoardModule'
 export default {
     name: "NoticeBoardListPage",
     components: {
@@ -29,7 +30,7 @@ export default {
         }
     },
     computed: {
-        ...mapState([
+        ...mapState(noticeBoardModule,[
             'noticeBoards'
         ])
     },
@@ -37,7 +38,7 @@ export default {
         this.requestNoticeBoardListToSpring()
     },
     methods: {
-        ...mapActions ([
+        ...mapActions (noticeBoardModule,[
             'requestNoticeBoardListToSpring'
         ]),
     }

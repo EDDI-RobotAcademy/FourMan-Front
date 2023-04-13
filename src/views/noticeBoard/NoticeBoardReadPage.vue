@@ -12,6 +12,7 @@
 
 import NoticeBoardReadForm from '@/components/noticeBoard/NoticeBoardReadForm.vue';
 import {mapActions, mapState} from 'vuex'
+const noticeBoardModule ='noticeBoardModule'
 
 export default {
     name: "NoticeBoardReadPage",
@@ -25,10 +26,10 @@ export default {
         },
     },
     computed: {
-        ...mapState(['noticeBoard']),
+        ...mapState(noticeBoardModule,['noticeBoard']),
 },
     methods: {
-        ...mapActions([
+        ...mapActions(noticeBoardModule,[
             'requestNoticeBoardToSpring',
     ]),
 },

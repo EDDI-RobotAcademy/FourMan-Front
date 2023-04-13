@@ -2,6 +2,14 @@ import {
    // 마이페이지 내 정보 관련
    REQUEST_MY_INFO_TO_SPRING,
 
+   //나의 게시판 관련
+   REQUEST_MY_FREE_BOARD_LIST_TO_SPRING,
+
+   //나의 질문게시판 관련
+   REQUEST_MY_QUESTION_BOARD_LIST_TO_SPRING,
+
+   //나의 리뷰게시판 관련
+   REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -78,5 +86,35 @@ export default {
            store.state.isAuthenticated = false;
            router.push({ name: 'SignInPage'})
         });
-    }
+    },
+        //나의 게시판 관련
+        requestMyFreeBoardListToSpring({ commit }, memberId) {
+            console.log('requestMyFreeBoardListToSpring 작동')
+            return axiosInst.get(`/free-board/myPage/${memberId}`)
+            .then((res) => {
+                commit(REQUEST_MY_FREE_BOARD_LIST_TO_SPRING, res.data)
+                console.log('내가 쓴 게시물 res.data' + res.data)
+            })
+        },
+
+        //나의 질문게시판 관련
+
+        requestMyQuestionBoardListToSpring({ commit }, memberId) {
+            console.log('requestMyQuestionBoardListToSpring 작동')
+            return axiosInst.get(`/question-board/myPage/${memberId}`)
+            .then((res) => {
+                commit(REQUEST_MY_QUESTION_BOARD_LIST_TO_SPRING, res.data)
+                console.log('내가 쓴 게시물 res.data' + res.data)
+            })
+        },
+
+        //나의 리뷰게시판 관련
+        requestMyReviewBoardListToSpring({ commit }, memberId) {
+            console.log('requestMyReviewBoardListToSpring 작동')
+            return axiosInst.get(`/review-board/myPage/${memberId}`)
+            .then((res) => {
+                commit(REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING, res.data)
+                console.log('내가 쓴 게시물 res.data' + res.data)
+            })
+        },
 }

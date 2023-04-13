@@ -10,12 +10,13 @@
   <script>
   import MyReviewBoardForm from '@/components/cafeMyPage/MyReviewBoardForm.vue'
   import { mapActions, mapState } from 'vuex'
+  const myPageModule = 'myPageModule'
 
   export default {
     components: { MyReviewBoardForm },
     name: "MyReviewBoardPage",
     computed: {
-      ...mapState([
+      ...mapState(myPageModule,[
         'myReviewBoards'
       ]),
     },
@@ -25,7 +26,7 @@
       this.requestMyReviewBoardListToSpring(memberId)
     },
     methods: {
-      ...mapActions([
+      ...mapActions(myPageModule,[
         'requestMyReviewBoardListToSpring'
       ]),
     },
