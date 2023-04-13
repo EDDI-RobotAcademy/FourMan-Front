@@ -294,8 +294,9 @@ export default {
 
       if (emailValid) {
         const { email } = this;
-      
-           const isEmail = this.requestSignUpCheckEmailToSpring(email);
+
+          const res = await this.requestSignUpCheckEmailToSpring(email);
+           const isEmail=res.data
           if (isEmail) {
             alert("사용 가능한 이메일입니다!");
             this.emailPass = true;
@@ -303,12 +304,14 @@ export default {
             alert("중복된 이메일입니다!");
             this.emailPass = false;
           }
+
       }
     },
     async checkDuplicateNickName() {
       const { nickName } = this;
-      async () => {
-         const isNickName = this.requestSignUpCheckNickNameToSpring(nickName);
+
+         const res = await this.requestSignUpCheckNickNameToSpring(nickName);
+          const isNickName =res.data
         if (isNickName) {
           alert("사용 가능한 닉네임입니다!");
           this.nickNamePass = true;
@@ -316,7 +319,6 @@ export default {
           alert("중복된 닉네임입니다!");
           this.nickNamePass = false;
         }
-      };
     },
     callDaumAddressApi() {
       new window.daum.Postcode({
