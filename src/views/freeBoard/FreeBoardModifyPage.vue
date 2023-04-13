@@ -8,6 +8,8 @@
   <script>
   import FreeBoardModifyForm from '@/components/freeBoard/FreeBoardModifyForm.vue'
   import { mapActions, mapState } from 'vuex'
+  const freeBoardModule= 'freeBoardModule'
+
   export default {
       components: { FreeBoardModifyForm },
       name: "FreeBoardModifyPage",
@@ -18,10 +20,10 @@
           }
       },
       computed: {
-          ...mapState(['freeBoard'])
+          ...mapState(freeBoardModule,['freeBoard'])
       },
       methods: {
-          ...mapActions([
+          ...mapActions(freeBoardModule,[
               'requestFreeBoardToSpring',
               'requestFreeBoardModifyToSpring',
           ]),

@@ -8,6 +8,11 @@ import getters from "@/store/getters"
 
 import reservationModule from "@/store/reservation/reservationModule.js"
 import cafeIntroduceBoardModule from "@/store/cafeIntroduceBoard/cafeIntroduceBoardModule.js"
+
+import freeBoardModule from '@/store/freeBoard/freeBoardModule.js'
+import reviewBoardModule from '@/store/reviewBoard/reviewBoardModule.js'
+
+import myPageModule from '@/store/myPage/myPageModule.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -15,6 +20,9 @@ export default new Vuex.Store({
     reservationModule : reservationModule,
     cafeIntroduceBoardModule :cafeIntroduceBoardModule,
 
+    freeBoardModule: freeBoardModule,
+    reviewBoardModule: reviewBoardModule,
+    myPageModule: myPageModule,
   },
   state,
   actions,

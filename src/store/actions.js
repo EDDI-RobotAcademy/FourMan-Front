@@ -5,18 +5,10 @@ import {
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
    REQUEST_ALL_PRODUCT_TO_SPRING,
 
-   // 보드 관련
-   REQUEST_FREE_BOARD_LIST_TO_SPRING,
-   REQUEST_FREE_BOARD_TO_SPRING,
-
    //질문 게시판 관련
    REQUEST_QUESTION_BOARD_LIST_TO_SPRING,
    REQUEST_QUESTION_BOARD_TO_SPRING,
 
-   //리뷰 게시판 관련
-   REQUEST_REVIEW_BOARD_LIST_TO_SPRING,
-   REQUEST_REVIEW_BOARD_TO_SPRING,
-   REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING,
 
    //댓글 관련
    REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
@@ -34,8 +26,7 @@ import {
    //나의 게시판 관련
    REQUEST_MY_FREE_BOARD_LIST_TO_SPRING,
 
-   // 마이페이지 내 정보 관련
-   REQUEST_MY_INFO_TO_SPRING,
+   
 
    //나의 질문게시판 관련
    REQUEST_MY_QUESTION_BOARD_LIST_TO_SPRING,
@@ -114,104 +105,6 @@ export default {
        })
 },
 
-   // 보드 관련
-   requestCreateFreeBoardToSpring ({ }, payload) {
-      const { title, content, writer, memberId } = payload
-      return axios.post('http://localhost:8888/free-board/register',
-          { title, content, writer, memberId })
-          .then((res) => {
-              alert('게시물 등록 성공!')
-              return res
-          })
-          .catch(() => {
-              alert('문제 발생!')
-          })
-   },
-   requestFreeBoardListToSpring ({ commit }) {
-        return axios.get('http://localhost:8888/free-board/list')
-            .then((res) => {
-                commit(REQUEST_FREE_BOARD_LIST_TO_SPRING, res.data)
-            })
-   },
-   requestFreeBoardToSpring ({ commit }, boardId) {
-    return axios.get(`http://localhost:8888/free-board/${boardId}`)
-        .then((res) => {
-            commit(REQUEST_FREE_BOARD_TO_SPRING, res.data)
-        })
-    },
-    requestDeleteFreeBoardToSpring ({}, boardId) {
-        return axios.delete(`http://localhost:8888/free-board/${boardId}`)
-            .then(() => {
-                alert("삭제 성공")
-            })
-            .catch(() => {
-                alert("문제 발생!")
-            })
-    },
-    requestFreeBoardModifyToSpring ({}, payload) {
-        const { title, content, boardId, writer } = payload
-
-        return axios.put(`http://localhost:8888/free-board/${boardId}`,
-            { title, content, writer })
-            .then(() => {
-                alert("수정 성공")
-            })
-            .catch(() => {
-                alert("문제 발생!")
-            })
-    },
-
-    // 리뷰게시판 관련
-    requestCreateReviewBoardToSpring ({}, formData) {
-
-        return axios.post('http://localhost:8888/review-board/register',
-            formData)
-            .then(() => {
-                alert('상품 등록 성공!')
-            })
-            .catch(() => {
-                alert('문제 발생!')
-            })
-    },
-    requestReviewBoardListToSpring ({ commit }) {
-        return axios.get('http://localhost:8888/review-board/list')
-            .then((res) => {
-                commit(REQUEST_REVIEW_BOARD_LIST_TO_SPRING, res.data)
-            })
-    },
-    requestReviewBoardToSpring ({ commit }, reviewBoardId) {
-        return axios.get(`http://localhost:8888/review-board/${reviewBoardId}`)
-            .then((res) => {
-                commit(REQUEST_REVIEW_BOARD_TO_SPRING, res.data)
-            })
-    },
-    requestReviewBoardImageToSpring ({ commit }, reviewBoardId) {
-        return axios.get(`http://localhost:8888/review-board/imageList/${reviewBoardId}`)
-            .then((res) => {
-                commit(REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING, res.data)
-            })
-    },
-    requestDeleteReviewBoardToSpring ({}, reviewBoardId) {
-        return axios.delete(`http://localhost:8888/review-board/${reviewBoardId}`)
-            .then(() => {
-                alert("삭제 성공")
-            })
-            .catch(() => {
-                alert("문제 발생!")
-            })
-    },
-    requestReviewBoardModifyToSpring ({}, payload) {
-        const { reviewBoardId, title, content, rating } = payload
-
-        return axios.put(`http://localhost:8888/review-board/${reviewBoardId}`,
-            { title, content, rating })
-            .then(() => {
-                alert("수정 성공")
-            })
-            .catch(() => {
-                alert("문제 발생!")
-            })
-    },
 
    // 질문게시판 관련
 
@@ -406,26 +299,6 @@ export default {
         })
     },
 
-    // 마이페이지 내 정보 관련
-    requestMyInfoToSpring({ commit }, memberId) {
-        console.log('requestMyInfoToSpring 작동')
-        return axios.get(`http://localhost:8888/my-info/${memberId}`)
-        .then((res) => {
-            commit(REQUEST_MY_INFO_TO_SPRING, res.data)
-        })
-    },
-    requestMemberInfoModifyToSpring ({}, payload) {
-        const { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode } = payload
-
-        return axios.put(`http://localhost:8888/my-info/member-info-modify/${memberId}`,
-            { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode })
-            .then((res) => {
-                localStorage.setItem("userInfo", JSON.stringify(res.data));
-                alert("수정 성공")
-            })
-            .catch(() => {
-                alert("문제 발생!")
-            })
-    },
+    
 
 }

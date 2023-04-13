@@ -11,8 +11,8 @@
  <script>
  import MemberMyInfoModifyForm from '@/components/memberMyPage/MemberMyInfoModifyForm.vue'
  import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
-import axios from 'axios'
  import { mapActions, mapState } from 'vuex'
+ const myPageModule= 'myPageModule'
  
  export default {
     name: "MemberMyInfoModifyPage",
@@ -21,7 +21,7 @@ import axios from 'axios'
       MyPageSideBarForm
    },
    computed: {
-      ...mapState([
+      ...mapState(myPageModule,[
          'myInfo',
       ]),
    },
@@ -29,7 +29,7 @@ import axios from 'axios'
       this.requestMyInfoToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
    },
    methods: {
-      ...mapActions([
+      ...mapActions(myPageModule,[
          'requestMyInfoToSpring',
          'requestMemberInfoModifyToSpring'
       ]),

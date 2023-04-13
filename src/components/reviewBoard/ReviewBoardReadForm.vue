@@ -62,6 +62,7 @@
   <script>
 
 import { mapActions } from 'vuex'
+const reviewBoardModule= 'reviewBoardModule'
 
   export default {
       name: "ReviewBoardReadForm",
@@ -75,7 +76,7 @@ import { mapActions } from 'vuex'
           }
       },
       methods: {
-        ...mapActions([
+        ...mapActions(reviewBoardModule,[
             'requestDeleteReviewBoardToSpring',
         ]),
         loginCheck() {

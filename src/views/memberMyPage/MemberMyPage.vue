@@ -12,6 +12,7 @@
 import MemberMyInfoForm from '@/components/memberMyPage/MemberMyInfoForm.vue'
 import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
 import { mapActions, mapState } from 'vuex'
+const myPageModule= 'myPageModule'
 
 export default {
    name: "MemberMyPage",
@@ -20,7 +21,7 @@ export default {
       MyPageSideBarForm
    },
    computed: {
-      ...mapState([
+      ...mapState(myPageModule,[
         'myInfo',
       ]),
     },
@@ -28,7 +29,7 @@ export default {
       this.requestMyInfoToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
    },
    methods: {
-      ...mapActions([
+      ...mapActions(myPageModule,[
          'requestMyInfoToSpring'
       ]),
    }

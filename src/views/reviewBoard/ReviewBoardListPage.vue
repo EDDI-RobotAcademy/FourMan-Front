@@ -13,12 +13,13 @@
 <script>
 import ReviewBoardListForm from '@/components/reviewBoard/ReviewBoardListForm.vue'
 import { mapActions, mapState } from 'vuex'
+const reviewBoardModule= 'reviewBoardModule'
 
 export default {
   components: { ReviewBoardListForm },
   name: "ReviewBoardListPage",
   computed: {
-    ...mapState([
+    ...mapState(reviewBoardModule,[
       'reviewBoards'
     ]),
   },
@@ -26,7 +27,7 @@ export default {
     this.requestReviewBoardListToSpring()
   },
   methods: {
-    ...mapActions([
+    ...mapActions(reviewBoardModule,[
       'requestReviewBoardListToSpring'
     ]),
     loginCheck() {

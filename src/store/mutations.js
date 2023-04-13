@@ -7,18 +7,10 @@ import {
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
    REQUEST_ALL_PRODUCT_TO_SPRING,
 
-   // 보드 관련
-   REQUEST_FREE_BOARD_LIST_TO_SPRING,
-   REQUEST_FREE_BOARD_TO_SPRING,
 
    //질문게시판 관련
    REQUEST_QUESTION_BOARD_LIST_TO_SPRING,
    REQUEST_QUESTION_BOARD_TO_SPRING,
-
-   //리뷰게시판 관련
-   REQUEST_REVIEW_BOARD_LIST_TO_SPRING,
-   REQUEST_REVIEW_BOARD_TO_SPRING,
-   REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING,
 
    //댓글 관련
    REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
@@ -40,8 +32,7 @@ import {
    //나의 리뷰게시판 관련
    REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING,
 
-   //마이페이지 관련
-   REQUEST_MY_INFO_TO_SPRING,
+   
 } from './mutation-types'
 
 export default {
@@ -58,13 +49,6 @@ export default {
       state.allOfProducts = passingData
    },
 
-   // 보드 관련
-   [REQUEST_FREE_BOARD_LIST_TO_SPRING] (state, passingData) {
-      state.freeBoards = passingData
-   },
-   [REQUEST_FREE_BOARD_TO_SPRING] (state, passingData) {
-      state.freeBoard = passingData
-  },
 
    //질문 게시판 관련
    [REQUEST_QUESTION_BOARD_LIST_TO_SPRING] (state, passingData) {
@@ -74,16 +58,7 @@ export default {
       state.questionBoard = passingData
    },
 
-   //리뷰 게시판 관련
-   [REQUEST_REVIEW_BOARD_LIST_TO_SPRING] (state, passingData) {
-      state.reviewBoards = passingData
-   },
-   [REQUEST_REVIEW_BOARD_TO_SPRING] (state, passingData) {
-      state.reviewBoard = passingData
-   },
-   [REQUEST_REVIEW_BOARD_IMAGE_LIST_TO_SPRING] (state, passingData) {
-      state.reviewBoardImages = passingData
-   },
+   
    //댓글 관련
    [REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING] (state, passingData) {
       state.comments = passingData
@@ -121,8 +96,5 @@ export default {
       state.myReviewBoards = passingData
    },
 
-   // 마이페이지 내 정보 관련
-   [REQUEST_MY_INFO_TO_SPRING] (state, passingData) {
-      state.myInfo = passingData
-   },
+   
 }

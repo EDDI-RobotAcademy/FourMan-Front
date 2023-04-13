@@ -7,13 +7,14 @@
   <script>
 
   import FreeBoardRegisterForm from '@/components/freeBoard/FreeBoardRegisterForm.vue'
-
   import { mapActions } from 'vuex'
+  const freeBoardModule= 'freeBoardModule'
+
   export default {
       components: { FreeBoardRegisterForm },
       name: "FreeBoardRegisterPage",
       methods: {
-          ...mapActions ([
+          ...mapActions (freeBoardModule,[
               'requestCreateFreeBoardToSpring'
           ]),
           async onSubmit (payload) {
