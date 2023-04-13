@@ -114,6 +114,7 @@
             </div>
          </div>
          <div>
+            <v-btn color="error" @click="withdrawal()">회원탈퇴</v-btn>
             <v-btn class="mb-6 brown darken-2 white--text" type="submit" style="float: right;">
                   정보 수정
             </v-btn>
@@ -123,7 +124,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions } from 'vuex'
+const myPageModule= 'myPageModule'
 
 export default {
    name: "MemberMyInfoForm",
@@ -167,6 +169,11 @@ export default {
       }
    },
     methods: {
+      ...mapActions(myPageModule,[
+         'requestWithdrawalToSpring',
+         'requestApplyNewPasswordToSpring',
+         'requestLogoutToSpring'
+      ]),
       openDialog () {
          this.dialog = !this.dialog;
       },
@@ -210,29 +217,18 @@ export default {
 
          //비밀번호 재설정하기.
          const { email, password } = this;
-         await axios
-            .post("http://localhost:8888/member/applyNewPassword/", {
-               email, password,
-            })
-            .then(() => {
-               alert("비밀번호가 변경되었습니다 다시 로그인 해주세요.");
-            })
+         this.requestApplyNewPasswordToSpring({ email, password })
 
          // 로그아웃
          let token = localStorage.getItem("userInfo");
          const length = token.length;
          token = token.substr(1, length - 2);
-         await axios
-         .post("http://localhost:8888/member/logout", token) //토큰을 보냄
-         .then(() => {
-            localStorage.removeItem("userInfo"); //로컬스토리지에서 제거
-            this.$store.state.isAuthenticated = false;
-         });
-         
-         await this.$router.push({
-            name: 'SignInPage',
-         })
+         this.requestLogoutToSpring({ token })
       },
+      async withdrawal() {
+         const memberId = this.memberId
+         await this.requestWithdrawalToSpring({ memberId })
+      }
     }
 }
 </script>
