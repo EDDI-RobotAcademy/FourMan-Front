@@ -150,7 +150,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "vuex";
+const memberModule = "memberModule";
 export default {
   name: "SignUpForm",
    props: {
@@ -221,6 +222,12 @@ export default {
     };
   },
   methods: {
+    ...mapActions(memberModule, [
+      "requestSignUpCheckEmailToSpring",
+      "requestSignUpCheckNickNameToSpring",
+      "requestSignUpCheckCafeCodeToSpring",
+      "requestSignUpCheckManagerCodeToSpring",
+    ]),
     onSubmit() {
       if (this.emailPass && this.streetPass && this.nickNamePass && this.authorityPass) {
         let authorityName;
@@ -251,12 +258,12 @@ export default {
         alert("올바른 정보를 입력하세요!");
       }
     },
-    emailValidation() {
+     async emailValidation() {
       const emailValid = this.email.match(
         /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
     },
-    checkDuplicateEmail() {
+     async checkDuplicateEmail() {
       const emailValid = this.email.match(
         /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
@@ -264,35 +271,31 @@ export default {
 
       if (emailValid) {
         const { email } = this;
-        axios
-          .post(`http://localhost:8888/member/check-email/${email}`)
-          .then((res) => {
-            if (res.data) {
-              alert("사용 가능한 이메일입니다!");
-              this.emailPass = true;
-            } else {
-              alert("중복된 이메일입니다!");
-              this.emailPass = false;
-            }
-          });
+
+          const res = await this.requestSignUpCheckEmailToSpring(email);
+           const isEmail=res.data
+          if (isEmail) {
+            alert("사용 가능한 이메일입니다!");
+            this.emailPass = true;
+          } else {
+            alert("중복된 이메일입니다!");
+            this.emailPass = false;
+          }
+
       }
     },
-    checkDuplicateNickName() {
+     async checkDuplicateNickName() {
+      const { nickName } = this;
 
- 
-        const { nickName } = this;
-        axios
-          .post(`http://localhost:8888/member/check-nickName/${nickName}`)
-          .then((res) => {
-            if (res.data) {
-              alert("사용 가능한 닉네임 입니다!");
-              this.nickNamePass = true;
-            } else {
-              alert("중복된 닉네임 입니다!");
-              this.nickNamePass = false;
-            }
-          });
-      
+         const res = await this.requestSignUpCheckNickNameToSpring(nickName);
+          const isNickName =res.data
+        if (isNickName) {
+          alert("사용 가능한 닉네임입니다!");
+          this.nickNamePass = true;
+        } else {
+          alert("중복된 닉네임입니다!");
+          this.nickNamePass = false;
+        }
     },
     callDaumAddressApi() {
       new window.daum.Postcode({
@@ -321,34 +324,35 @@ export default {
         },
       }).open();
     },
-      checkCode() {
+       async checkCode() {
         if(this.memberType==='cafe'){
           console.log("카페사업자코드를 체크합니다")
           const {codeText} = this
-          axios.post(`http://localhost:8888/member/check-cafe/${codeText}`)
-          .then((res) => {
-            if (res.data) {
-              alert("카페사업자 코드 확인하였습니다.")
+          const res = await this.requestSignUpCheckCafeCodeToSpring(codeText);
+          const isCafeCode=res.data;
+          console.log("isCafeCode",isCafeCode)
+          if (isCafeCode) {
+          alert("카페사업자 코드 확인하였습니다.")
               this.authorityPass = true
-            } else {
-              alert("일치하는 카페사업자 코드가 없습니다.")
+        } else {
+           alert("일치하는 카페사업자 코드가 없습니다.")
               this.authorityPass = false
-            }
-          })
+        }
+
       }
        else if(this.memberType==='manager'){
          console.log("매니저 코드를 체크합니다")
           const {codeText} = this
-          axios.post(`http://localhost:8888/member/check-manager/${codeText}`)
-          .then((res) => {
-            if (res.data) {
-              alert("관리자 코드 확인하였습니다.")
+            const res= await this.requestSignUpCheckManagerCodeToSpring(codeText);
+            const isManagerCode =res.data;
+          if (isManagerCode) {
+          alert(" 관리자 코드 확인하였습니다.")
               this.authorityPass = true
-            } else {
-              alert("일치하는 관리자 코드가 없습니다.")
+        } else {
+           alert("일치하는 관리자 코드가 없습니다.")
               this.authorityPass = false
-            }
-          })
+        }
+
       }
     }
   },
