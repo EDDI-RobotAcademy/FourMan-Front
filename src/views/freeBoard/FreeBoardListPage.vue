@@ -16,12 +16,13 @@
 
   import FreeBoardListForm from '@/components/freeBoard/FreeBoardListForm.vue'
   import { mapActions, mapState } from 'vuex'
+  const freeBoardModule= 'freeBoardModule'
 
   export default {
     components: { FreeBoardListForm },
     name: "FreeBoardListPage",
     computed: {
-      ...mapState([
+      ...mapState(freeBoardModule,[
         'freeBoards'
       ]),
     },
@@ -29,7 +30,7 @@
       this.requestFreeBoardListToSpring()
     },
     methods: {
-      ...mapActions([
+      ...mapActions(freeBoardModule,[
         'requestFreeBoardListToSpring'
       ]),
       loginCheck() {

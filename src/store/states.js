@@ -5,10 +5,6 @@ export default {
    productImages: [],
    allOfProducts: [],
 
-   // 보드 관련
-   freeBoards: [],
-   freeBoard: {},
-
    // 로그인 관련
    isAuthenticated: false,//로그인체크
 
@@ -16,10 +12,6 @@ export default {
    questionBoards: [],
    questionBoard: {},
 
-   // 리뷰 게시판 관련
-   reviewBoards: [],
-   reviewBoard: {},
-   reviewBoardImages: [],
 
    //댓글 관련
    comments: [],
@@ -44,6 +36,5 @@ export default {
    //나의 리뷰게시판 관련
    myReviewBoards: [],
 
-   // 마이페이지 내 정보 관련
-   myInfo: {},
+   
 }

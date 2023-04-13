@@ -11,6 +11,7 @@
 
   import FreeBoardReadForm from '@/components/freeBoard/FreeBoardReadFrom.vue'
   import { mapActions, mapState } from 'vuex'
+  const freeBoardModule= 'freeBoardModule'
 
   export default {
     components: { FreeBoardReadForm },
@@ -22,10 +23,10 @@
           }
       },
       computed: {
-          ...mapState(['freeBoard'])
+          ...mapState(freeBoardModule,['freeBoard'])
       },
       methods: {
-          ...mapActions([
+          ...mapActions(freeBoardModule,[
               'requestFreeBoardToSpring',
           ]),
           loginCheck() {

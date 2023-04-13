@@ -10,6 +10,8 @@
 <script>
 import ReviewBoardReadForm from '@/components/reviewBoard/ReviewBoardReadForm.vue'
 import { mapActions, mapState } from 'vuex'
+const reviewBoardModule= 'reviewBoardModule'
+
 export default {
   components: { ReviewBoardReadForm },
     name: "ReviewBoardReadPage",
@@ -20,10 +22,10 @@ export default {
         }
     },
     computed: {
-        ...mapState(['reviewBoard', 'reviewBoardImages'])
+        ...mapState(reviewBoardModule,['reviewBoard', 'reviewBoardImages'])
     },
     methods: {
-        ...mapActions([
+        ...mapActions(reviewBoardModule,[
             'requestReviewBoardToSpring',
             'requestDeleteReviewBoardToSpring',
             'requestReviewBoardImageToSpring',
