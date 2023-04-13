@@ -21,6 +21,7 @@ import QuestionBoardReadForm from '@/components/questionBoard/QuestionBoardReadF
 import QuestionBoardCommentForm from '@/components/questionBoard/comment/QuestionBoardCommentForm.vue'
 import QuestionBoardCommentListForm from '@/components/questionBoard/comment/QuestionBoardCommentListForm.vue';
 import {mapActions, mapState} from 'vuex'
+const questionBoardModule= 'questionBoardModule'
 
 export default {
     name: "QuestionBoardReadPage",
@@ -42,10 +43,11 @@ export default {
         },
     },
     computed: {
-        ...mapState(['questionBoard','comments']),
+        ...mapState(questionBoardModule,
+        ['questionBoard','comments']),
 },
     methods: {
-        ...mapActions([
+        ...mapActions(questionBoardModule,[
             'requestQuestionBoardToSpring',
             'requestQuestionBoardCommentRegisterToSpring',
             'requestQuestionBoardCommentListToSpring',
@@ -55,6 +57,7 @@ export default {
         const { comment, commentWriter, memberId} = payload
         const boardId = this.boardId
         console.log("댓글 등록할 boardId:" + boardId +"memberId check" + memberId)
+        console.log('댓글 내용 확인 :' + comment)
         await this.requestQuestionBoardCommentRegisterToSpring( {comment, boardId, commentWriter, memberId})
         await this.$router.go((this.$router.currentRoute))
     },

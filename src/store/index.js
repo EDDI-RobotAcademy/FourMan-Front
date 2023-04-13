@@ -13,6 +13,7 @@ import freeBoardModule from '@/store/freeBoard/freeBoardModule.js'
 import reviewBoardModule from '@/store/reviewBoard/reviewBoardModule.js'
 
 import myPageModule from '@/store/myPage/myPageModule.js'
+import questionBoardModule from './questionBoard/questionBoardModule'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     freeBoardModule: freeBoardModule,
     reviewBoardModule: reviewBoardModule,
     myPageModule: myPageModule,
+
+    //현수
+    questionBoardModule : questionBoardModule,
   },
   state,
   actions,

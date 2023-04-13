@@ -3,11 +3,11 @@
         <form @submit.prevent="onSubmitComment" class="me-10 ms-10">
             <div class="card shadow-lg comment-box">
                 <div class="card-body">
-          
+
                   <!-- 댓글 입력창 요소 -->
                   <div class="comment-area-field mb-5">
                     <p class="comment-count-txt">총 {{ commentSize }}개의 댓글</p>
-                    
+
                     <div style="display: flex;">
                         <textarea
                             v-if="this.$store.state.isAuthenticated"
@@ -111,19 +111,19 @@ export default {
   line-height: 1.75;
 }
 .commentSubmitBtn {
-  background-color:rgb(40, 41, 41); 
-  color:#fff; 
-  border:0; 
-  border-radius:3px; 
+  background-color:rgb(40, 41, 41);
+  color:#fff;
+  border:0;
+  border-radius:3px;
   margin-top:5px;
   margin-bottom: 25px;
   padding:5px 15px 5px 15px;
 }
 .replySubmitBtn {
   background-color:rgb(173, 181, 189);
-  color:#fff; 
-  border:0; 
-  border-radius:3px; 
+  color:#fff;
+  border:0;
+  border-radius:3px;
   margin-top:5px;
   margin-bottom: 25px;
   padding:5px 15px 5px 15px;
@@ -133,17 +133,17 @@ export default {
   display:flex;
 }
 .comment-user-profile-img{
-  width:50px; 
-  height:70px; 
+  width:50px;
+  height:70px;
   float:left;
 }
 .comment-user-info{
-  padding-left:15px; 
-  float:left; 
+  padding-left:15px;
+  float:left;
   color:rgb(52, 58, 64);
 }
 .comment-user-info p:first-child {
-  margin-bottom:0px; 
+  margin-bottom:0px;
   font-weight: bold;
 }
 .comment-user-info p:last-child {
@@ -162,13 +162,13 @@ export default {
   background-color: rgba(0, 0, 0, 0.016);
   margin: auto;
 }
-.replyShowBtn{ 
+.replyShowBtn{
   display: block;
   padding: 15px;
 }
 .replyShowBtn button {
-  background-color:#fff; 
-  border:0px; 
+  background-color:#fff;
+  border:0px;
   color:rgb(52, 58, 64);
 }
 .clear-both-width-100{
@@ -176,7 +176,7 @@ export default {
   width: 100%;
 }
 .inner-comment-field-block {
-  padding:0px 15px 0px 35px; 
+  padding:0px 15px 0px 35px;
   display:flex;
 }
 .bottom-gray-line {

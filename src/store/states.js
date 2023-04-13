@@ -20,9 +20,6 @@ export default {
    //주문 관련
    orderInformations: [],
 
-   //게시물 검색 관련
-   searchBoards: [],
-
    //공지사항 관련
    noticeBoards: [],
    noticeBoard: {},
@@ -36,5 +33,5 @@ export default {
    //나의 리뷰게시판 관련
    myReviewBoards: [],
 
-   
+
 }
