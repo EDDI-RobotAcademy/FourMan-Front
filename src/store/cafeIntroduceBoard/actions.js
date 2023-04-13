@@ -26,7 +26,7 @@ export default {
 
      requestCafeListToSpring({commit}) {
         console.log("requestCafeListToSpring() 작동")
-        return axiosInst.get(`/cafe/list`)
+        axiosInst.get(`/cafe/list`)
             .then((res) => {
                 commit(REQUEST_CAFE_LIST_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)
@@ -37,7 +37,7 @@ export default {
     },
     requestCafeNumToSpring({commit}) {
         console.log("requestCafeNumToSpring() 작동")
-        return axiosInst.post(`/cafe/check-code/${ JSON.parse(localStorage.getItem('userInfo')).code}`)
+            axiosInst.post(`/cafe/check-code/${ JSON.parse(localStorage.getItem('userInfo')).code}`)
         .then((res)=>{
             console.log("성공res.data:",res.data)
             commit(REQUEST_CAFE_NUM_TO_SPRING,res.data)
@@ -49,7 +49,7 @@ export default {
     },
     requestCafeDetailToSpring({commit},cafeId) {
         console.log("requestCafeDetailToSpring() 작동")
-        return axiosInst.get(`/cafe/detail/${cafeId}`)
+            axiosInst.get(`/cafe/detail/${cafeId}`)
             .then((res) => {
                 commit(REQUEST_CAFE_DETAIL_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)

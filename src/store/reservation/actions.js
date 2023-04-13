@@ -12,7 +12,7 @@ export default {
 
     requestCreateCafeSeatToSpring({},payload) {
         console.log("requestCreateCafeSeatToSpring 작동")
-        return axiosInst.post("/reservation/register", payload)
+            axiosInst.post("/reservation/register", payload)
         .then((res) => {
           alert("예약완료되었습니다.");
         })
@@ -25,7 +25,7 @@ export default {
     requestCafeSeatToSpring({commit},payload) {
         console.log("requestCafeSeatToSpring 작동")
         const {cafeId,time}=payload
-        return axiosInst.get(`/reservation/cafe/${cafeId}/time/${time}`)
+            axiosInst.get(`/reservation/cafe/${cafeId}/time/${time}`)
             .then((res) => {
                 commit(REQUEST_CAFE_SEAT_TO_SPRING, res.data)
                 console.log(" res.data.seatResponse: " + res.data.seatResponse)
@@ -37,7 +37,7 @@ export default {
     },
     requestDeleteCafeSeatToSpring({}) {
         console.log("requestDeleteCafeSeatToSpring 작동")
-        return axiosInst.delete(`/reservation/seats/delete`)
+            axiosInst.delete(`/reservation/seats/delete`)
             .then(() => {
                 alert("좌석 초기화 성공")
             })
