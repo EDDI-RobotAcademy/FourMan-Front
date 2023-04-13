@@ -115,6 +115,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import { COMMIT_IS_AUTHENTICATED } from '@/store/member/mutation-types';
 const memberModule = "memberModule";
 export default {
   name: "NavigationMenuForm",
@@ -132,11 +133,14 @@ export default {
     if (localStorage.getItem("userInfo")) {
       console.log("userinfo가 있습니다");
       // console.log(this.$store.state.isAuthenticated);
-      this.$store.state.memberModule.isAuthenticated = true; // 로그인되어있음
+      // this.$store.state.memberModule.isAuthenticated = true; // 로그인되어있음
+      this.$store.commit(`memberModule/${COMMIT_IS_AUTHENTICATED}`, true);
     } else {
       console.log("userinfo가 없습니다.");
       // console.log(this.$store.state.isAuthenticated);
-      this.$store.state.memberModule.isAuthenticated = false; //로그인안되어있음
+      // this.$store.state.memberModule.isAuthenticated = false; //로그인안되어있음
+      this.$store.commit(`memberModule/${COMMIT_IS_AUTHENTICATED}`, false);
+      
     }
   },
   methods: {
