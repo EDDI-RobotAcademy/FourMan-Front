@@ -84,7 +84,7 @@ props : {
 },
 methods: {
   ...mapActions(freeBoardModule, [
-  // 'requestQuestionBoardCommentDeleteToSpring',
+  'requestFreeBoardCommentDeleteToSpring',
   'requestFreeBoardCommentModifyToSpring'
   ]),
   openDialog (commentId) {
@@ -93,11 +93,11 @@ methods: {
         this.selectCommentId = commentId
     },
 
-  // async deleteComment(commentId) {
-  //   console.log('commentId : ' + commentId)
-  //   await this.requestQuestionBoardCommentDeleteToSpring(commentId)
-  //   await this.$router.go((this.$router.currentRoute))
-  // },
+  async deleteComment(commentId) {
+    console.log('commentId : ' + commentId)
+    await this.requestFreeBoardCommentDeleteToSpring(commentId)
+    await this.$router.go((this.$router.currentRoute))
+  },
 
   async saveComment() {
     const commentModify = this.commentModify
