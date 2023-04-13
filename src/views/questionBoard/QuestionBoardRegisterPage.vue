@@ -8,7 +8,7 @@
 
 import QuestionBoardRegisterForm from '@/components/questionBoard/QuestionBoardRegisterForm.vue';
 import { mapActions } from 'vuex'
-
+const questionBoardModule= 'questionBoardModule'
 
 export default {
     name: 'QuestionBoardRegisterPage',
@@ -17,7 +17,7 @@ export default {
     },
 
     methods: {
-        ...mapActions ([
+        ...mapActions (questionBoardModule,[
             'requestCreateQuestionBoardToSpring'
         ]),
         async onSubmit (payload) {

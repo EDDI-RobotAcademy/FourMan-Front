@@ -26,6 +26,7 @@ import QuestionBoardListForm from '@/components/questionBoard/QuestionBoardListF
 import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
 import SearchResultForm from '@/components/searchBoard/SearchResultForm.vue'
 import { mapActions, mapState } from 'vuex'
+const questionBoardModule= 'questionBoardModule'
 
 export default {
     name: "QuestionBoardListPage",
@@ -41,8 +42,9 @@ export default {
      },
 
     computed: {
-      ...mapState([
-        'questionBoards', 'searchBoards'
+      ...mapState(questionBoardModule,[
+        'questionBoards',
+        'searchBoards'
       ]),
     },
       mounted () {
@@ -50,7 +52,7 @@ export default {
         this.requestSearchBoardToSpring()
   },
     methods: {
-        ...mapActions([
+        ...mapActions(questionBoardModule,[
          'requestQuestionBoardListToSpring',
          'requestSearchBoardToSpring'
 
@@ -64,10 +66,10 @@ export default {
               this.$router.push({ name: 'QuestionBoardRegisterPage'})
           }
       },
-      onSearch(searchText) {
+      async onSearch(searchText) {
         console.log('searchText 내용 :' + searchText)
         if(searchText !== '') {
-          this.requestSearchBoardToSpring(searchText)
+          await this.requestSearchBoardToSpring(searchText)
       }
     }
   }

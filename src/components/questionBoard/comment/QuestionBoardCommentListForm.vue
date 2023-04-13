@@ -31,8 +31,8 @@
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </span>
-      </div> 
-      
+      </div>
+
       <div>
         {{ comment.comment }}
       </div>
@@ -50,6 +50,7 @@
 <script>
 
 import {mapActions} from 'vuex'
+const questionBoardModule= 'questionBoardModule'
 
 export default {
 name: "QuestionBoardCommentListForm",
@@ -82,7 +83,7 @@ props : {
 
 },
 methods: {
-  ...mapActions([
+  ...mapActions(questionBoardModule, [
   'requestQuestionBoardCommentDeleteToSpring',
   'requestQuestionBoardCommentModifyToSpring'
   ]),
