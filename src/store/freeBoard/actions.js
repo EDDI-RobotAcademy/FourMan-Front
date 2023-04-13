@@ -53,5 +53,16 @@ export default {
             })
     },
 
+       //댓글 관련
+       requestFreeBoardCommentRegisterToSpring( {}, payload) {
+        const {comment, boardId, commentWriter,memberId} = payload
+        console.log('데이터보내져랏')
+        return axiosInst.post('/free-board/comment/register',
+            {comment, boardId, commentWriter, memberId})
+        .then(() =>{
+            alert('댓글 등록 완료')
+        })
+    },
+
 
 }
