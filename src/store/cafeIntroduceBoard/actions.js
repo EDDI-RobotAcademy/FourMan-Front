@@ -58,6 +58,10 @@ export default {
                 alert(error)
             })
     },
+    async requestCafeRatingToSpring({}, cafeName) {
+        console.log("requestCafeRatingToSpring() 작동")
+        return axiosInst.get(`/review-board/rating/${cafeName}`)
+    },
 
 
 
