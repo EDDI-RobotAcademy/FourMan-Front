@@ -17,6 +17,13 @@ import reviewBoardModule from '@/store/reviewBoard/reviewBoardModule.js'
 
 import myPageModule from '@/store/myPage/myPageModule.js'
 
+//현수
+import questionBoardModule from './questionBoard/questionBoardModule'
+
+
+//현우
+
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -31,6 +38,13 @@ export default new Vuex.Store({
     freeBoardModule: freeBoardModule,
     reviewBoardModule: reviewBoardModule,
     myPageModule: myPageModule,
+
+    //현수
+    questionBoardModule : questionBoardModule,
+    
+    
+    //현우
+
   },
   state,
   actions,
