@@ -19,6 +19,7 @@ import myPageModule from '@/store/myPage/myPageModule.js'
 
 //현수
 import questionBoardModule from './questionBoard/questionBoardModule'
+import noticeBoardModule from './noticeBoard/noticeBoardModule'
 
 
 //현우
@@ -28,7 +29,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules:{
-    
+
     //영진
     reservationModule: reservationModule,
     cafeIntroduceBoardModule: cafeIntroduceBoardModule,
@@ -41,8 +42,9 @@ export default new Vuex.Store({
 
     //현수
     questionBoardModule : questionBoardModule,
-    
-    
+    noticeBoardModule : noticeBoardModule,
+
+
     //현우
 
   },

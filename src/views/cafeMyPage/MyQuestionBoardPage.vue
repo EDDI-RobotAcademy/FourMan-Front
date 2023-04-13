@@ -11,12 +11,13 @@
 
   import MyQuestionBoardForm from '@/components/cafeMyPage/MyQuestionBoardForm.vue'
   import { mapActions, mapState } from 'vuex'
+  const myPageModule ='myPageModule'
 
   export default {
     components: { MyQuestionBoardForm },
     name: "MyQuestionBoardPage",
     computed: {
-      ...mapState([
+      ...mapState(myPageModule,[
         'myQuestionBoards'
       ]),
     },
@@ -26,7 +27,7 @@
       this.requestMyQuestionBoardListToSpring(memberId)
     },
     methods: {
-      ...mapActions([
+      ...mapActions(myPageModule,[
         'requestMyQuestionBoardListToSpring'
       ]),
     },

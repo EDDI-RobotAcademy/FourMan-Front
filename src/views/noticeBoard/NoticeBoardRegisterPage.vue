@@ -11,13 +11,15 @@
 
 import NoticeBoardRegisterForm from '@/components/noticeBoard/NoticeBoardRegisterForm.vue'
 import {mapActions} from 'vuex'
+const noticeBoardModule = 'noticeBoardModule'
+
 export default {
     name: "NoticeBoardRegisterPage",
     components : {
         NoticeBoardRegisterForm
     },
     methods: {
-        ...mapActions ([
+        ...mapActions (noticeBoardModule,[
             'requestNoticeBoardRegisterToSpring'
         ]),
         async onSubmitNotice(payload) {
