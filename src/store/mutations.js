@@ -7,9 +7,6 @@ import {
    REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
    REQUEST_ALL_PRODUCT_TO_SPRING,
 
-   //댓글 관련
-   REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
-
    //주문 관련
    REQUEST_ORDER_INFORMATIONS_TO_SPRING,
 
@@ -30,10 +27,6 @@ export default {
    },
    [REQUEST_ALL_PRODUCT_TO_SPRING](state, passingData) {
       state.allOfProducts = passingData
-   },
-   //댓글 관련
-   [REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING] (state, passingData) {
-      state.comments = passingData
    },
 
    //주문 관련
