@@ -9,5 +9,4 @@ export default {
 
    //댓글 관련
    comments: [],
-   comment: {},
 }
