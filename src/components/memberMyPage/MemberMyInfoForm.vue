@@ -116,7 +116,8 @@
 
 <script>
 
-import axios from 'axios';
+import { mapActions } from 'vuex'
+const myPageModule= 'myPageModule'
 
 export default {
    name: "MemberMyInfoForm",
@@ -143,27 +144,15 @@ export default {
       }
    },
    methods: {
-      openDialog (commentId) {
+      ...mapActions(myPageModule,[
+         'requestPasswordCheckToSpring'
+      ]),
+      openDialog () {
          this.dialog = !this.dialog;
       },
       passwordCheck() {
          const { email, password } = this;
-         
-         axios
-            .post("http://localhost:8888/member/sign-in", { email, password })
-            .then((res) => {
-              if (res.data) {//토큰이오면
-               console.log('로그인 성공')
-                this.$router.push({ name: 'MemberMyInfoModifyPage' })
-              } else {
-                alert("비밀번호가 틀렸습니다.");
-              }
-            })
-            .catch((res) => {
-               alert("비밀번호가 틀렸습니다.");
-                console.log("로그인실패");
-                console.log(res.response.data.message);
-            });
+         this.requestPasswordCheckToSpring({ email, password })
       },
    },
 }
