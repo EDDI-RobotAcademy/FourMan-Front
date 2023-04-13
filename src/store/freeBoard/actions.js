@@ -2,6 +2,9 @@ import {
     REQUEST_FREE_BOARD_LIST_TO_SPRING,
     REQUEST_FREE_BOARD_TO_SPRING,
 
+    //댓글 관련
+    REQUEST_FREE_BOARD_COMMENT_LIST_TO_SPRING
+
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -62,6 +65,13 @@ export default {
         .then(() =>{
             alert('댓글 등록 완료')
         })
+    },
+        requestFreeBoardCommentListToSpring( { commit }, boardId ) {
+            console.log('commentList :')
+            return axiosInst.get(`/free-board/comment/list/${boardId}`)
+                .then((res) => {
+                    commit(REQUEST_FREE_BOARD_COMMENT_LIST_TO_SPRING, res.data)
+                })
     },
 
 

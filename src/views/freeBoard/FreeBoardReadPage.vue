@@ -49,7 +49,7 @@
           ...mapActions(freeBoardModule,[
               'requestFreeBoardToSpring',
               'requestFreeBoardCommentRegisterToSpring',
-              // 'requestFreeBoardCommentListToSpring',
+              'requestFreeBoardCommentListToSpring',
           ]),
           async onSubmitComment(payload) {
             const { comment, commentWriter, memberId} = payload
@@ -80,7 +80,7 @@
       created () {
           console.log('boardId: ' + this.boardId)
           this.requestFreeBoardToSpring(this.boardId)
-          // this.requestFreeBoardListToSpring(this.boardId)
+          this.requestFreeBoardCommentListToSpring(this.boardId)
       }
   }
   </script>
