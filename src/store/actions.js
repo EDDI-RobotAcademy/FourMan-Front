@@ -366,7 +366,7 @@ export default {
     },
 
     //주문 관련
-    requestOrderInformationsToSpring({}, payload) {
+    requestCreateOrderInformationsToSpring({}, payload) {
         console.log('payload: ' + payload)
         return axios.post('http://localhost:8888/order/register', payload)
             .then(() => {
@@ -376,7 +376,13 @@ export default {
                 alert("문제 발생!")
             })
     },
-
+    requestOrderInformationsToSpring({ commit }, memberId) {
+        return axios.get(`http://localhost:8888/order/list/${memberId}`)
+        .then((res) => {
+            commit(REQUEST_ORDER_INFORMATIONS_TO_SPRING, res.data)
+            console.log('orderInformations: ' + JSON.stringify(res.data))
+        })
+    },
     //공지사항 관련
     requestNoticeBoardRegisterToSpring({}, payload) {
         const { title, notice, writer, content, memberId} = payload

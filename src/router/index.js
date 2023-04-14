@@ -48,6 +48,7 @@ import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardD
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
 import ProductModifyPage from '@/views/cafeMyPage/ProductModifyPage.vue'
+import MemberOrderHistoryPage from '@/views/memberMyPage/MemberOrderHistoryPage.vue'
 
 //공지사항관련
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
@@ -339,6 +340,11 @@ const routes = [
     props: {
       default: true
     }
+  },
+  {
+    path: '/member-order-history-page',
+    name: 'MemberOrderHistoryPage',
+    component: MemberOrderHistoryPage
   },
 
   // 공지사항 관련

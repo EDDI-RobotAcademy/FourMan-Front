@@ -95,7 +95,7 @@ export default {
    },
    methods: {
       ...mapActions([
-        'requestOrderInformationsToSpring'
+        'requestCreateOrderInformationsToSpring'
       ]),
       purchase() {
         this.kakaoPayAPI()
@@ -132,7 +132,7 @@ export default {
       },
       saveOrderInformations() {
         let formData = new FormData()
-        let customer = JSON.parse(localStorage.getItem('userInfo')).nickName
+        let memberId = JSON.parse(localStorage.getItem('userInfo')).id
         let totalQuantity = 0
         for(let i = 0; i < this.cartItems.length; i++) {
           totalQuantity += this.cartItems[i].count
@@ -141,11 +141,17 @@ export default {
         let cartItemList = []
 
         for(let i = 0; i < this.cartItems.length; i++) {
-          cartItemList.push({productId: this.cartItems[i].productId, count: this.cartItems[i].count})
+          cartItemList.push({
+            productName: this.cartItems[i].productName,
+            count: this.cartItems[i].count, 
+            imageResource: this.cartItems[i].imageResourceList[0].imageResourcePath,
+            drinkType: this.cartItems[i].drinkType,
+            price: this.cartItems[i].price,
+            })
         }
 
         let orderInfo = {
-          customer: customer,
+          memberId: memberId,
           totalQuantity: totalQuantity,
           totalPrice: totalPrice,
           cartItemList: cartItemList
@@ -158,7 +164,7 @@ export default {
             new Blob([JSON.stringify(orderInfo)], { type: "application/json" })
         )
 
-        this.requestOrderInformationsToSpring(formData)
+        this.requestCreateOrderInformationsToSpring(formData)
       }
    },
 }
