@@ -151,13 +151,14 @@
                 </v-btn>
               </div>
             </v-row>
-            <v-btn
+            <!-- <v-btn
               @click="reset"
               class="ml-3 brown darken-2 white--text"
               large
               style="width: 200px; font-size: 18px"
               >좌석 초기화
-            </v-btn>
+            </v-btn> -->
+            <!-- 좌석 초기화 필요없어졌음 -->
           </table>
         </v-form>
       </div>
