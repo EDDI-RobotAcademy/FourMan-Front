@@ -75,7 +75,7 @@ export default {
          {
             title: "예약 내역",
             icon: "mdi-currency-usd",
-            route: "/"},
+            route: "/member-order-history-page"},
          {
             title: "나의 게시글",
             icon: "mdi-clipboard-text",
