@@ -15,6 +15,7 @@ import {
 import axiosInst from '@/utility/axiosObject'
 import router from '@/router'
 import store from '..'
+import { COMMIT_IS_AUTHENTICATED } from '@/store/member/mutation-types';
 
 export default {
    // 마이페이지 내 정보 관련
@@ -76,15 +77,14 @@ export default {
            alert("비밀번호가 변경되었습니다 다시 로그인 해주세요.");
         })
     },
-    requestLogoutToSpring({}, payload) {
+    requestLogoutToSpring({ commit }, payload) {
         const { token } = payload
 
         return axiosInst
         .post("/member/logout", token) //토큰을 보냄
         .then(() => {
            localStorage.removeItem("userInfo"); //로컬스토리지에서 제거
-           store.state.isAuthenticated = false;
-           router.push({ name: 'SignInPage'})
+           store.commit(`memberModule/${COMMIT_IS_AUTHENTICATED}`, false);
         });
     },
         //나의 게시판 관련
