@@ -218,8 +218,8 @@
 </template>
 
 <script>
-import axios from "axios";
-
+import { mapActions } from 'vuex'
+const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 export default {
   name: "CafeIntroBoardRegisterForm",
    created() {
@@ -261,6 +261,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions (cafeIntroduceBoardModule,[
+            'requestCreateCafeToSpring'
+        ]),
     handleFileUpload() {
       this.thumbnailFile = this.$refs.thumbnailFile.files;
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
@@ -306,15 +309,8 @@ export default {
             type: "application/json",
           })
         );
-        await axios
-          .post("http://localhost:8888/cafe/register", formData)
-          .then((res) => {
-            alert(res.data);
-          })
-          .catch((res) => {
-            alert(res.message);
-          });
 
+        await this.requestCreateCafeToSpring(formData)
         await this.$router.push({ name: "CafeIntroBoardListPage" });
         //파일 업로드 하지 않은 경우
       } else {

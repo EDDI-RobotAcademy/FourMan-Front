@@ -114,9 +114,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import axios from "axios";
-
+import { mapActions, mapState } from "vuex";
+import { COMMIT_IS_AUTHENTICATED } from '@/store/member/mutation-types';
+const memberModule = "memberModule";
 export default {
   name: "NavigationMenuForm",
   data() {
@@ -127,21 +127,32 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isAuthenticated"]),
+    ...mapState(memberModule,["isAuthenticated"]),
   },
   mounted() {
     if (localStorage.getItem("userInfo")) {
       console.log("userinfo가 있습니다");
-      console.log(this.$store.state.isAuthenticated);
-      this.$store.state.isAuthenticated = true; // 로그인되어있음
+      
+      // console.log(this.$store.state.isAuthenticated);
+      // this.$store.state.memberModule.isAuthenticated = true; // 로그인되어있음
+      
+      this.$store.commit(`memberModule/${COMMIT_IS_AUTHENTICATED}`, true);
     } else {
       console.log("userinfo가 없습니다.");
-      console.log(this.$store.state.isAuthenticated);
-      this.$store.state.isAuthenticated = false; //로그인안되어있음
+      
+      // console.log(this.$store.state.isAuthenticated);
+      // this.$store.state.memberModule.isAuthenticated = false; //로그인안되어있음
+      
+      this.$store.commit(`memberModule/${COMMIT_IS_AUTHENTICATED}`, false);
+      
+
     }
   },
   methods: {
-    logout() {
+
+    ...mapActions(memberModule,["requestSignOutToSpring"]),
+
+   async logout() {
       console.log(
         'localStorage.getItem("userInfo"): ' + localStorage.getItem("userInfo")
       );
@@ -150,13 +161,12 @@ export default {
       console.log("token: " + token + ", length: " + length);
       token = token.substr(1, length - 2); //양쪽에 있는 "" 제거 substr("시작 위치", "길이")
       console.log("token: " + token + ", length: " + token.length);
-      axios
-        .post("http://localhost:8888/member/logout", token) //토큰을 보냄
-        .then(() => {
-          alert("로그아웃 완료");
-          localStorage.removeItem("userInfo"); //로컬스토리지에서 제거
-          this.$store.state.isAuthenticated = false;
-        });
+
+      await this.requestSignOutToSpring(token)
+      await this.$router.replace({ name: 'MainPage' }).catch (err => {
+        if (err.name !== 'NavigationDuplicated') {
+          console.error(err);
+        }})
     },
     selectItem(item) {
       console.log("Selected item:", item);

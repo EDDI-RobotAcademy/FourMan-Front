@@ -3,12 +3,18 @@
     <v-row justify="center">
       <v-col cols="auto" style="padding-bottom: 90px">
         <router-link to="/">
-          <v-img :src="require('@/assets/logo.png')" width="100" class="mx-auto mb-6" />
+          <v-img
+            :src="require('@/assets/logo.png')"
+            width="100"
+            class="mx-auto mb-6"
+          />
         </router-link>
         <v-card width="460">
           <v-card-text class="text-center px-12 py-16">
             <v-form @submit.prevent="onSubmit" ref="form">
-              <div class="text-h4 font-weight-black mb-10 brown--text">회원 가입</div>
+              <div class="text-h4 font-weight-black mb-10 brown--text">
+                회원 가입
+              </div>
 
               <div class="d-flex">
                 <v-text-field
@@ -19,12 +25,16 @@
                   :disabled="emailPass"
                   required
                 />
-                <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-0 ml-5 mr-0 brown darken-2 white--text"
-                                @click="checkDuplicateEmail"
-                                :disabled="emailPass"
-              >이메일 중복 확인
-                  </v-btn>
+                <v-btn
+                  text
+                  large
+                  outlined
+                  style="font-size: 13px; height: 55px"
+                  class="mt-0 ml-5 mr-0 brown darken-2 white--text"
+                  @click="checkDuplicateEmail"
+                  :disabled="emailPass"
+                  >이메일 중복 확인
+                </v-btn>
               </div>
 
               <div class="d-flex">
@@ -51,25 +61,47 @@
               </div>
 
               <div class="d-flex">
-                <v-text-field v-model="nickName" label="닉네임" :disabled="nickNamePass" required  color="black"/>
+                <v-text-field
+                  v-model="nickName"
+                  label="닉네임"
+                  :disabled="nickNamePass"
+                  required
+                  color="black"
+                />
 
-                <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-0 ml-5 mr-0 brown darken-2 white--text"
-                                @click="checkDuplicateNickName"
-                                :disabled="nickNamePass"
-              >닉네임 중복 확인
-                  </v-btn>
+                <v-btn
+                  text
+                  large
+                  outlined
+                  style="font-size: 13px; height: 55px"
+                  class="mt-0 ml-5 mr-0 brown darken-2 white--text"
+                  @click="checkDuplicateNickName"
+                  :disabled="nickNamePass"
+                  >닉네임 중복 확인
+                </v-btn>
               </div>
 
-                <div class="d-flex">
-                  <v-text-field v-model="birthdate" label="생년월일 (8자리)" :disabled="false" :rules="birthdate_rule"
-                                required  color="black"/>
-                </div>
+              <div class="d-flex">
+                <v-text-field
+                  v-model="birthdate"
+                  label="생년월일 (8자리)"
+                  :disabled="false"
+                  :rules="birthdate_rule"
+                  required
+                  color="black"
+                />
+              </div>
 
-                <div class="d-flex">
-                  <v-text-field v-model="phoneNumber" label="전화번호 ('-'포함 11자리)" :disabled="false"
-                                :rules="phoneNumber_rule" required  color="black"/>
-                </div>
+              <div class="d-flex">
+                <v-text-field
+                  v-model="phoneNumber"
+                  label="전화번호 ('-'포함 11자리)"
+                  :disabled="false"
+                  :rules="phoneNumber_rule"
+                  required
+                  color="black"
+                />
+              </div>
 
               <div class="d-flex">
                 <v-text-field
@@ -138,21 +170,22 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "vuex";
+const memberModule = "memberModule";
 export default {
   name: "SignUpForm",
-   props: {
-        memberType: {
-            type: String,
-            required: true
-        }
+  props: {
+    memberType: {
+      type: String,
+      required: true,
     },
+  },
   data() {
     return {
       email: "",
       password: "",
       password_confirm: "",
-      nickName:"",
+      nickName: "",
       birthdate: "",
       phoneNumber: "",
       city: "",
@@ -161,7 +194,7 @@ export default {
       zipcode: "",
       emailPass: false, //아디중복체크후 사용가능한 이메일인지 여부
       streetPass: false, //주소입력여부
-      nickNamePass:false,//닉네임중복체크후 사용가능한 닉네임인지여부
+      nickNamePass: false, //닉네임중복체크후 사용가능한 닉네임인지여부
       email_rule: [
         (v) => !!v || "이메일을 입력해주세요.",
         (v) => {
@@ -189,29 +222,48 @@ export default {
         (v) => v === this.password || "패스워드가 일치하지 않습니다.",
       ],
       birthdate_rule: [
-        v => !!v || '생년월일 8자리를 입력해주세요.',
-        v => {
-          const replaceV = v.replace(/(\s*)/g, '')
-          const pattern = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
-          return pattern.test(replaceV) || '생년월일 형식을 입력하세요.'
-        }
+        (v) => !!v || "생년월일 8자리를 입력해주세요.",
+        (v) => {
+          const replaceV = v.replace(/(\s*)/g, "");
+          const pattern =
+            /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+          return pattern.test(replaceV) || "생년월일 형식을 입력하세요.";
+        },
       ],
       phoneNumber_rule: [
-        v => !!v || '전화번호를 입력 해주세요.',
-        v => {
-          const replaceV = v.replace(/(\s*)/g, '')
-          const pattern = /010-\d{4}-\d{4}/
-          return pattern.test(replaceV) || '전화번호 11자리를 입력해주세요. ("-"포함)'
-        }
-      ]
+        (v) => !!v || "전화번호를 입력 해주세요.",
+        (v) => {
+          const replaceV = v.replace(/(\s*)/g, "");
+          const pattern = /010-\d{4}-\d{4}/;
+          return (
+            pattern.test(replaceV) ||
+            '전화번호 11자리를 입력해주세요. ("-"포함)'
+          );
+        },
+      ],
     };
   },
   methods: {
+    ...mapActions(memberModule, [
+      "requestSignUpCheckEmailToSpring",
+      "requestSignUpCheckNickNameToSpring",
+    ]),
+
     onSubmit() {
-      if (this.emailPass && this.streetPass &&  this.nickNamePass) {
-        const authorityName = "MEMBER"
-        const code=null;
-        const { email, password,nickName, birthdate,phoneNumber, city, street, addressDetail, zipcode } = this;
+      if (this.emailPass && this.streetPass && this.nickNamePass) {
+        const authorityName = "MEMBER";
+        const code = null;
+        const {
+          email,
+          password,
+          nickName,
+          birthdate,
+          phoneNumber,
+          city,
+          street,
+          addressDetail,
+          zipcode,
+        } = this;
         this.$emit("submit", {
           email,
           password,
@@ -234,7 +286,7 @@ export default {
         /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
     },
-    checkDuplicateEmail() {
+     async checkDuplicateEmail() {
       const emailValid = this.email.match(
         /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
@@ -242,35 +294,31 @@ export default {
 
       if (emailValid) {
         const { email } = this;
-        axios
-          .post(`http://localhost:8888/member/check-email/${email}`)
-          .then((res) => {
-            if (res.data) {
-              alert("사용 가능한 이메일입니다!");
-              this.emailPass = true;
-            } else {
-              alert("중복된 이메일입니다!");
-              this.emailPass = false;
-            }
-          });
+
+          const res = await this.requestSignUpCheckEmailToSpring(email);
+           const isEmail=res.data
+          if (isEmail) {
+            alert("사용 가능한 이메일입니다!");
+            this.emailPass = true;
+          } else {
+            alert("중복된 이메일입니다!");
+            this.emailPass = false;
+          }
+
       }
     },
-    checkDuplicateNickName() {
+    async checkDuplicateNickName() {
+      const { nickName } = this;
 
- 
-        const { nickName } = this;
-        axios
-          .post(`http://localhost:8888/member/check-nickName/${nickName}`)
-          .then((res) => {
-            if (res.data) {
-              alert("사용 가능한 닉네임 입니다!");
-              this.nickNamePass = true;
-            } else {
-              alert("중복된 닉네임 입니다!");
-              this.nickNamePass = false;
-            }
-          });
-      
+         const res = await this.requestSignUpCheckNickNameToSpring(nickName);
+          const isNickName =res.data
+        if (isNickName) {
+          alert("사용 가능한 닉네임입니다!");
+          this.nickNamePass = true;
+        } else {
+          alert("중복된 닉네임입니다!");
+          this.nickNamePass = false;
+        }
     },
     callDaumAddressApi() {
       new window.daum.Postcode({

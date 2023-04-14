@@ -49,6 +49,7 @@ import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
 import ProductModifyPage from '@/views/cafeMyPage/ProductModifyPage.vue'
 import MemberOrderHistoryPage from '@/views/memberMyPage/MemberOrderHistoryPage.vue'
+import MemberMyInfoModifyPage from '@/views/memberMyPage/MemberMyInfoModifyPage.vue'
 
 //공지사항관련
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
@@ -58,6 +59,12 @@ import NoticeBoardModifyPage from '@/views/noticeBoard/NoticeBoardModifyPage.vue
 
 //나의 게시판 관련
 import MyFreeBoardPage from '@/views/cafeMyPage/MyFreeBoardPage.vue'
+
+//나의 질문게시판 관련
+import MyQuestionBoardPage from '@/views/cafeMyPage/MyQuestionBoardPage.vue'
+
+//나의 리뷰게시판 관련
+import MyReviewBoardPage from '@/views/cafeMyPage/MyReviewBoardPage.vue'
 
 Vue.use(VueRouter)
 
@@ -346,6 +353,16 @@ const routes = [
     name: 'MemberOrderHistoryPage',
     component: MemberOrderHistoryPage
   },
+  {
+    path: '/member-my-info-modify-page',
+    name: 'MemberMyInfoModifyPage',
+    components: {
+      default: MemberMyInfoModifyPage
+    },
+    props: {
+      default: true
+    }
+  },
 
   // 공지사항 관련
   {
@@ -384,6 +401,16 @@ const routes = [
     path: '/my-free-board-page',
     name: 'MyFreeBoardPage',
     component: MyFreeBoardPage
+  },
+  {
+    path: '/my-question-board-page',
+    name: 'MyQuestionBoardPage',
+    component: MyQuestionBoardPage
+  },
+  {
+    path: '/my-review-board-page',
+    name: 'MyReviewBoardPage',
+    component: MyReviewBoardPage
   },
 
 

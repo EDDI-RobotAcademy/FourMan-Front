@@ -10,12 +10,13 @@
 
 import ReviewBoardRegisterForm from "@/components/reviewBoard/ReviewBoardRegisterForm.vue";
 import { mapActions } from 'vuex'
+const reviewBoardModule= 'reviewBoardModule'
 
 export default {
     components: { ReviewBoardRegisterForm },
     name: "ReviewBoardRegisterPage",
     methods: {
-          ...mapActions ([
+          ...mapActions (reviewBoardModule,[
               'requestCreateReviewBoardToSpring'
           ]),
           async onSubmit (formData) {

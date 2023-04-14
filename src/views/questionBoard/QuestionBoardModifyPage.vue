@@ -11,6 +11,7 @@
 
 import QuestionBoardModifyForm from '@/components/questionBoard/QuestionBoardModifyForm.vue'
 import {mapActions, mapState} from 'vuex'
+const questionBoardModule = 'questionBoardModule'
 
 export default {
     name: "QuestionBoardModifyPage",
@@ -27,17 +28,18 @@ export default {
         this.requestQuestionBoardToSpring(this.boardId)
     },
     computed: {
-        ...mapState(['questionBoard'])
+        ...mapState(questionBoardModule,
+        ['questionBoard'])
     },
     methods: {
-        ...mapActions([
+        ...mapActions(questionBoardModule,[
             'requestQuestionBoardToSpring',
             'requestQuestionBoardModifyToSpring'
         ]),
         async onSubmit (payload) {
               const {title, content } = payload
               const boardId = this.boardId
-              
+
               await this.requestQuestionBoardModifyToSpring({ boardId, title, content })
               await this.$router.push({
                   name: 'QuestionBoardReadPage',

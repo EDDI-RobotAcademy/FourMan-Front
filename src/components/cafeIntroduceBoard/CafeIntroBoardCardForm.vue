@@ -39,7 +39,7 @@
           ></v-rating>
 
           <div class="grey--text ms-4">
-            <span v-if="cafe.cafeInfo.rating">{{ rating.toFixed(1) }}</span>
+            <span v-if="rating">{{ rating.toFixed(1) }}</span>
             <span v-else>0</span>
             <span> ({{ totalRating }})</span>
             <!-- 별점과 참여자수 업뎃요망 -->
@@ -80,13 +80,13 @@
           상세 보기
         </v-btn>
       </v-card-actions>
-
     </div>
   </v-card>
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions } from 'vuex'
+const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 export default {
   name: "CafeIntroBoardCardForm",
   props: {
@@ -101,7 +101,9 @@ export default {
     totalRating: 0,
   }),
   methods: {
-
+    ...mapActions(cafeIntroduceBoardModule,[
+      'requestCafeRatingToSpring'
+    ]),
     reserve() {
              this.$router.push({ name:'HallSeatPage',
                            params:{cafe: this.cafe
@@ -111,16 +113,18 @@ export default {
     showDetail(){
        this.$router.push({ name:'CafeIntroBoardDetailPage',
                            params:{cafeId: this.cafe.cafeId.toString()}});
+    },
+    async cafeRating() {
+      const res = await this.requestCafeRatingToSpring(this.cafe.cafeName)
+      const sum = res.data.reduce((acc, cur) => acc + cur, 0);
+      this.rating = (sum / res.data.length)
+      this.totalRating = res.data.length
+
+      console.log('res.data: ' + res.data)
     }
   },
   created() {
-      return axios.get(`http://localhost:8888/review-board/rating/${this.cafe.cafeName}`)
-            .then((res) => {
-                console.log("res.data : " + res.data)
-                const sum = res.data.reduce((acc, cur) => acc + cur, 0);
-                this.rating = (sum / res.data.length)
-                this.totalRating = res.data.length
-            })
-    }
+    this.cafeRating()
+  }
 };
 </script>

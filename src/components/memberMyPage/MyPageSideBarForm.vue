@@ -83,11 +83,11 @@ export default {
          {
             title: "나의 문의",
             icon: "mdi-comment-question",
-            route: "/"},
+            route: "/my-question-board-page"},
          {
             title: "나의 후기",
             icon: "mdi-star",
-            route: "/"},
+            route: "/my-review-board-page"},
       ],
       menusForManager : [
          {

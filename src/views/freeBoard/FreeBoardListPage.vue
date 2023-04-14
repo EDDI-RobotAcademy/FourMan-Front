@@ -5,23 +5,24 @@
     </div>
         <free-board-list-form :freeBoards="freeBoards"/>
         <div class="text-right">
-          <v-btn v-if="this.$store.state.isAuthenticated" class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
+          <v-btn v-if="this.$store.state.memberModule.isAuthenticated" class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
             게시물 작성
         </v-btn>
         </div>
     </v-container>
   </template>
-  
+
   <script>
 
   import FreeBoardListForm from '@/components/freeBoard/FreeBoardListForm.vue'
   import { mapActions, mapState } from 'vuex'
+  const freeBoardModule= 'freeBoardModule'
 
   export default {
     components: { FreeBoardListForm },
     name: "FreeBoardListPage",
     computed: {
-      ...mapState([
+      ...mapState(freeBoardModule,[
         'freeBoards'
       ]),
     },
@@ -29,7 +30,7 @@
       this.requestFreeBoardListToSpring()
     },
     methods: {
-      ...mapActions([
+      ...mapActions(freeBoardModule,[
         'requestFreeBoardListToSpring'
       ]),
       loginCheck() {
@@ -44,6 +45,6 @@
     }
   }
   </script>
-  
+
   <style>
   </style>

@@ -11,6 +11,8 @@
   <script>
   import ReviewBoardModifyForm from '@/components/reviewBoard/ReviewBoardModifyForm.vue'
   import { mapActions, mapState } from 'vuex'
+  const reviewBoardModule= 'reviewBoardModule'
+
   export default {
       components: { ReviewBoardModifyForm },
       name: "ReviewBoardModifyPage",
@@ -21,10 +23,10 @@
           }
       },
       computed: {
-          ...mapState(['reviewBoard'])
+          ...mapState(reviewBoardModule,['reviewBoard'])
       },
       methods: {
-          ...mapActions([
+          ...mapActions(reviewBoardModule,[
               'requestReviewBoardToSpring',
               'requestReviewBoardModifyToSpring',
           ]),

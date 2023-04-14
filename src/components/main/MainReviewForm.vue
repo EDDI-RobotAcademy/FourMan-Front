@@ -56,11 +56,12 @@
   <script>
   
 import { mapActions, mapState } from 'vuex'
+const reviewBoardModule= 'reviewBoardModule'
 
 export default {
     name: "MainReviewForm",
     computed: {
-        ...mapState([
+        ...mapState(reviewBoardModule,[
         'reviewBoards'
         ]),
     },
@@ -68,7 +69,7 @@ export default {
         this.requestReviewBoardListToSpring()
     },
     methods: {
-        ...mapActions([
+        ...mapActions(reviewBoardModule,[
         'requestReviewBoardListToSpring'
         ]),
         getImagePath(imageData) {
