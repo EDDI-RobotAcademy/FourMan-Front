@@ -284,6 +284,7 @@ export default {
         cafe: this.cafe,
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
         seatList: this.selectedSeats,
+         timeString: this.selectedTime 
       };
       await this.requestCreateCafeSeatToSpring(payload);
       await this.$router.push({ name: "CafeIntroBoardListPage" });
