@@ -6,7 +6,7 @@
       :fluid="true"
     >
       <h1 v-if="selectedTime == null" class="text-center">
-        당일 예약만 가능합니다.<br>
+        당일 예약만 가능합니다.<br />
         예약 시간을 선택해 주세요!
       </h1>
       <hall-seat-form
@@ -31,30 +31,32 @@
             <v-row>
               <v-col>
                 <div
-                  :class="[{ 'is-reserved': true}, 'seat',]"
+                  :class="[{ 'is-reserved': true }, 'seat']"
                   :style="{
                     left: '0px',
                     top: '0px',
                     width: '50px',
                     height: '50px',
-                    display: 'inline-block'
+                    display: 'inline-block',
                   }"
                 >
                   <svg-icon type="mdi" :path="path"></svg-icon>
-                </div><span>예약 중</span>
+                </div>
+                <span>예약 중</span>
                 <div
-                  :class="[{ 'is-reserved': false }, 'seat' , 'ml-10']"
+                  :class="[{ 'is-reserved': false }, 'seat', 'ml-10']"
                   :style="{
                     left: '0px',
                     top: '0px',
                     width: '50px',
                     height: '50px',
-                    display: 'inline-block'
+                    display: 'inline-block',
                   }"
                 >
                   <svg-icon type="mdi" :path="path"></svg-icon>
-                </div>예약 가능
-                
+                </div>
+                예약 가능
+
                 <v-row class="mt-10 ml-1">
                   <v-col cols="6"
                     ><span class="font-weight-bold mr-10">카페명:</span>
@@ -149,13 +151,13 @@
                 </v-btn>
               </div>
             </v-row>
-             <v-btn
-                  @click="reset"
-                  class="ml-3 brown darken-2 white--text"
-                  large
-                  style="width: 200px; font-size: 18px"
-                  >좌석 초기화
-                </v-btn>
+            <v-btn
+              @click="reset"
+              class="ml-3 brown darken-2 white--text"
+              large
+              style="width: 200px; font-size: 18px"
+              >좌석 초기화
+            </v-btn>
           </table>
         </v-form>
       </div>
@@ -167,7 +169,7 @@
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiSeat } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
-const reservationModule ='reservationModule'
+const reservationModule = "reservationModule";
 import HallSeatForm from "@/components/hallSeat/HallSeatForm.vue";
 export default {
   name: "HallSeatPage",
@@ -199,25 +201,43 @@ export default {
     availableTimes() {
       const now = new Date();
       const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-      const nextHour = currentHour + (currentMinute >= 30 ? 1 : 0);
-      const startTime = Math.max(parseInt(this.cafe.startTime), nextHour);
+      // const currentMinute = now.getMinutes();
+      const startTime = Math.max(parseInt(this.cafe.startTime), currentHour);
       const endTime = parseInt(this.cafe.endTime);
-
+      console.log("startTime", startTime);
+      console.log("endTime", endTime);
       const times = [];
-      for (let hour = startTime; hour !== endTime; hour++) {
-        if (hour === 24) {
-          hour = 0;
+      let hour = startTime;
+      while (true) {
+        if (hour >= 24) {
+          hour = hour % 24;
+          now.setDate(now.getDate() + 1); // 다음 날짜로 변경
         }
-        const time = `${hour.toString().padStart(2, "0")}:00`;
+        if (
+          hour == endTime ||
+          (hour >= endTime && hour < parseInt(this.cafe.startTime))
+        ) {
+          return times;
+        }
+        const dateStr = now.toISOString().slice(0, 10); // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
+        const time = `${dateStr} ${hour.toString().padStart(2, "0")}:00`;
         times.push(time);
+        hour += 2;
       }
-      return times;
+    },
+  },
+  watch: {
+    availableTimes(newValue) {
+      console.log("Available times:", newValue);
     },
   },
 
   methods: {
-    ...mapActions(reservationModule,["requestCreateCafeSeatToSpring","requestCafeSeatToSpring","requestDeleteCafeSeatToSpring"]),
+    ...mapActions(reservationModule, [
+      "requestCreateCafeSeatToSpring",
+      "requestCafeSeatToSpring",
+      "requestDeleteCafeSeatToSpring",
+    ]),
     async fetchReservations() {
       try {
         const payload = { cafeId: this.cafe.cafeId, time: this.selectedTime };
@@ -230,13 +250,12 @@ export default {
     cancel() {
       this.$router.go(-1);
     },
-    async reset(){
-        await this.requestDeleteCafeSeatToSpring();
-        await this.resetSelectedSeats();
-        await this.$router.push({
-                name: 'CafeIntroBoardListPage'
-            })
-
+    async reset() {
+      await this.requestDeleteCafeSeatToSpring();
+      await this.resetSelectedSeats();
+      await this.$router.push({
+        name: "CafeIntroBoardListPage",
+      });
     },
     getKoreanDayOfWeek(date) {
       const dayOfWeek = date.getDay();
@@ -276,29 +295,17 @@ export default {
     },
   },
 
-  // watch: {
-  //   selectedTime() {
-  //     this.fetchReservations();
-  //   },
-  // },
   async created() {
-    console.log("this.cafe.startTime:", this.cafe.startTime);
-    console.log(
-      "new Date(this.cafe.startTime); ",
-      new Date(this.cafe.startTime)
-    );
+    // console.log("this.cafe.startTime:", this.cafe.startTime);
     // console.log(
-    //   "new Date(`${this.today}T${this.cafe.startTime}:00`)",
-    //   new Date(`${this.today}T${this.cafe.startTime}:00`)
+    //   "new Date(this.cafe.startTime); ",
+    //   new Date(this.cafe.startTime)
     // );
-
-    // // 예약 가능한 시간 리스트 초기화
-    // this.times = this.getReservationTimes();
-    // // 예약 가능한 자리 리스트 초기화
-    // this.seats = this.getAvailableSeats();
-    // alert("created!")
-    console.log("cafe: " + this.cafe);
-    console.log("cafeId: " + this.cafe.cafeId);
+    // console.log("cafe: " + this.cafe);
+    // console.log("cafeId: " + this.cafe.cafeId);
+  },
+  mounted() {
+    console.log("mounted Available times:", this.availableTimes);
   },
 };
 </script>
