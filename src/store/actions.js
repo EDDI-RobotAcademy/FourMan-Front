@@ -79,8 +79,6 @@ export default {
           alert("문제 발생!")
        })
 },
-
-
     //주문 관련
     requestCreateOrderInformationsToSpring({}, payload) {
         console.log('payload: ' + payload)
@@ -91,5 +89,12 @@ export default {
             .catch(() => {
                 alert("문제 발생!")
             })
+    },
+    requestOrderInformationsToSpring({ commit }, memberId) {
+        return axios.get(`http://localhost:8888/order/list/${memberId}`)
+        .then((res) => {
+            commit(REQUEST_ORDER_INFORMATIONS_TO_SPRING, res.data)
+            console.log('orderInformations: ' + JSON.stringify(res.data))
+        })
     },
 }
