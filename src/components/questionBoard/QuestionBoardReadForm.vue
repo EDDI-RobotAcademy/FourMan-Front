@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     compiledMarkdown: function () {
-      return marked(this.questionBoard.content);
+      return marked(this.questionBoard.content || '');
     }
   }
 }

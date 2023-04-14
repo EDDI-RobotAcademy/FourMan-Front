@@ -79,7 +79,7 @@ const freeBoardModule= 'freeBoardModule'
       },
       computed: {
         compiledMarkdown: function () {
-          return marked(this.freeBoard.content);
+          return marked(this.freeBoard.content || '');
         }
       }
   }
