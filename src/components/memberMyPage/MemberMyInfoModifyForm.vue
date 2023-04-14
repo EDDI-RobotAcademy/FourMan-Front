@@ -217,17 +217,30 @@ export default {
 
          //비밀번호 재설정하기.
          const { email, password } = this;
-         this.requestApplyNewPasswordToSpring({ email, password })
+         await this.requestApplyNewPasswordToSpring({ email, password })
 
          // 로그아웃
          let token = localStorage.getItem("userInfo");
          const length = token.length;
          token = token.substr(1, length - 2);
-         this.requestLogoutToSpring({ token })
+         await this.requestLogoutToSpring({ token })
+
+         await this.$router.push({ name: 'SignInPage' })
       },
       async withdrawal() {
-         const memberId = this.memberId
-         await this.requestWithdrawalToSpring({ memberId })
+         if(confirm('정말 탈퇴하시겠습니까?')) {
+            // 로그아웃
+            let token = localStorage.getItem("userInfo");
+            const length = token.length;
+            token = token.substr(1, length - 2);
+            await this.requestLogoutToSpring({ token })
+
+            const memberId = this.memberId
+            await this.requestWithdrawalToSpring({ memberId })
+            
+            await this.$router.push({ name: 'MainPage' })
+         }
+         
       }
     }
 }
