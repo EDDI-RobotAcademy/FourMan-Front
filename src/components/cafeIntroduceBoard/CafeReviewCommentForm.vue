@@ -27,7 +27,7 @@
                         size="14"
                     ></v-rating>
                 </td>
-                <td v-if="cafe.cafeName === reviewBoard.cafeName">{{ reviewBoard.content }}</td>
+                <td v-if="cafe.cafeName === reviewBoard.cafeName">{{ reviewBoard.title }}</td>
             </tr>
             </tbody>
     </table>
