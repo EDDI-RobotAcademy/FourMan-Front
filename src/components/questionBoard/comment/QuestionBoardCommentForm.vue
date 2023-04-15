@@ -10,13 +10,13 @@
 
                     <div style="display: flex;">
                         <textarea
-                            v-if="this.$store.state.isAuthenticated"
+                            v-if="this.$store.state.memberModule.isAuthenticated"
                             class="comment-area"
                             v-model="comment"
                             placeholder="댓글을 작성하세요."
                         />
                         <v-btn
-                        v-if="this.$store.state.isAuthenticated"
+                        v-if="this.$store.state.memberModule.isAuthenticated"
                         type="submit"
                         class="brown darken-2 white--text ms-5 mt-1"
                         width="15%"
@@ -27,7 +27,7 @@
                         </v-btn>
                     </div>
                     <textarea
-                      v-if="!this.$store.state.isAuthenticated"
+                      v-if="!this.$store.state.memberModule.isAuthenticated"
                       class="comment-area"
                       style="cursor: pointer;"
                       placeholder="로그인 후 댓글을 작성할 수 있습니다."
@@ -71,7 +71,7 @@ export default {
     },
     computed: {
         commentSize() {
-            return this.$store.state.comments.length;
+            return this.$store.state.questionBoardModule.comments.length;
         },
     }
 }

@@ -7,6 +7,7 @@
         <!-- 댓글 등록 form -->
         <div align="center">
             <question-board-comment-form @submit="onSubmitComment"></question-board-comment-form>
+
         </div>
         <question-board-comment-list-form
             :comments="comments"
