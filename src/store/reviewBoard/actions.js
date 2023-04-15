@@ -6,6 +6,7 @@ import {
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
+import router from '@/router'
 
 export default {
    requestCreateReviewBoardToSpring ({}, formData) {
@@ -57,4 +58,19 @@ export default {
                 alert("문제 발생!")
             })
     },
+    async requestCafeListToSpring() {
+        const cafeList = []
+        return axiosInst.get(`/cafe/list`)
+            .then((res) => {
+                console.log("res.data : " + res.data[0].cafeName)
+                for (let idx = 0; idx < res.data.length; idx++) {
+                  cafeList.push(res.data[idx].cafeName)
+                }
+                return cafeList
+            })
+            .catch((error) => {
+                alert('리뷰를 작성할 카페가 없습니다.')
+                router.push({ name: 'MemberMyInfoModifyPage'})
+            })
+    }
 }
