@@ -36,6 +36,7 @@
             half-increments
             readonly
             size="14"
+            background-color="gray"
           ></v-rating>
 
           <div class="grey--text ms-4">
@@ -159,3 +160,8 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+
+</style>
