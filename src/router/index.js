@@ -66,6 +66,9 @@ import MyQuestionBoardPage from '@/views/cafeMyPage/MyQuestionBoardPage.vue'
 //나의 리뷰게시판 관련
 import MyReviewBoardPage from '@/views/cafeMyPage/MyReviewBoardPage.vue'
 
+// 사이트 소개
+import SiteIntroducePage from '@/views/siteIntroduce/SiteIntroducePage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -412,8 +415,12 @@ const routes = [
     name: 'MyReviewBoardPage',
     component: MyReviewBoardPage
   },
-
-
+  // 사이트 소개 페이지
+  {
+    path: '/site-introduce-page',
+    name: 'SiteIntroducePage',
+    component: SiteIntroducePage
+  },
 ]
 
 const router = new VueRouter({
