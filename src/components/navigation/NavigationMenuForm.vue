@@ -21,7 +21,7 @@
         </v-toolbar-title>
       </router-link>
 
-      <router-link to="/=" style="text-decoration: none">
+      <router-link to="/site-introduce-page" style="text-decoration: none">
         <span class="text-center">
           <v-btn text color="white" dark> 사이트 소개 </v-btn>
         </span>
