@@ -38,6 +38,8 @@
 <script>
 import { mapActions } from 'vuex'
 
+const productModule = 'productModule'
+
 export default {
    name: "ProductModifyForm",
    props: {
@@ -55,10 +57,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'requestEditProductWithoutImageToSpring',
-      'requestEditProductWithImageToSpring'
-    ]),
+    ...mapActions(
+      productModule, 
+      ['requestEditProductWithoutImageToSpring'],
+      ['requestEditProductWithImageToSpring'],
+    ),
     async save() {
       
       let formData = new FormData()
