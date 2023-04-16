@@ -6,8 +6,9 @@
 
 <script>
 import ProductListForm from '@/components/product/ProductListForm.vue'
-
 import { mapState, mapActions } from "vuex";
+
+const productModule = 'productModule'
 
 export default {
    name: "productListPage",
@@ -20,25 +21,19 @@ export default {
       }
    },
    computed: {
-      ...mapState([
-         'products',
-         'productImages',
-         'allOfProducts',
-      ]),
+      ...mapState(
+         productModule, ['allOfProducts'],
+      ),
    },
    methods: {
-      ...mapActions([
-         'requestProductListToSpring',
-         'requestProductImageListToSpring',
-         'requestAllOfProductToSpring'
-      ]),
+      ...mapActions(
+         productModule, ['requestAllOfProductToSpring'],
+      ),
       categoryData(payload) {
          this.categoryDatas = payload
       }
    },
    async mounted() {
-      await this.requestProductImageListToSpring()
-      await this.requestProductListToSpring()
       await this.requestAllOfProductToSpring()
    },
 }
