@@ -10,11 +10,11 @@
       </template>
 
       <div class="thumb">
-      <router-link
+        <router-link
           :to="{
             name: 'CafeIntroBoardDetailPage',
             params: { cafeId: cafe.cafeId.toString() },
-            query: { rating: rating, totalRating: totalRating }
+            query: { rating: rating, totalRating: totalRating },
           }"
         >
           <v-img
@@ -23,19 +23,20 @@
               require(`../../assets/cafe/uploadImgs/${cafe.cafeInfo.thumbnailFileName}`)
             "
           />
-      </router-link>
+        </router-link>
       </div>
       <v-card-title class="cafeName">{{ cafe.cafeName }}</v-card-title>
 
-      <v-card-text >
+      <v-card-text>
         <v-row align="center" class="mx-0">
           <v-rating
-            :value=rating
+            :value="rating"
             color="amber"
             dense
             half-increments
             readonly
             size="14"
+            background-color="gray"
           ></v-rating>
 
           <div class="grey--text ms-4">
@@ -50,7 +51,8 @@
           {{ cafe.cafeInfo.subTitle }}
         </div>
 
-        <div>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</div><br>
+        <div>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</div>
+        <br />
         영업 시간: {{ cafe.startTime }} ~ {{ cafe.endTime }}
       </v-card-text>
 
@@ -64,19 +66,17 @@
           active-class="brown darken-2 white--text"
           column
         >
-          <!-- 예약시스템 작업후 업데이트요망 -->
-          <v-chip>5:30PM</v-chip>
-          <v-chip>7:30PM</v-chip>
-          <v-chip>8:00PM</v-chip>
-          <v-chip>9:00PM</v-chip>
+          <v-chip v-for="(time, index) in availableTimes" :key="index">
+            {{ time }}
+          </v-chip>
         </v-chip-group>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn class="brown darken-2 white--text"  text @click="reserve">
+        <v-btn class="brown darken-2 white--text" text @click="reserve">
           예약
         </v-btn>
-         <v-btn class="brown darken-2 white--text" text @click="showDetail">
+        <v-btn class="brown darken-2 white--text" text @click="showDetail">
           상세 보기
         </v-btn>
       </v-card-actions>
@@ -85,8 +85,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
+import { mapActions } from "vuex";
+const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
   name: "CafeIntroBoardCardForm",
   props: {
@@ -96,35 +96,72 @@ export default {
     },
   },
   data: () => ({
-    selection: 1,
+    selection: 0,
     rating: 0,
     totalRating: 0,
   }),
+  computed: {
+    availableTimes() {
+      const now = new Date();
+      console.log(now, "now");
+      const currentHour = now.getHours();
+      // const currentMinute = now.getMinutes();
+      const startTime = Math.max(parseInt(this.cafe.startTime), currentHour);
+      const endTime = parseInt(this.cafe.endTime);
+      console.log("startTime", startTime);
+      console.log("endTime", endTime);
+      const times = [];
+      let hour = startTime;
+      while (true) {
+        if (hour >= 24) {
+          hour = hour % 24;
+          now.setDate(now.getDate() + 1); // 다음 날짜로 변경
+        }
+        if (
+          hour == endTime ||
+          (hour >= endTime && hour < parseInt(this.cafe.startTime))
+        ) {
+          return times;
+        }
+        // const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환// 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
+        // console.log( " now.toISOString()", now.toISOString())
+        const time = `${hour.toString().padStart(2, "0")}:00`;
+        times.push(time);
+        hour += 2;
+      }
+    },
+  },
   methods: {
-    ...mapActions(cafeIntroduceBoardModule,[
-      'requestCafeRatingToSpring'
-    ]),
+    ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring"]),
     reserve() {
-             this.$router.push({ name:'HallSeatPage',
-                           params:{cafe: this.cafe
-                           }});
+      this.$router.push({ name: "HallSeatPage",
+         params: {
+          cafe: this.cafe,
+          timeSelection: this.selection } });
     },
 
-    showDetail(){
-       this.$router.push({ name:'CafeIntroBoardDetailPage',
-                           params:{cafeId: this.cafe.cafeId.toString()}});
+    showDetail() {
+      this.$router.push({
+        name: "CafeIntroBoardDetailPage",
+        params: { cafeId: this.cafe.cafeId.toString() },
+      });
     },
     async cafeRating() {
-      const res = await this.requestCafeRatingToSpring(this.cafe.cafeName)
+      const res = await this.requestCafeRatingToSpring(this.cafe.cafeName);
       const sum = res.data.reduce((acc, cur) => acc + cur, 0);
-      this.rating = (sum / res.data.length)
-      this.totalRating = res.data.length
+      this.rating = sum / res.data.length;
+      this.totalRating = res.data.length;
 
-      console.log('res.data: ' + res.data)
-    }
+      console.log("res.data: " + res.data);
+    },
   },
   created() {
-    this.cafeRating()
-  }
+    this.cafeRating();
+  },
 };
 </script>
+
+
+<style scoped>
+
+</style>
