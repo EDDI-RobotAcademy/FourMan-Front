@@ -60,8 +60,9 @@
 </template>
 
 <script>
-
 import { mapState, mapActions } from "vuex";
+
+const orderModule = 'orderModule'
 
 export default {
    name: "TotalOrderForm",
@@ -89,14 +90,14 @@ export default {
     }
    },
    computed: {
-      ...mapState([
-        'orderInformations'
-      ]),
+      ...mapState(
+        orderModule, ['orderInformations'],
+      ),
    },
    methods: {
-      ...mapActions([
-        'requestCreateOrderInformationsToSpring'
-      ]),
+      ...mapActions(
+        orderModule, ['requestCreateOrderInformationsToSpring'],
+      ),
       purchase() {
         this.kakaoPayAPI()
         this.saveOrderInformations()

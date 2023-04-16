@@ -21,8 +21,9 @@ import myPageModule from '@/store/myPage/myPageModule.js'
 import questionBoardModule from './questionBoard/questionBoardModule'
 import noticeBoardModule from './noticeBoard/noticeBoardModule'
 
-
 //현우
+import orderModule from './order/orderModule'
+import productModule from './product/productModule'
 
 
 Vue.use(Vuex)
@@ -44,8 +45,9 @@ export default new Vuex.Store({
     questionBoardModule : questionBoardModule,
     noticeBoardModule : noticeBoardModule,
 
-
     //현우
+    orderModule: orderModule,
+    productModule: productModule,
 
   },
   state,

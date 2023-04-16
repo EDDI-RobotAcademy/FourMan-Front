@@ -90,6 +90,8 @@
 import ProductModifyForm from '@/components/cafeMyPage/ProductModifyForm.vue'
 import { mapActions } from 'vuex'
 
+const productModule = 'productModule'
+
 export default {
    name: "ProductManageForm",
    components: {
@@ -125,9 +127,9 @@ export default {
     }
    },
    methods: {
-      ...mapActions([
-         'requestDeleteProductToSpring'
-      ]),
+      ...mapActions(
+         productModule, ['requestDeleteProductToSpring']
+      ),
       filterCategory(index) {
          this.category = this.categoryBtn[index].value
          if(this.category === 'ALL'){
