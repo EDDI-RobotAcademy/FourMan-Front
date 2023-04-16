@@ -169,8 +169,9 @@ export default {
       },
 
       reserve() {
-      this.loading = true;
-      setTimeout(() => (this.loading = false), 2000);
+          this.$router.push({ name: "HallSeatPage",
+         params: {
+          cafe: this.cafe, } });
     },
 
     },
