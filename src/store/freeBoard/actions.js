@@ -3,8 +3,10 @@ import {
     REQUEST_FREE_BOARD_TO_SPRING,
 
     //댓글 관련
-    REQUEST_FREE_BOARD_COMMENT_LIST_TO_SPRING
+    REQUEST_FREE_BOARD_COMMENT_LIST_TO_SPRING,
 
+    //게시물 검색 관련
+    REQUEST_SEARCH_FREE_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -95,5 +97,15 @@ export default {
                     alert("문제 발생!")
                 })
         },
+
+        //게시물 검색 관련
+        requestSearchFreeBoardListToSpring ({ commit }, searchText) {
+            console.log('requestSearchFreeBoardListToSpring 작동')
+            return axiosInst.get(`/free-board/search/${searchText}`)
+                .then((res) => {
+                    commit(REQUEST_SEARCH_FREE_BOARD_LIST_TO_SPRING, res.data)
+                    console.log('searchBoard res.data' + res.data)
+                })
+        }
 
 }

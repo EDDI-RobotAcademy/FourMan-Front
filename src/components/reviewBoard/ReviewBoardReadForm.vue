@@ -46,9 +46,7 @@
             </v-carousel-item>
           </v-carousel>
         </div>
-        <div>
-          {{ reviewBoard.content }}
-        </div>
+        <div v-html="compiledMarkdown"></div>
       </div>
     </div>
     <div>
@@ -62,6 +60,7 @@
   <script>
 
 import { mapActions } from 'vuex'
+import { marked } from 'marked'
 const reviewBoardModule= 'reviewBoardModule'
 
   export default {
@@ -106,6 +105,11 @@ const reviewBoardModule= 'reviewBoardModule'
       },
       created() {
           console.log('reviewBoardImages: ' + this.reviewBoardImages)
+      },
+      computed: {
+        compiledMarkdown: function () {
+          return marked(this.reviewBoard.content || '');
+        }
       }
   }
   </script>

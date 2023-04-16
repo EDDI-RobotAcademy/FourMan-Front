@@ -201,6 +201,7 @@ export default {
 
     availableTimes() {
       const now = new Date();
+      console.log(now,"now")
       const currentHour = now.getHours();
       // const currentMinute = now.getMinutes();
       const startTime = Math.max(parseInt(this.cafe.startTime), currentHour);
@@ -220,7 +221,8 @@ export default {
         ) {
           return times;
         }
-        const dateStr = now.toISOString().slice(0, 10); // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
+        const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환// 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
+        // console.log( " now.toISOString()", now.toISOString())
         const time = `${dateStr} ${hour.toString().padStart(2, "0")}:00`;
         times.push(time);
         hour += 2;
@@ -284,6 +286,7 @@ export default {
         cafe: this.cafe,
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
         seatList: this.selectedSeats,
+         timeString: this.selectedTime 
       };
       await this.requestCreateCafeSeatToSpring(payload);
       await this.$router.push({ name: "CafeIntroBoardListPage" });

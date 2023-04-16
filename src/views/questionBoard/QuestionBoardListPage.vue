@@ -8,7 +8,7 @@
         <question-board-list-form :questionBoards="questionBoards"/>
         </div>
         <div v-else>
-          <search-result-form :searchBoards="searchBoards" />
+          <question-board-search-result-form :searchBoards="searchBoards" />
         </div>
         <div class="text-right">
           <v-btn v-if="this.$store.state.isAuthenticated" class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
@@ -24,7 +24,7 @@
 
 import QuestionBoardListForm from '@/components/questionBoard/QuestionBoardListForm.vue';
 import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
-import SearchResultForm from '@/components/searchBoard/SearchResultForm.vue'
+import QuestionBoardSearchResultForm from '@/components/questionBoard/QuestionBoardSearchResultForm.vue'
 import { mapActions, mapState } from 'vuex'
 const questionBoardModule= 'questionBoardModule'
 
@@ -38,7 +38,7 @@ export default {
     components : {
       QuestionBoardListForm,
       SearchBarForm,
-      SearchResultForm,
+      QuestionBoardSearchResultForm,
      },
 
     computed: {
