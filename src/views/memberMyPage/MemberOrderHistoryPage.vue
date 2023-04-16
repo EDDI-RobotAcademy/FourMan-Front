@@ -13,6 +13,8 @@ import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
 import MemberOrderHistoryForm from '@/components/memberMyPage/MemberOrderHistoryForm.vue'
 import { mapState, mapActions } from "vuex";
 
+const orderModule = 'orderModule'
+
 export default {
    name: "MemberOrderHistoryPage",
    components: {
@@ -20,14 +22,14 @@ export default {
       MemberOrderHistoryForm
    },
    methods: {
-      ...mapActions([
-        'requestOrderInformationsToSpring'
-      ]),
+      ...mapActions(
+        orderModule, ['requestOrderInformationsToSpring']
+      ),
    },
    computed: {
-      ...mapState([
-        'orderInformations'
-      ]),
+      ...mapState(
+        orderModule, ['orderInformations']
+      ),
    },
    async mounted() {
       let memberId = JSON.parse(localStorage.getItem('userInfo')).id
