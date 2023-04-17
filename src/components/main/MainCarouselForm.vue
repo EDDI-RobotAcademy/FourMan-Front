@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <div>
       <v-carousel
         hide-delimiters
@@ -10,12 +9,21 @@
         :height="height"
         max-height="400px"
       >
+        <v-carousel-item>
+          <div class="video-container">
+            <video autoplay loop muted>
+              <source src="@/assets/carousel/cafe.mp4" type="video/mp4">
+            </video>
+            <div class="text-container">
+              <p style="font-size: 20px;">FOURMAN CAFE</p>
+            </div>
+          </div>
+        </v-carousel-item>
         <v-carousel-item v-for="(picture, idx) in pictures" :key="idx">
-                <v-img :src="picture.img" :height="height" contain  />
+                <v-img :src="picture.img" contain  />
         </v-carousel-item>
       </v-carousel>
     </div>
-  </v-container>
 </template>
 
   <script>
@@ -24,19 +32,32 @@ export default {
   data() {
     return {
       pictures: [
-        { img: require("@/assets/carousel/banner1.jpg") },
-        { img: require("@/assets/carousel/banner2.jpg") },
-        { img: require("@/assets/carousel/starbucks01.png") },
-        { img: require("@/assets/carousel/starbucks02.png") },
-        { img: require("@/assets/carousel/starbucks03.png") },
-        { img: require("@/assets/carousel/starbucks04.png") },
-        { img: require("@/assets/carousel/starbucks05.png") },
+        { img: require("@/assets/carousel/banner1.png") },
+        { img: require("@/assets/carousel/banner2.png") },
       ],
       cycle: true,
-      interval: 5000, // ms 단위
+      interval: 9999, // ms 단위
       height: 400,
       width: 600,
     };
   },
 };
 </script>
+
+<style>
+.video-container {
+  position: relative;
+}
+.video-container video {
+  width: 100%;
+  height: auto;
+}
+.text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  text-align: center;
+}
+</style>
