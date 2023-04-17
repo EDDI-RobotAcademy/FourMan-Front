@@ -10,6 +10,9 @@ import {
 
     //나의 리뷰게시판 관련
     REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING,
+
+    //관리자 마이페이지 회원관리 관련
+    REQUEST_MEMBER_INFO_LIST_TO_SPRING
  } from './mutation-types'
 
  export default {
@@ -34,5 +37,9 @@ import {
       state.myReviewBoards = passingData
   },
 
+  //관리자 마이페이지 회원관리 관련
+  [REQUEST_MEMBER_INFO_LIST_TO_SPRING] (state, passingData) {
+      state.memberInfoList = passingData
+   },
 
  }
