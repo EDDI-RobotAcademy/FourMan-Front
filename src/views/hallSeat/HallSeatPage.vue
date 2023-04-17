@@ -2,7 +2,6 @@
   <v-container class="d-flex container" :fluid="true">
     <v-container
       class="my-custom-container"
-      style="border: 1px solid black"
       :fluid="true"
     >
       <h1 v-if="selectedTime == null" class="text-center">
@@ -22,7 +21,6 @@
 
     <v-container
       class="reserve-container"
-      style="border: 1px solid black"
       :fluid="true"
     >
       <div id="registerForm">
@@ -183,6 +181,9 @@ export default {
       type: Object,
       required: true,
     },
+    timeSelection:{
+      type:Number,
+    }
   },
   data() {
     return {
@@ -229,11 +230,11 @@ export default {
       }
     },
   },
-  watch: {
-    availableTimes(newValue) {
-      console.log("Available times:", newValue);
-    },
-  },
+  // watch: {
+  //   availableTimes(newValue) {
+  //     console.log("Available times:", newValue);
+  //   },
+  // },
 
   methods: {
     ...mapActions(reservationModule, [
@@ -299,17 +300,18 @@ export default {
     },
   },
 
-  async created() {
-    // console.log("this.cafe.startTime:", this.cafe.startTime);
-    // console.log(
-    //   "new Date(this.cafe.startTime); ",
-    //   new Date(this.cafe.startTime)
-    // );
-    // console.log("cafe: " + this.cafe);
-    // console.log("cafeId: " + this.cafe.cafeId);
-  },
-  mounted() {
+  created() {
+    console.log("cafe",this.cafe)
+    console.log("timeSelection",this.timeSelection)
     console.log("mounted Available times:", this.availableTimes);
+    if (this.timeSelection !== undefined && this.availableTimes.length > 0) {
+    this.selectedTime = this.availableTimes[this.timeSelection];
+    // 선택된 시간에 따라 예약 정보를 가져옵니다.
+    this.fetchReservations();
+  }
+
+    
+    
   },
 };
 </script>
@@ -327,7 +329,6 @@ export default {
   max-width: none;
 }
 .container {
-  border: 1px solid red;
   max-width: none;
   width: 1200px;
 }
@@ -344,7 +345,6 @@ td {
 
 #registerForm {
   display: block;
-  border: 1px solid lightgray;
   margin: 0 auto;
   line-height: 24px;
 }

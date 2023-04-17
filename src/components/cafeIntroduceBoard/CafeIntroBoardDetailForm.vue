@@ -50,6 +50,7 @@
             half-increments
             readonly
             size="14"
+            background-color="gray"
           ></v-rating>
 
           <div class="grey--text ms-4">
@@ -169,8 +170,9 @@ export default {
       },
 
       reserve() {
-      this.loading = true;
-      setTimeout(() => (this.loading = false), 2000);
+          this.$router.push({ name: "HallSeatPage",
+         params: {
+          cafe: this.cafe, } });
     },
 
     },
