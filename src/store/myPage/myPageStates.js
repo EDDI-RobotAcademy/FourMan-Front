@@ -11,4 +11,7 @@ export default {
 
    //나의 리뷰게시판 관련
    myReviewBoards: [],
+
+   // 관리자 마이페이지 회원관리 관련
+   memberInfoList: [],
 }
