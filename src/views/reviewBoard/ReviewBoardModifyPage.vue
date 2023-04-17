@@ -1,10 +1,7 @@
 <template>
     <v-container>
-      <div align="center">
-        <h2>게시물 수정</h2>
         <review-board-modify-form v-if="reviewBoard" :reviewBoard="reviewBoard" @submit="onSubmit"/>
         <p v-else>로딩중 ........</p>
-      </div>
     </v-container>
   </template>
   

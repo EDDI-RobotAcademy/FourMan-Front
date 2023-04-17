@@ -1,10 +1,10 @@
 <template>
-    <v-container>
+  <div>
       <main-carousel-form></main-carousel-form>
       <main-cafe-info-form></main-cafe-info-form>
       <main-review-form></main-review-form>
       <popup-form ></popup-form>
-    </v-container>
+  </div>
 </template>
 
 <script>
