@@ -7,7 +7,7 @@
         </div>
         <div>
           <span class="HANNA">
-            <h1>{{ questionBoard.title }}</h1>
+            <h1>{{ questionBoard.title }}</h1> <h4 class="text-right">조회수:{{ questionBoard.viewCnt }}</h4>
           </span>
         </div>
         <div>

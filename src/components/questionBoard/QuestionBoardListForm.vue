@@ -11,6 +11,7 @@
                           <th scope="col" class="th-title">제목</th>
                           <th scope="col" class="th-writer">작성자</th>
                           <th scope="col" class="th-date">등록일</th>
+                          <th scope="col" class="th-viewCnt">조회수</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -26,6 +27,7 @@
                               </th>
                           <td>{{ questionBoard.writer }}</td>
                           <td>{{ questionBoard.regDate.slice(0, 10) }}</td>
+                          <td>{{ questionBoard.viewCnt }}</td>
                       </tr>
                       </tbody>
                   </table>
@@ -62,6 +64,7 @@
                   { text: '제목', value: 'title', width: "200px" },
                   { text: '작성자', value: 'writer', width: "100px" },
                   { text: '등록일자', value: 'regDate', width: "100px" },
+                  { text: '조회수', value: 'viewCnt', width: "50px" },
               ],
               selectedItems: [],
               dataPerPage: 8,
