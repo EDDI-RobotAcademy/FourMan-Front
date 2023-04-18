@@ -1,32 +1,32 @@
 <template>
     <div class="mt-5">
-      <div class="mb-1" style="float: right;">
-        <v-text-field
-            label="회원 이름 검색"
-            hide-details="auto"
-            append-icon="mdi-magnify"
-            v-model="searchText"
-            />
-      </div>
+        <div class="mb-1" style="float: right;">
+            <v-text-field
+                label="카페 이름 검색"
+                hide-details="auto"
+                append-icon="mdi-magnify"
+                v-model="searchText"
+                />
+        </div>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>이름</th>
-                    <th>회원등급</th>
-                    <th>이메일</th>
+                    <th>카페번호</th>
+                    <th>카페이름</th>
                     <th>전화번호</th>
-                    <th></th>
+                    <th>오픈시간</th>
+                    <th>마감시간</th>
+                    <th>주소</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(memberInfo, index) in filteredMembers" :key="index">
-                    <td>{{ memberInfo.id }}</td>
-                    <td>{{ memberInfo.nickName }}</td>
-                    <td>{{ memberInfo.authorityName }}</td>
-                    <td>{{ memberInfo.email }}</td>
-                    <td>{{ memberInfo.phoneNumber }}</td>
-                    <td v-if="memberInfo.authorityName != '관리자'"><v-btn class="error" small @click="withdrawal(memberInfo.id, memberInfo.nickName)">탈퇴</v-btn></td>
+                <tr v-for="(cafeInfo, index) in filteredMembers" :key="index">
+                    <td>{{ cafeInfo.cafeId }}</td>
+                    <td>{{ cafeInfo.cafeName }}</td>
+                    <td>{{ cafeInfo.cafeTel }}</td>
+                    <td>{{ cafeInfo.startTime }}</td>
+                    <td>{{ cafeInfo.endTime }}</td>
+                    <td>{{ cafeInfo.cafeAddress }}</td>
                 </tr>
             </tbody>
 	    </table>
@@ -35,13 +35,10 @@
 
 <script>
 
-import { mapActions } from 'vuex'
-const myPageModule= 'myPageModule'
-
 export default {
-    name: 'MemberManagementForm',
+    name: 'CafeManagementForm',
     props: {
-        memberInfoList: {
+        cafeInfoList: {
             type: Array
         }
     },
@@ -50,21 +47,10 @@ export default {
         searchText: ''
       }
     },
-    methods: {
-      ...mapActions(myPageModule,[
-          'requestWithdrawalToSpring'
-      ]),
-      async withdrawal(memberId, nickName) {
-        if(confirm('"' + nickName + '"' + ' 회원을 정말 탈퇴시키겠습니까?')) {
-          await this.requestWithdrawalToSpring({ memberId })
-          location.reload()
-         }
-      }
-    },
     computed: {
       filteredMembers() {
-        return this.memberInfoList.filter(member => {
-          return member.nickName.includes(this.searchText);
+        return this.cafeInfoList.filter(cafe => {
+          return cafe.cafeName.includes(this.searchText);
         });
       }
     }

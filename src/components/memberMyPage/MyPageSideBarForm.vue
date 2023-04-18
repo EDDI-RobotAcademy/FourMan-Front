@@ -115,7 +115,7 @@ export default {
          {
             title: "카페 리스트",
             icon: "mdi-coffee",
-            route: "/"},
+            route: "/cafe-management-page"},
       ]
     }
   },
