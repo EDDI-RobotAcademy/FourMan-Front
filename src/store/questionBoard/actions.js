@@ -11,7 +11,7 @@ import {
    REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING,
 
    //조회수 관련
-   REQUEST_QUESTION_BOARD_VIEW_CNT_INCREASE_TO_SPRING,
+//REQUEST_QUESTION_BOARD_VIEW_CNT_INCREASE_TO_SPRING,
 } from './mutation-types'
 
 // import axios from 'axios'
@@ -122,13 +122,14 @@ export default {
             })
         },
 
-    //조회수
-    requestQuestionBoardViewCntIncreaseToSpring({ commit }, boardId) {
-        console.log('조회수 액션 실행')
-        return axiosInst.get(`/question-board/view/${boardId}`)
-        .then((res) =>{
-            commit(REQUEST_QUESTION_BOARD_VIEW_CNT_INCREASE_TO_SPRING, res.data)
-        })
+    // Read쪽과 병합
+    // 조회수
+    // requestQuestionBoardViewCntIncreaseToSpring({ commit }, boardId) {
+    //     console.log('조회수 액션 실행')
+    //     return axiosInst.get(`/question-board/view/${boardId}`)
+    //     .then((res) =>{
+    //         commit(REQUEST_QUESTION_BOARD_VIEW_CNT_INCREASE_TO_SPRING, res.data)
+    //     })
 
-    }
+    // }
 }
