@@ -64,6 +64,7 @@ export default {
                     // this.$cookies.set("user", res.data, 3600);//30분
                     localStorage.setItem("userInfo", JSON.stringify(res.data));
                     // this.isLogin = true;
+                    router.push("/")
                 } else {
                     alert("아이디 혹은 비밀번호가 존재하지 않거나 틀렸습니다.");
                 }
