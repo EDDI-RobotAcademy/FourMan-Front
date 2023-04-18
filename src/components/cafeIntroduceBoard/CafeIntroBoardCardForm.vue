@@ -17,7 +17,7 @@
             query: { rating: rating, totalRating: totalRating },
           }"
         >
-          <v-img
+          <v-img v-if="cafe && loaded"
             height="250"
             :src="
               require(`../../assets/cafe/uploadImgs/${cafe.cafeInfo.thumbnailFileName}`)
@@ -99,6 +99,7 @@ export default {
     selection: 0,
     rating: 0,
     totalRating: 0,
+     loaded: false,
   }),
   computed: {
     availableTimes() {
@@ -155,9 +156,10 @@ export default {
       console.log("res.data: " + res.data);
     },
   },
-  created() {
-    this.cafeRating();
-  },
+  async created() {
+  await this.cafeRating();
+  this.loaded = true;
+},
 };
 </script>
 
