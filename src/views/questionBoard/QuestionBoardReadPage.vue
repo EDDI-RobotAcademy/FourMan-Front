@@ -53,7 +53,7 @@ export default {
             'requestQuestionBoardCommentRegisterToSpring',
             'requestQuestionBoardCommentListToSpring',
             'requestQuestionBoardCommentDeleteToSpring',
-            'requestQuestionBoardViewCntIncreaseToSpring'
+            // 'requestQuestionBoardViewCntIncreaseToSpring'
     ]),
     async onSubmitComment(payload) {
         const { comment, commentWriter, memberId} = payload
@@ -68,7 +68,7 @@ export default {
         console.log('boardId : ' + this.boardId)
         await this.requestQuestionBoardToSpring(this.boardId)
         await this.requestQuestionBoardCommentListToSpring(this.boardId)
-        await this.requestQuestionBoardViewCntIncreaseToSpring(this.boardId)
+        // await this.requestQuestionBoardViewCntIncreaseToSpring(this.boardId)
        },
 
 }
