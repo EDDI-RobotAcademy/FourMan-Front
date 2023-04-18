@@ -28,7 +28,7 @@ export default {
      
     },
     requestSignOutToSpring({ commit }, token) {
-        axiosInst.post("/member/logout", token)
+        return axiosInst.post("/member/logout", token)
             .then(() => {
                 alert("로그아웃 완료");
                 localStorage.removeItem("userInfo");
@@ -40,7 +40,7 @@ export default {
 
     requestSignUpToSpring({ }, payload) {
         const { email, password, nickName, birthdate, phoneNumber, authorityName, code, city, street, addressDetail, zipcode } = payload;
-        axiosInst.post("/member/sign-up", {
+        return axiosInst.post("/member/sign-up", {
             email, password, city, nickName, birthdate, phoneNumber, authorityName, code, street, addressDetail, zipcode
         })
             .then((res) => {
@@ -54,7 +54,7 @@ export default {
     },
     requestMemberSignInToSpring({ commit }, payload) {
         const { email, password } = payload;
-         axiosInst.post("/member/sign-in", { email, password })
+        return axiosInst.post("/member/sign-in", { email, password })
             .then((res) => {
                 if (res.data) {//토큰이오면
                     alert("로그인 성공!");
