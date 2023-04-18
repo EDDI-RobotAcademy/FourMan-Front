@@ -31,9 +31,7 @@
     },
     data() {
       return {
-        listData: ["cafeLists"],
-        dataPerPage: 6,
-        curPageNum: 1,
+
       };
     },
     methods: {
@@ -44,8 +42,8 @@
         'cafeLists'
       ]),
     },
-    mounted() {
-        this.requestCafeListToSpring()
+    async mounted() {
+        await this.requestCafeListToSpring()
     },
   };
   </script>

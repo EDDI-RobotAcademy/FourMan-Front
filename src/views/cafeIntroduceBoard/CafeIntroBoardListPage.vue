@@ -54,8 +54,8 @@ export default {
   }
   },
 
-  mounted() {
-     this.requestCafeListToSpring()
+  async mounted() {
+     await this.requestCafeListToSpring()
    
   },
 }
