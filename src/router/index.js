@@ -51,6 +51,7 @@ import ProductModifyPage from '@/views/cafeMyPage/ProductModifyPage.vue'
 import MemberOrderHistoryPage from '@/views/memberMyPage/MemberOrderHistoryPage.vue'
 import MemberMyInfoModifyPage from '@/views/memberMyPage/MemberMyInfoModifyPage.vue'
 import MemberManagementPage from '@/views/managerMyPage/MemberManagementPage.vue'
+import CafeManagementPage from '@/views/managerMyPage/CafeManagementPage.vue'
 
 //공지사항관련
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
@@ -368,7 +369,16 @@ const routes = [
       default: true
     }
   },
-
+  {
+    path: '/cafe-management-page',
+    name: 'CafeManagementPage',
+    components: {
+      default: CafeManagementPage
+    },
+    props: {
+      default: true
+    }
+  },
   // 공지사항 관련
   {
     path: '/notice-board-register-page',
