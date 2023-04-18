@@ -23,9 +23,9 @@ export default {
      },
 
     requestCreateQuestionBoardToSpring({}, payload) {
-        const { title, questionType, writer, content, memberId} = payload
+        const { title, questionType, writer, content, memberId, secret} = payload
         return axiosInst.post('/question-board/register',
-        { title, questionType, writer, content, memberId})
+        { title, questionType, writer, content, memberId, secret})
             .then((res) => {
                 alert('게시물 등록 성공')
                 return res;
