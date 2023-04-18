@@ -23,7 +23,8 @@
                                     name: 'QuestionBoardReadPage',
                                     params: { boardId: questionBoard.boardId.toString() },
                                 }">
-                                {{ questionBoard.title}}
+                                <b v-bind:class="{ 'hover-cursor': isHover }" v-on:mouseover="isHover = true" v-on:mouseout="isHover = false">
+                                {{ questionBoard.title}}</b>
                               </th>
                           <td>{{ questionBoard.writer }}</td>
                           <td>{{ questionBoard.regDate.slice(0, 10) }}</td>
@@ -69,6 +70,7 @@
               selectedItems: [],
               dataPerPage: 8,
               curPageNum: 1,
+              isHover: false,
           }
       },
       methods: {
@@ -100,6 +102,9 @@
   </script>
 
 <style scoped>
+.hover-cursor {
+  cursor: pointer;
+}
 table {
   border-collapse: collapse;
   border-spacing: 0;
