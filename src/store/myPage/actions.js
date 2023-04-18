@@ -10,6 +10,9 @@ import {
 
    //나의 리뷰게시판 관련
    REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING,
+
+   //관리자 마이페이지 회원관리 관련
+   REQUEST_MEMBER_INFO_LIST_TO_SPRING
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -21,7 +24,7 @@ export default {
    // 마이페이지 내 정보 관련
    requestMyInfoToSpring({ commit }, memberId) {
         console.log('requestMyInfoToSpring 작동')
-        return axiosInst.get(`/my-info/${memberId}`)
+        return axiosInst.get(`/my-page/${memberId}`)
         .then((res) => {
             commit(REQUEST_MY_INFO_TO_SPRING, res.data)
         })
@@ -29,7 +32,7 @@ export default {
     requestMemberInfoModifyToSpring ({}, payload) {
         const { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode } = payload
 
-        return axiosInst.put(`/my-info/member-info-modify/${memberId}`,
+        return axiosInst.put(`/my-page/member-info-modify/${memberId}`,
             { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode })
             .then((res) => {
                 localStorage.setItem("userInfo", JSON.stringify(res.data));
@@ -41,7 +44,7 @@ export default {
     },
     requestWithdrawalToSpring ({}, payload) {
         const { memberId } = payload
-        return axiosInst.delete(`/my-info/withdrawal/${memberId}`)
+        return axiosInst.delete(`/my-page/withdrawal/${memberId}`)
             .then(() => {
                 alert("탈퇴 성공")
             })
@@ -116,5 +119,13 @@ export default {
                 commit(REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING, res.data)
                 console.log('내가 쓴 게시물 res.data' + res.data)
             })
+        },
+
+        //관리자 마이페이지 회원관리 관련
+        requestMemberInfoListToSpring ({ commit }) {
+            return axiosInst.get('/my-page/list')
+                .then((res) => {
+                    commit(REQUEST_MEMBER_INFO_LIST_TO_SPRING, res.data)
+                })
         },
 }

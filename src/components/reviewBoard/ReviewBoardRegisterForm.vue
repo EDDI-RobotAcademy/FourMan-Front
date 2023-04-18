@@ -78,12 +78,15 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
         const matches = html.match(regex);
 
-        matches.forEach((match, index) => {
-          const base64Data = match.split(',')[1]; // Base64 문자열 추출
-          const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
-          const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
-          formData.append('fileList', file); // Form 데이터에 File 객체 추가
-        });
+        if(matches != null) {
+          matches.forEach((match, index) => {
+            const base64Data = match.split(',')[1]; // Base64 문자열 추출
+            const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
+            const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
+            formData.append('fileList', file); // Form 데이터에 File 객체 추가
+          });
+        }
+        
         
 
         // // 사진
