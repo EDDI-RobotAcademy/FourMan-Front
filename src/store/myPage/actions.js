@@ -123,7 +123,7 @@ export default {
 
         //관리자 마이페이지 회원관리 관련
         requestMemberInfoListToSpring ({ commit }) {
-            return axiosInst.get('/my-page/list')
+            return axiosInst.get('/my-page/member-list')
                 .then((res) => {
                     commit(REQUEST_MEMBER_INFO_LIST_TO_SPRING, res.data)
                 })

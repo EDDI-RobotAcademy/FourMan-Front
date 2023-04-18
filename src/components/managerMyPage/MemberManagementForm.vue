@@ -1,5 +1,13 @@
 <template>
-    <div class="mt-5" style="display: flex; align-items: center;">
+    <div class="mt-5">
+      <div class="mb-1" style="float: right;">
+        <v-text-field
+            label="회원 이름 검색"
+            hide-details="auto"
+            append-icon="mdi-magnify"
+            v-model="searchText"
+            />
+      </div>
         <table>
             <thead>
                 <tr>
@@ -8,15 +16,17 @@
                     <th>회원등급</th>
                     <th>이메일</th>
                     <th>전화번호</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(memberInfo, index) in memberInfoList" :key="index">
+                <tr v-for="(memberInfo, index) in filteredMembers" :key="index">
                     <td>{{ memberInfo.id }}</td>
                     <td>{{ memberInfo.nickName }}</td>
                     <td>{{ memberInfo.authorityName }}</td>
                     <td>{{ memberInfo.email }}</td>
                     <td>{{ memberInfo.phoneNumber }}</td>
+                    <td v-if="memberInfo.authorityName != '관리자'"><v-btn class="error" small @click="withdrawal(memberInfo.id, memberInfo.nickName)">탈퇴</v-btn></td>
                 </tr>
             </tbody>
 	    </table>
@@ -25,6 +35,9 @@
 
 <script>
 
+import { mapActions } from 'vuex'
+const myPageModule= 'myPageModule'
+
 export default {
     name: 'MemberManagementForm',
     props: {
@@ -32,6 +45,29 @@ export default {
             type: Array
         }
     },
+    data() {
+      return {
+        searchText: ''
+      }
+    },
+    methods: {
+      ...mapActions(myPageModule,[
+          'requestWithdrawalToSpring'
+      ]),
+      async withdrawal(memberId, nickName) {
+        if(confirm('"' + nickName + '"' + ' 회원을 정말 탈퇴시키겠습니까?')) {
+          await this.requestWithdrawalToSpring({ memberId })
+          location.reload()
+         }
+      }
+    },
+    computed: {
+      filteredMembers() {
+        return this.memberInfoList.filter(member => {
+          return member.nickName.includes(this.searchText);
+        });
+      }
+    }
 }
 </script>
 

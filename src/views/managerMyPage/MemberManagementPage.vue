@@ -3,7 +3,7 @@
     <my-page-side-bar-form />
     
     <v-container style="width: 1000px">
-        <member-management-form :memberInfoList="memberInfoList"/>
+        <member-management-form :memberInfoList="memberInfoList" />
     </v-container>
 </div>
 </template>
@@ -16,7 +16,7 @@ import { mapActions, mapState } from 'vuex'
 const myPageModule= 'myPageModule'
 
 export default {
-    name: "MemberMyPage",
+    name: "MemberManagementPage",
     components: {
         MemberManagementForm,
         MyPageSideBarForm
