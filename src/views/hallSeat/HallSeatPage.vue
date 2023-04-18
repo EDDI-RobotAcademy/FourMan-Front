@@ -200,35 +200,35 @@ export default {
   computed: {
     ...mapState(reservationModule, ["seatData", "tableData"]),
 
-    availableTimes() {
-      const now = new Date();
-      console.log(now,"now")
-      const currentHour = now.getHours();
-      // const currentMinute = now.getMinutes();
-      const startTime = Math.max(parseInt(this.cafe.startTime), currentHour);
-      const endTime = parseInt(this.cafe.endTime);
-      console.log("startTime", startTime);
-      console.log("endTime", endTime);
-      const times = [];
-      let hour = startTime;
-      while (true) {
-        if (hour >= 24) {
-          hour = hour % 24;
-          now.setDate(now.getDate() + 1); // 다음 날짜로 변경
-        }
-        if (
-          hour == endTime ||
-          (hour >= endTime && hour < parseInt(this.cafe.startTime))
-        ) {
-          return times;
-        }
-        const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환// 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
-        // console.log( " now.toISOString()", now.toISOString())
-        const time = `${dateStr} ${hour.toString().padStart(2, "0")}:00`;
-        times.push(time);
-        hour += 2;
-      }
-    },
+    // availableTimes() {
+    //   const now = new Date();
+    //   console.log(now,"now")
+    //   const currentHour = now.getHours();
+    //   // const currentMinute = now.getMinutes();
+    //   const startTime = Math.max(parseInt(this.cafe.startTime), currentHour);
+    //   const endTime = parseInt(this.cafe.endTime);
+    //   console.log("startTime", startTime);
+    //   console.log("endTime", endTime);
+    //   const times = [];
+    //   let hour = startTime;
+    //   while (true) {
+    //     if (hour >= 24) {
+    //       hour = hour % 24;
+    //       now.setDate(now.getDate() + 1); // 다음 날짜로 변경
+    //     }
+    //     if (
+    //       hour == endTime ||
+    //       (hour >= endTime && hour < parseInt(this.cafe.startTime))
+    //     ) {
+    //       return times;
+    //     }
+    //     const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환// 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
+    //     // console.log( " now.toISOString()", now.toISOString())
+    //     const time = `${dateStr} ${hour.toString().padStart(2, "0")}:00`;
+    //     times.push(time);
+    //     hour += 2;
+    //   }
+    // },
   },
   // watch: {
   //   availableTimes(newValue) {
