@@ -42,8 +42,8 @@
         'cafeLists'
       ]),
     },
-    async mounted() {
-        await this.requestCafeListToSpring()
+    created() {
+       this.requestCafeListToSpring()
     },
   };
   </script>
