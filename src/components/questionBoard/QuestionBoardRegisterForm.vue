@@ -15,6 +15,9 @@
         <input type="text" placeholder="제목을 입력하세요." style="box-sizing: border-box; width: 100%; padding: 10px; outline: none;" v-model="title" required>
       </div>
     </div>
+    <div class="text-right">
+        <v-checkbox label="비밀글로 작성" v-model="secret" @click="setSecret"></v-checkbox>
+    </div>
     <div class="mb-10">
       <div id="editor" />
       <textarea v-model="content" style="display: none;"/>
@@ -38,15 +41,24 @@ export default {
             questionType : '',   //select 내역인 questionType v-model 로 바인딩
             writer: JSON.parse(localStorage.getItem('userInfo')).nickName,
             content: '',
-            memberId: JSON.parse(localStorage.getItem('userInfo')).id
+            memberId: JSON.parse(localStorage.getItem('userInfo')).id,
+            secret: false, //비밀글 체크
         }
     },
     methods: {
         onSubmit () {
-            const { title, questionType, writer, content, memberId } = this
-            this.$emit('submit', { title, questionType, writer, content, memberId })
+            const { title, questionType, writer, content, memberId, secret } = this
+            this.$emit('submit', { title, questionType, writer, content, memberId, secret })
         },
         // form으로 emit
+        setSecret () {
+          console.log(this.secret)
+          if(this.secret) {
+            this.title = '비밀글 입니다'
+          } else {
+            this.title = this.editor.getMarkdown()
+          }
+        }
     },
     mounted() {
         this.editor = new Editor({

@@ -40,6 +40,7 @@
 
 import { mapActions } from 'vuex'
 import { marked } from 'marked'
+const questionBoardModule = 'questionBoardModule'
 
 export default {
   name: 'QuestionBoardReadForm',
@@ -50,7 +51,7 @@ export default {
     }
   },
   methods: {
-        ...mapActions([
+        ...mapActions(questionBoardModule,[
             'requestQuestionBoardDeleteToSpring',
         ]),
         loginCheck() {

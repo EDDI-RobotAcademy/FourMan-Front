@@ -42,9 +42,9 @@
             ></v-pagination>
       </section>
 
-      
+
   </template>
-  
+
   <script>
 import router from "@/router"
 
@@ -92,9 +92,9 @@ import router from "@/router"
             },
         },
     }
-    
+
   </script>
-  
+
   <style scoped>
   table {
     border-collapse: collapse;
@@ -103,7 +103,7 @@ import router from "@/router"
   section.notice {
     padding: 80px 0;
   }
-  
+
   .page-title {
     margin-bottom: 60px;
   }
@@ -113,7 +113,7 @@ import router from "@/router"
     font-weight: 400;
     text-align: center;
   }
-  
+
   #board-search .search-window {
     padding: 15px 0;
     background-color: #f9f7f9;
@@ -146,14 +146,14 @@ import router from "@/router"
     padding: 0;
     font-size: 16px;
   }
-  
+
   .board-table {
     font-size: 13px;
     width: 100%;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
   }
-  
+
   .board-table a {
     color: #333;
     display: inline-block;
@@ -167,36 +167,36 @@ import router from "@/router"
   .board-table th {
     text-align: center;
   }
-  
+
   .board-table .th-num {
     width: 100px;
     text-align: center;
   }
-  
+
   .board-table .th-date {
     width: 200px;
   }
-  
+
   .board-table th, .board-table td {
     padding: 14px 0;
   }
-  
+
   .board-table tbody td {
     border-top: 1px solid #e7e7e7;
     text-align: center;
   }
-  
+
   .board-table tbody th {
     padding-left: 28px;
     padding-right: 14px;
     border-top: 1px solid #e7e7e7;
     text-align: left;
   }
-  
+
   .board-table tbody th p{
     display: none;
   }
-  
+
   .btn {
     display: inline-block;
     padding: 0 30px;
@@ -224,31 +224,31 @@ import router from "@/router"
     -o-transition: all 0.3s;
     transition: all 0.3s;
   }
-  
+
   .btn-dark {
     background: #555;
     color: #fff;
   }
-  
+
   .btn-dark:hover, .btn-dark:focus {
     background: #373737;
     border-color: #373737;
     color: #fff;
   }
-  
+
   .btn-dark {
     background: #555;
     color: #fff;
   }
-  
+
   .btn-dark:hover, .btn-dark:focus {
     background: #373737;
     border-color: #373737;
     color: #fff;
   }
-  
+
   /* reset */
-  
+
   * {
     list-style: none;
     text-decoration: none;

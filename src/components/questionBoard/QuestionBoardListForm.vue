@@ -17,14 +17,13 @@
                       <tr v-for="(questionBoard, index) in calData" :key="index">
                           <td>{{ questionBoard.boardId }}</td>
                           <td>{{ questionBoard.questionType }}</td>
-                          <th>
-                            <router-link
-                                :to="{
+                          <th  @click.prevent="checkSecret(index, questionBoard)"
+                                  :to="{
                                     name: 'QuestionBoardReadPage',
                                     params: { boardId: questionBoard.boardId.toString() },
-                                }"
-                                >{{ questionBoard.title}}</router-link>
-                          </th>
+                                }">
+                                {{ questionBoard.title}}
+                              </th>
                           <td>{{ questionBoard.writer }}</td>
                           <td>{{ questionBoard.regDate.slice(0, 10) }}</td>
                       </tr>
@@ -70,7 +69,15 @@
           }
       },
       methods: {
-
+        readRow (readValue) {
+              router.push({
+                  name: 'QuestionBoardReadPage',
+                  params: { boardId: readValue.boardId.toString() }
+              })
+          },
+          checkSecret(index, questionBoard) {
+            this.$emit('check-secret' , index, questionBoard)
+          }
       },
       computed: {
             startOffset() {
