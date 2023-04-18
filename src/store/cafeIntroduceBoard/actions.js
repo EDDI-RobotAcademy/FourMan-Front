@@ -20,7 +20,7 @@ export default {
                 alert("카페가 등록되었습니다cafeId:", res.data);
                 // 로컬 스토리지에서 userInfo 가져오기
                 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-                userInfo.cafeId = res.data;s
+                userInfo.cafeId = res.data;
                 // 수정된 userInfo를 다시 로컬 스토리지에 저장
                 localStorage.setItem("userInfo", JSON.stringify(userInfo));
             })
