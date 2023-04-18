@@ -15,7 +15,7 @@ export default {
      //카페소개보드 관련
      requestCreateCafeToSpring({},formData) {
         console.log(" requestCreateCafeToSpring() 작동")
-          axiosInst.post("/cafe/register", formData)
+        return axiosInst.post("/cafe/register", formData)
           .then((res) => {
             alert(res.data);
           })
@@ -26,7 +26,7 @@ export default {
 
      requestCafeListToSpring({commit}) {
         console.log("requestCafeListToSpring() 작동")
-        axiosInst.get(`/cafe/list`)
+        return axiosInst.get(`/cafe/list`)
             .then((res) => {
                 commit(REQUEST_CAFE_LIST_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)
@@ -36,7 +36,7 @@ export default {
             })
     },
     requestCafeNumToSpring({commit}) {
-        console.log("requestCafeNumToSpring() 작동")
+        return console.log("requestCafeNumToSpring() 작동")
             axiosInst.post(`/cafe/check-code/${ JSON.parse(localStorage.getItem('userInfo')).code}`)
         .then((res)=>{
             console.log("성공res.data:",res.data)
@@ -48,7 +48,7 @@ export default {
         })
     },
     requestCafeDetailToSpring({commit},cafeId) {
-        console.log("requestCafeDetailToSpring() 작동")
+        return console.log("requestCafeDetailToSpring() 작동")
             axiosInst.get(`/cafe/detail/${cafeId}`)
             .then((res) => {
                 commit(REQUEST_CAFE_DETAIL_TO_SPRING, res.data)
