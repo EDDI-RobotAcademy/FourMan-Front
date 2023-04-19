@@ -61,17 +61,17 @@
 
       <v-card-title>Tonight's availability</v-card-title>
 
-      <!-- <v-card-text>
+      <v-card-text>
         <v-chip-group
           v-model="selection"
           active-class="brown darken-2 white--text"
           column
         >
-          <v-chip v-for="(time, index) in availableTimes" :key="index">
+          <v-chip v-for="(time, index) in formattedAvailableTimes" :key="index">
             {{ time }}
           </v-chip>
         </v-chip-group>
-      </v-card-text> -->
+      </v-card-text>
 
       <v-card-actions>
         <v-btn class="brown darken-2 white--text" text @click="reserve">
@@ -86,8 +86,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions,mapGetters  } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
+const reservationModule = "reservationModule";
 export default {
   name: "CafeIntroBoardCardForm",
   props: {
@@ -103,46 +104,11 @@ export default {
     loaded: false,
   }),
   computed: {
-    // availableTimes() {
-    //   const now = new Date();
-    //   console.log(now,"now")
-    //   const currentHour = now.getHours();
-    //   // const currentMinute = now.getMinutes();
-    //   const startTime = Math.max(parseInt(this.cafe.startTime), currentHour);
-    //   const endTime = parseInt(this.cafe.endTime);
-    //   console.log("startTime", startTime);
-    //   console.log("endTime", endTime);
-    //   const times = [];
-    //   let hour = startTime;
-    //   let cnt=0;
-    //   let sw=false;
-    //   while (cnt<10) {
-        
-    //     if (hour >= 24) {
-    //       hour = hour % 24;
-    //       now.setDate(now.getDate() + 1); // 다음 날짜로 변경
-    //       sw=true;
-    //     }
-
-    //     if ( (sw==true && hour<=endTime)|| //마감이 0시이전이고  현재시간이 마감 이후일때)
-    //       hour == endTime ||
-    //       (hour >= endTime && hour < startTime)//마감이 0시이전이고  현재시간이 마감 이후일때)
-    //     ) {
-    //       return times;
-    //     }
-
-
-    //     // const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환// 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
-    //     // console.log( " now.toISOString()", now.toISOString())
-    //     const time = `${hour.toString().padStart(2, "0")}:00`;
-    //     times.push(time);
-    //     hour += 2;
-    //     cnt +=1;
-    //   }
-    // },
+       ...mapGetters(reservationModule, ['formattedAvailableTimes']),
   },
   methods: {
-    ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring"]),
+    ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring",]),
+    ...mapActions(reservationModule, ["calculateAvailableTimes"]),
     reserve() {
       this.$router.push({
         name: "HallSeatPage",
@@ -169,8 +135,12 @@ export default {
     },
   },
   async created() {
+    console.log("this.cafe.startTime",this.cafe.startTime)
+    console.log("this.cafe.endTime",this.cafe.endTime)
+    await this.calculateAvailableTimes({ startTime1: this.cafe.startTime, endTime1: this.cafe.endTime });
     await this.cafeRating();
     this.loaded = true;
+    console.log(this.times);
   },
 };
 </script>
