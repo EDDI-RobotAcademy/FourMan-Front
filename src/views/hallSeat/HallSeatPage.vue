@@ -257,7 +257,12 @@ export default {
         timeString: this.selectedTime,
       };
       await this.requestCreateCafeSeatToSpring(payload);
-      await this.$router.push({ name: "CafeIntroBoardListPage" });
+
+      // 상품 주문 페이지로 해당 cafeId 넘겨서 이동
+      await this.$router.push({
+               name: "ProductListPage",
+               params: {cafeId: this.cafe.cafeId}
+         })
     },
     onUpdateSeatsCount({ unreserved, total }) {
       console.log("Unreserved seats:", unreserved);

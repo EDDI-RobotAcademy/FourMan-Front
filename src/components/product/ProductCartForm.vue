@@ -112,6 +112,8 @@ export default {
          this.totalOrderPrice = item.totalPrice
       },
       deleteCartItem(index) {
+         this.cartItems[index].count = 1
+         this.cartItems[index].totalPrice = this.cartItems[index].price
          this.cartItems.splice(index, 1);
       },
       totalOrder() {

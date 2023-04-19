@@ -37,8 +37,11 @@ export default {
       ),
    },
    async mounted() {
-      await this.requestAllOfProductToSpring()
-      console.log('mounted: ' + JSON.stringify(this.allOfProducts))
+      const cafeId = JSON.parse(localStorage.getItem('userInfo')).cafeId
+      if(cafeId != null) {
+         await this.requestAllOfProductToSpring(cafeId)
+      }
+      console.log('Products: ' + JSON.stringify(this.allOfProducts))
    }
 }
 </script>
