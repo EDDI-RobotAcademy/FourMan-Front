@@ -4,7 +4,7 @@
       <div style="margin: 20px">
         <div>
           <span class="HANNA">
-            <h1>{{ freeBoard.title }}</h1>
+            <h1>{{ freeBoard.title }}</h1> <h4 class="text-right">조회수: {{ freeBoard.viewCnt }}</h4>
           </span>
         </div>
         <div>
@@ -25,6 +25,22 @@
         <div v-html="compiledMarkdown"></div>
       </div>
     </div>
+    <div class="d-flex justify-center align-center">
+      <v-btn  v-if="this.$store.state.memberModule.isAuthenticated"
+              class="brown darken-0 white--text mb-1"
+              @click="incRecommendation(freeBoard.boardId)">
+        <v-icon>mdi-thumb-up</v-icon>
+      </v-btn>
+        <h3 v-if="this.$store.state.memberModule.isAuthenticated"
+            class="text-center mx-4 my-5">
+            추천수 : {{ freeBoard.recommendation }}
+        </h3>
+      <v-btn v-if="this.$store.state.memberModule.isAuthenticated"
+             class="brown darken-0 white--text mb-1"
+             @click="decRecommendation(freeBoard.boardId)">
+        <v-icon>mdi-thumb-down</v-icon>
+      </v-btn>
+    </div>
     <div>
       <v-btn class="brown darken-2 white--text mb-5" :to="{ name: 'FreeBoardListPage' }" style="float: right;">
         목록
@@ -32,7 +48,7 @@
     </div>
   </div>
   </template>
-  
+
   <script>
 
 import { mapActions } from 'vuex'
@@ -51,6 +67,8 @@ const freeBoardModule= 'freeBoardModule'
       methods: {
         ...mapActions(freeBoardModule,[
             'requestDeleteFreeBoardToSpring',
+            'requestFreeBoardIncRecommendationToSpring',
+            'requestFreeBoardDecRecommendationToSpring',
         ]),
         loginCheck() {
             if(JSON.parse(localStorage.getItem('userInfo'))) {
@@ -76,6 +94,16 @@ const freeBoardModule= 'freeBoardModule'
           async onModify () {
             await this.$router.push({ name: 'FreeBoardModifyPage', params: this.freeBoard.boardId  })
           },
+          async incRecommendation (boardId) {
+            console.log('추천 check :' +boardId)
+            await this.requestFreeBoardIncRecommendationToSpring(boardId)
+            await this.$router.go((this.$router.currentRoute))
+          },
+          async decRecommendation(boardId) {
+            console.log('비추천 check : ' + boardId)
+            await this.requestFreeBoardDecRecommendationToSpring(boardId)
+            await this.$router.go((this.$router.currentRoute))
+          },
       },
       computed: {
         compiledMarkdown: function () {
@@ -84,6 +112,6 @@ const freeBoardModule= 'freeBoardModule'
       }
   }
   </script>
-  
+
   <style scoped>
   </style>

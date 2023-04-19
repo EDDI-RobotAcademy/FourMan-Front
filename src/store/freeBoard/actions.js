@@ -10,6 +10,7 @@ import {
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
+import axios from 'axios'
 
 export default {
    requestCreateFreeBoardToSpring ({ }, payload) {
@@ -106,6 +107,29 @@ export default {
                     commit(REQUEST_SEARCH_FREE_BOARD_LIST_TO_SPRING, res.data)
                     console.log('searchBoard res.data' + res.data)
                 })
+        },
+
+        //게시판 추천, 비추천
+        requestFreeBoardDecRecommendationToSpring( {}, boardId) {
+            console.log('게시물 비추천 action 작동')
+            return axiosInst.post(`/free-board/down-recommend/${boardId}`)
+            .then(() => {
+                alert('게시물을 비추천 하였습니다')
+            })
+            .catch(() => {
+                alert('error occured')
+            })
+        },
+
+        requestFreeBoardIncRecommendationToSpring( {}, boardId) {
+            console.log('게시물 추천 action 작동')
+            return axiosInst.post(`/free-board/up-recommend/${boardId}`)
+            .then (() => {
+                alert('게시물을 추천 하였습니다')
+            })
+            .catch(() => {
+                alert('error occured')
+            })
         }
 
 }
