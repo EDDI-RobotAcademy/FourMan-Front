@@ -36,8 +36,8 @@ export default {
    //       console.log('imageList: ' + JSON.stringify(res.data))
    //       })
    // },
-   requestAllOfProductToSpring ({ commit }) {
-      return axiosInst.get('/product/all')
+   requestAllOfProductToSpring ({ commit }, cafeId) {
+      return axiosInst.get(`/product/all/${cafeId}`)
          .then((res) => {
                commit(REQUEST_ALL_PRODUCT_TO_SPRING, res.data)
                console.log("allProduct: " + JSON.stringify(res.data))
