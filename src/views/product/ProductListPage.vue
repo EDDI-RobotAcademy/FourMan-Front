@@ -20,6 +20,12 @@ export default {
          categoryDatas: []
       }
    },
+   props: {
+      cafeId: {
+         type: Number,
+         required: true
+      }
+   },
    computed: {
       ...mapState(
          productModule, ['allOfProducts'],
@@ -34,7 +40,9 @@ export default {
       }
    },
    async mounted() {
-      await this.requestAllOfProductToSpring()
+      if(this.cafeId != null) {
+         await this.requestAllOfProductToSpring(this.cafeId)
+      }
    },
 }
 </script>

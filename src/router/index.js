@@ -125,7 +125,12 @@ const routes = [
   {
     path: '/product-list-page',
     name: 'ProductListPage',
-    component: ProductListPage
+    components: {
+      default: ProductListPage
+    },
+    props: {
+      default: true
+    }
   },
 
 // 주문 관련
@@ -388,6 +393,7 @@ const routes = [
   {
     path: '/notice-board-list-page',
     name: 'NoticeBoardListPage',
+
     component: NoticeBoardListPage
   },
   {
