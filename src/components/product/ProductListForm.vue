@@ -51,11 +51,6 @@ export default {
             this.cartItems.push(data)
          }
       },
-      registerProduct() {
-         this.$router.push( {
-            name: 'ProductRegisterPage'
-          })
-      }
    },
 }
 </script>
