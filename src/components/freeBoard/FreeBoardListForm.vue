@@ -11,6 +11,7 @@
                           <th scope="col" class="th-writer">작성자</th>
                           <th scope="col" class="th-date">등록일</th>
                           <th scope="col" class="th-viewCnt">조회수</th>
+                          <th scope="col" class="th-recommendation">추천수</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -27,6 +28,7 @@
                           <td>{{ freeBoard.writer }}</td>
                           <td>{{ freeBoard.regDate.slice(0, 10) }}</td>
                           <td>{{ freeBoard.viewCnt }}</td>
+                          <td>{{ freeBoard.recommendation }}</td>
                       </tr>
                       </tbody>
                   </table>
@@ -65,6 +67,7 @@ import router from "@/router"
                   { text: '작성자', value: 'writer', width: "100px" },
                   { text: '등록일자', value: 'regDate', width: "100px" },
                   { text: '조회수', value: 'viewCnt', width: "50px" },
+                  { text: '추천수', value: 'recommendation', width: "50px" },
               ],
               selectedItems: [],
               dataPerPage: 8,
