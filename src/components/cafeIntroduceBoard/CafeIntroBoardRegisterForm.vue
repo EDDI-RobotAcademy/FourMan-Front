@@ -1,8 +1,7 @@
 <template>
   <div id="registerForm">
     <v-form @submit.prevent="onSubmit">
-      <div id="title" class="mb-15">
-      </div>
+      <div id="title" class="mb-15"></div>
       <table>
         <v-row>
           <v-col cols="3">
@@ -68,8 +67,9 @@
                 outlined
                 color="grey darken-1"
                 placeholder="카페명을 입력해주세요."
-                v-model="cafeName"
+                :value="cafeName"
                 dense
+                readonly
               />
             </v-row>
 
@@ -149,7 +149,11 @@
         <v-row class="mt-10">
           <v-col cols="2"><h4>카페 상세 사진</h4></v-col>
           <div class="ml-0">
-            <v-btn class="ma-2 brown darken-2 white--text"  outlined elevation="1">
+            <v-btn
+              class="ma-2 brown darken-2 white--text"
+              outlined
+              elevation="1"
+            >
               <label for="multipleFiles">
                 upload
                 <v-icon>mdi-camera</v-icon>
@@ -202,14 +206,21 @@
         <!-- 등록하기 -->
         <v-row class="justify-center mt-15 mb-5">
           <div>
-            <v-btn @click="cancel" class="brown darken-2 white--text" large style="width: 200px; font-size: 18px"
+            <v-btn
+              @click="cancel"
+              class="brown darken-2 white--text"
+              large
+              style="width: 200px; font-size: 18px"
               >취소</v-btn
             >
 
-            <v-btn type="submit" class="ml-3 brown darken-2 white--text" large style="width: 200px; font-size: 18px"
+            <v-btn
+              type="submit"
+              class="ml-3 brown darken-2 white--text"
+              large
+              style="width: 200px; font-size: 18px"
               >등록
             </v-btn>
-          
           </div>
         </v-row>
       </table>
@@ -218,11 +229,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
+import { mapActions } from "vuex";
+const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
   name: "CafeIntroBoardRegisterForm",
-   created() {
+  created() {
     const startTime = new Date();
     startTime.setHours(0, 0, 0, 0); // 00:00:00
     const endTime = new Date();
@@ -234,14 +245,16 @@ export default {
     while (currentTime <= endTime) {
       const hour = currentTime.getHours();
       const minute = currentTime.getMinutes();
-      const timeString = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`;
+      const timeString = `${hour < 10 ? "0" : ""}${hour}:${
+        minute < 10 ? "0" : ""
+      }${minute}`;
       this.times.push(timeString);
       currentTime = new Date(currentTime.getTime() + intervalMinutes * 60000);
     }
   },
   data() {
     return {
-      cafeName: "",
+      cafeName: JSON.parse(localStorage.getItem("userInfo")).cafeName,
       cafeAddress: "",
       cafeTel: "",
       startTime: "",
@@ -261,9 +274,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions (cafeIntroduceBoardModule,[
-            'requestCreateCafeToSpring'
-        ]),
+    ...mapActions(cafeIntroduceBoardModule, ["requestCreateCafeToSpring","requestCafeListToSpring"]),
     handleFileUpload() {
       this.thumbnailFile = this.$refs.thumbnailFile.files;
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
@@ -293,14 +304,13 @@ export default {
         }
 
         let cafeContents = {
-          cafeName: this.cafeName,
           cafeAddress: this.cafeAddress,
           cafeTel: this.cafeTel,
           startTime: this.startTime,
           endTime: this.endTime,
           subTitle: this.subTitle,
           description: this.description,
-          code: JSON.parse(localStorage.getItem('userInfo')).code
+          code: JSON.parse(localStorage.getItem("userInfo")).code,
         };
 
         formData.append(
@@ -310,7 +320,8 @@ export default {
           })
         );
 
-        await this.requestCreateCafeToSpring(formData)
+        await this.requestCreateCafeToSpring(formData);
+          await this.requestCafeListToSpring(); 
         await this.$router.push({ name: "CafeIntroBoardListPage" });
         //파일 업로드 하지 않은 경우
       } else {
@@ -329,7 +340,6 @@ export default {
       this.$router.go(-1);
     },
   },
-  
 };
 </script>
 

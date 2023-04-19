@@ -5,7 +5,7 @@
       </div>
         <search-bar-form class="mb-2 me-7" style="float: right;" v-model="searchText" @search="onSearch" />
         <div v-if="searchBoards.length === 0">
-        <question-board-list-form :questionBoards="questionBoards"/>
+        <question-board-list-form :questionBoards="questionBoards" @check-secret="checkSecret"/>
         </div>
         <div v-else>
           <question-board-search-result-form :searchBoards="searchBoards" />
@@ -44,35 +44,60 @@ export default {
     computed: {
       ...mapState(questionBoardModule,[
         'questionBoards',
-        'searchBoards'
+        'searchBoards',
       ]),
     },
       mounted () {
         this.requestQuestionBoardListToSpring()
         this.requestSearchBoardToSpring()
   },
-    methods: {
+      methods: {
         ...mapActions(questionBoardModule,[
          'requestQuestionBoardListToSpring',
          'requestSearchBoardToSpring'
-
       ]),
+
       loginCheck () {
           const userInfo = localStorage.getItem('userInfo');
           if(userInfo == null) {
-              alter("로그인이 필요 합니다");
+              alert("로그인이 필요 합니다");
               this.$router.push({name: 'SignInPage'})
           } else {
               this.$router.push({ name: 'QuestionBoardRegisterPage'})
           }
+      },
+      checkSecret (index, questionBoard) {
+
+        if(JSON.parse(localStorage.getItem('userInfo'))){
+          const loginId = JSON.parse(localStorage.getItem('userInfo')).id
+          const memberId = this.$store.state.questionBoardModule.questionBoards[index].memberId
+          const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+
+            if(loginId === memberId || authorityName === 'MANAGER') {
+              this.$router.push({
+                name: 'QuestionBoardReadPage',
+                params: { boardId : questionBoard.boardId.toString()}
+              })
+            } else {
+              alert('작성자만 확인 가능한 게시물 입니다')
+            }
+          }
+
+            if(!JSON.parse(localStorage.getItem('userInfo'))) {
+              if(confirm('글을 확인하려면 로그인이 필요합니다. 로그인 하시겠습니까?')) {
+                this.$router.push({
+                  name: 'SignInPage'
+                })
+              }
+            }
       },
       async onSearch(searchText) {
         console.log('searchText 내용 :' + searchText)
         if(searchText !== '') {
           await this.requestSearchBoardToSpring(searchText)
       }
+    },
     }
   }
-}
 
 </script>

@@ -1,6 +1,6 @@
 <template>
 <v-container>
-    <question-board-register-form @submit="onSubmit" />
+    <question-board-register-form @submit="onSubmit"/>
 </v-container>
 </template>
 
@@ -25,7 +25,7 @@ export default {
             await this.$router.push({
                 name: 'QuestionBoardListPage',
             })
-        }
+        },
       }
   }
 </script>

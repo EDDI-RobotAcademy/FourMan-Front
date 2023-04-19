@@ -13,7 +13,7 @@ import CafeIntroBoardRegisterForm from '@/components/cafeIntroduceBoard/CafeIntr
 export default {
     components: { CafeIntroBoardRegisterForm },
     name: "CafeIntroBoardRegisterPage",
-    mounted: function(){
+    created: function(){
     if (JSON.parse(localStorage.getItem('userInfo')).authorityName !=="CAFE"){
       console.log("JSON.parse(localStorage.getItem('userInfo')).authorityName :", JSON.parse(localStorage.getItem('userInfo')).authorityName )
       this.$router.push({

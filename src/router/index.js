@@ -50,6 +50,8 @@ import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
 import ProductModifyPage from '@/views/cafeMyPage/ProductModifyPage.vue'
 import MemberOrderHistoryPage from '@/views/memberMyPage/MemberOrderHistoryPage.vue'
 import MemberMyInfoModifyPage from '@/views/memberMyPage/MemberMyInfoModifyPage.vue'
+import MemberManagementPage from '@/views/managerMyPage/MemberManagementPage.vue'
+import CafeManagementPage from '@/views/managerMyPage/CafeManagementPage.vue'
 
 //공지사항관련
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
@@ -278,16 +280,7 @@ const routes = [
   {
     path: '/question-board-list-page',
     name: 'QuestionBoardListPage',
-    component: QuestionBoardListPage,
-    beforeEnter: (to, from, next) => {
-      const userInfo = localStorage.getItem('userInfo');
-      if (userInfo != null) {
-        next();
-      } else {
-        alert('로그인 후 글을 작성할 수 있습니다.')
-        next('/sign-in');
-      }
-    }
+    component: QuestionBoardListPage
   },
   {
     path: '/question-board-register-page',
@@ -366,7 +359,26 @@ const routes = [
       default: true
     }
   },
-
+  {
+    path: '/member-management-page',
+    name: 'MemberManagementPage',
+    components: {
+      default: MemberManagementPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/cafe-management-page',
+    name: 'CafeManagementPage',
+    components: {
+      default: CafeManagementPage
+    },
+    props: {
+      default: true
+    }
+  },
   // 공지사항 관련
   {
     path: '/notice-board-register-page',

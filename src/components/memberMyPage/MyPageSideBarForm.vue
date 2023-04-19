@@ -89,6 +89,20 @@ export default {
             icon: "mdi-star",
             route: "/my-review-board-page"},
       ],
+      menusForCafe : [
+         {
+            title: "내 정보",
+            icon: "mdi-account",
+            route: "/member-my-page"},
+         {
+            title: "카페 관리",
+            icon: "mdi-coffee",
+            route: "/"},
+         {
+            title: "메뉴 관리",
+            icon: "mdi-list-box",
+            route: "/product-manage-page"},
+      ],
       menusForManager : [
          {
             title: "내 정보",
@@ -97,23 +111,21 @@ export default {
          {
             title: "회원 관리",
             icon: "mdi-account-supervisor",
-            route: "/"},
+            route: "/member-management-page"},
          {
             title: "카페 리스트",
             icon: "mdi-coffee",
-            route: "/"},
-         {
-            title: "메뉴 관리",
-            icon: "mdi-list-box",
-            route: "/product-manage-page"},
+            route: "/cafe-management-page"},
       ]
     }
   },
   async mounted() {
    this.nickName = JSON.parse(localStorage.getItem('userInfo')).nickName
    this.memberType = JSON.parse(localStorage.getItem('userInfo')).authorityName
-   if(this.memberType == "MEMBER") {
+   if(this.memberType === "MEMBER") {
       this.menus = this.menusForMember
+   } else if (this.memberType === "CAFE") {
+      this.menus = this.menusForCafe
    } else {
       this.menus = this.menusForManager
    }

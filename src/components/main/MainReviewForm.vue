@@ -65,7 +65,7 @@ export default {
         'reviewBoards'
         ]),
     },
-    mounted () {
+    created () {
         this.requestReviewBoardListToSpring()
     },
     methods: {

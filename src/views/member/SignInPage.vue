@@ -37,10 +37,10 @@ export default {
   methods: {
     ...mapActions(memberModule,['requestMemberSignInToSpring']),
 
-    async onSubmit(payload) {//{ email, password }
+    onSubmit(payload) {//{ email, password }
       if (!this.isAuthenticated) {//로그인상태가 아니면
-        await this.requestMemberSignInToSpring(payload)
-        await this.$router.push({name:'MainPage'});
+        this.requestMemberSignInToSpring(payload)
+        
 
       } else { //로그인상태이면
         alert("이미 로그인이 되어 있습니다!");

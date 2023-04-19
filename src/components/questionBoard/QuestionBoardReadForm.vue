@@ -7,7 +7,7 @@
         </div>
         <div>
           <span class="HANNA">
-            <h1>{{ questionBoard.title }}</h1>
+            <h1>{{ questionBoard.title }}</h1> <h4 class="text-right">조회수:{{ questionBoard.viewCnt }}</h4>
           </span>
         </div>
         <div>
@@ -40,6 +40,7 @@
 
 import { mapActions } from 'vuex'
 import { marked } from 'marked'
+const questionBoardModule = 'questionBoardModule'
 
 export default {
   name: 'QuestionBoardReadForm',
@@ -50,7 +51,7 @@ export default {
     }
   },
   methods: {
-        ...mapActions([
+        ...mapActions(questionBoardModule,[
             'requestQuestionBoardDeleteToSpring',
         ]),
         loginCheck() {
