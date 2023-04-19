@@ -1,7 +1,8 @@
 <template>
     <v-container>
       <div>
-        <free-board-read-form v-if="freeBoard" :freeBoard="freeBoard"/>
+        <free-board-read-form v-if="freeBoard"
+        :freeBoard="freeBoard"/>
         <p v-else>로딩중 .......... </p>
       </div>
       <div align="center">
