@@ -1,9 +1,6 @@
 <template>
   <v-container class="d-flex container" :fluid="true">
-    <v-container
-      class="my-custom-container"
-      :fluid="true"
-    >
+    <v-container class="my-custom-container" :fluid="true">
       <h1 v-if="selectedTime == null" class="text-center">
         당일 예약만 가능합니다.<br />
         예약 시간을 선택해 주세요!
@@ -19,10 +16,7 @@
       />
     </v-container>
 
-    <v-container
-      class="reserve-container"
-      :fluid="true"
-    >
+    <v-container class="reserve-container" :fluid="true">
       <div id="registerForm">
         <v-form @submit.prevent="onSubmit">
           <table>
@@ -181,9 +175,9 @@ export default {
       type: Object,
       required: true,
     },
-    timeSelection:{
-      type:Number,
-    }
+    timeSelection: {
+      type: Number,
+    },
   },
   data() {
     return {
@@ -198,37 +192,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(reservationModule, ["seatData", "tableData"]),
+    ...mapState(reservationModule, ["seatData", "tableData","availableTimes"]),
 
-    // availableTimes() {
-    //   const now = new Date();
-    //   console.log(now,"now")
-    //   const currentHour = now.getHours();
-    //   // const currentMinute = now.getMinutes();
-    //   const startTime = Math.max(parseInt(this.cafe.startTime), currentHour);
-    //   const endTime = parseInt(this.cafe.endTime);
-    //   console.log("startTime", startTime);
-    //   console.log("endTime", endTime);
-    //   const times = [];
-    //   let hour = startTime;
-    //   while (true) {
-    //     if (hour >= 24) {
-    //       hour = hour % 24;
-    //       now.setDate(now.getDate() + 1); // 다음 날짜로 변경
-    //     }
-    //     if (
-    //       hour == endTime ||
-    //       (hour >= endTime && hour < parseInt(this.cafe.startTime))
-    //     ) {
-    //       return times;
-    //     }
-    //     const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; // 현재 날짜를 'YYYY-MM-DD' 형식으로 변환// 현재 날짜를 'YYYY-MM-DD' 형식으로 변환
-    //     // console.log( " now.toISOString()", now.toISOString())
-    //     const time = `${dateStr} ${hour.toString().padStart(2, "0")}:00`;
-    //     times.push(time);
-    //     hour += 2;
-    //   }
-    // },
   },
   // watch: {
   //   availableTimes(newValue) {
@@ -241,6 +206,8 @@ export default {
       "requestCreateCafeSeatToSpring",
       "requestCafeSeatToSpring",
       "requestDeleteCafeSeatToSpring",
+      "calculateAvailableTimes"
+
     ]),
     async fetchReservations() {
       try {
@@ -287,7 +254,7 @@ export default {
         cafe: this.cafe,
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
         seatList: this.selectedSeats,
-         timeString: this.selectedTime 
+        timeString: this.selectedTime,
       };
       await this.requestCreateCafeSeatToSpring(payload);
       await this.$router.push({ name: "CafeIntroBoardListPage" });
@@ -300,18 +267,18 @@ export default {
     },
   },
 
-  created() {
-    console.log("cafe",this.cafe)
-    console.log("timeSelection",this.timeSelection)
+  async created() {
+    console.log("this.cafe.startTime",this.cafe.startTime)
+    console.log("this.cafe.endTime",this.cafe.endTime)
+    await this.calculateAvailableTimes({ startTime1: this.cafe.startTime, endTime1: this.cafe.endTime });
+    console.log("cafe", this.cafe);
+    console.log("timeSelection", this.timeSelection);
     console.log("mounted Available times:", this.availableTimes);
     if (this.timeSelection !== undefined && this.availableTimes.length > 0) {
-    this.selectedTime = this.availableTimes[this.timeSelection];
-    // 선택된 시간에 따라 예약 정보를 가져옵니다.
-    this.fetchReservations();
-  }
-
-    
-    
+      this.selectedTime = this.availableTimes[this.timeSelection];
+      // 선택된 시간에 따라 예약 정보를 가져옵니다.
+      await this.fetchReservations();
+    }
   },
 };
 </script>
