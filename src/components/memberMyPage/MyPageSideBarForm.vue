@@ -97,7 +97,7 @@ export default {
          {
             title: "카페 관리",
             icon: "mdi-coffee",
-            route: "/"},
+            route: "/my-cafe-management-page"},
          {
             title: "메뉴 관리",
             icon: "mdi-list-box",

@@ -17,4 +17,7 @@ export default {
 
    // 관리자 마이페이지 카페관리 관련
    cafeInfoList: [],
+
+   // 카페운영자 카페관리 관련
+   myCafeInfo: {},
 }

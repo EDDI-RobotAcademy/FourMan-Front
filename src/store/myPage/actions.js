@@ -15,7 +15,10 @@ import {
    REQUEST_MEMBER_INFO_LIST_TO_SPRING,
 
    //관리자 마이페이지 카페관리 관련
-   REQUEST_CAFE_INFO_LIST_TO_SPRING
+   REQUEST_CAFE_INFO_LIST_TO_SPRING,
+
+   // 카페운영자 카페관리 관련
+   REQUEST_MY_CAFE_INFO_TO_SPRING
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -55,21 +58,23 @@ export default {
                 alert("문제 발생!")
             })
     },
-    requestPasswordCheckToSpring({}, payload) {
+    async requestPasswordCheckToSpring({}, payload) {
         const { email, password } = payload
         return axiosInst
             .post("/member/sign-in", { email, password })
             .then((res) => {
               if (res.data) {//토큰이오면
                console.log('로그인 성공')
-               router.push({ name: 'MemberMyInfoModifyPage'})
+               return true
               } else {
                 alert("비밀번호가 틀렸습니다.");
+                return false
               }
             })
             .catch((res) => {
                alert("비밀번호가 틀렸습니다.");
                 console.log("로그인실패");
+                return false
             });
     },
     requestApplyNewPasswordToSpring({}, payload) {
@@ -136,6 +141,16 @@ export default {
             return axiosInst.get('/my-page/cafe-list')
                 .then((res) => {
                     commit(REQUEST_CAFE_INFO_LIST_TO_SPRING, res.data)
+                })
+        },
+        requestMyCafeInfoToSpring ({ commit }, { cafeId }) {
+            return axiosInst.get(`/my-page/my-cafe-info/${ cafeId }`)
+                .then((res) => {
+                    commit(REQUEST_MY_CAFE_INFO_TO_SPRING, res.data)
+                })
+                .catch(() => {
+                    alert('등록된 카페가 없습니다.')
+                    router.push({ name: 'MemberMyPage'})
                 })
         },
 }

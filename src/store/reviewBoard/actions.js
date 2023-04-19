@@ -70,7 +70,7 @@ export default {
             })
             .catch((error) => {
                 alert('리뷰를 작성할 카페가 없습니다.')
-                router.push({ name: 'MemberMyInfoModifyPage'})
+                router.push({ name: 'ReviewBoardListPage'})
             })
     }
 }

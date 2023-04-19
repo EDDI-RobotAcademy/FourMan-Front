@@ -15,7 +15,10 @@ import {
     REQUEST_MEMBER_INFO_LIST_TO_SPRING,
 
     //관리자 마이페이지 카페관리 관련
-    REQUEST_CAFE_INFO_LIST_TO_SPRING
+    REQUEST_CAFE_INFO_LIST_TO_SPRING,
+
+    //카페운영자  카페관리 관련
+    REQUEST_MY_CAFE_INFO_TO_SPRING
  } from './mutation-types'
 
  export default {
@@ -48,5 +51,10 @@ import {
    //관리자 마이페이지 카페관리 관련
   [REQUEST_CAFE_INFO_LIST_TO_SPRING] (state, passingData) {
       state.cafeInfoList = passingData
+   },
+   
+   //카페운영자  카페관리 관련
+   [REQUEST_MY_CAFE_INFO_TO_SPRING] (state, passingData) {
+      state.myCafeInfo = passingData
    },
  }

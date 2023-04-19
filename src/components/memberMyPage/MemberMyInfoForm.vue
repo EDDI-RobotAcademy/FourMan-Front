@@ -150,9 +150,12 @@ export default {
       openDialog () {
          this.dialog = !this.dialog;
       },
-      passwordCheck() {
+      async passwordCheck() {
          const { email, password } = this;
-         this.requestPasswordCheckToSpring({ email, password })
+         const boolean = await this.requestPasswordCheckToSpring({ email, password })
+         if(boolean) {
+            this.$router.push({ name: 'MemberMyInfoModifyPage'})
+         }
       },
    },
 }
