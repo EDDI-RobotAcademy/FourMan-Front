@@ -4,7 +4,7 @@
       <div style="margin: 20px">
         <div>
           <span class="HANNA">
-            <h1>{{ freeBoard.title }}</h1>
+            <h1>{{ freeBoard.title }}</h1> <h4 class="text-right">조회수: {{ freeBoard.viewCnt }}</h4>
           </span>
         </div>
         <div>
@@ -32,7 +32,7 @@
     </div>
   </div>
   </template>
-  
+
   <script>
 
 import { mapActions } from 'vuex'
@@ -84,6 +84,6 @@ const freeBoardModule= 'freeBoardModule'
       }
   }
   </script>
-  
+
   <style scoped>
   </style>
