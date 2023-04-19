@@ -153,4 +153,16 @@ export default {
                     router.push({ name: 'MemberMyPage'})
                 })
         },
+        requestCafeInfoModifyToSpring({}, payload) {
+            const { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description } = payload
+    
+            return axiosInst.put(`/my-page/cafe-info-modify/${cafeId}`,
+                { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description })
+                .then((res) => {
+                    alert("수정 성공")
+                })
+                .catch(() => {
+                    alert("문제 발생!")
+                })
+        },
 }
