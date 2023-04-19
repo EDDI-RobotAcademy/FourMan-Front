@@ -1,6 +1,10 @@
 <template>
   <form class="register-form" @submit.prevent="onSubmit">
     <div class="form-field">
+      <label for="files">Cafe Name</label>
+      <input type="text" id="price" v-model="cafeName" disabled/>
+    </div>
+    <div class="form-field">
       <label for="files">Register photo</label>
       <input type="file" id="files" ref="files" @change="handleFileUpload"/>
     </div>
@@ -34,7 +38,9 @@ export default {
             price: 0,
             files: '',
             drinkTypeList: ['COFFEE & LATTE', 'BUBBLETEA & NON-COFFEE', 'ADE & TEA', 'SMOOTHIE & FRUIT BEVERAGE'],
-            drinkType: ''
+            drinkType: '',
+            cafeName: JSON.parse(localStorage.getItem('userInfo')).cafeName,
+            cafeId: JSON.parse(localStorage.getItem('userInfo')).cafeId,
         }
     },
     methods: {
@@ -46,9 +52,10 @@ export default {
             formData.append('imageFileList', this.files[idx])
           }
 
-          const { productName, price, drinkType } = this
+          const { cafeId, productName, price, drinkType } = this
           
           let productInfo = {
+            cafeId: cafeId,
             productName: productName,
             price: price,
             drinkType: drinkType,

@@ -59,8 +59,7 @@ export default {
   methods: {
     ...mapActions(
       productModule, 
-      ['requestEditProductWithoutImageToSpring'],
-      ['requestEditProductWithImageToSpring'],
+      ['requestEditProductWithoutImageToSpring', 'requestEditProductWithImageToSpring'],
     ),
     async save() {
       

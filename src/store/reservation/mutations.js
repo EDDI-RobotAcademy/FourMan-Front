@@ -12,4 +12,8 @@ import {
        state.seatData=passingData.seatResponse
        state.tableData=passingData.tableResponse
     },
+
+    setAvailableTimes(state, payload) {
+      state.availableTimes = payload;
+    },
  }
