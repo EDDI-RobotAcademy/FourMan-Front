@@ -1,12 +1,8 @@
 <template>
   <v-container>
     <!-- 일반회원 회원가입 -->
-    <div v-if="this.memberType === 'customer'">
+    <div>
       <sign-up-form :memberType="memberType" @submit="onSubmit" />
-    </div>
-    <div v-else>
-      <!-- 카페사업자, 관리자 회원가입-->
-      <sign-up-cafe-manager-form :memberType="memberType" @submit="onSubmit" />
     </div>
   </v-container>
 </template>
@@ -14,7 +10,6 @@
 <script>
 import { mapActions } from "vuex";
 import SignUpForm from "@/components/member/SignUpForm";
-import SignUpCafeManagerForm from "@/components/member/SignUpCafeManagerForm";
 
 const memberModule = "memberModule";
 export default {
@@ -27,7 +22,7 @@ export default {
   },
   components: {
     SignUpForm,
-    SignUpCafeManagerForm,
+
   },
 
   mounted: function () {
