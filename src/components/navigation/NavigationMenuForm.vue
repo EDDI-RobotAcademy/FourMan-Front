@@ -29,13 +29,13 @@
 
       <router-link to="/cafe-board-list-page" style="text-decoration: none">
         <span class="">
-          <v-btn text color="white" dark> 카페 소개/예약</v-btn>
+          <v-btn text color="white" dark> 카페 소개/예약/주문</v-btn>
         </span>
       </router-link>
 
-      <router-link to="product-list-page" style="text-decoration: none">
+      <router-link to="/" style="text-decoration: none">
         <span class="">
-          <v-btn text color="white" dark> 포장 주문 </v-btn>
+          <v-btn text color="white" dark> 이벤트 </v-btn>
         </span>
       </router-link>
 

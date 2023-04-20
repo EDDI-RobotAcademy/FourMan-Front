@@ -11,7 +11,7 @@ import { mapState, mapActions } from "vuex";
 const productModule = 'productModule'
 
 export default {
-   name: "productListPage",
+   name: "ProductListPage",
    components: {
       ProductListForm,
    },
@@ -40,6 +40,7 @@ export default {
       }
    },
    async mounted() {
+       console.log('cafeId: ' + this.cafeId)
       if(this.cafeId != null) {
          await this.requestAllOfProductToSpring(this.cafeId)
       }
