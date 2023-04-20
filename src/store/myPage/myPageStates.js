@@ -20,4 +20,7 @@ export default {
 
    // 카페운영자 카페관리 관련
    myCafeInfo: {},
+
+   // 사이드 바 관련
+   myInfoSideBar: {},
 }

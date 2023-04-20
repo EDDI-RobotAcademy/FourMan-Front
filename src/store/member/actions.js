@@ -32,6 +32,7 @@ export default {
             .then(() => {
                 alert("로그아웃 완료");
                 localStorage.removeItem("userInfo");
+                localStorage.removeItem("cartItems");
                 commit(COMMIT_IS_AUTHENTICATED, false);
             })
     },
@@ -44,7 +45,11 @@ export default {
             email, password, city, nickName, birthdate, phoneNumber, authorityName, code, street, addressDetail, zipcode
         })
             .then((res) => {
-                alert("회원 가입 완료!" + res)
+                if(authorityName == "MEMBER") {
+                    alert("회원 가입 완료!" + res + "\n 회원 가입 이벤트로 1,000P 지급되었습니다!")
+                } else {
+                    alert("회원 가입 완료!" + res)
+                }
                 router.push("/sign-in")
             })
             .catch((res) => {

@@ -18,7 +18,10 @@ import {
    REQUEST_CAFE_INFO_LIST_TO_SPRING,
 
    // 카페운영자 카페관리 관련
-   REQUEST_MY_CAFE_INFO_TO_SPRING
+   REQUEST_MY_CAFE_INFO_TO_SPRING,
+
+   // 사이드바 내 정보 관련
+   REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -33,6 +36,7 @@ export default {
         return axiosInst.get(`/my-page/${memberId}`)
         .then((res) => {
             commit(REQUEST_MY_INFO_TO_SPRING, res.data)
+            console.log(JSON.stringify(res))
         })
     },
     requestMemberInfoModifyToSpring ({}, payload) {
@@ -97,6 +101,15 @@ export default {
            localStorage.removeItem("userInfo"); //로컬스토리지에서 제거
            store.commit(`memberModule/${COMMIT_IS_AUTHENTICATED}`, false);
         });
+    },
+    // 사이드바 관련
+    requestMyInfoForSideBarToSpring({ commit }, memberId) {
+        console.log('requestMyInfoForSideBarToSpring 작동')
+        return axiosInst.get(`/my-page/side-bar/${memberId}`)
+        .then((res) => {
+            commit(REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING, res.data)
+            console.log(JSON.stringify(res))
+        })
     },
         //나의 게시판 관련
         requestMyFreeBoardListToSpring({ commit }, memberId) {

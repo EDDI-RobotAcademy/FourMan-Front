@@ -18,7 +18,10 @@ import {
     REQUEST_CAFE_INFO_LIST_TO_SPRING,
 
     //카페운영자  카페관리 관련
-    REQUEST_MY_CAFE_INFO_TO_SPRING
+    REQUEST_MY_CAFE_INFO_TO_SPRING,
+
+    //사이드바 내 정보 관련
+    REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING
  } from './mutation-types'
 
  export default {
@@ -57,4 +60,9 @@ import {
    [REQUEST_MY_CAFE_INFO_TO_SPRING] (state, passingData) {
       state.myCafeInfo = passingData
    },
+
+   // 사이드바 내 정보 관련
+   [REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING] (state, passingData) {
+      state.myInfoSideBar = passingData
+   }
  }
