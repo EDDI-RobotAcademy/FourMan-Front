@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-12 cafeCard" max-width="374">
+  <v-card class="mx-auto my-12 cafeCard" max-width="400">
     <div class="cafeInfo">
       <template slot="progress">
         <v-progress-linear
@@ -59,7 +59,7 @@
 
       <v-divider class="mx-4"></v-divider>
 
-      <v-card-title>Tonight's availability</v-card-title>
+      <v-card-title>Today's availability</v-card-title>
 
       <v-card-text>
         <v-chip-group
@@ -74,11 +74,16 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn class="brown darken-2 white--text" text @click="reserve">
-          예약
-        </v-btn>
         <v-btn class="brown darken-2 white--text" text @click="showDetail">
           상세 보기
+        </v-btn>
+
+        <v-btn class="brown darken-2 white--text" text @click="reserve">
+          자리 예약
+        </v-btn>
+
+        <v-btn class="brown darken-2 white--text" text @click="order">
+          포장 주문
         </v-btn>
       </v-card-actions>
     </div>
@@ -123,6 +128,12 @@ export default {
       this.$router.push({
         name: "CafeIntroBoardDetailPage",
         params: { cafeId: this.cafe.cafeId.toString() },
+      });
+    },
+    order() {
+      this.$router.push({
+        name: "ProductListPage",
+        params: { cafeId: this.cafe.cafeId},
       });
     },
     async cafeRating() {

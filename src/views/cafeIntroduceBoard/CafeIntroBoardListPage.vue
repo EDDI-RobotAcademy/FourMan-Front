@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div class="wrap productWrap">
       <CafeIntroBoardListForm :cafeLists="cafeLists"></CafeIntroBoardListForm>
     </div>
