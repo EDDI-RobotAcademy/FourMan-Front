@@ -53,7 +53,7 @@ export default {
           return cafe.cafeName.includes(this.searchText);
         });
       }
-    }
+    },
 }
 </script>
 

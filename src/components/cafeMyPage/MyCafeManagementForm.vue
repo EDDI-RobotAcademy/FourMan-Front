@@ -31,7 +31,7 @@
                     <span>{{ myCafeInfo.subTitle }}</span>
                 </div>
                 <v-divider class="mt-3 mb-3"></v-divider>
-                <div style="display: flex;">
+                <div style="display: flex; height: 150px;">
                     <span style="width: 30%; color: gray; font-size: 15px;">카페 상세 설명</span>
                     <span>{{ myCafeInfo.description }}</span>
                 </div>
