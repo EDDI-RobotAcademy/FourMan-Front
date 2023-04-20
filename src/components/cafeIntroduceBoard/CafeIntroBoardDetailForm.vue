@@ -75,7 +75,7 @@
         </v-row>
       </div>
        
-
+          <!-- 공유를 눌렀을때 나오는거 -->
       <v-spacer></v-spacer>
       <v-dialog
         v-model="dialog"
@@ -122,6 +122,7 @@
               <v-card-title>Email</v-card-title>
             </v-list-item>
           </v-list>
+
           <v-text-field
             ref="link"
             :label="copied ? 'Link copied' : 'Click to copy link'"
