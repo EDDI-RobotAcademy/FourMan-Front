@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-12 cafeCard" max-width="400">
+  <v-card class="mx-auto my-12 cafeCard" max-width="360">
     <div class="cafeInfo">
       <template slot="progress">
         <v-progress-linear
@@ -73,7 +73,7 @@
         </v-chip-group>
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions class="d-flex justify-space-around">
         <v-btn class="brown darken-2 white--text" text @click="showDetail">
           상세 보기
         </v-btn>
