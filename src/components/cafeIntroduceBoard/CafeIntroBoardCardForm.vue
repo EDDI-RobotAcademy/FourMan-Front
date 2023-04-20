@@ -128,6 +128,7 @@ export default {
       this.$router.push({
         name: "CafeIntroBoardDetailPage",
         params: { cafeId: this.cafe.cafeId.toString() },
+         query: { rating: this.rating, totalRating: this.totalRating },
       });
     },
     order() {
