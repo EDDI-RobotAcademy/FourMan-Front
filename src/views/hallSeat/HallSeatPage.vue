@@ -139,7 +139,7 @@
                   class="ml-3 brown darken-2 white--text"
                   large
                   style="width: 100px; font-size: 18px"
-                  >등록
+                  >메뉴 주문
                 </v-btn>
               </div>
             </v-row>
@@ -192,8 +192,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(reservationModule, ["seatData", "tableData","availableTimes"]),
-
+    ...mapState(reservationModule, ["seatData", "tableData", "availableTimes"]),
   },
   // watch: {
   //   availableTimes(newValue) {
@@ -206,8 +205,8 @@ export default {
       "requestCreateCafeSeatToSpring",
       "requestCafeSeatToSpring",
       "requestDeleteCafeSeatToSpring",
-      "calculateAvailableTimes"
-
+      "calculateAvailableTimes",
+      "setSelectedSeats",
     ]),
     async fetchReservations() {
       try {
@@ -250,19 +249,24 @@ export default {
       this.$refs.hallSeatForm.resetSelectedSeats(); //
     },
     async onSubmit() {
+      if (this.selectedSeats.length === 0) {
+        alert("좌석을 선택해주세요.");
+        return;
+      }
       const payload = {
         cafe: this.cafe,
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
         seatList: this.selectedSeats,
         timeString: this.selectedTime,
       };
-      await this.requestCreateCafeSeatToSpring(payload);
-
+      // await this.requestCreateCafeSeatToSpring(payload);//카페를 db에 등록
+      await this.setSelectedSeats(payload)
+    
       // 상품 주문 페이지로 해당 cafeId 넘겨서 이동
       await this.$router.push({
-               name: "ProductListPage",
-               params: {cafeId: this.cafe.cafeId}
-         })
+        name: "ProductListPage",
+        params: { cafeId: this.cafe.cafeId },
+      });
     },
     onUpdateSeatsCount({ unreserved, total }) {
       console.log("Unreserved seats:", unreserved);
@@ -273,9 +277,12 @@ export default {
   },
 
   async created() {
-    console.log("this.cafe.startTime",this.cafe.startTime)
-    console.log("this.cafe.endTime",this.cafe.endTime)
-    await this.calculateAvailableTimes({ startTime1: this.cafe.startTime, endTime1: this.cafe.endTime });
+    console.log("this.cafe.startTime", this.cafe.startTime);
+    console.log("this.cafe.endTime", this.cafe.endTime);
+    await this.calculateAvailableTimes({
+      startTime1: this.cafe.startTime,
+      endTime1: this.cafe.endTime,
+    });
     console.log("cafe", this.cafe);
     console.log("timeSelection", this.timeSelection);
     console.log("mounted Available times:", this.availableTimes);

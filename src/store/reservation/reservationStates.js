@@ -3,4 +3,5 @@ export default {
     seatData:[],
     tableData:[],
     availableTimes: [],
+    selectedSeats:{},
 }

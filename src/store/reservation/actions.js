@@ -46,6 +46,12 @@ export default {
                 alert("삭제실패");
             })
     },
+    setSelectedSeats({ commit }, payload) {
+        commit("setSelectedSeats", payload);
+      },
+
+
+    
 
     calculateAvailableTimes({ commit }, {startTime1, endTime1}) {
         console.log(" calculateAvailableTimes 작동")

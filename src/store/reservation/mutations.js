@@ -1,6 +1,5 @@
 import {
     //예약관련
-    REQUEST_CREATE_CAFE_SEAT_TO_SPRING,
     REQUEST_CAFE_SEAT_TO_SPRING,
     
  
@@ -16,4 +15,8 @@ import {
     setAvailableTimes(state, payload) {
       state.availableTimes = payload;
     },
+    setSelectedSeats(state, payload) {
+      state.selectedSeats = payload;
+    },
+    
  }
