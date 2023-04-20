@@ -29,6 +29,9 @@
             <div align="center" class="mt-1" style="font-size: 15px">
                {{ memberType }}
             </div>
+            <div v-if="memberType == '일반회원'" align="center" class="mt-1" style="font-size: 15px">
+               보유 포인트: {{ point | comma }}P
+            </div>
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -60,12 +63,17 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
+const myPageModule= 'myPageModule'
+
 export default {
    name: "MyPageSideBarForm",
    data(){
     return {
       nickName: String,
       memberType: String,
+      point: Number,
       menus: [],
       menusForMember: [
          {
@@ -119,17 +127,41 @@ export default {
       ]
     }
   },
-  async mounted() {
-   this.nickName = JSON.parse(localStorage.getItem('userInfo')).nickName
-   this.memberType = JSON.parse(localStorage.getItem('userInfo')).authorityName
-   if(this.memberType === "MEMBER") {
-      this.menus = this.menusForMember
-   } else if (this.memberType === "CAFE") {
-      this.menus = this.menusForCafe
-   } else {
-      this.menus = this.menusForManager
-   }
+  methods: {
+    ...mapActions(
+      myPageModule, ['requestMyInfoForSideBarToSpring']
+    )
   },
+  computed: {
+    ...mapState(
+      myPageModule, ['myInfoSideBar']
+  )
+  },
+  async created() {
+    await this.requestMyInfoForSideBarToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
+
+    console.log("sideBar:" + this.myInfoSideBar.memberType)
+    this.nickName = this.myInfoSideBar.nickName
+    this.memberType = this.myInfoSideBar.memberType
+    this.point = this.myInfoSideBar.point
+
+    if(this.point == null) {
+      this.point = 0;
+    }
+
+    if(this.memberType === "일반회원") {
+        this.menus = this.menusForMember
+    } else if (this.memberType === "카페회원") {
+        this.menus = this.menusForCafe
+    } else {
+        this.menus = this.menusForManager
+    }
+  },
+  filters: {
+    comma(val) {
+      return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    },
 }
 </script>
 
