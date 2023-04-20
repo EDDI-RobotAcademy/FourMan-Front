@@ -25,6 +25,7 @@
                         half-increments
                         readonly
                         size="14"
+                        background-color="gray"
                     ></v-rating>
                 </td>
                 <td v-if="cafe.cafeName === reviewBoard.cafeName">{{ reviewBoard.title }}</td>

@@ -20,9 +20,9 @@
       <div class="text-center mb-2">
         <v-rating
           v-model="rating"
-          bg-color="orange-lighten-1"
-          color="blue"
-          required />
+          color="amber"
+          required
+          background-color="gray" />
       </div>
       <div class="mb-10">
         <div id="editor" />
