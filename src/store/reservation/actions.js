@@ -29,8 +29,8 @@ export default {
         return axiosInst.get(`/reservation/cafe/${cafeId}/time/${time}`)
             .then((res) => {
                 commit(REQUEST_CAFE_SEAT_TO_SPRING, res.data)
-                console.log(" res.data.seatResponse: " + res.data.seatResponse)
-                console.log(" res.data.tableResponse: " + res.data.tableResponse)
+                // console.log(" res.data.seatResponse: " + res.data.seatResponse)
+                // console.log(" res.data.tableResponse: " + res.data.tableResponse)
             })
             .catch((error) => {
                 alert(error)
@@ -58,8 +58,8 @@ export default {
         const now = new Date();
         const startTime = parseInt(startTime1);
         const endTime = parseInt(endTime1);
-        console.log("startTime", startTime);
-        console.log("endTime", endTime);
+        // console.log("startTime", startTime);
+        // console.log("endTime", endTime);
 
         if (startTime === endTime) return []; // 시작 시간과 종료 시간이 같으면 빈 배열을 반환
 
