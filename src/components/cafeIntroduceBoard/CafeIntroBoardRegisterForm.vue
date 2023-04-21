@@ -174,6 +174,37 @@
         </v-row>
 
         <v-row class="mt-10">
+    <table v-show="this.multipleFiles.length > 0">
+      <tr>
+        <td  colspan="3" align="right" style="border-bottom: none;">
+          <v-btn
+            text
+            color="grey"
+            style="font-size: 16px"
+            @click="uploadCancel"
+            >cancel<v-icon>mdi-delete-outline</v-icon></v-btn
+          >
+        </td>
+      </tr>
+      <tr
+        v-for="(row, rowIndex) in processedImages"
+        :key="'row-' + rowIndex"
+        style="border-bottom: none"
+      >
+        <td
+          v-for="(image, imageIndex) in row"
+          :key="'image-' + rowIndex + '-' + imageIndex"
+          class="imageTd"
+        >
+          <v-img :src="image" width="300px" contain style="display: block" />
+        </td>
+      </tr>
+    </table>
+  </v-row>
+
+      
+
+        <!-- <v-row class="mt-10">
           <table v-show="this.multipleFiles.length > 0">
             <tr>
               <td align="right">
@@ -194,14 +225,14 @@
               <td colspan="4" class="imageTd">
                 <v-img
                   :src="image"
-                  max-width="750px"
+                  width="400px"
                   contain
-                  style="margin-left: auto; margin-right: auto; display: block"
+                  style=" display: block"
                 />
               </td>
             </tr>
           </table>
-        </v-row>
+        </v-row> -->
 
         <!-- 등록하기 -->
         <v-row class="justify-center mt-15 mb-5">
@@ -252,6 +283,19 @@ export default {
       currentTime = new Date(currentTime.getTime() + intervalMinutes * 60000);
     }
   },
+  computed: {
+    processedImages() {
+      const imageRows = [];
+      for (let i = 0; i < this.multipleFiles.length; i += 3) {
+        const rowImages = [];
+        for (let j = 0; j < 3 && i + j < this.multipleFiles.length; j++) {
+          rowImages.push(URL.createObjectURL(this.multipleFiles[i + j]));
+        }
+        imageRows.push(rowImages);
+      }
+      return imageRows;
+    },
+  },
   data() {
     return {
       cafeName: JSON.parse(localStorage.getItem("userInfo")).cafeName,
@@ -273,8 +317,12 @@ export default {
       thumbnailPreview: [],
     };
   },
+
   methods: {
-    ...mapActions(cafeIntroduceBoardModule, ["requestCreateCafeToSpring","requestCafeListToSpring"]),
+    ...mapActions(cafeIntroduceBoardModule, [
+      "requestCreateCafeToSpring",
+      "requestCafeListToSpring",
+    ]),
     handleFileUpload() {
       this.thumbnailFile = this.$refs.thumbnailFile.files;
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
@@ -321,7 +369,7 @@ export default {
         );
 
         await this.requestCreateCafeToSpring(formData);
-          await this.requestCafeListToSpring(); 
+        await this.requestCafeListToSpring();
         await this.$router.push({ name: "CafeIntroBoardListPage" });
         //파일 업로드 하지 않은 경우
       } else {
