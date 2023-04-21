@@ -16,6 +16,17 @@
                 회원 가입
               </div>
 
+              <div class="d-flex" v-if="memberType === 'cafe' || memberType === 'manager'">
+                  <v-text-field class="mt-3" v-model="codeText" label="카페 사업자/관리자 코드 입력해주세요" :disabled="authorityPass"
+                                required color="black"/>
+                  <v-btn text large outlined style="font-size: 13px; height: 55px"
+                                class="mt-3 ml-5 mr-0 brown darken-2 white--text"
+                                @click="checkCode"
+                                :disabled="authorityPass"
+                       >코드 확인   
+                  </v-btn>
+                </div>
+
               <div class="d-flex">
                 <v-text-field
                   v-model="email"
@@ -65,6 +76,7 @@
                   v-model="nickName"
                   label="닉네임"
                   :disabled="nickNamePass"
+                  :rules="nickName_rule"
                   required
                   color="black"
                 />
@@ -157,7 +169,7 @@
                 x-large
                 rounded
                 class="mt-6 brown darken-2 white--text"
-                :disabled="(emailPass && nickNamePass && streetPass) == false"
+                :disabled="!isFormValid()"
               >
                 가입하기
               </v-btn>
@@ -182,6 +194,7 @@ export default {
   },
   data() {
     return {
+      codeText: "",
       email: "",
       password: "",
       password_confirm: "",
@@ -192,6 +205,7 @@ export default {
       street: "",
       addressDetail: "",
       zipcode: "",
+      authorityPass: false,
       emailPass: false, //아디중복체크후 사용가능한 이메일인지 여부
       streetPass: false, //주소입력여부
       nickNamePass: false, //닉네임중복체크후 사용가능한 닉네임인지여부
@@ -241,18 +255,39 @@ export default {
           );
         },
       ],
+      nickName_rule: [(v) => !!v || "닉네임을 입력해주세요."],
     };
   },
   methods: {
     ...mapActions(memberModule, [
       "requestSignUpCheckEmailToSpring",
       "requestSignUpCheckNickNameToSpring",
+      "requestSignUpCheckCafeCodeToSpring",
+      "requestSignUpCheckManagerCodeToSpring",
     ]),
 
     onSubmit() {
-      if (this.emailPass && this.streetPass && this.nickNamePass) {
-        const authorityName = "MEMBER";
-        const code = null;
+      let authorityName = "";
+      let code = null;
+      if (this.memberType === "customer") {
+        this.authorityPass = true;
+        authorityName = "MEMBER";
+      }
+      if (
+        this.authorityPass &&
+        this.emailPass &&
+        this.streetPass &&
+        this.nickNamePass
+      ) {
+        if (this.memberType === "cafe") {
+          authorityName = "CAFE";
+        } else if (this.memberType === "manager") {
+          authorityName = "MANAGER";
+        }
+        if (this.memberType === "manager" || this.memberType === "cafe") {
+          code = this.codeText;
+        }
+
         const {
           email,
           password,
@@ -281,12 +316,22 @@ export default {
         alert("올바른 정보를 입력하세요!");
       }
     },
+    isFormValid() {
+      return (
+
+        this.emailPass &&
+        this.nickNamePass &&
+        this.streetPass &&
+        this.birthdate_rule[1](this.birthdate) === true &&
+        this.phoneNumber_rule[1](this.phoneNumber) === true
+      );
+    },
     emailValidation() {
       const emailValid = this.email.match(
         /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
     },
-     async checkDuplicateEmail() {
+    async checkDuplicateEmail() {
       const emailValid = this.email.match(
         /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
@@ -295,30 +340,34 @@ export default {
       if (emailValid) {
         const { email } = this;
 
-          const res = await this.requestSignUpCheckEmailToSpring(email);
-           const isEmail=res.data
-          if (isEmail) {
-            alert("사용 가능한 이메일입니다!");
-            this.emailPass = true;
-          } else {
-            alert("중복된 이메일입니다!");
-            this.emailPass = false;
-          }
-
+        const res = await this.requestSignUpCheckEmailToSpring(email);
+        const isEmail = res.data;
+        if (isEmail) {
+          alert("사용 가능한 이메일입니다!");
+          this.emailPass = true;
+        } else {
+          alert("중복된 이메일입니다!");
+          this.emailPass = false;
+        }
       }
     },
     async checkDuplicateNickName() {
+      console.log("this.nickName", this.nickName);
+      if (!this.nickName) {
+        this.$refs.form.validate();
+        return;
+      }
       const { nickName } = this;
 
-         const res = await this.requestSignUpCheckNickNameToSpring(nickName);
-          const isNickName =res.data
-        if (isNickName) {
-          alert("사용 가능한 닉네임입니다!");
-          this.nickNamePass = true;
-        } else {
-          alert("중복된 닉네임입니다!");
-          this.nickNamePass = false;
-        }
+      const res = await this.requestSignUpCheckNickNameToSpring(nickName);
+      const isNickName = res.data;
+      if (isNickName) {
+        alert("사용 가능한 닉네임입니다!");
+        this.nickNamePass = true;
+      } else {
+        alert("중복된 닉네임입니다!");
+        this.nickNamePass = false;
+      }
     },
     callDaumAddressApi() {
       new window.daum.Postcode({
@@ -346,6 +395,34 @@ export default {
           this.streetPass = true;
         },
       }).open();
+    },
+    async checkCode() {
+      if (this.memberType === "cafe") {
+        console.log("카페사업자코드를 체크합니다");
+        const { codeText } = this;
+        const res = await this.requestSignUpCheckCafeCodeToSpring(codeText);
+        const isCafeCode = res.data;
+        console.log("isCafeCode", isCafeCode);
+        if (isCafeCode) {
+          alert("카페사업자 코드 확인하였습니다.");
+          this.authorityPass = true;
+        } else {
+          alert("일치하는 카페사업자 코드가 없습니다.");
+          this.authorityPass = false;
+        }
+      } else if (this.memberType === "manager") {
+        console.log("매니저 코드를 체크합니다");
+        const { codeText } = this;
+        const res = await this.requestSignUpCheckManagerCodeToSpring(codeText);
+        const isManagerCode = res.data;
+        if (isManagerCode) {
+          alert(" 관리자 코드 확인하였습니다.");
+          this.authorityPass = true;
+        } else {
+          alert("일치하는 관리자 코드가 없습니다.");
+          this.authorityPass = false;
+        }
+      }
     },
   },
 };
