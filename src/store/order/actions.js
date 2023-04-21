@@ -1,6 +1,7 @@
 import {
    //주문 관련
    REQUEST_ORDER_INFORMATIONS_TO_SPRING,
+   UPDATE_IS_ORDER_PACKING,
 
 } from './mutation-types'
 
@@ -25,6 +26,10 @@ export default {
          commit(REQUEST_ORDER_INFORMATIONS_TO_SPRING, res.data)
          console.log('orderInformations: ' + JSON.stringify(res.data))
       })
+   },
+   updateIsOrderPacking({ commit }, payload) {
+      console.log('payload: ' + payload)
+      commit(UPDATE_IS_ORDER_PACKING, payload)
    },
 
 }

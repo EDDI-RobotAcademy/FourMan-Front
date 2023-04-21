@@ -1,6 +1,6 @@
 <template>
    <div justify="center">
-      <product-list-form :datas="allOfProducts" :categoryDatas="categoryDatas" @categoryData="categoryData" :isPacking="isPacking" />
+      <product-list-form :datas="allOfProducts" :categoryDatas="categoryDatas" @categoryData="categoryData"/>
    </div>
 </template>
 
@@ -9,7 +9,6 @@ import ProductListForm from '@/components/product/ProductListForm.vue'
 import { mapState, mapActions } from "vuex";
 
 const productModule = 'productModule'
-const reservationModule = 'reservationModule'
 
 export default {
    name: "ProductListPage",
@@ -26,10 +25,6 @@ export default {
          type: Number,
          required: true
       },
-      isPacking: {
-         type: Boolean,
-         required: true,
-      }
    },
    computed: {
       ...mapState(

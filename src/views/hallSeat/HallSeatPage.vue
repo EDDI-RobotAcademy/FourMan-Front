@@ -163,6 +163,7 @@ import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiSeat } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
 const reservationModule = "reservationModule";
+const orderModule = "orderModule";
 import HallSeatForm from "@/components/hallSeat/HallSeatForm.vue";
 export default {
   name: "HallSeatPage",
@@ -207,6 +208,9 @@ export default {
       "requestDeleteCafeSeatToSpring",
       "calculateAvailableTimes",
       "setSelectedSeats",
+    ]),
+    ...mapActions(orderModule, [
+      "updateIsOrderPacking",
     ]),
     async fetchReservations() {
       try {
@@ -262,10 +266,12 @@ export default {
       // await this.requestCreateCafeSeatToSpring(payload);//카페를 db에 등록
       await this.setSelectedSeats(payload)
     
+      // 포장 주문인지 아닌지 값 전달
+      this.updateIsOrderPacking(false)
       // 상품 주문 페이지로 해당 cafeId 넘겨서 이동
       await this.$router.push({
         name: "ProductListPage",
-        params: { cafeId: this.cafe.cafeId, isPacking: false },
+        params: { cafeId: this.cafe.cafeId },
       });
     },
     onUpdateSeatsCount({ unreserved, total }) {

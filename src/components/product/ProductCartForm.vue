@@ -35,7 +35,7 @@
             </tr>
          </tbody>
       </v-simple-table>
-      <v-card v-if="isPacking == false" class="mt-10" style="height: 100px; border: 3px solid black" flat>
+      <v-card v-if="isOrderPacking == false" class="mt-10" style="height: 100px; border: 3px solid black" flat>
          <v-container style="width: 850px;">
             <v-layout class="text-center" style="height: 100%; width: 100%; display:flex; align-items:center; margin-top: 4px;" justify-center>
                <div>
@@ -129,9 +129,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const reservationModule = 'reservationModule'
+const orderModule = 'orderModule'
 
 export default {
    name: "ProductCartForm",
@@ -145,14 +146,13 @@ export default {
          type: Array,
          required: true
       },
-      isPacking: {
-         type: Boolean,
-         required: true,
-      },
    },
    computed: {
       ...mapState(
                reservationModule, ['selectedSeats'],
+      ),
+      ...mapState(
+               orderModule, ['isOrderPacking'],
       ),
    },
    methods: {
@@ -178,19 +178,18 @@ export default {
          const cartItems = this.cartItems
          
          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+         localStorage.setItem("isOrderPacking", this.isOrderPacking)
 
          if((Array.isArray(this.cartItems) && this.cartItems.length === 0)) {
             alert('장바구니에 물품이 존재하지 않습니다.')
          } else {
-            if(this.isPacking == false) {
+            if(this.isOrderPacking == false) {
                this.$router.push({
                   name: "TotalOrderPage",
-                  params: { totalOrderPrice: this.totalOrderPrice + 3000, selectedSeats: this.selectedSeats }
                })
             } else { // 포장주문인 경우
                this.$router.push({ 
                   name: "TotalOrderPage",
-                  params: { totalOrderPrice: this.totalOrderPrice, selectedSeats: this.selectedSeats }
                })
             }
          }
