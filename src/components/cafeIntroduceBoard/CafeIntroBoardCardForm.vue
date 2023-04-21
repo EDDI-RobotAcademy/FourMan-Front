@@ -94,6 +94,7 @@
 import { mapActions,mapGetters  } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 const reservationModule = "reservationModule";
+const orderModule = "orderModule";
 export default {
   name: "CafeIntroBoardCardForm",
   props: {
@@ -114,6 +115,8 @@ export default {
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring"]),
     ...mapActions(reservationModule, ["calculateAvailableTimes", "setSelectedSeats"]),
+    ...mapActions(orderModule, ["updateIsOrderPacking"]),
+
     reserve() {
       this.$router.push({
         name: "HallSeatPage",
@@ -131,7 +134,7 @@ export default {
          query: { rating: this.rating, totalRating: this.totalRating },
       });
     },
-    order() {
+    async order() {
 
       const payload = {
         cafe: this.cafe,
@@ -140,9 +143,12 @@ export default {
 
       this.setSelectedSeats(payload)
 
+      // 포장 주문인지 아닌지 값 전달
+      await this.updateIsOrderPacking(true)
+
       this.$router.push({
         name: "ProductListPage",
-        params: { cafeId: this.cafe.cafeId, isPacking: true },
+        params: { cafeId: this.cafe.cafeId },
       });
     },
     async cafeRating() {

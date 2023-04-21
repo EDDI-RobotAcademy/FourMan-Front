@@ -12,7 +12,7 @@
       <product-card-form :datas="datas" @addCart="addCart" />
     </div>
     <div class="mt-8">
-      <product-cart-form :cartItems="cartItems" :isPacking="isPacking" />
+      <product-cart-form :cartItems="cartItems" />
     </div>
   </v-container>
 </template>
@@ -41,10 +41,6 @@ export default {
       type: Array,
       required: true,
     },
-    isPacking: {
-      type: Boolean,
-      required: true,
-    }
   },
   methods: {
     addCart(receiveData) {
