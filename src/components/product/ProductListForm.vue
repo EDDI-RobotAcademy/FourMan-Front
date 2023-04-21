@@ -12,19 +12,7 @@
       <product-card-form :datas="datas" @addCart="addCart" />
     </div>
     <div class="mt-8">
-      <product-cart-form :cartItems="cartItems" />
-    </div>
-
-    <!-- 이 정보도 예쁘게 나타내는게 좋지 않을까? -->
-    선택하신 카페명:{{ selectedSeats.cafe.cafeName }}<br>
-      예약 날짜:{{ selectedSeats.timeString }}<br>
-      선택한 자리:
-    <div>
-      <ul>
-        <li v-for="seat in selectedSeats.seatList" :key="seat.seatNo">
-          {{ seat.seatNo }}
-        </li>
-      </ul>
+      <product-cart-form :cartItems="cartItems" :isPacking="isPacking" />
     </div>
   </v-container>
 </template>
@@ -45,11 +33,6 @@ export default {
     };
   },
   props: {
-    selectedSeats: {
-      type: Object,
-      required: true,
-    },
-
     datas: {
       type: Array,
       required: true,
@@ -58,6 +41,10 @@ export default {
       type: Array,
       required: true,
     },
+    isPacking: {
+      type: Boolean,
+      required: true,
+    }
   },
   methods: {
     addCart(receiveData) {

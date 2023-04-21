@@ -265,7 +265,7 @@ export default {
       // 상품 주문 페이지로 해당 cafeId 넘겨서 이동
       await this.$router.push({
         name: "ProductListPage",
-        params: { cafeId: this.cafe.cafeId },
+        params: { cafeId: this.cafe.cafeId, isPacking: false },
       });
     },
     onUpdateSeatsCount({ unreserved, total }) {

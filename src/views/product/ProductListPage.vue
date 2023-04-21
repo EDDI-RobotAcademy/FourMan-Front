@@ -1,6 +1,6 @@
 <template>
    <div justify="center">
-      <product-list-form :selectedSeats="selectedSeats" :datas="allOfProducts" :categoryDatas="categoryDatas" @categoryData="categoryData"></product-list-form>
+      <product-list-form :datas="allOfProducts" :categoryDatas="categoryDatas" @categoryData="categoryData" :isPacking="isPacking" />
    </div>
 </template>
 
@@ -10,6 +10,7 @@ import { mapState, mapActions } from "vuex";
 
 const productModule = 'productModule'
 const reservationModule = 'reservationModule'
+
 export default {
    name: "ProductListPage",
    components: {
@@ -24,14 +25,15 @@ export default {
       cafeId: {
          type: Number,
          required: true
+      },
+      isPacking: {
+         type: Boolean,
+         required: true,
       }
    },
    computed: {
       ...mapState(
          productModule, ['allOfProducts'],
-      ),
-      ...mapState(
-         reservationModule, ['selectedSeats'],
       ),
    },
    methods: {
@@ -43,7 +45,7 @@ export default {
       }
    },
    async mounted() {
-       console.log('cafeId: ' + this.cafeId)
+      console.log('cafeId: ' + this.cafeId)
       if(this.cafeId != null) {
          await this.requestAllOfProductToSpring(this.cafeId)
       }
