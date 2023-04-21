@@ -178,4 +178,7 @@ export default {
                     alert("문제 발생!")
                 })
         },
+        async requestSignUpCheckNickNameToSpring({ }, nickName) {
+            return  axiosInst.post(`/member/check-nickName/${nickName}`)
+        },
 }

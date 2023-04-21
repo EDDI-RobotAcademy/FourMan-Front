@@ -95,8 +95,10 @@
           <div>4명 (본사 기준, 2023년 기준)</div>
         </div>
         <v-divider class="my-5" />
-        <div id="map" style="width: 100%; height: 400px"></div>
       </div>
+    </div>
+    <div class="mb-10" style="margin-left: 200px; margin-right: 200px">
+        <div id="map" style="width: 100%; height: 400px "></div>
     </div>
   </div>
 </template>
