@@ -47,6 +47,8 @@
         <v-divider class="mt-3" />
       </div>
     </div>
+
+    
     <div
       class="mb-16"
       style="display: flex; margin-left: 200px; ,margin-right: 300px"
@@ -94,12 +96,23 @@
           </div>
           <div>4명 (본사 기준, 2023년 기준)</div>
         </div>
-        <v-divider class="my-5" />
+        <v-divider class="m" /> 
       </div>
     </div>
-    <div class="mb-10" style="margin-left: 200px; margin-right: 200px">
-        <div id="map" style="width: 100%; height: 400px "></div>
-    </div>
+
+       <div
+          class="mb-16"
+          style="display: flex; margin-left: 200px; ,margin-right: 300px"
+        >
+          <div style="width: 20%; font-size: 18px; font-weight: bold">
+            COMPANY<br />
+            LOCATION
+          </div>
+            <div style="width: 70%">
+          <div id="map" style="width: 100%; height: 400px"></div>
+          </div>
+        </div>
+
   </div>
 </template>
 
@@ -107,13 +120,21 @@
 export default {
   name: "SiteIntroduceForm",
   mounted() {
-    this.initMap();
+    const script = document.createElement("script");
+    script.src =
+      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=1b9ab9c85ce4696e324d95f2d27458e2&autoload=false";
+    script.onload = () => {
+      kakao.maps.load(() => {
+        this.initMap();
+      });
+    };
+    document.head.appendChild(script);
   },
   methods: {
     initMap() {
-      const container = document.getElementById('map');
+      const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng( 37.49888608810788, 127.03282942894914 ), // 좌표값을 변경하여 회사 위치를 설정하세요.
+        center: new kakao.maps.LatLng(37.49888608810788, 127.03282942894914), // 좌표값을 변경하여 회사 위치를 설정하세요.
         level: 3, // 지도 확대 레벨
       };
 

@@ -44,6 +44,10 @@ import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardLis
 import CafeIntroBoardRegisterPage from '@/views/cafeIntroduceBoard/CafeIntroBoardRegisterPage.vue'
 import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardDetailPage.vue'
 
+//이벤트 게시판 관련
+import EventBoardListPage from '@/views/eventBoard/EventBoardListPage.vue'
+import EventBoardRegisterPage from '@/views/eventBoard/EventBoardRegisterPage.vue'
+
 //마이페이지 관련
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
@@ -94,6 +98,17 @@ const routes = [
       default: true
     }
 
+  },
+  //이벤트 게시판 관련
+  {
+    path: '/event-board-list-page',
+    name: 'EventBoardListPage',
+    component: EventBoardListPage
+  },
+  {
+    path: '/event-board-register-page',
+    name: 'EventBoardRegisterPage',
+    component: EventBoardRegisterPage
   },
 
   //카페소개 게시판 관련

@@ -12,7 +12,7 @@ export default{
       
         return state.availableTimes
           .map((time) => {
-            console.log("time", time);
+            // console.log("time", time);
             const [date, hour] = time.split(" ");
             if (date === todayStr) {
               return `Today ${hour}`;

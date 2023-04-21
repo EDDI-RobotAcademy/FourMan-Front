@@ -33,7 +33,7 @@
         </span>
       </router-link>
 
-      <router-link to="/" style="text-decoration: none">
+      <router-link to="/event-board-list-page" style="text-decoration: none">
         <span class="">
           <v-btn text color="white" dark> 이벤트 </v-btn>
         </span>

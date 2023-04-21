@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import store from "@/store";
 import { mapState, mapActions } from "vuex";
 import CafeIntroBoardListForm from "@/components/cafeIntroduceBoard/CafeIntroBoardListForm.vue";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
