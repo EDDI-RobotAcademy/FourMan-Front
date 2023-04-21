@@ -5,10 +5,10 @@
         <div>
           <v-card style="width:1000px">
             <div>
-
               <h1 align="center" class="section" style="color: #2F4F4F">
-                <v-img :src="require(`@/assets/logo/eddi.png`)" width="130" class="mx-auto mb-6"/>
-                ✔ My Cart
+                <!-- <v-img :src="require(`@/assets/logo/eddi.png`)" width="130" class="mx-auto mb-6"/> -->
+                <span class="mdi mdi-cart"></span>
+                My Cart
               </h1>
               
               <!--장바구니 데이터-->
@@ -16,33 +16,60 @@
                 <table class="cart">
                   <v-simple-table>
                     <thead class="wrap">
-                     <tr>
-                        <th class="text-center">이미지</th>
-                        <th align="text-center">상품명</th>
-                        <th align="text-center">수량</th>
-                        <th align="text-center">가격</th>
-                     </tr>
+                      <tr>
+                          <th class="text-center">이미지</th>
+                          <th>상품명</th>
+                          <th>수량</th>
+                          <th>가격</th>
+                      </tr>
                     </thead>
-                    <tbody v-for="(item, index) in cartItems" :key="index">
-                     <tr>
+                    <tbody>
+                      <tr v-for="(item, index) in cartItems" :key="index">
                         <td>
-                           <center>
-                           <v-img :src="require(`@/assets/product/uploadImgs/${item.imageResourceList[0].imageResourcePath}`)" width="50px"/>
-                           </center>
+                          <center>
+                          <v-img :src="require(`@/assets/product/uploadImgs/${item.imageResourceList[0].imageResourcePath}`)" width="50px"/>
+                          </center>
                         </td>
                         <td class="product">
-                           <h4 class="header">{{ item.productName }}
-                              <div>카페 이름</div>
-                           </h4>
+                          <h4 class="header">{{ item.productName }}
+                              <div>{{ selectedSeats.cafe.cafeName }}</div>
+                          </h4>
                         </td>
                         <td>{{ item.count }}</td>
                         <td>{{ item.price | comma }}원</td>
-                     </tr>
+                      </tr>
+                      <tr v-if="isOrderPacking == false">
+                        <td colspan="2"></td>
+                        <td style="text-align:right;">
+                          <span style="font-weight: bold;">예약 비용 :</span>
+                        </td>
+                        <td>3,000원</td>
+                      </tr>
                     </tbody>
-                    <tfoot class="wrap">
+
+                    <tfoot v-if="isOrderPacking == false" class="wrap">
+                      <tr>
+                        <th class="text-center" style="font-size: 16px; font-weight: bold">최종 결제 정보</th>
+                        <th>
+                          <span class="d-inline" style="font-size: 14px; font-weight: bold">선택 좌석 : </span>
+                          <span class="d-inline" style="font-size: 14px; font-weight: bold" v-for="(seat, idx) in selectedSeats.seatList" :key="idx">
+                            ({{ seat.seatNo }})
+                          </span>
+                        </th>
+                        <th>
+                          <span class="d-inline" style="font-size: 14px; font-weight: bold">예약 시간 : {{ selectedSeats.timeString }} </span>
+                        </th>
+                        <th style="font-size: 16px">{{ totalOrderPrice | comma}}원</th>
+                      </tr>
+                    </tfoot>
+
+                    <!-- 포장 결제  -->
+                    <tfoot v-else class="wrap">
                      <tr>
-                        <th colspan="3"></th>
-                        <th>TOTAL : {{ totalOrderPrice | comma}}원</th>
+                        <!-- <th class="text-center" style="font-size: 18px; font-weight: bold">{{ this.selectedSeats.cafe.cafeName }}</th> -->
+                        <th class="text-center" style="font-size: 16px; font-weight: bold">최종 결제 정보</th>
+                        <th colspan="2"></th>
+                        <th style="font-size: 16px">{{ totalOrderPrice | comma}}원</th>
                      </tr>
                     </tfoot>
                   </v-simple-table>
@@ -50,7 +77,7 @@
               </div>
             </div>
           </v-card>
-          <v-btn @click="purchase" block x-large class="" color="#5F4F4F" style="color: white; font-size: 1em" >
+          <v-btn @click="purchase" block x-large color="#5F4F4F" style="color: white; font-size: 1.1em" >
             {{ totalOrderPrice | comma }}원 결제하기
           </v-btn>
         </div>
@@ -79,6 +106,14 @@ export default {
       totalOrderPrice: {
         type: Number,
         required: true
+      },
+      selectedSeats: {
+        type: Object,
+        required: true,
+      },
+      isOrderPacking: {
+        type: Boolean,
+        required: true,
       }
    },
    async created() {
@@ -100,7 +135,6 @@ export default {
       ),
       purchase() {
         this.kakaoPayAPI()
-        this.saveOrderInformations()
       },
       kakaoPayAPI() {
         var IMP = window.IMP; 
@@ -121,13 +155,14 @@ export default {
           m_redirect_url : 'redirect url'
          }, function(rsp) {
           if ( rsp.success ) {
-              var msg = '결제가 완료되었습니다.';
-              location.href='http://localhost:8887/member-my-page';
-              alert(msg)
+            this.saveOrderInformations()
+            var msg = '결제가 완료되었습니다.';
+            location.href='http://localhost:8887/member-order-history-page';
+            alert(msg)
           } else {
-              var msg = '결제에 실패하였습니다.';
-              rsp.error_msg;
-              alert(msg)
+            var msg = '결제에 실패하였습니다.';
+            rsp.error_msg;
+            alert(msg)
           }
         });
       },
@@ -135,6 +170,7 @@ export default {
         let formData = new FormData()
         let memberId = JSON.parse(localStorage.getItem('userInfo')).id
         let totalQuantity = 0
+
         for(let i = 0; i < this.cartItems.length; i++) {
           totalQuantity += this.cartItems[i].count
         }
@@ -177,7 +213,7 @@ tr th {
 }
 
 .cart {
-  padding: 10px;
+  padding: 5px;
   padding-bottom: 0px;
   width: 100%;
 }
@@ -188,11 +224,12 @@ h4 div {
 }
 
 .section {
-  padding-top: 50px;
-  padding-bottom: 30px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 .wrap {
   background-color: #eaebee;
 }
+
 </style>
