@@ -30,6 +30,7 @@
                       half-increments
                       readonly
                       size="14"
+                      background-color="gray"
                     ></v-rating>
   
                 <v-card-text class="text--primary">
