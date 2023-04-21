@@ -112,8 +112,8 @@ export default {
        ...mapGetters(reservationModule, ['formattedAvailableTimes']),
   },
   methods: {
-    ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring",]),
-    ...mapActions(reservationModule, ["calculateAvailableTimes"]),
+    ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring"]),
+    ...mapActions(reservationModule, ["calculateAvailableTimes", "setSelectedSeats"]),
     reserve() {
       this.$router.push({
         name: "HallSeatPage",
@@ -132,9 +132,17 @@ export default {
       });
     },
     order() {
+
+      const payload = {
+        cafe: this.cafe,
+        memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+      };
+
+      this.setSelectedSeats(payload)
+
       this.$router.push({
         name: "ProductListPage",
-        params: { cafeId: this.cafe.cafeId},
+        params: { cafeId: this.cafe.cafeId, isPacking: true },
       });
     },
     async cafeRating() {

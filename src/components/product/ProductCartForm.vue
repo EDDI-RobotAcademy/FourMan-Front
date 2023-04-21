@@ -35,40 +35,86 @@
             </tr>
          </tbody>
       </v-simple-table>
-      <v-card class="mt-10" style="height: 100px; border: 3px solid black" flat>
-         <v-container style="width: 600px">
-            <v-layout class="text-center" style="height: 100%; width: 100%; margin-top: 8px" justify-center>
-              <div>
-                <h5 style="font-weight: normal">상품 금액</h5>
-                <span style="font-size: 30px; font-weight: bold">
-                  {{ this.totalOrderPrice | comma}}
-                </span>
-                <span>원</span>
-              </div>
-              <v-spacer></v-spacer>
-              <h2 style="margin-top: 10px;">+</h2>
-              <v-spacer></v-spacer>
-              <div>
-                <h5 style="font-weight: normal">예매 비용</h5>
-                <div>
+      <v-card v-if="isPacking == false" class="mt-10" style="height: 100px; border: 3px solid black" flat>
+         <v-container style="width: 850px;">
+            <v-layout class="text-center" style="height: 100%; width: 100%; display:flex; align-items:center; margin-top: 4px;" justify-center>
+               <div>
+                     <h5 style="font-weight: normal">선택한 카페</h5>
+                     <span style="font-size: 30px; font-weight: bold">
+                        {{ this.selectedSeats.cafe.cafeName }}
+                     </span>
+               </div>
+               <div class="ml-5">
+                     <h5 style="font-weight: normal">예약 정보(좌석, 시간)</h5>
+                     <div>
+                        <span class="d-inline" style="font-size: 15px; font-weight: bold" v-for="(seat, idx) in selectedSeats.seatList" :key="idx">
+                           ( {{ seat.seatNo }} )
+                        </span>
+                     </div>
+                     <div>
+                        <span style="font-size: 15px; font-weight: bold">
+                           {{ selectedSeats.timeString }}
+                        </span>
+                     </div>
+               </div>
+               <v-spacer></v-spacer>
+               <h2 style="margin-top: 10px;">|</h2>
+               <v-spacer></v-spacer>
+               <div>
+                  <h5 style="font-weight: normal">상품 금액</h5>
                   <span style="font-size: 30px; font-weight: bold">
-                    {{ 3000 |comma}}
+                     {{ this.totalOrderPrice | comma}}
                   </span>
                   <span>원</span>
-                </div>
-              </div>
-              <v-spacer></v-spacer>
-              <h2 style="margin-top: 10px;">=</h2>
-              <v-spacer></v-spacer>
-              <div>
-                <h5 style="font-weight: normal">총 금액</h5>
-                <span style="font-size: 30px; font-weight: bold">
-                  {{ this.totalOrderPrice + 3000 |comma}}
-                </span>
-                <span>
-                  원
-                </span>
-              </div>
+               </div>
+               <v-spacer></v-spacer>
+               <h2 style="margin-top: 10px;">+</h2>
+               <v-spacer></v-spacer>
+               <div>
+                  <h5 style="font-weight: normal">예약 비용</h5>
+                  <div>
+                     <span style="font-size: 30px; font-weight: bold">
+                     {{ 3000 | comma}}
+                     </span>
+                     <span>원</span>
+                  </div>
+               </div>
+               <v-spacer></v-spacer>
+               <h2 style="margin-top: 10px;">=</h2>
+               <v-spacer></v-spacer>
+               <div>
+                  <h5 style="font-weight: normal">예상 총 금액</h5>
+                  <span style="font-size: 30px; font-weight: bold">
+                     {{ this.totalOrderPrice + 3000 | comma}}
+                  </span>
+                  <span>
+                     원
+                  </span>
+               </div>
+            </v-layout>
+         </v-container>
+      </v-card>
+      <v-card v-else class="mt-10" style="height: 100px; border: 3px solid black" flat>
+         <v-container style="width: 400px">
+            <v-layout class="text-center" style="height: 100%; width: 100%; display:flex; align-items:center; margin-top: 5px;" justify-center>
+               <div>
+                  <h5 style="font-weight: normal">선택한 카페(포장)</h5>
+                  <span style="font-size: 30px; font-weight: bold">
+                   {{ this.selectedSeats.cafe.cafeName }}
+                  </span>
+               </div>
+               <v-spacer></v-spacer>
+               <h2 style="margin-top: 10px;">|</h2>
+               <v-spacer></v-spacer>
+               <div>
+                  <h5 style="font-weight: normal">예상 총 금액</h5>
+                  <span style="font-size: 30px; font-weight: bold">
+                     {{ this.totalOrderPrice | comma}}
+                  </span>
+                  <span>
+                     원
+                  </span>
+               </div>
             </v-layout>
          </v-container>
       </v-card>
@@ -76,13 +122,16 @@
           <v-btn width="100%" height="40px" elevation="0" style="background-color: #5F4F4F; color: white"
                  @click="totalOrder"
                  class="brown lighten-1 white--text">
-            <h4>구매하기</h4>
+            <h4>결제 페이지로 이동</h4>
           </v-btn>
         </v-container>
    </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+const reservationModule = 'reservationModule'
 
 export default {
    name: "ProductCartForm",
@@ -95,7 +144,16 @@ export default {
       cartItems: {
          type: Array,
          required: true
-      }
+      },
+      isPacking: {
+         type: Boolean,
+         required: true,
+      },
+   },
+   computed: {
+      ...mapState(
+               reservationModule, ['selectedSeats'],
+      ),
    },
    methods: {
       cartItemMinus(cartItem) {
@@ -124,9 +182,17 @@ export default {
          if((Array.isArray(this.cartItems) && this.cartItems.length === 0)) {
             alert('장바구니에 물품이 존재하지 않습니다.')
          } else {
-            this.$router.push({
-               name: "TotalOrderPage",
-            })
+            if(this.isPacking == false) {
+               this.$router.push({
+                  name: "TotalOrderPage",
+                  params: { totalOrderPrice: this.totalOrderPrice + 3000, selectedSeats: this.selectedSeats }
+               })
+            } else { // 포장주문인 경우
+               this.$router.push({ 
+                  name: "TotalOrderPage",
+                  params: { totalOrderPrice: this.totalOrderPrice, selectedSeats: this.selectedSeats }
+               })
+            }
          }
       },
    },
@@ -149,6 +215,9 @@ export default {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
    },
+   mounted() {
+      console.log("selectedSeats: " + JSON.stringify(this.selectedSeats))
+   }
 }
 </script>
 

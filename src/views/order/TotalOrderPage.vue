@@ -17,14 +17,21 @@ export default {
    data() {
       return {
          cartItmes: [],
-         totalOrderPrice: 0,
+      }
+   },
+   props: {
+      totalOrderPrice: {
+         type: Number,
+         required: true
+      },
+      selectedSeats: {
+         type: Object,
+         required: true,
       }
    },
    async created() {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
-      for(let i = 0; i < this.cartItems.length; i++) {
-             this.totalOrderPrice += this.cartItems[i].totalPrice
-      } 
+      console.log("selectedSeats: " + JSON.stringify(this.selectedSeats))
    }
 }
 </script>
