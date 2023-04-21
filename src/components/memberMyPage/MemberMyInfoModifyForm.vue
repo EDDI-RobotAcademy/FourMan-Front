@@ -11,7 +11,25 @@
                <v-divider class="mt-3 mb-3"></v-divider>
                <div style="display: flex;">
                   <span style="width: 30%; color: gray; font-size: 15px;">닉네임</span>
-                  <span>{{ myInfo.nickName }}</span>
+                  <div style="width: 25%;">
+                     <v-text-field
+                     v-model="nickName"
+                     label="닉네임"
+                     :disabled="nickNamePass"
+                     :rules="nickName_rule"
+                     required
+                     dense
+                  />
+                  </div>
+                  <div class="ms-5">
+                     <v-btn
+                        dense
+                        class="brown darken-2 white--text"
+                        @click="checkDuplicateNickName"
+                        :disabled="nickNamePass"
+                        >중복 확인
+                     </v-btn>
+                  </div>
                </div>
                
                <v-divider class="mt-3 mb-3"></v-divider>
@@ -94,7 +112,17 @@
                <v-divider class="mt-3 mb-3"></v-divider>
                <div style="display: flex;">
                   <span style="width: 30%; color: gray; font-size: 15px;">휴대전화</span>
-                  <v-text-field type="text" v-model="phoneNumber" dense />
+                  <div style="width: 30%;">
+                     <v-text-field
+                     type="text"
+                     v-model="phoneNumber"
+                     dense
+                     label="전화번호 (' - ' 포함 11자리)"
+                     :disabled="false"
+                     :rules="phoneNumber_rule"
+                     required
+                     />
+                  </div>
                </div>
             </div>
          </div>
@@ -108,14 +136,14 @@
                <v-divider class="mt-3 mb-3"></v-divider>
                <div style="display: flex;">
                   <span style="width: 30%; color: gray; font-size: 15px;">주소</span>
-                  <span v-if="myInfo.address">{{ city }} {{ street }} {{ zipcode }}<v-text-field type="text" v-model="addressDetail" dense /></span>
+                  <span v-if="myInfo.address">{{ city }} {{ street }} {{ zipcode }}<v-text-field style="width: 30%;" type="text" v-model="addressDetail" dense /></span>
                   <v-btn @click="callDaumAddressApi">주소 변경</v-btn>
                </div>
             </div>
          </div>
          <div>
             <v-btn color="error" @click="withdrawal()">회원탈퇴</v-btn>
-            <v-btn class="mb-6 brown darken-2 white--text" type="submit" style="float: right;">
+            <v-btn class="mb-6 brown darken-2 white--text" type="submit" style="float: right;" :disabled="!isFormValid()">
                   정보 수정
             </v-btn>
          </div>
@@ -149,6 +177,7 @@ export default {
          password: '',
          passwordConfirm: '',
          dialog: false,
+         nickNamePass: false, //닉네임중복체크후 사용가능한 닉네임인지여부
          password_rule: [
          (v) =>
             this.state === "ins"
@@ -166,13 +195,26 @@ export default {
             !(v && v.length >= 20) || "패스워드는 20자를 초과 입력할 수 없습니다.",
          (v) => v === this.password || "패스워드가 일치하지 않습니다.",
          ],
+         phoneNumber_rule: [
+         (v) => !!v || "전화번호를 입력 해주세요.",
+         (v) => {
+            const replaceV = v.replace(/(\s*)/g, "");
+            const pattern = /010-\d{4}-\d{4}/;
+            return (
+               pattern.test(replaceV) ||
+               '전화번호 11자리를 입력해주세요. ("-"포함)'
+            );
+         },
+         ],
+         nickName_rule: [(v) => !!v || "닉네임을 입력해주세요."],
       }
    },
     methods: {
       ...mapActions(myPageModule,[
          'requestWithdrawalToSpring',
          'requestApplyNewPasswordToSpring',
-         'requestLogoutToSpring'
+         'requestLogoutToSpring',
+         'requestSignUpCheckNickNameToSpring'
       ]),
       openDialog () {
          this.dialog = !this.dialog;
@@ -200,10 +242,27 @@ export default {
             this.city = data.sido;
             this.zipcode = data.zonecode;
             this.street = data.sigungu + " " + fullRoadAddr;
-            this.streetPass = true;
          },
          }).open();
          
+      },
+      async checkDuplicateNickName() {
+         console.log("this.nickName", this.nickName);
+         if (!this.nickName) {
+         this.$refs.form.validate();
+         return;
+         }
+         const { nickName } = this;
+
+         const res = await this.requestSignUpCheckNickNameToSpring(nickName);
+         const isNickName = res.data;
+         if (isNickName) {
+         alert("사용 가능한 닉네임입니다!");
+         this.nickNamePass = true;
+         } else {
+         alert("중복된 닉네임입니다!");
+         this.nickNamePass = false;
+         }
       },
       onSubmit () {
          const { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode } = this
@@ -241,7 +300,23 @@ export default {
             await this.$router.push({ name: 'MainPage' })
          }
          
-      }
+      },
+      isFormValid() {
+         if(this.nickName != this.myInfo.nickName) {
+            if(this.nickNamePass) {
+               return (
+                  this.addressDetail &&
+                  this.phoneNumber_rule[1](this.phoneNumber) === true
+               );
+            }
+            return false
+         } else {
+            return (
+               this.addressDetail &&
+               this.phoneNumber_rule[1](this.phoneNumber) === true
+            );
+         }
+      },
     }
 }
 </script>
