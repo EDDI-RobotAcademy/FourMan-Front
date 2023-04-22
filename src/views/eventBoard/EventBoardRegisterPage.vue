@@ -27,9 +27,9 @@ export default {
     ...mapActions(eventBoardModule, ["requestCreateEventToSpring"]),
 
     async onSubmit(formData) {
-      await this.requestrequestCreateEventToSpring(formData);
+      await this.requestCreateEventToSpring(formData);
       await this.$router.push({
-        name: "eventBoardListPage",
+        name: "EventBoardListPage",
       });
     },
   },
