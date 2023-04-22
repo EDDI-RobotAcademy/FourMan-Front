@@ -1,5 +1,5 @@
 <template>
-  <div class="NanumGothic mt-16">
+  <div class="mt-16">
     <div class="text-center mb-10" style="font-size: 35px; font-weight: bold">
       FOUR MAN 소개
     </div>
