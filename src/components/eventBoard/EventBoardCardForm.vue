@@ -2,7 +2,9 @@
    <router-link
           :to="{
             name: 'EventBoardDetailPage',
+            params: { eventId: event.eventId.toString() },
           }"
+          
            class="router-link-reset"
         >
   <v-card class="mx-auto my-12 eventCard" max-width="360">

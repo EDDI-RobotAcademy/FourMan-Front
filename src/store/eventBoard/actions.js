@@ -1,5 +1,6 @@
 import {
     REQUEST_EVENT_LIST_TO_SPRING,
+    REQUEST_EVENT_DETAIL_TO_SPRING,
 
 
 
@@ -33,6 +34,21 @@ export default {
                 alert(error)
             })
     },
+
+    requestEventDetailToSpring({ commit }, eventId) {
+        console.log("requestEventDetailToSpring() 작동")
+        return axiosInst.get(`/event/detail/${eventId}`)
+            .then((res) => {
+                console.log("1res.data : " + res.data)
+                commit(REQUEST_EVENT_DETAIL_TO_SPRING, res.data)
+                console.log("2res.data : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
+
+    
 
 
 
