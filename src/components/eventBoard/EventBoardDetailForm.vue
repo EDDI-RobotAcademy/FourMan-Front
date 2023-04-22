@@ -5,6 +5,7 @@
       <v-row justify="center">
         <v-col cols="auto">
           <v-img
+          v-if="event.thumbnailFileName"
             contain
             width="800px"
             :src="
