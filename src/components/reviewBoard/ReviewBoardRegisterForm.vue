@@ -59,9 +59,9 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         ...mapActions (reviewBoardModule,[
             'requestCafeListToSpring'
         ]),
-        handleFileUpload () {
-              this.files = this.$refs.files.files
-        },
+        // handleFileUpload () {
+        //       this.files = this.$refs.files.files
+        // },
         onSubmit () {
           let formData = new FormData()
           let reviewBoardInfo = {
