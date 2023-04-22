@@ -36,9 +36,35 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
       },
       methods: {
           onSubmit () {
-              const { title, writer, content, memberId } = this
-              this.$emit('submit', { title, writer, content, memberId })
-          }
+            let formData = new FormData()
+            let freeBoardInfo = {
+                title: this.title,
+                writer: this.writer,
+                content: this.content,
+                memberId: this.memberId,
+            }
+
+            const editor = document.getElementById('editor'); // HTML 요소 가져오기
+            const html = editor.innerHTML;
+
+            const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
+            const matches = html.match(regex);
+
+            if(matches != null) {
+              matches.forEach((match, index) => {
+                const base64Data = match.split(',')[1]; // Base64 문자열 추출
+                const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
+                const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
+                formData.append('fileList', file); // Form 데이터에 File 객체 추가
+              });
+            }
+            formData.append(
+              "freeBoardInfo",
+              new Blob([JSON.stringify(freeBoardInfo)], { type: "application/json" })
+            )
+            
+            this.$emit('submit', formData)
+            },
       },
       mounted() {
         this.editor = new Editor({

@@ -22,6 +22,9 @@
           </span>
         </div>
         <v-divider class="mt-3 mb-3"></v-divider>
+        <div class="ms-4 mt-10 mb-10" v-if="freeBoardImages.length != 0">
+          <img v-for="(imagePath, idx) in freeBoardImages" :key="idx" :src="require(`@/assets/freeBoardImages/${imagePath.freeBoardImageResourcePath}`)" :style="{ maxWidth: '600px' }">
+        </div>
         <div v-html="compiledMarkdown"></div>
       </div>
     </div>
@@ -62,6 +65,9 @@ const freeBoardModule= 'freeBoardModule'
           freeBoard: {
               type: Object,
               required: true,
+          },
+          freeBoardImages: {
+              type: Array,
           }
       },
       methods: {

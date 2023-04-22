@@ -2,7 +2,7 @@
     <v-container>
       <div>
         <free-board-read-form v-if="freeBoard"
-        :freeBoard="freeBoard"/>
+        :freeBoard="freeBoard" :freeBoardImages="freeBoardImages"/>
         <p v-else>로딩중 .......... </p>
       </div>
       <div align="center">
@@ -43,7 +43,8 @@
       computed: {
           ...mapState(freeBoardModule,[
             'freeBoard',
-            'comments'
+            'comments',
+            'freeBoardImages'
           ])
       },
       methods: {
@@ -51,6 +52,7 @@
               'requestFreeBoardToSpring',
               'requestFreeBoardCommentRegisterToSpring',
               'requestFreeBoardCommentListToSpring',
+              'requestFreeBoardImageToSpring',
           ]),
           async onSubmitComment(payload) {
             const { comment, commentWriter, memberId} = payload
@@ -82,6 +84,7 @@
           console.log('boardId: ' + this.boardId)
           this.requestFreeBoardToSpring(this.boardId)
           this.requestFreeBoardCommentListToSpring(this.boardId)
+          this.requestFreeBoardImageToSpring(this.boardId)
       }
   }
   </script>
