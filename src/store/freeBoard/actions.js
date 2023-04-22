@@ -7,6 +7,8 @@ import {
 
     //게시물 검색 관련
     REQUEST_SEARCH_FREE_BOARD_LIST_TO_SPRING,
+
+    REQUEST_FREE_BOARD_IMAGE_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -129,6 +131,12 @@ export default {
             .catch(() => {
                 alert('error occured')
             })
-        }
+        },
+        requestFreeBoardImageToSpring ({ commit }, freeBoardId) {
+            return axiosInst.get(`/free-board/imageList/${freeBoardId}`)
+                .then((res) => {
+                    commit(REQUEST_FREE_BOARD_IMAGE_LIST_TO_SPRING, res.data)
+                })
+        },
 
 }

@@ -8,4 +8,6 @@ export default {
 
    //게시물 검색 관련
    searchBoards: [],
+
+   freeBoardImages: [],
 }
