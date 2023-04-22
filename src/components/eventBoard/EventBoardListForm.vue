@@ -1,16 +1,16 @@
 <template>
   <div>
-    <v-container class="cafe-list">
+    <v-container class="event-list">
       <div
-        class="empty_cafe"
+        class="empty_event"
         v-if="
-          !cafeLists || (Array.isArray(cafeLists) && cafeLists.length === 0)
+          !eventLists || (Array.isArray(eventLists) && eventLists.length === 0)
         ">
-        <p>카페가 존재하지 않습니다.</p>
+        <p>이벤트가가 존재하지 않습니다.</p>
       </div>
       <v-row>
-      <v-col v-for="(cafe, index) in calData" :key="index" cols="12" sm="6" md="4">
-          <CafeIntroBoardCardForm :cafe="cafe"></CafeIntroBoardCardForm >
+      <v-col v-for="(event, index) in calData" :key="index" cols="12" sm="6" md="4">
+          <EventBoardCardForm :event="event"></EventBoardCardForm >
 
       </v-col>
       </v-row>
@@ -27,15 +27,15 @@
 </template>
 
 <script>
-import CafeIntroBoardCardForm from "@/components/cafeIntroduceBoard/CafeIntroBoardCardForm.vue";
+import EventBoardCardForm from "@/components/eventBoard/EventBoardCardForm.vue";
 
 export default {
-  name: "CafeIntroBoardListForm",
+  name: "EventBoardListForm",
   components: {
-    CafeIntroBoardCardForm
+    EventBoardCardForm
   },
   props: {
-    cafeLists: {
+    eventLists: {
       type: Array,
     },
   },
@@ -48,6 +48,9 @@ export default {
   methods: {
     
   },
+  created(){
+      console.log("eventLists:",this.eventLists)
+  },
   computed: {
     startOffset() {
       return (this.curPageNum - 1) * this.dataPerPage;
@@ -56,10 +59,10 @@ export default {
       return this.startOffset + this.dataPerPage;
     },
     numOfPages() {
-      return Math.ceil(this.cafeLists.length / this.dataPerPage);
+      return Math.ceil(this.eventLists.length / this.dataPerPage);
     },
     calData() {
-      return this.cafeLists.slice(this.startOffset, this.endOffset);
+      return this.eventLists.slice(this.startOffset, this.endOffset);
     },
   },
 };

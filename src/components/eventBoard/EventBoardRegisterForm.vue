@@ -237,6 +237,8 @@ export default {
 
     async onSubmit() {
       console.log("이벤트 등록- registerform");
+      console.log("eventStartDate",this.eventStartDate)
+      console.log("eventEndDate",this.eventEndDate)
 
       //파일 업로드한 경우
       if (!this.thumbnailFile.length == 0) {

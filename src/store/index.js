@@ -10,6 +10,7 @@ import getters from "@/store/getters"
 import reservationModule from "@/store/reservation/reservationModule.js"
 import cafeIntroduceBoardModule from "@/store/cafeIntroduceBoard/cafeIntroduceBoardModule.js"
 import memberModule from "@/store/member/memberModule.js"
+import eventBoardModule from "@/store/eventBoard/eventBoardModule.js"
 
 //명진
 import freeBoardModule from '@/store/freeBoard/freeBoardModule.js'
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     reservationModule: reservationModule,
     cafeIntroduceBoardModule: cafeIntroduceBoardModule,
     memberModule: memberModule,
+    eventBoardModule: eventBoardModule,
 
     //명진
     freeBoardModule: freeBoardModule,
