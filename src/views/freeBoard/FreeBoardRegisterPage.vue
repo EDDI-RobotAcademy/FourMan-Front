@@ -17,8 +17,8 @@
           ...mapActions (freeBoardModule,[
               'requestCreateFreeBoardToSpring'
           ]),
-          async onSubmit (payload) {
-              const board = await this.requestCreateFreeBoardToSpring(payload)
+          async onSubmit (formData) {
+              const board = await this.requestCreateFreeBoardToSpring(formData)
               await this.$router.push({
                   name: 'FreeBoardListPage',
               })

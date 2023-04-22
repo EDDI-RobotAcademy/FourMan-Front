@@ -16,12 +16,3 @@
 .HANNA {
     font-family: 'HANNA', sans-serif;
 }
-
-@font-face {
-    font-family: 'NanumGothic';
-    src: url('../../public/fonts/NanumGothic.ttf');
-}
-
-.NanumGothic {
-    font-family: 'NanumGothic', sans-serif;
-}
