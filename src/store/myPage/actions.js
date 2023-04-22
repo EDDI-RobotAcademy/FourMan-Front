@@ -181,4 +181,15 @@ export default {
         async requestSignUpCheckNickNameToSpring({ }, nickName) {
             return  axiosInst.post(`/member/check-nickName/${nickName}`)
         },
+        requestAddPointToSpring({ }, payload) {
+            const {memberId, point} = payload
+            return  axiosInst.put(`/my-page/add-point/${memberId}`,
+            { point })
+            .then((res) => {
+                alert(point + "포인트가 지급되었습니다.")
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+        }
 }

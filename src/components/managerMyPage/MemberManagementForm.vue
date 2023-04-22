@@ -1,5 +1,6 @@
 <template>
-    <div class="mt-5">
+  <div class="mt-10 mb-10">
+    <div>
       <div class="mb-1" style="float: right;">
         <v-text-field
             label="회원 이름 검색"
@@ -16,6 +17,8 @@
                     <th>회원등급</th>
                     <th>이메일</th>
                     <th>전화번호</th>
+                    <th>보유 포인트</th>
+                    <th>포인트 지급</th>
                     <th></th>
                 </tr>
             </thead>
@@ -26,11 +29,18 @@
                     <td>{{ memberInfo.authorityName }}</td>
                     <td>{{ memberInfo.email }}</td>
                     <td>{{ memberInfo.phoneNumber }}</td>
+                    <td>{{ memberInfo.point }}</td>
+                    <td v-if="memberInfo.authorityName === '일반회원'">
+                      <input type="number" style="border: 1px solid #ccc; border-radius: 5px; width: 100px;" v-model="point" required>
+                      <v-btn class="ms-2" small @click="addPoint(memberInfo.id)">지급</v-btn>
+                    </td>
+                    <td v-else></td>
                     <td v-if="memberInfo.authorityName != '관리자'"><v-btn class="error" small @click="withdrawal(memberInfo.id, memberInfo.nickName)">탈퇴</v-btn></td>
                 </tr>
             </tbody>
 	    </table>
     </div>
+  </div>
 </template>
 
 <script>
@@ -47,18 +57,25 @@ export default {
     },
     data() {
       return {
-        searchText: ''
+        searchText: '',
+        point: 0,
       }
     },
     methods: {
       ...mapActions(myPageModule,[
-          'requestWithdrawalToSpring'
+          'requestWithdrawalToSpring',
+          'requestAddPointToSpring'
       ]),
       async withdrawal(memberId, nickName) {
         if(confirm('"' + nickName + '"' + ' 회원을 정말 탈퇴시키겠습니까?')) {
           await this.requestWithdrawalToSpring({ memberId })
           location.reload()
          }
+      },
+      async addPoint(memberId) {
+        const { point } = this
+        await this.requestAddPointToSpring({ memberId, point })
+        location.reload()
       }
     },
     computed: {
