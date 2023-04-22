@@ -63,7 +63,7 @@
           <v-col>
             <v-row class="mt-10 ml-1">
               <v-col cols="2"><h4>카페명</h4></v-col>
-               <v-col class="cafe-name-display">{{ cafeName }}</v-col>
+              <v-col class="cafe-name-display">{{ cafeName }}</v-col>
             </v-row>
             <v-row class="ml-1">
               <v-col cols="6"><h4>이벤트 시작일</h4></v-col>
@@ -144,6 +144,7 @@
           <textarea v-model="content" style="display: none" />
         </div>
 
+
         <!-- 등록하기 -->
         <v-row class="justify-center mt-15 mb-5">
           <div>
@@ -170,7 +171,8 @@
 </template>
 
 <script>
-// import { mapActions } from "vuex";
+import { mapActions } from "vuex";
+const eventBoardModule = "eventBoardModule";
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
 
@@ -188,6 +190,9 @@ export default {
       previewStyle: "vertical",
       placeholder: "내용을 입력하세요.",
       usageStatistics: false,
+      hooks: {
+        addImageBlobHook: (blob, callback) => this.uploadImage(blob, callback),
+      },
     });
     this.editor.on("change", () => {
       this.content = this.editor.getMarkdown();
@@ -203,24 +208,43 @@ export default {
       startDateMenu: false,
       endDateMenu: false,
       content: "",
-      // files: "",
 
-      // uploadPreImageUrl: [],
       uploadPreThumbnailUrl: [],
 
       thumbnailFile: "",
-      // multipleFiles: "",
-      // fileNum: 0,
-      // multiplePreview: [],
+
       thumbnailPreview: [],
     };
   },
 
   methods: {
-    // ...mapActions(cafeIntroduceBoardModule, [
-    //   "requestCreateEventToSpring",
-    //   // "requestCafeListToSpring",
-    // ]),
+    ...mapActions(eventBoardModule, ["requestImageURLToSpring"]),
+
+    async uploadImage(blob, callback) {
+      let formData = new FormData();
+      const fileExtension = blob.type.split("/")[1];
+      // 영문으로 된 랜덤 파일 이름 생성
+      const randomFileName = `image_${Math.random()
+        .toString(36)
+        .substring(2)}.${fileExtension}`;
+      // 수정된 파일 이름으로 Blob 객체를 File 객체로 변환
+      const file = new File([blob], randomFileName, { type: blob.type });
+      formData.append("file", file);
+
+      try {
+        const response = await this.requestImageURLToSpring(formData);
+        console.log("response", response);
+        console.log("response.data", response.data);
+        const imageUrl = response.data;
+        console.log("imageUrl", imageUrl);
+        // const decodedImageUrl = decodeURIComponent(imageUrl);
+        // callback(decodedImageUrl, "alt text");
+        callback(imageUrl, "alt text");
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    },
+
     required(value) {
       return !!value || "필수 입력 사항입니다.";
     },
@@ -237,8 +261,8 @@ export default {
 
     async onSubmit() {
       console.log("이벤트 등록- registerform");
-      console.log("eventStartDate",this.eventStartDate)
-      console.log("eventEndDate",this.eventEndDate)
+      console.log("eventStartDate", this.eventStartDate);
+      console.log("eventEndDate", this.eventEndDate);
 
       //파일 업로드한 경우
       if (!this.thumbnailFile.length == 0) {
@@ -253,20 +277,25 @@ export default {
           content: this.content,
           code: JSON.parse(localStorage.getItem("userInfo")).code,
         };
-        const editor = document.getElementById('editor'); // HTML 요소 가져오기
-        const html = editor.innerHTML;
+        // const editor = document.getElementById("editor"); // HTML 요소 가져오기
+        // const html = editor.innerHTML;
 
-        const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
-        const matches = html.match(regex);
+        // const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
+        // const matches = html.match(regex);
 
-        if(matches != null) {
-          matches.forEach((match, index) => {
-            const base64Data = match.split(',')[1]; // Base64 문자열 추출
-            const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
-            const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
-            formData.append('fileList', file); // Form 데이터에 File 객체 추가
-          });
-        }
+        // if (matches != null) {
+        //   matches.forEach((match, index) => {
+        //     const base64Data = match.split(",")[1]; // Base64 문자열 추출
+        //     const blob = new Blob(
+        //       [Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0))],
+        //       { type: "image/png" }
+        //     ); // Blob 생성
+        //     const file = new File([blob], `image_${index}.png`, {
+        //       type: "image/png",
+        //     }); // File 객체 생성
+        //     formData.append("fileList", file); // Form 데이터에 File 객체 추가
+        //   });
+        // }
 
         formData.append(
           "info",
@@ -274,12 +303,7 @@ export default {
             type: "application/json",
           })
         );
-        this.$emit('submit', formData)
-
-        // await this.requestCreateEventToSpring(formData);
-        // await this.requestCafeListToSpring();
-        // await this.$router.push({ name: "EventBoardListPage" });
-        //파일 업로드 하지 않은 경우
+        this.$emit("submit", formData);
       } else {
         alert("이벤트 사진을 업로드해주세요");
       }
@@ -288,10 +312,7 @@ export default {
       this.thumbnailFile = "";
       this.$refs.thumbnailFile.value = "";
     },
-    // uploadCancel() {
-    //   this.multipleFiles = "";
-    //   this.$refs.multipleFiles.value = "";
-    // },
+
     cancel() {
       this.$router.go(-1);
     },
