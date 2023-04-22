@@ -48,6 +48,10 @@ export default {
             })
     },
 
+    requestImageURLToSpring({},formData){
+        return  axiosInst.post(`/event/api/upload/`,formData)
+    }
+
     
 
 
