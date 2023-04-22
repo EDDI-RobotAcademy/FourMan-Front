@@ -1,4 +1,5 @@
 import {
+    REQUEST_EVENT_LIST_TO_SPRING,
 
 
 
@@ -20,6 +21,17 @@ export default {
             .catch((res) => {
                 alert(res.message);
             });
+    },
+    requestEventListToSpring({ commit }) {
+        console.log("requestEventListToSpring() 작동")
+        return axiosInst.get(`/event/list`)
+            .then((res) => {
+                commit(REQUEST_EVENT_LIST_TO_SPRING, res.data)
+                console.log("res.data : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
     },
 
 
