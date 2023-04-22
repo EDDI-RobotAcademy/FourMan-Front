@@ -41,7 +41,6 @@ export default {
   },
   data() {
     return {
-      listData: ["cafeLists"],
       dataPerPage: 6,
       curPageNum: 1,
     };
