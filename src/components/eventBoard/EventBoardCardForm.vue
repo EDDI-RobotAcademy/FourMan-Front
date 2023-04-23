@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 const eventBoardModule = "eventBoardModule";
 
 export default {
