@@ -5,7 +5,7 @@
       <v-row justify="center">
         <v-col cols="auto">
           <v-img
-          v-if="event.thumbnailFileName"
+            v-if="event.thumbnailFileName"
             contain
             width="800px"
             :src="
@@ -52,19 +52,21 @@
               </v-btn>
             </v-card-title>
             <v-list>
-              <v-list-item>
+              <v-list-item @click="shareOnFacebook">
                 <v-list-item-action>
-                  <v-icon color="indigo"> mdi-facebook </v-icon>
+                  <v-icon color="indigo">mdi-facebook</v-icon>
                 </v-list-item-action>
                 <v-card-title>Facebook</v-card-title>
               </v-list-item>
-              <v-list-item>
+
+              <v-list-item @click="shareOnTwitter">
                 <v-list-item-action>
-                  <v-icon color="cyan"> mdi-twitter </v-icon>
+                  <v-icon color="cyan">mdi-twitter</v-icon>
                 </v-list-item-action>
                 <v-card-title>Twitter</v-card-title>
               </v-list-item>
-              <v-list-item>
+
+              <v-list-item @click="shareByEmail">
                 <v-list-item-action>
                   <v-icon>mdi-email</v-icon>
                 </v-list-item-action>
@@ -77,7 +79,7 @@
               :label="copied ? 'Link copied' : 'Click to copy link'"
               class="pa-4"
               readonly
-              value="https://g.co/kgs/nkrK43"
+              :value="shareUrl"
               @click="copy"
             ></v-text-field>
           </v-card>
@@ -112,13 +114,35 @@ export default {
     loaded: false,
     copied: false,
     dialog: false,
+    shareUrl: "",
   }),
   methods: {
-    copy() {
-      const markup = this.$refs.link;
-      markup.focus();
-      document.execCommand("selectAll", false, null);
-      this.copied = document.execCommand("copy");
+    shareOnFacebook() {
+      const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        this.shareUrl
+      )}`;
+      window.open(url, "_blank");
+    },
+    shareOnTwitter() {
+      const url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        this.shareUrl
+      )}&text=${encodeURIComponent("Check out this cafe!")}`;
+      window.open(url, "_blank");
+    },
+    shareByEmail() {
+      const url = `mailto:?subject=${encodeURIComponent(
+        "Check out this cafe!"
+      )}&body=${encodeURIComponent(this.shareUrl)}`;
+      window.location.href = url;
+    },
+    async copy() {
+      try {
+        await navigator.clipboard.writeText(this.shareUrl);
+        this.copied = true;
+      } catch (err) {
+        console.error("Failed to copy text: ", err);
+        this.copied = false;
+      }
     },
 
     reserve() {
@@ -129,6 +153,9 @@ export default {
         },
       });
     },
+  },
+  created() {
+    this.shareUrl = window.location.href;
   },
   watch: {
     event: {
