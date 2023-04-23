@@ -1,16 +1,17 @@
 <template>
    <v-container>
       <div>
-         <total-order-form :cartItems="cartItems" :totalOrderPrice="totalOrderPrice" :selectedSeats="selectedSeats" :isOrderPacking="isOrderPacking"/>
+         <total-order-form :cartItems="cartItems" :totalOrderPrice="totalOrderPrice" :selectedSeats="selectedSeats" :isOrderPacking="isOrderPacking" :holdPoint="holdPoint"/>
       </div>
    </v-container>
 </template>
 
 <script>
 import TotalOrderForm from '@/components/order/TotalOrderForm.vue'
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const reservationModule = 'reservationModule'
+const orderModule = 'orderModule'
 
 export default {
    name: "TotalOrderPage",
@@ -21,12 +22,20 @@ export default {
       return {
          cartItmes: [],
          totalOrderPrice: 0,
-         isOrderPacking: Boolean
+         isOrderPacking: Boolean,
       }
    },
    computed: {
       ...mapState(
          reservationModule, ['selectedSeats'],
+      ),
+      ...mapState(
+         orderModule, ['holdPoint']
+      ),
+   },
+   methods: {
+      ...mapActions(
+         orderModule, ['requestHoldPointToSpring'],
       ),
    },
    async created() {
@@ -38,6 +47,7 @@ export default {
       for(let i = 0; i < this.cartItems.length; i++) {
              this.totalOrderPrice += this.cartItems[i].totalPrice
       } 
+      this.requestHoldPointToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
       console.log("selectedSeats: " + JSON.stringify(this.selectedSeats))
    }
 }

@@ -49,7 +49,7 @@
 
                     <tfoot v-if="isOrderPacking == false" class="wrap">
                       <tr>
-                        <th class="text-center" style="font-size: 16px; font-weight: bold">최종 결제 정보</th>
+                        <th class="text-center" style="font-size: 16px; font-weight: bold">장바구니 정보</th>
                         <th>
                           <span class="d-inline" style="font-size: 14px; font-weight: bold">선택 좌석 : </span>
                           <span class="d-inline" style="font-size: 14px; font-weight: bold" v-for="(seat, idx) in selectedSeats.seatList" :key="idx">
@@ -67,7 +67,7 @@
                     <tfoot v-else class="wrap">
                      <tr>
                         <!-- <th class="text-center" style="font-size: 18px; font-weight: bold">{{ this.selectedSeats.cafe.cafeName }}</th> -->
-                        <th class="text-center" style="font-size: 16px; font-weight: bold">최종 결제 정보</th>
+                        <th class="text-center" style="font-size: 16px; font-weight: bold">장바구니 정보</th>
                         <th colspan="2"></th>
                         <th style="font-size: 16px">{{ totalOrderPrice | comma}}원</th>
                      </tr>
@@ -76,10 +76,28 @@
                 </table>
               </div>
             </div>
+            <div>
+              <v-row>
+                <v-col>
+                  <v-card flat>
+                    <v-card-text>
+                      <h2 class="mt-2">포인트 사용</h2>
+                      <div class="d-flex align-center mt-5">
+                        <v-text-field v-model.number="usePoint" label="사용할 포인트" min="0" :max="holdPoint" clearable="false" outlined></v-text-field>
+                        <div class="ml-4">보유 포인트: {{ holdPoint | comma }}P</div>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+                
+              </v-row>
+            </div>
           </v-card>
-          <v-btn @click="purchase" block x-large color="#5F4F4F" style="color: white; font-size: 1.1em" >
-            {{ totalOrderPrice | comma }}원 결제하기
-          </v-btn>
+          <div>
+            <v-btn @click="purchase" block x-large color="#5F4F4F" style="color: white; font-size: 1.1em" >
+              {{ totalOrderPrice | comma }}원 결제하기
+            </v-btn>
+          </div> 
         </div>
       </v-col>
     </v-row>
@@ -95,7 +113,8 @@ export default {
    name: "TotalOrderForm",
    data() {
     return {
-      totalOrderPriceData: Number
+      totalOrderPriceData: Number,
+      usePoint: 0,
     }
    },
    props: {
@@ -113,6 +132,10 @@ export default {
       },
       isOrderPacking: {
         type: Boolean,
+        required: true,
+      },
+      holdPoint: {
+        type: Number,
         required: true,
       }
    },
@@ -135,6 +158,7 @@ export default {
       ),
       purchase() {
         this.kakaoPayAPI()
+        // this.saveOrderInformations()
       },
       saveOrderInformations() {
         let formData = new FormData()
