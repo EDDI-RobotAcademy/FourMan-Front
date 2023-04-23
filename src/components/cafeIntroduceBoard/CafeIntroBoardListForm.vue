@@ -1,10 +1,6 @@
 <template>
   <div>
     <v-container class="cafe-list">
-      <v-row>
-        <v-col cols="2"> </v-col>
-
-        <v-col class="d-flex justify-end" cols="10">
           <v-row class="d-flex justify-end">
             <v-col cols="7">
               <v-tabs
@@ -31,8 +27,6 @@
               ></v-text-field>
             </v-col>
           </v-row>
-        </v-col>
-      </v-row>
 
       <div
         class="empty_cafe"
