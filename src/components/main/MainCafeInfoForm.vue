@@ -69,7 +69,10 @@ export default {
       }
     },
     goNext() {
-      if (this.currentIndex < this.cafeLists.length - 3) {
+      if (
+        this.eventLists && this.eventLists.length > 4 &&
+        this.currentIndex < this.eventLists.length - 3
+      ) {
         this.currentIndex++;
       } else {
         this.currentIndex = 0;
@@ -89,9 +92,9 @@ export default {
         .map((cafe, idx) => ({ ...cafe, uniqueKey: this.currentIndex + idx }));
     },
   },
-  created() {
-    this.requestCafeListToSpring();
-    this.autoSlide();
+  async created() {
+    await this.requestCafeListToSpring();
+    await this.autoSlide();
   },
   beforeDestroy() {
     clearInterval(this.autoSlideInterval);
