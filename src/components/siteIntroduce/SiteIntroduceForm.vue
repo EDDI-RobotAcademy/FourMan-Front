@@ -48,7 +48,6 @@
       </div>
     </div>
 
-    
     <div
       class="mb-16"
       style="display: flex; margin-left: 200px; ,margin-right: 300px"
@@ -96,23 +95,22 @@
           </div>
           <div>4명 (본사 기준, 2023년 기준)</div>
         </div>
-        <v-divider class="m" /> 
+        <v-divider class="m" />
       </div>
     </div>
 
-       <div
-          class="mb-16"
-          style="display: flex; margin-left: 200px; ,margin-right: 300px"
-        >
-          <div style="width: 20%; font-size: 18px; font-weight: bold">
-            COMPANY<br />
-            LOCATION
-          </div>
-            <div style="width: 70%">
-          <div id="map" style="width: 100%; height: 400px"></div>
-          </div>
-        </div>
-
+    <div
+      class="mb-16"
+      style="display: flex; margin-left: 200px; ,margin-right: 300px"
+    >
+      <div style="width: 20%; font-size: 18px; font-weight: bold">
+        COMPANY<br />
+        LOCATION
+      </div>
+      <div style="width: 70%">
+        <div id="map" style="width: 100%; height: 400px"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -134,13 +132,24 @@ export default {
     initMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(37.49888608810788, 127.03282942894914), // 좌표값을 변경하여 회사 위치를 설정하세요.
-        level: 3, // 지도 확대 레벨
+        center: new kakao.maps.LatLng(37.49888608810788, 127.03282942894914),
+        level: 3,
       };
 
       const map = new kakao.maps.Map(container, options);
       const marker = new kakao.maps.Marker({ position: options.center });
       marker.setMap(map);
+
+      // Create custom overlay
+      const content =
+        '<div style="padding:5px; font-weight:bold; color:brown;">남도빌딩</div>';
+      const customOverlay = new kakao.maps.CustomOverlay({
+        position: options.center,
+        content: content,
+        yAnchor: 2,
+      });
+
+      customOverlay.setMap(map);
     },
   },
 };
