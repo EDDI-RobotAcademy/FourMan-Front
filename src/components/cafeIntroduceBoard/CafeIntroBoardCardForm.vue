@@ -85,7 +85,7 @@
         </v-chip-group>
       </v-card-text>
 
-      <v-card-actions class="d-flex justify-space-around flex-wrap">
+      <v-card-actions  class="actions-container d-flex flex-sm-row ">
         <v-btn class="brown darken-2 white--text" text @click="showDetail">
           상세 보기
         </v-btn>
@@ -258,7 +258,11 @@ export default {
   height: 150px; /* 원하는 높이로 설정 */
   overflow-y: auto; /* 스크롤바가 필요한 경우 보여주기 */
 }
-.flex-wrap {
-  flex-wrap: wrap;
+
+.actions-container > .v-btn {
+  margin-bottom: 8px;
+  margin-left: 4px;
+  margin-right: 4px;
 }
+
 </style>
