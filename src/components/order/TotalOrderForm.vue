@@ -157,12 +157,33 @@ export default {
             })
         }
 
-        let orderInfo = {
-          memberId: memberId,
-          totalQuantity: totalQuantity,
-          totalPrice: totalPrice,
-          cartItemList: cartItemList
-        } 
+        let seatList = []
+
+        if(this.isOrderPacking == false) { // 예약 주문
+          for(let i = 0; i < this.selectedSeats.seatList.length; i++) {
+            seatList.push(this.selectedSeats.seatList[i].seatNo)
+          }
+  
+          var reservationInfo = {
+            seatList: seatList,
+            time: this.selectedSeats.timeString,
+          }
+        } else { // 포장 주문 
+          var reservationInfo = {
+            seatList: null,
+            time: null,
+          }
+        }
+
+        var orderInfo = {
+            memberId: memberId,
+            cafeId: this.selectedSeats.cafe.cafeId,
+            totalQuantity: totalQuantity,
+            totalPrice: totalPrice,
+            isPacking: this.isOrderPacking,
+            cartItemList: cartItemList,
+            reservationInfo: reservationInfo
+          } 
 
         console.log('orderInfo: ' + JSON.stringify(orderInfo))
         
