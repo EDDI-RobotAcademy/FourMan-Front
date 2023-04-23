@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import state from "@/store/cafeIntroduceBoard/cafeIntroduceBoardStates"
 import actions from "@/store/cafeIntroduceBoard/actions"
 import mutations from "@/store/cafeIntroduceBoard/mutations"
-// import getters from "@/store/cafeIntroduceBoard/getters"
+import getters from "@/store/cafeIntroduceBoard/getters"
 
 Vue.use(Vuex)
 
@@ -13,5 +13,6 @@ const cafeIntroduceBoardModule={
     state,
     actions,
     mutations,
+    getters,
 }
 export default cafeIntroduceBoardModule
