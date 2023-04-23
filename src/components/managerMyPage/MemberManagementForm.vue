@@ -31,7 +31,7 @@
                     <td>{{ memberInfo.phoneNumber }}</td>
                     <td>{{ memberInfo.point }}</td>
                     <td v-if="memberInfo.authorityName === '일반회원'">
-                      <input type="number" style="border: 1px solid #ccc; border-radius: 5px; width: 100px;" v-model="point" required>
+                      <input type="number" style="border: 1px solid #ccc; border-radius: 5px; width: 100px;" v-model="point" required step="10">
                       <v-btn class="ms-2" small @click="addPoint(memberInfo.id)">지급</v-btn>
                     </td>
                     <td v-else></td>
