@@ -5,24 +5,43 @@
         class="empty_event"
         v-if="
           !eventLists || (Array.isArray(eventLists) && eventLists.length === 0)
-        ">
+        "
+      >
         <p>이벤트가가 존재하지 않습니다.</p>
       </div>
       <v-row>
-      <v-col v-for="(event, index) in calData" :key="index" cols="12" sm="6" md="4">
-          <EventBoardCardForm :event="event"></EventBoardCardForm >
-
-      </v-col>
+        <v-col
+          v-for="(event, index) in calData"
+          :key="index"
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <EventBoardCardForm :event="event"></EventBoardCardForm>
+        </v-col>
       </v-row>
     </v-container>
-
-    <v-pagination
-      v-model="curPageNum"
-      :length="numOfPages"
-      color="brown darken-2"
-      class="mt-10"
-      flat
-    ></v-pagination>
+    <div class="actions">
+      <v-btn
+        v-if="cafePass === 'CAFE'"
+        type="button"
+        class="brown darken-2 white--text"
+        @click="register"
+        large
+        style="width: 150px; font-size: 18px"
+      >
+        이벤트 등록
+      </v-btn>
+      <div class="pagination-wrapper">
+        <v-pagination
+          v-model="curPageNum"
+          :length="numOfPages"
+          color="brown darken-2"
+          class=""
+          flat
+        ></v-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,7 +51,7 @@ import EventBoardCardForm from "@/components/eventBoard/EventBoardCardForm.vue";
 export default {
   name: "EventBoardListForm",
   components: {
-    EventBoardCardForm
+    EventBoardCardForm,
   },
   props: {
     eventLists: {
@@ -43,13 +62,16 @@ export default {
     return {
       dataPerPage: 6,
       curPageNum: 1,
+      cafePass: JSON.parse(localStorage.getItem("userInfo")).authorityName,
     };
   },
   methods: {
-    
+    register() {
+      this.$router.push("/event-board-register-page");
+    },
   },
-  created(){
-      console.log("eventLists:",this.eventLists)
+  created() {
+    console.log("eventLists:", this.eventLists);
   },
   computed: {
     startOffset() {
@@ -67,3 +89,15 @@ export default {
   },
 };
 </script>
+<style scoped>
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pagination-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+</style>
