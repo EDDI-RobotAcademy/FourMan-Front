@@ -2,7 +2,7 @@
   <div class="main-container ms-10 me-10 mt-10 mb-10">
     <v-container>
       <div>
-        <h1>카페 소개 <v-icon>mdi-coffee</v-icon></h1>
+        <h1> 이벤트 <v-icon>mdi-coffee</v-icon></h1>
       </div>
       <div
         class="mt-5 mb-5"
@@ -13,26 +13,26 @@
           align-items: center;
         "
         v-if="
-          !cafeLists || (Array.isArray(cafeLists) && cafeLists.length === 0)
+          !filteredEventLists || (Array.isArray(filteredEventLists) && filteredEventLists.length === 0)
         "
       >
-        <h2>등록된 카페가 없습니다!</h2>
+        <h2>진행중인 이벤트가 없습니다!</h2>
       </div>
       <div class="carousel-wrapper" style="position: relative">
         <v-row>
           <v-col
-            v-for="(cafe, index) in visibleCafes"
+            v-for="(event, index) in visibleEvents"
             :key="index"
             cols="12"
             sm="4"
             md="4"
           >
-            <CafeIntroBoardCardForm
-              :cafe="cafe"
-              v-if="cafe"
+            <EventBoardCardForm
+              :event="event"
+              v-if="event"
               :index="index"
-              :uniqueKey="cafe.uniqueKey"
-            ></CafeIntroBoardCardForm>
+              :uniqueKey="event.uniqueKey"
+            ></EventBoardCardForm>
           </v-col>
         </v-row>
         <v-btn icon @click="goPrev" class="carousel-arrow left"
@@ -43,8 +43,8 @@
         >
       </div>
       <div class="text-center mt-10">
-            <v-btn class="me-2 brown darken-2 white--text" width="20%" :to="{ name: 'CafeIntroBoardListPage' }">
-                <h4>카페소개</h4>
+            <v-btn class="me-2 brown darken-2 white--text" width="20%" :to="{ name: 'EventBoardListPage' }">
+                <h4>이벤트 게시판</h4>
             </v-btn>
         </div>
     </v-container>
@@ -52,13 +52,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import CafeIntroBoardCardForm from "@/components/cafeIntroduceBoard/CafeIntroBoardCardForm.vue";
-const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
+import { mapState, mapActions, mapGetters } from "vuex";
+import EventBoardCardForm from "@/components/eventBoard/EventBoardCardForm.vue";
+const eventBoardModule = "eventBoardModule";
 export default {
-  name: "MainCafeInfoForm",
+  name: "MainEventForm",
   components: {
-    CafeIntroBoardCardForm,
+    EventBoardCardForm,
   },
   data() {
     return {
@@ -67,7 +67,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(cafeIntroduceBoardModule, ["requestCafeListToSpring"]),
+    ...mapActions(eventBoardModule, ["requestEventListToSpring"]),
     goPrev() {
       if (this.currentIndex > 0) {
         this.currentIndex--;
@@ -75,8 +75,8 @@ export default {
     },
     goNext() {
       if (
-        this.cafeLists && this.cafeLists.length > 4 &&
-        this.currentIndex < this.cafeLists.length - 3
+       this.filteredEventLists && this.filteredEventLists.length > 4 &&
+        this.currentIndex < this.filteredEventLists.length - 3
       ) {
         this.currentIndex++;
       } else {
@@ -90,16 +90,20 @@ export default {
     },
   },
   computed: {
-    ...mapState(cafeIntroduceBoardModule, ["cafeLists"]),
-    visibleCafes() {
-      return this.cafeLists
+    ...mapGetters(eventBoardModule, ["filteredEventLists"]),
+    visibleEvents() {
+      return this.filteredEventLists
         .slice(this.currentIndex, this.currentIndex + 3)
-        .map((cafe, idx) => ({ ...cafe, uniqueKey: this.currentIndex + idx }));
+        .map((event, idx) => ({
+          ...event,
+          uniqueKey: this.currentIndex + idx,
+        }));
     },
   },
   async created() {
-    await this.requestCafeListToSpring();
+    await this.requestEventListToSpring();
     await this.autoSlide();
+    console.log("filteredEventLists",this.filteredEventLists)
   },
   beforeDestroy() {
     clearInterval(this.autoSlideInterval);
