@@ -1,6 +1,39 @@
 <template>
   <div>
     <v-container class="cafe-list">
+      <v-row>
+        <v-col cols="2"> </v-col>
+
+        <v-col class="d-flex justify-end" cols="10">
+          <v-row class="d-flex justify-end">
+            <v-col cols="7">
+              <v-tabs
+                v-model="selectedSorting"
+                background-color="transparent"
+                slider-color="brown darken-2"
+                @change="sortCafes"
+              >
+               <v-tab>최신 등록 순</v-tab>
+                <v-tab>인기순</v-tab>
+                <v-tab>별점 높은 순</v-tab>
+                <v-tab>별점 많은 순</v-tab>
+              </v-tabs>
+            </v-col>
+
+            <v-col cols="4">
+              <v-text-field
+                label="제목,주소 검색"
+                append-icon="mdi-magnify"
+                outlined
+                dense
+                @input="searchCafes"
+                v-model="searchText"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+
       <div
         class="empty_cafe"
         v-if="
@@ -60,6 +93,8 @@ export default {
   },
   data() {
     return {
+      selectedSorting: "최신등록순",
+      searchText: "",
       cafePass: JSON.parse(localStorage.getItem("userInfo")).authorityName,
       dataPerPage: 6,
       curPageNum: 1,
@@ -67,6 +102,12 @@ export default {
   },
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestCafeNumToSpring"]),
+    sortCafes(){
+
+    },
+    searchCafes(){
+
+    },
 
     async checkCafeNum() {
       if (

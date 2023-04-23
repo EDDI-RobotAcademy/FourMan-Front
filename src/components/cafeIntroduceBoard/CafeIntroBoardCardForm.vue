@@ -44,7 +44,19 @@
             <span v-if="rating">{{ rating.toFixed(1) }}</span>
             <span v-else>0</span>
             <span> ({{ totalRating }})</span>
-            <!-- 별점과 참여자수 업뎃요망 -->
+
+            <v-icon
+              v-if="!isFavorite"
+              class="mx-2"
+              color="grey"
+              @click="toggleFavorite"
+            >
+              mdi-heart-outline
+            </v-icon>
+
+            <v-icon v-else class="mx-2" color="red" @click="toggleFavorite">
+              mdi-heart
+            </v-icon>
           </div>
         </v-row>
 
@@ -94,6 +106,7 @@
 import { mapActions } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 const reservationModule = "reservationModule";
+const memberModule = "memberModule";
 const orderModule = "orderModule";
 export default {
   name: "CafeIntroBoardCardForm",
@@ -113,9 +126,7 @@ export default {
   },
   async created() {
     await this.updateCafeInfo();
-    await this.cafeRating();
-    this.loaded = true;
-    console.log(this.times);
+
   },
   watch: {
     index() {
@@ -131,17 +142,18 @@ export default {
     rating: 0,
     totalRating: 0,
     loaded: false,
+    isFavorite: false,
   }),
   computed: {},
   methods: {
-    ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring"]),
+    ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring",]),
     ...mapActions(reservationModule, [
       "calculateAvailableTimes",
       "setSelectedSeats",
     ]),
     ...mapActions(orderModule, ["updateIsOrderPacking"]),
+     ...mapActions(memberModule, ["sendFavoriteStatusToSpring","checkFavoriteStatus"]),
 
-   
     async updateCafeInfo() {
       console.log("this.cafe.startTime", this.cafe.startTime);
       console.log("this.cafe.endTime", this.cafe.endTime);
@@ -152,6 +164,14 @@ export default {
       });
       this.availableTimes = this.formattedAvailableTimes(availableTimes);
       await this.cafeRating();
+      const payload = {
+        cafeId: this.cafe.cafeId,
+        memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+      };
+      const res= await this.checkFavoriteStatus(payload)
+      console.log("찜했냐res.data",res.data)
+      this.isFavorite=res.data
+
       this.loaded = true;
       console.log(this.times);
     },
@@ -188,6 +208,15 @@ export default {
           timeSelection: this.selection,
         },
       });
+    },
+    async toggleFavorite() {
+      this.isFavorite = !this.isFavorite;
+      const payload = {
+        cafeId: this.cafe.cafeId,
+        memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+        isFavorite: this.isFavorite,
+      };
+      await this.sendFavoriteStatusToSpring(payload);
     },
 
     showDetail() {
@@ -229,8 +258,7 @@ export default {
   height: 150px; /* 원하는 높이로 설정 */
   overflow-y: auto; /* 스크롤바가 필요한 경우 보여주기 */
 }
- .flex-wrap {
-    flex-wrap: wrap;
-  }
-
+.flex-wrap {
+  flex-wrap: wrap;
+}
 </style>
