@@ -1,5 +1,69 @@
 <template>
-    <div style="margin-left: 100px; margin-right: 100px;">
+    <div class="mt-5" style="margin-left: 100px; margin-right: 100px;">
+        <div class="ms-3">
+            <h4>MONTH</h4>
+        </div>
+        <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
+            <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                매출액: {{ myCafeInfo.monthTotalSales }}
+                <v-progress-linear
+                    :height="10"
+                    :value="myCafeInfo.monthTotalSales / 1000000"
+                    color="blue"
+                    background-color="grey lighten-1"
+                />
+            </div>
+            <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                예약건수: {{ myCafeInfo.monthReservationCount }}
+                <v-progress-linear
+                    :height="10"
+                    :value="myCafeInfo.monthReservationCount / 100"
+                    color="blue"
+                    background-color="grey lighten-1"
+                />
+            </div>
+            <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                주문건수: {{ myCafeInfo.monthOrderCount }}
+                <v-progress-linear
+                    :height="10"
+                    :value="myCafeInfo.dayOrderCount / 100"
+                    color="blue"
+                    background-color="grey lighten-1"
+                />
+            </div>
+        </div>
+        <div class="ms-3">
+            <h4>DAY</h4>
+        </div>
+        <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
+            <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                매출액: {{ myCafeInfo.dayTotalSales }}
+                <v-progress-linear
+                    :height="10"
+                    :value="myCafeInfo.dayTotalSales / 10000"
+                    color="blue"
+                    background-color="grey lighten-1"
+                />
+            </div>
+            <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                예약건수: {{ myCafeInfo.dayReservationCount }}
+                <v-progress-linear
+                    :height="10"
+                    :value="myCafeInfo.dayReservationCount"
+                    color="blue"
+                    background-color="grey lighten-1"
+                />
+            </div>
+            <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                주문건수: {{ myCafeInfo.dayOrderCount }}
+                <v-progress-linear
+                    :height="10"
+                    :value="myCafeInfo.dayOrderCount"
+                    color="blue"
+                    background-color="grey lighten-1"
+                />
+            </div>
+        </div>
         <div class="mt-5 mb-5" style="border: 1px solid #ccc; border-radius: 10px;">
             <div style="margin: 20px">
                 <div class="mb-5">
