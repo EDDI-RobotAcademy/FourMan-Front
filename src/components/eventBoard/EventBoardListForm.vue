@@ -123,7 +123,6 @@ export default {
   async created() {
     console.log("eventLists:", this.eventLists);
     await this.requestCafeListToSpring();
-    await this.filterEvents();
   },
   computed: {
     ...mapGetters(cafeIntroduceBoardModule, ["formattedCafeList"]),

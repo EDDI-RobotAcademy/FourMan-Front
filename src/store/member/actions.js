@@ -10,22 +10,22 @@ import router from '@/router';
 
 export default {
     //멤버 관련
-     async requestSignUpCheckEmailToSpring({ }, email) {
-        return  axiosInst.post(`/member/check-email/${email}`)
-       
+    async requestSignUpCheckEmailToSpring({ }, email) {
+        return axiosInst.post(`/member/check-email/${email}`)
+
     },
     async requestSignUpCheckNickNameToSpring({ }, nickName) {
-        return  axiosInst.post(`/member/check-nickName/${nickName}`)
-          
+        return axiosInst.post(`/member/check-nickName/${nickName}`)
+
     },
     async requestSignUpCheckCafeCodeToSpring({ }, codeText) {
-         return axiosInst.post(`/member/check-cafe/${codeText}`)
-        
-          
+        return axiosInst.post(`/member/check-cafe/${codeText}`)
+
+
     },
-    async  requestSignUpCheckManagerCodeToSpring({ }, codeText) {
+    async requestSignUpCheckManagerCodeToSpring({ }, codeText) {
         return axiosInst.post(`/member/check-manager/${codeText}`)
-     
+
     },
     requestSignOutToSpring({ commit }, token) {
         return axiosInst.post("/member/logout", token)
@@ -45,7 +45,7 @@ export default {
             email, password, city, nickName, birthdate, phoneNumber, authorityName, code, street, addressDetail, zipcode
         })
             .then((res) => {
-                if(authorityName == "MEMBER") {
+                if (authorityName == "MEMBER") {
                     alert("회원 가입 완료!" + res + "\n 회원 가입 이벤트로 1,000P 지급되었습니다!")
                 } else {
                     alert("회원 가입 완료!" + res)
@@ -80,6 +80,27 @@ export default {
                 console.log(res.response.data.message);
             });
     },
+    sendFavoriteStatusToSpring({ }, payload) {
+        const { cafeId, memberId,isFavorite } = payload
+        return axiosInst.post("/member/favorites", {cafeId, memberId, isFavorite  })
+            .then((res) => {
+                if(res.data){
+                    alert(res.data)
+                }
+            })
+            .catch((res) => {
+                alert(res.response.data.message)
+            })
+    },
+    checkFavoriteStatus({},payload ){
+        const { cafeId, memberId } = payload
+        return axiosInst.get(`/member/favorites/${memberId}/${cafeId}`)
+    
+
+    }
+    
+    
+    
 
 
 
