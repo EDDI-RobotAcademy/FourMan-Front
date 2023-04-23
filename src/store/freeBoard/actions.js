@@ -111,9 +111,9 @@ export default {
         },
 
         //게시판 추천, 비추천
-        requestFreeBoardDecRecommendationToSpring( {}, boardId) {
+        requestFreeBoardDecRecommendationToSpring({} , {boardId, memberId}) {
             console.log('게시물 비추천 action 작동')
-            return axiosInst.post(`/free-board/down-recommend/${boardId}`)
+            return axiosInst.post(`/free-board/down-recommendation/${boardId}`,{ boardId, memberId })
             .then(() => {
                 alert('게시물을 비추천 하였습니다')
             })
@@ -122,9 +122,9 @@ export default {
             })
         },
 
-        requestFreeBoardIncRecommendationToSpring( {}, boardId) {
+        requestFreeBoardIncRecommendationToSpring( {} ,{boardId, memberId}) {
             console.log('게시물 추천 action 작동')
-            return axiosInst.post(`/free-board/up-recommend/${boardId}`)
+            return axiosInst.post(`/free-board/up-recommendation/${boardId}`, {boardId, memberId})
             .then (() => {
                 alert('게시물을 추천 하였습니다')
             })
