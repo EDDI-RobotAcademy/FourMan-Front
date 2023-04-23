@@ -1,6 +1,11 @@
 <template>
   <v-footer inset padless class="justify-center pl-0">
-    <v-card flat class="text-center white--text" width="100%" color="brown lighten-2">
+    <v-card
+      flat
+      class="text-center white--text"
+      width="100%"
+      color="brown lighten-2"
+    >
       <v-divider></v-divider>
       <v-container style="width: 1000px">
         <v-layout>
@@ -33,8 +38,7 @@
 
               <h4 style="margin-top: 10px">
                 1664-1234
-                <span style="font-size: 15px;"
-                  >월-금  9:00 ~18:00</span                >
+                <span style="font-size: 15px">월-금 9:00 ~18:00</span>
               </h4>
               <div style="margin-top: 12px">
                 <h5>메일:&nbsp; help@fourman.com</h5>
@@ -46,6 +50,13 @@
                 v-for="icon in icons"
                 :key="icon"
                 icon
+                @click="
+                  icon === 'mdi-facebook'
+                    ? shareOnFacebook()
+                    : icon === 'mdi-twitter'
+                    ? shareOnTwitter()
+                    : shareOnInstagram()
+                "
               >
                 <v-icon size="24" color="white">
                   {{ icon }}
@@ -65,7 +76,8 @@ export default {
   data: () => ({
     icons: ["mdi-facebook", "mdi-twitter", "mdi-instagram"],
     buy_diaInfo: [
-      { teamJang: "김영진",
+      {
+        teamJang: "김영진",
         name: "정명진,박현수,박현우",
         address: "서울특별시 강남구 강남구 테헤란로14길 6",
         companyNumber: "123-45-67890",
@@ -74,6 +86,26 @@ export default {
       },
     ],
   }),
+  methods: {
+    shareOnFacebook() {
+      const url = encodeURIComponent(window.location.href);
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+        "_blank"
+      );
+    },
+
+    shareOnTwitter() {
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://twitter.com/intent/tweet?url=${url}`, "_blank");
+    },
+
+    shareOnInstagram() {
+      alert(
+        "Instagram에서는 웹 링크를 직접 공유할 수 없습니다. 공유하려면 이미지를 업로드하십시오."
+      );
+    },
+  },
 };
 </script>
 
