@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 const reservationModule = "reservationModule";
 const orderModule = "orderModule";
@@ -101,6 +101,28 @@ export default {
     cafe: {
       type: Object,
       required: true,
+    },
+    index: {
+      type: Number,
+      default: null,
+    },
+    uniqueKey: {
+      type: Number,
+      default: null,
+    },
+  },
+  async created() {
+    await this.updateCafeInfo();
+    await this.cafeRating();
+    this.loaded = true;
+    console.log(this.times);
+  },
+  watch: {
+    index() {
+      this.updateCafeInfo();
+    },
+    uniqueKey() {
+      this.updateCafeInfo();
     },
   },
   data: () => ({
@@ -118,6 +140,21 @@ export default {
       "setSelectedSeats",
     ]),
     ...mapActions(orderModule, ["updateIsOrderPacking"]),
+
+   
+    async updateCafeInfo() {
+      console.log("this.cafe.startTime", this.cafe.startTime);
+      console.log("this.cafe.endTime", this.cafe.endTime);
+
+      const availableTimes = await this.calculateAvailableTimes({
+        startTime1: this.cafe.startTime,
+        endTime1: this.cafe.endTime,
+      });
+      this.availableTimes = this.formattedAvailableTimes(availableTimes);
+      await this.cafeRating();
+      this.loaded = true;
+      console.log(this.times);
+    },
 
     formattedAvailableTimes(availableTimes) {
       console.log("formattedAvailableTimes 작동");
@@ -184,19 +221,6 @@ export default {
 
       console.log("res.data: " + res.data);
     },
-  },
-  async created() {
-    console.log("this.cafe.startTime", this.cafe.startTime);
-    console.log("this.cafe.endTime", this.cafe.endTime);
-
-    const availableTimes = await this.calculateAvailableTimes({
-      startTime1: this.cafe.startTime,
-      endTime1: this.cafe.endTime,
-    });
-    this.availableTimes = this.formattedAvailableTimes(availableTimes);
-    await this.cafeRating();
-    this.loaded = true;
-    console.log(this.times);
   },
 };
 </script>
