@@ -1,10 +1,8 @@
 <template>
-  <v-container fluid>
+  <v-container style="max-width: 1000px;">
     <div class="wrap productWrap">
       <CafeIntroBoardListForm :cafeLists="cafeLists"></CafeIntroBoardListForm>
     </div>
-
- 
   </v-container>
 </template>
 

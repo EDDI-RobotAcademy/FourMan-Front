@@ -196,6 +196,7 @@ export default {
 
         // 결과를 커밋하여 state.availableTimes를 업데이트합니다.
         commit("setAvailableTimes", calculatedTimes);
+        return calculatedTimes;
 
 
     }

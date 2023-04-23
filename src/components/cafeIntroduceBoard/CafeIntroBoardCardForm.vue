@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-12 cafeCard" max-width="360">
+  <v-card class="mx-auto my-12 cafeCard" width="360px">
     <div class="cafeInfo">
       <template slot="progress">
         <v-progress-linear
@@ -61,13 +61,13 @@
 
       <v-card-title>Today's availability</v-card-title>
 
-      <v-card-text>
+      <v-card-text class="availableTimesContainer">
         <v-chip-group
           v-model="selection"
           active-class="brown darken-2 white--text"
           column
         >
-          <v-chip v-for="(time, index) in formattedAvailableTimes" :key="index">
+          <v-chip v-for="(time, index) in availableTimes" :key="index">
             {{ time }}
           </v-chip>
         </v-chip-group>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { mapActions,mapGetters  } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 const reservationModule = "reservationModule";
 const orderModule = "orderModule";
@@ -104,18 +104,44 @@ export default {
     },
   },
   data: () => ({
+    availableTimes: [],
     selection: 0,
     rating: 0,
     totalRating: 0,
     loaded: false,
   }),
-  computed: {
-       ...mapGetters(reservationModule, ['formattedAvailableTimes']),
-  },
+  computed: {},
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestCafeRatingToSpring"]),
-    ...mapActions(reservationModule, ["calculateAvailableTimes", "setSelectedSeats"]),
+    ...mapActions(reservationModule, [
+      "calculateAvailableTimes",
+      "setSelectedSeats",
+    ]),
     ...mapActions(orderModule, ["updateIsOrderPacking"]),
+
+    formattedAvailableTimes(availableTimes) {
+      console.log("formattedAvailableTimes 작동");
+      const now = new Date();
+
+      const formatDate = (date) => {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+          2,
+          "0"
+        )}-${String(date.getDate()).padStart(2, "0")}`;
+      };
+
+      const todayStr = formatDate(now);
+
+      return availableTimes
+        .map((time) => {
+          const [date, hour] = time.split(" ");
+          if (date === todayStr) {
+            return `Today ${hour}`;
+          }
+          return null;
+        })
+        .filter((formattedTime) => formattedTime !== null);
+    },
 
     reserve() {
       this.$router.push({
@@ -131,20 +157,19 @@ export default {
       this.$router.push({
         name: "CafeIntroBoardDetailPage",
         params: { cafeId: this.cafe.cafeId.toString() },
-         query: { rating: this.rating, totalRating: this.totalRating },
+        query: { rating: this.rating, totalRating: this.totalRating },
       });
     },
     async order() {
-
       const payload = {
         cafe: this.cafe,
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
       };
 
-      this.setSelectedSeats(payload)
+      this.setSelectedSeats(payload);
 
       // 포장 주문인지 아닌지 값 전달
-      await this.updateIsOrderPacking(true)
+      await this.updateIsOrderPacking(true);
 
       this.$router.push({
         name: "ProductListPage",
@@ -161,16 +186,23 @@ export default {
     },
   },
   async created() {
-    console.log("this.cafe.startTime",this.cafe.startTime)
-    console.log("this.cafe.endTime",this.cafe.endTime)
-    await this.calculateAvailableTimes({ startTime1: this.cafe.startTime, endTime1: this.cafe.endTime });
+    console.log("this.cafe.startTime", this.cafe.startTime);
+    console.log("this.cafe.endTime", this.cafe.endTime);
+
+    const availableTimes = await this.calculateAvailableTimes({
+      startTime1: this.cafe.startTime,
+      endTime1: this.cafe.endTime,
+    });
+    this.availableTimes = this.formattedAvailableTimes(availableTimes);
     await this.cafeRating();
     this.loaded = true;
     console.log(this.times);
   },
 };
 </script>
-
-
 <style scoped>
+.availableTimesContainer {
+  height: 150px; /* 원하는 높이로 설정 */
+  overflow-y: auto; /* 스크롤바가 필요한 경우 보여주기 */
+}
 </style>
