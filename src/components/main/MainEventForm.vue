@@ -2,7 +2,7 @@
   <div class="main-container ms-10 me-10 mt-10 mb-10">
     <v-container>
       <div>
-        <h1>이벤트 <v-icon>mdi-coffee</v-icon></h1>
+        <h1> 이벤트 <v-icon>mdi-coffee</v-icon></h1>
       </div>
       <div
         class="mt-5 mb-5"
@@ -42,6 +42,11 @@
           ><v-icon>mdi-chevron-right</v-icon></v-btn
         >
       </div>
+      <div class="text-center mt-10">
+            <v-btn class="me-2 brown darken-2 white--text" width="20%" :to="{ name: 'EventBoardListPage' }">
+                <h4>이벤트 게시판</h4>
+            </v-btn>
+        </div>
     </v-container>
   </div>
 </template>
