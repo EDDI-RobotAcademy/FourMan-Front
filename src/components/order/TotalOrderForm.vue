@@ -38,18 +38,11 @@
                         <td>{{ item.count }}</td>
                         <td>{{ item.price | comma }}원</td>
                       </tr>
-                      <tr v-if="isOrderPacking == false">
-                        <td colspan="2"></td>
-                        <td style="text-align:right;">
-                          <span style="font-weight: bold;">예약 비용 :</span>
-                        </td>
-                        <td>3,000원</td>
-                      </tr>
                     </tbody>
 
                     <tfoot v-if="isOrderPacking == false" class="wrap">
                       <tr>
-                        <th class="text-center" style="font-size: 16px; font-weight: bold">최종 결제 정보</th>
+                        <th class="text-center" style="font-size: 16px; font-weight: bold">장바구니 정보</th>
                         <th>
                           <span class="d-inline" style="font-size: 14px; font-weight: bold">선택 좌석 : </span>
                           <span class="d-inline" style="font-size: 14px; font-weight: bold" v-for="(seat, idx) in selectedSeats.seatList" :key="idx">
@@ -67,7 +60,7 @@
                     <tfoot v-else class="wrap">
                      <tr>
                         <!-- <th class="text-center" style="font-size: 18px; font-weight: bold">{{ this.selectedSeats.cafe.cafeName }}</th> -->
-                        <th class="text-center" style="font-size: 16px; font-weight: bold">최종 결제 정보</th>
+                        <th class="text-center" style="font-size: 16px; font-weight: bold">장바구니 정보</th>
                         <th colspan="2"></th>
                         <th style="font-size: 16px">{{ totalOrderPrice | comma}}원</th>
                      </tr>
@@ -76,10 +69,87 @@
                 </table>
               </div>
             </div>
+
+            <!-- 예약 주문인 경우의 결제 정보 창 -->
+            <div v-if="isOrderPacking == false" class="mb-2">
+              <v-row>
+                <v-col>
+                  <v-card flat>
+                    <v-card-text>
+                      <h3 class="mt-1 mb-3">포인트 사용</h3>
+                      <span>보유 포인트 : {{ holdPoint | comma }}P</span>
+                      <div class="d-flex align-center mt-5">
+                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="holdPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+                <v-col>
+                  <v-card flat>
+                    <v-card-text>
+                      <h3 class="mt-1">결제 정보</h3>
+                      <div class="mt-3">
+                        <span class="d-flex align-center" style="font-size: 18px;">
+                          상품 금액 <v-spacer/> {{ totalOrderPrice - 3000 | comma}}원
+                        </span>
+                        <span class="d-flex align-center mt-3" style="font-size: 18px;">
+                          예약 비용 <v-spacer/> {{ 3000 | comma}}원
+                        </span>
+                        <span class="d-flex align-center mt-3" style="font-size: 18px;">
+                          포인트 사용 <v-spacer/> {{ usePoint | comma}}원
+                        </span>
+                      </div>
+                      <v-divider class="mt-3" />
+                      <span class="d-flex align-center mt-3" style="font-size: 18px;">
+                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice - usePoint | comma}}원
+                        </span>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </div>
+
+            <!-- 포장 주문인 경우의 결제 정보 창 -->
+            <div v-else class="mb-2">
+              <v-row>
+                <v-col>
+                  <v-card flat>
+                    <v-card-text>
+                      <h3 class="mt-1 mb-3">포인트 사용</h3>
+                      <span>보유 포인트 : {{ holdPoint | comma }}P</span>
+                      <div class="d-flex align-center mt-5">
+                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="holdPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+                <v-col>
+                  <v-card flat>
+                    <v-card-text>
+                      <h3 class="mt-1">결제 정보</h3>
+                      <div class="mt-3">
+                        <span class="d-flex align-center" style="font-size: 18px;">
+                          상품 금액 <v-spacer/> {{ totalOrderPrice | comma}}원
+                        </span>
+                        <span class="d-flex align-center mt-3" style="font-size: 18px;">
+                          포인트 사용 <v-spacer/> {{ usePoint | comma}}원
+                        </span>
+                      </div>
+                      <v-divider class="mt-3" />
+                      <span class="d-flex align-center mt-3" style="font-size: 18px;">
+                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice - usePoint | comma}}원
+                        </span>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </div>
           </v-card>
-          <v-btn @click="purchase" block x-large color="#5F4F4F" style="color: white; font-size: 1.1em" >
-            {{ totalOrderPrice | comma }}원 결제하기
-          </v-btn>
+          <div>
+            <v-btn @click="purchase" block x-large color="#5F4F4F" style="color: white; font-size: 1.1em" >
+              {{ totalOrderPrice - usePoint | comma }}원 결제하기
+            </v-btn>
+          </div> 
         </div>
       </v-col>
     </v-row>
@@ -95,7 +165,8 @@ export default {
    name: "TotalOrderForm",
    data() {
     return {
-      totalOrderPriceData: Number
+      totalOrderPriceData: Number,
+      usePoint: 0,
     }
    },
    props: {
@@ -114,7 +185,11 @@ export default {
       isOrderPacking: {
         type: Boolean,
         required: true,
-      }
+      },
+      holdPoint: {
+        type: Number,
+        required: true,
+      },
    },
    async created() {
 
@@ -135,6 +210,7 @@ export default {
       ),
       purchase() {
         this.kakaoPayAPI()
+        // this.saveOrderInformations()
       },
       saveOrderInformations() {
         let formData = new FormData()
@@ -144,7 +220,7 @@ export default {
         for(let i = 0; i < this.cartItems.length; i++) {
           totalQuantity += this.cartItems[i].count
         }
-        let totalPrice = this.totalOrderPrice
+        let totalPrice = this.totalOrderPrice - this.usePoint
         let cartItemList = []
 
         for(let i = 0; i < this.cartItems.length; i++) {
@@ -180,6 +256,7 @@ export default {
             cafeId: this.selectedSeats.cafe.cafeId,
             totalQuantity: totalQuantity,
             totalPrice: totalPrice,
+            usePoint: this.usePoint,
             isPacking: this.isOrderPacking,
             cartItemList: cartItemList,
             reservationInfo: reservationInfo
@@ -226,7 +303,25 @@ export default {
             }
         });
       },
-      
+      pointLimitCheck() {
+        if(this.usePoint > this.holdPoint) {
+          alert('보유 포인트 금액 이상 사용은 불가능합니다.')
+          this.usePoint = this.holdPoint
+        } else if(this.usePoint < 0) {
+          alert('0보다 작은 금액은 사용이 불가능합니다.') 
+          this.usePoint = 0
+        } 
+      },
+   },
+   watch: {
+      usePoint: {
+         deep: true,
+         handler() {
+          if(this.usePoint == null) {
+            this.usePoint = 0;
+          }
+         }
+      },
    },
 }
 </script>
