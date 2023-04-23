@@ -42,6 +42,11 @@
           ><v-icon>mdi-chevron-right</v-icon></v-btn
         >
       </div>
+      <div class="text-center mt-10">
+            <v-btn class="me-2 brown darken-2 white--text" width="20%" :to="{ name: 'CafeIntroBoardListPage' }">
+                <h4>카페소개</h4>
+            </v-btn>
+        </div>
     </v-container>
   </div>
 </template>
@@ -70,8 +75,8 @@ export default {
     },
     goNext() {
       if (
-        this.eventLists && this.eventLists.length > 4 &&
-        this.currentIndex < this.eventLists.length - 3
+        this.cafeLists && this.cafeLists.length > 4 &&
+        this.currentIndex < this.cafeLists.length - 3
       ) {
         this.currentIndex++;
       } else {
