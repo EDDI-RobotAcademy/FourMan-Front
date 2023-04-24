@@ -2,7 +2,12 @@
   <div class="main-container ms-10 me-10 mt-10 mb-10">
     <v-container>
       <div>
-        <h1>카페 소개 <v-icon>mdi-coffee</v-icon></h1>
+        <router-link
+          to="/cafe-board-list-page"
+          style="text-decoration: none; color: inherit"
+        >
+          <h1>카페 소개 <v-icon>mdi-coffee</v-icon></h1>
+        </router-link>
       </div>
       <div
         class="mt-5 mb-5"
@@ -42,11 +47,7 @@
           ><v-icon>mdi-chevron-right</v-icon></v-btn
         >
       </div>
-      <div class="text-center mt-10">
-            <v-btn class="me-2 brown darken-2 white--text" width="20%" :to="{ name: 'CafeIntroBoardListPage' }">
-                <h4>카페소개</h4>
-            </v-btn>
-        </div>
+     
     </v-container>
   </div>
 </template>
@@ -75,7 +76,8 @@ export default {
     },
     goNext() {
       if (
-        this.cafeLists && this.cafeLists.length > 4 &&
+        this.cafeLists &&
+        this.cafeLists.length > 4 &&
         this.currentIndex < this.cafeLists.length - 3
       ) {
         this.currentIndex++;
