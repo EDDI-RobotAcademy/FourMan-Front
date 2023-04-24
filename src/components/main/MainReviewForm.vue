@@ -69,14 +69,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <div class="text-center mt-10">
-        <v-btn
-          class="me-2 brown darken-2 white--text"
-          width="20%"
-          :to="{ name: 'ReviewBoardListPage' }"
-        >
-          <h4>리뷰로 이동</h4>
-        </v-btn>
+      <div class=" mt-15">
       </div>
     </v-container>
   </div>
