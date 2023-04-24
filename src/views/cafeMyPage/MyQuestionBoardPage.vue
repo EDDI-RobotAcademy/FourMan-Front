@@ -1,20 +1,27 @@
 <template>
-    <v-container>
-      <div class="EULJIRO mt-5 mb-5 text-center">
-        <h1>내가 쓴 게시물 <v-icon>mdi-bulletin-board</v-icon></h1>
+  <div>
+    <my-page-side-bar-form />
+      <v-container>
+        <div class="EULJIRO mt-5 mb-5 text-center">
+          <h1>내가 쓴 게시물 <v-icon>mdi-bulletin-board</v-icon></h1>
+      </div>
+          <my-question-board-form :myQuestionBoards="myQuestionBoards"/>
+      </v-container>
     </div>
-        <my-question-board-form :myQuestionBoards="myQuestionBoards"/>
-    </v-container>
   </template>
 
   <script>
 
   import MyQuestionBoardForm from '@/components/cafeMyPage/MyQuestionBoardForm.vue'
+  import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
   import { mapActions, mapState } from 'vuex'
   const myPageModule ='myPageModule'
 
   export default {
-    components: { MyQuestionBoardForm },
+    components: {
+      MyQuestionBoardForm,
+      MyPageSideBarForm
+     },
     name: "MyQuestionBoardPage",
     computed: {
       ...mapState(myPageModule,[
