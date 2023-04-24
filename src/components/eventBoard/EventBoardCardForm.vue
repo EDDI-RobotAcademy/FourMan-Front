@@ -22,7 +22,7 @@
           height="200"
           class="white--text align-end"
           :src="
-            require(`../../assets/event/uploadImgs/${event.thumbnailFileName}`)
+            require(`../../../public/assets/event/uploadImgs/${event.thumbnailFileName}`)
           "
         >
           <div v-if="isEventExpired()" class="overlay">이벤트 종료</div>
