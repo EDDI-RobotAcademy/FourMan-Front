@@ -2,7 +2,12 @@
   <div class="main-container ms-10 me-10 mt-10 mb-10">
     <v-container>
       <div>
-        <h1> 이벤트 <v-icon>mdi-coffee</v-icon></h1>
+        <router-link
+          to="/event-board-list-page"
+          style="text-decoration: none; color: inherit"
+        >
+          <h1>이벤트 <v-icon>mdi-coffee</v-icon></h1>
+        </router-link>
       </div>
       <div
         class="mt-5 mb-5"
@@ -13,7 +18,8 @@
           align-items: center;
         "
         v-if="
-          !filteredEventLists || (Array.isArray(filteredEventLists) && filteredEventLists.length === 0)
+          !filteredEventLists ||
+          (Array.isArray(filteredEventLists) && filteredEventLists.length === 0)
         "
       >
         <h2>진행중인 이벤트가 없습니다!</h2>
@@ -42,11 +48,7 @@
           ><v-icon>mdi-chevron-right</v-icon></v-btn
         >
       </div>
-      <div class="text-center mt-10">
-            <v-btn class="me-2 brown darken-2 white--text" width="20%" :to="{ name: 'EventBoardListPage' }">
-                <h4>이벤트 게시판</h4>
-            </v-btn>
-        </div>
+    
     </v-container>
   </div>
 </template>
@@ -75,7 +77,8 @@ export default {
     },
     goNext() {
       if (
-       this.filteredEventLists && this.filteredEventLists.length > 4 &&
+        this.filteredEventLists &&
+        this.filteredEventLists.length > 4 &&
         this.currentIndex < this.filteredEventLists.length - 3
       ) {
         this.currentIndex++;
@@ -103,7 +106,7 @@ export default {
   async created() {
     await this.requestEventListToSpring();
     await this.autoSlide();
-    console.log("filteredEventLists",this.filteredEventLists)
+    console.log("filteredEventLists", this.filteredEventLists);
   },
   beforeDestroy() {
     clearInterval(this.autoSlideInterval);

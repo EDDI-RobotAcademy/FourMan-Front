@@ -8,7 +8,7 @@
                 매출액: {{ myCafeInfo.monthTotalSales }}
                 <v-progress-linear
                     :height="10"
-                    :value="myCafeInfo.monthTotalSales / 1000000"
+                    :value="myCafeInfo.monthTotalSales / 300000"
                     color="blue"
                     background-color="grey lighten-1"
                 />
@@ -17,7 +17,7 @@
                 예약건수: {{ myCafeInfo.monthReservationCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="myCafeInfo.monthReservationCount / 100"
+                    :value="myCafeInfo.monthReservationCount / 30"
                     color="blue"
                     background-color="grey lighten-1"
                 />
@@ -26,7 +26,7 @@
                 주문건수: {{ myCafeInfo.monthOrderCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="myCafeInfo.dayOrderCount / 100"
+                    :value="myCafeInfo.monthOrderCount / 30"
                     color="blue"
                     background-color="grey lighten-1"
                 />
