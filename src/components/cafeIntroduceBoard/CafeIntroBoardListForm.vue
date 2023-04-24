@@ -34,7 +34,7 @@
           !cafeLists || (Array.isArray(cafeLists) && cafeLists.length === 0)
         "
       >
-        <p>카페가 존재하지 않습니다.</p>
+        <h1 class="text-center title-text">카페가 존재하지 않습니다.</h1>
       </div>
       <v-row>
         <v-col
@@ -144,5 +144,10 @@ export default {
 };
 </script>
 <style scoped>
-
+.title-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #5d4037;
+}
 </style>
