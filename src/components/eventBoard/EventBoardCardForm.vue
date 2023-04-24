@@ -6,7 +6,8 @@
     }"
     class="router-link-reset"
   >
-    <v-card class="mx-auto my-12 eventCard" max-width="360">
+   <v-container fluid>
+    <v-card  style="height: 430px;" class="mx-auto my-12 eventCard d-flex flex-column" min-width="290px" elevation="3">
       <template slot="progress">
         <v-progress-linear
           color="brown darken-2"
@@ -27,7 +28,8 @@
           <div v-if="isEventExpired()" class="overlay">이벤트 종료</div>
         </v-img>
       </div>
-      <v-card-title>{{ event.eventName }}</v-card-title>
+      
+      <v-card-title  style="min-height:120px;">{{ event.eventName }}</v-card-title>
 
       <v-card-text class="black--text">
         <div class="my-4">{{ event.cafeName }}</div>
@@ -35,7 +37,9 @@
           이벤트 기간: {{ event.eventStartDate }}~ {{ event.eventEndDate }}
         </div>
       </v-card-text>
+   
     </v-card>
+   </v-container>
   </router-link>
 </template>
 
