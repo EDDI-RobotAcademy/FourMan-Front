@@ -182,9 +182,9 @@ export default {
             return  axiosInst.post(`/member/check-nickName/${nickName}`)
         },
         requestAddPointToSpring({ }, payload) {
-            const {memberId, point} = payload
+            const {memberId, point, history} = payload
             return  axiosInst.put(`/my-page/add-point/${memberId}`,
-            { point })
+            { point, history })
             .then((res) => {
                 alert(point + "포인트가 지급되었습니다.")
             })
