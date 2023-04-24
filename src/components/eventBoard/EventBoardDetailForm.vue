@@ -166,8 +166,12 @@ export default {
     event: {
       handler() {
         this.loaded = false;
-        this.requestCafeByEventId(this.event.eventId);
-        this.shareUrl = window.location.href;
+        const eventId = this.$route.params.eventId;
+        if (eventId) {
+          this.requestCafeByEventId(eventId);
+          this.shareUrl = window.location.href;
+        }
+
         this.$nextTick(() => {
           this.loaded = true;
         });
@@ -177,9 +181,8 @@ export default {
   },
   created() {
     // this.shareUrl = window.location.href;
-      // this.requestCafeByEventId(this.event.eventId);//에러남
+    // this.requestCafeByEventId(this.event.eventId);//에러남
   },
-  
 };
 </script>
 <style scoped>
