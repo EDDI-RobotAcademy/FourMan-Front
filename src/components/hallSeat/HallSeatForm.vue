@@ -129,13 +129,18 @@ export default {
   text-align: center;
   line-height: 50px;
   font-size: 14px;
+  transition: background-color 0.3s;
+}
+.seat:hover {
+  background-color: rgba(8, 242, 82, 0.6);
 }
 .is-selected {
-  background-color: rgba(0, 0, 255, 0.8);
+  background-color: rgba(30, 144, 255, 0.8);
   color: #fff;
 }
+
 .is-reserved {
-  background-color: rgba(216, 17, 17, 0.8);
+  background-color: rgba(255, 69, 0, 0.8);
   color: #fff;
 }
 .table {

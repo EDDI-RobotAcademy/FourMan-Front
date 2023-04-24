@@ -1,7 +1,7 @@
 <template>
   <v-container class="d-flex container" :fluid="true">
     <v-container class="my-custom-container" :fluid="true">
-      <h1 v-if="selectedTime == null" class="text-center">
+      <h1 v-if="selectedTime == null" class="text-center title-text">
         당일 예약만 가능합니다.<br />
         예약 시간을 선택해 주세요!
       </h1>
@@ -51,32 +51,32 @@
 
                 <v-row class="mt-10 ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-10">카페명:</span>
+                    ><span class="font-weight-bold mr-10 info-text">카페명:</span>
                     {{ this.cafe.cafeName }}</v-col
                   >
                 </v-row>
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-15">주소:</span>
+                    ><span class="font-weight-bold mr-15 info-text">주소:</span>
                     {{ this.cafe.cafeAddress }}</v-col
                   >
                 </v-row>
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-10">닉네임:</span>
+                    ><span class="font-weight-bold mr-10 info-text">닉네임:</span>
                     {{ this.nickName }}</v-col
                   >
                 </v-row>
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-10">예약일자:</span>
+                    ><span class="font-weight-bold mr-10 info-text">예약일자:</span>
                     {{ getFormattedDate() }}
                   </v-col>
                 </v-row>
 
                 <v-row class="ml-1">
                   <v-col cols="3"
-                    ><span class="font-weight-bold">예약 시간:</span></v-col
+                    ><span class="font-weight-bold info-text">예약 시간:</span></v-col
                   >
                   <v-col cols="5">
                     <v-select
@@ -94,13 +94,13 @@
 
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-15">전체 좌석수:</span>
+                    ><span class="font-weight-bold mr-15 info-text">전체 좌석수:</span>
                     {{ this.total }} 석</v-col
                   >
                 </v-row>
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-6"
+                    ><span class="font-weight-bold mr-6 info-text"
                       >예약 가능 좌석수:</span
                     >
                     {{ this.unreserved }} 석</v-col
@@ -109,7 +109,7 @@
 
                 <v-row class="ml-1">
                   <v-col cols="12"
-                    ><h3 class="font-weight-bold mr-10">선택 좌석</h3>
+                    ><h3 class="font-weight-bold mr-10 info-text">선택 좌석</h3>
                     <div v-if="selectedSeats.length">
                       <ul>
                         <li v-for="seat in selectedSeats" :key="seat.seatNo">
@@ -129,28 +129,21 @@
               <div>
                 <v-btn
                   @click="cancel"
-                  class="brown darken-2 white--text"
+                  class="brown darken-2 white--text custom-btn "
                   large
                   style="width: 100px; font-size: 18px"
                   >취소</v-btn
                 >
                 <v-btn
                   type="submit"
-                  class="ml-3 brown darken-2 white--text"
+                  class="ml-15 brown darken-2 white--text custom-btn "
                   large
                   style="width: 100px; font-size: 18px"
                   >메뉴 주문
                 </v-btn>
               </div>
             </v-row>
-            <!-- <v-btn
-              @click="reset"
-              class="ml-3 brown darken-2 white--text"
-              large
-              style="width: 200px; font-size: 18px"
-              >좌석 초기화
-            </v-btn> -->
-            <!-- 좌석 초기화 필요없어졌음 -->
+
           </table>
         </v-form>
       </div>
@@ -188,18 +181,13 @@ export default {
       selectedSeats: [],
       unreserved: 0,
       total: 0,
-      // times: [], // 예약 가능한 시간 리스트
-      // seats: [], // 예약 가능한 자리 리스트
+
     };
   },
   computed: {
     ...mapState(reservationModule, ["seatData", "tableData", "availableTimes"]),
   },
-  // watch: {
-  //   availableTimes(newValue) {
-  //     console.log("Available times:", newValue);
-  //   },
-  // },
+
 
   methods: {
     ...mapActions(reservationModule, [
@@ -302,6 +290,7 @@ export default {
 </script>
 
 <style scoped>
+
 .my-custom-container {
   position: relative;
   height: 800px;
@@ -353,5 +342,33 @@ li {
 .is-reserved {
   background-color: rgba(216, 17, 17, 0.8);
   color: #fff;
+}
+.title-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #5d4037;
+}
+
+.info-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+    color: #5d4037;
+}
+
+.custom-btn {
+  width: 100px;
+  font-size: 18px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover {
+  background-color: #795548;
+}
+
+.custom-btn:active {
+  background-color: #5d4037;
 }
 </style>

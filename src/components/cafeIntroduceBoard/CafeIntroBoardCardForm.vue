@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card class="mx-auto my-12 cafeCard" min-width="270px">
+    <v-card class="mx-auto my-12 cafeCard" min-width="270px" elevation="3">
       <div class="cafeInfo">
         <template slot="progress">
           <v-progress-linear
@@ -106,15 +106,15 @@
         <v-card-actions
           class="actions-container d-flex flex-sm-row justify-space-around"
         >
-          <v-btn class="brown darken-2 white--text" text @click="showDetail">
+          <v-btn class="brown darken-2 white--text custom-button" text @click="showDetail">
             상세 보기
           </v-btn>
 
-          <v-btn class="brown darken-2 white--text" text @click="reserve">
+          <v-btn class="brown darken-2 white--text custom-button" text @click="reserve">
             자리 예약
           </v-btn>
 
-          <v-btn class="brown darken-2 white--text" text @click="order">
+          <v-btn class="brown darken-2 white--text custom-button" text @click="order">
             포장 주문
           </v-btn>
         </v-card-actions>
@@ -300,5 +300,14 @@ export default {
   margin-bottom: 8px;
   margin-left: 4px;
   margin-right: 4px;
+}
+.custom-button {
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: rgba(66, 66, 66, 0.8);
+  color: white;
 }
 </style>
