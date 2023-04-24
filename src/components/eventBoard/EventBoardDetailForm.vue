@@ -16,6 +16,7 @@
             >
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
+            
             <v-btn
               class="brown darken-2 white--text mr-10"
               text
@@ -23,6 +24,24 @@
             >
               예약하기
             </v-btn>
+
+            <div>
+              <!-- 수정 아이콘 -->
+              <router-link
+                v-if="isCafeOwner"
+                :to="{
+                  name: 'EventBoardModifyPage',
+                  params: { eventId: event.eventId.toString() },
+                }"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </router-link>
+
+              <!-- 삭제 아이콘 -->
+              <v-icon v-if="isCafeOwner" @click="deleteEvent" class="mx-5"
+                >mdi-delete</v-icon
+              >
+            </div>
             <!-- 공유를 눌렀을때 나오는거 -->
 
             <v-dialog v-model="dialog" width="400">
@@ -82,7 +101,7 @@
             contain
             width="800px"
             :src="
-              require(`../../assets/event/uploadImgs/${event.thumbnailFileName}`)
+              require(`../../../public/assets/event/uploadImgs/${event.thumbnailFileName}`)
             "
             class="mx-auto"
           />
@@ -121,9 +140,26 @@ export default {
   }),
   computed: {
     ...mapState(eventBoardModule, ["cafe"]),
+    isCafeOwner() {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      return userInfo && userInfo.cafeId === this.cafe.cafeId;
+    },
   },
   methods: {
     ...mapActions(eventBoardModule, ["requestCafeByEventId"]),
+    async deleteEvent() {
+      try {
+        // 이벤트를 삭제하는 API 호출을 수행합니다.
+        // 예를 들어, `deleteEventById`라는 메소드가 있다고 가정합니다.
+        // await this.deleteEventById(this.event.eventId);
+
+        // 삭제 성공 메시지를 표시하거나 다른 페이지로 리디렉션할 수 있습니다.
+        this.$router.push({ name: "EventBoardListPage" });
+      } catch (error) {
+        console.error("Failed to delete event:", error);
+        // 에러 메시지를 표시하거나 처리할 수 있습니다.
+      }
+    },
 
     shareOnFacebook() {
       const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -166,8 +202,12 @@ export default {
     event: {
       handler() {
         this.loaded = false;
-        this.requestCafeByEventId(this.event.eventId);
-        this.shareUrl = window.location.href;
+        const eventId = this.$route.params.eventId;
+        if (eventId) {
+          this.requestCafeByEventId(eventId);
+          this.shareUrl = window.location.href;
+        }
+
         this.$nextTick(() => {
           this.loaded = true;
         });
@@ -177,9 +217,8 @@ export default {
   },
   created() {
     // this.shareUrl = window.location.href;
-      // this.requestCafeByEventId(this.event.eventId);//에러남
+    // this.requestCafeByEventId(this.event.eventId);//에러남
   },
-  
 };
 </script>
 <style scoped>
