@@ -1,32 +1,32 @@
 <template>
   <div>
     <v-container class="cafe-list">
-          <v-row class="d-flex justify-end">
-            <v-col cols="7">
-              <v-tabs
-                v-model="selectedSorting"
-                background-color="transparent"
-                slider-color="brown darken-2"
-                @change="sortCafes"
-              >
-               <v-tab>최신 등록 순</v-tab>
-                <v-tab>인기순</v-tab>
-                <v-tab>별점 높은 순</v-tab>
-                <v-tab>별점 많은 순</v-tab>
-              </v-tabs>
-            </v-col>
+      <v-row class="d-flex justify-end">
+        <v-col cols="7">
+          <v-tabs
+            v-model="selectedSorting"
+            background-color="transparent"
+            slider-color="brown darken-2"
+            @change="sortCafes"
+          >
+            <v-tab>최신 등록 순</v-tab>
+            <v-tab>인기순</v-tab>
+            <v-tab>별점 높은 순</v-tab>
+            <v-tab>별점 많은 순</v-tab>
+          </v-tabs>
+        </v-col>
 
-            <v-col cols="4">
-              <v-text-field
-                label="제목,주소 검색"
-                append-icon="mdi-magnify"
-                outlined
-                dense
-                @input="searchCafes"
-                v-model="searchText"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+        <v-col cols="4">
+          <v-text-field
+            label="제목,주소 검색"
+            append-icon="mdi-magnify"
+            outlined
+            dense
+            @input="searchCafes"
+            v-model="searchText"
+          ></v-text-field>
+        </v-col>
+      </v-row>
 
       <div
         class="empty_cafe"
@@ -34,7 +34,7 @@
           !cafeLists || (Array.isArray(cafeLists) && cafeLists.length === 0)
         "
       >
-        <p>카페가 존재하지 않습니다.</p>
+        <h1 class="text-center title-text">카페가 존재하지 않습니다.</h1>
       </div>
       <v-row>
         <v-col
@@ -48,26 +48,35 @@
         </v-col>
       </v-row>
     </v-container>
-    <div class="actions">
-      <v-btn
-        v-if="cafePass == 'CAFE'"
-        type="button"
-        class="brown darken-2 white--text"
-        @click="checkCafeNum"
-        large
-        style="width: 100px; font-size: 18px"
-        >카페 등록
-      </v-btn>
-      <div class="pagination-wrapper">
-        <v-pagination
-          v-model="curPageNum"
-          :length="numOfPages"
-          color="brown darken-2"
-          class=""
-          flat
-        ></v-pagination>
-      </div>
-    </div>
+
+    <v-container fluid>
+      <v-row no-gutters align="center">
+        <v-col cols="12" class="text-center">
+          <v-pagination
+            v-model="curPageNum"
+            :length="numOfPages"
+            color="brown darken-2"
+            class=""
+            flat
+          ></v-pagination>
+        </v-col>
+        <v-col
+          cols="auto"
+          class="text-right"
+          style="position: absolute; right: 200px"
+        >
+          <v-btn
+            v-if="cafePass == 'CAFE'"
+            type="button"
+            class="brown darken-2 white--text"
+            @click="checkCafeNum"
+            large
+            style="width: 100px; font-size: 18px"
+            >카페 등록
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -96,12 +105,8 @@ export default {
   },
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestCafeNumToSpring"]),
-    sortCafes(){
-
-    },
-    searchCafes(){
-
-    },
+    sortCafes() {},
+    searchCafes() {},
 
     async checkCafeNum() {
       if (
@@ -139,14 +144,10 @@ export default {
 };
 </script>
 <style scoped>
-.actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.pagination-wrapper {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
+.title-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #5d4037;
 }
 </style>

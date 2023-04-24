@@ -1,6 +1,7 @@
 export default {
     eventLists:[],
-    event:{}
+    event:{},
+    cafe:{}
 
 
 }

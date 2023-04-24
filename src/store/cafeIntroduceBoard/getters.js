@@ -1,12 +1,12 @@
 export default {
 
     formattedCafeList: (state) => {
-        const cafeList = [];
+        const cafeNameList = [];
 
         for (let idx = 0; idx < state.cafeLists.length; idx++) {
-            cafeList.push(state.cafeLists[idx].cafeName);
+            cafeNameList.push(state.cafeLists[idx].cafeName);
         }
-        return cafeList;
+        return cafeNameList;
     }
 
 }
