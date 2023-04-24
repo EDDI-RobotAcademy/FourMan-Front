@@ -59,27 +59,35 @@
         </v-col>
       </v-row>
     </v-container>
-    <div class="actions">
-      <v-btn
-        v-if="cafePass === 'CAFE'"
-        type="button"
-        class="brown darken-2 white--text"
-        @click="register"
-        large
-        style="width: 150px; font-size: 18px"
-      >
-        이벤트 등록
-      </v-btn>
-      <div class="pagination-wrapper">
-        <v-pagination
-          v-model="curPageNum"
-          :length="numOfPages"
-          color="brown darken-2"
-          class=""
-          flat
-        ></v-pagination>
-      </div>
-    </div>
+    <v-container fluid>
+      <v-row no-gutters align="center">
+        <v-col cols="12" class="text-center">
+          <v-pagination
+            v-model="curPageNum"
+            :length="numOfPages"
+            color="brown darken-2"
+            class=""
+            flat
+          ></v-pagination>
+        </v-col>
+        <v-col
+          cols="auto"
+          class="text-right"
+          style="position: absolute; right: 200px;"
+        >
+          <v-btn
+            v-if="cafePass === 'CAFE'"
+            type="button"
+            class="brown darken-2 white--text register-button"
+            @click="register"
+            large
+            style="width: 150px; font-size: 18px"
+          >
+            이벤트 등록
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -174,14 +182,4 @@ export default {
 };
 </script>
 <style scoped>
-.actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.pagination-wrapper {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-}
 </style>
