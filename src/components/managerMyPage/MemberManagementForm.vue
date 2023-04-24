@@ -31,6 +31,8 @@
                     <td>{{ memberInfo.phoneNumber }}</td>
                     <td>{{ memberInfo.point }}</td>
                     <td v-if="memberInfo.authorityName === '일반회원'">
+                      <input class="mb-2" type="text" placeholder="포인트 지급 사유" v-model="history" style="border: 1px solid #ccc; border-radius: 6px;">
+                      <br>
                       <input type="number" style="border: 1px solid #ccc; border-radius: 5px; width: 100px;" v-model="point" required step="10">
                       <v-btn class="ms-2" small @click="addPoint(memberInfo.id)">지급</v-btn>
                     </td>
@@ -59,6 +61,7 @@ export default {
       return {
         searchText: '',
         point: 0,
+        history: '',
       }
     },
     methods: {
@@ -73,8 +76,18 @@ export default {
          }
       },
       async addPoint(memberId) {
-        const { point } = this
-        await this.requestAddPointToSpring({ memberId, point })
+        if(this.history.length === 0) {
+          alert('포인트 지급 사유를 입력하세요!')
+          return
+        }
+
+        if(this.point === 0) {
+          alert('포인트를 입력하세요!')
+          return
+        }
+
+        const { point, history } = this
+        await this.requestAddPointToSpring({ memberId, point, history })
         location.reload()
       }
     },
