@@ -48,8 +48,7 @@ import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardD
 import EventBoardListPage from '@/views/eventBoard/EventBoardListPage.vue'
 import EventBoardRegisterPage from '@/views/eventBoard/EventBoardRegisterPage.vue'
 import EventBoardDetailPage  from '@/views/eventBoard/EventBoardDetailPage.vue'
-
-
+import EventBoardModifyPage  from '@/views/eventBoard/EventBoardModifyPage.vue'
 //마이페이지 관련
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
@@ -117,6 +116,16 @@ const routes = [
     name: 'EventBoardDetailPage',
     components: {
       default:  EventBoardDetailPage
+    },
+    props: {
+      default: true
+    },
+  },
+  {
+    path: '/event-board-modify-page/:eventId',
+    name: 'EventBoardModifyPage',
+    components: {
+      default: EventBoardModifyPage
     },
     props: {
       default: true

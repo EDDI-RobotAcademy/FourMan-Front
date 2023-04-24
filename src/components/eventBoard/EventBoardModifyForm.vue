@@ -26,7 +26,7 @@
               <table class="thumbTable" width="320px" height="240px">
                 <tr>
                   <td style="padding-bottom: 15px">
-                    <div v-if="this.thumbnailFile.length > 0">
+                    <div v-if="this.thumbnailPreview">
                       <v-icon
                         align="right"
                         style="align-items: end"
@@ -177,16 +177,34 @@ const eventBoardModule = "eventBoardModule";
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
 
-// const eventBoardModule = "eventBoardModule";
 export default {
-  name: "EventBoardRegisterForm",
+  name: "EventBoardModifyForm",
   components: {
     editor: Editor,
   },
+  props: {
+    event: {
+      type: Object,
+      required: true,
+    },
+  },
+  created() {
+    console.log("event객체:", this.event);
+    this.eventName = this.event.eventName;
+    this.eventStartDate = this.event.eventStartDate;
+    this.eventEndDate = this.event.eventEndDate;
+    this.content = this.event.content;
+    this.thumbnailFile = this.event.thumbnailFileName;
+    console.log(" this.event.thumbnailFileName:", this.event.thumbnailFileName);
+    this.thumbnailPreview = `/assets/event/uploadImgs/${this.thumbnailFile}`;
+    console.log("this.thumbnailPreview", this.thumbnailPreview);
+  },
   mounted() {
+
     this.editor = new Editor({
       el: document.querySelector("#editor"),
       height: "500px",
+      initialValue: this.content, //
       initialEditType: "wysiwyg",
       previewStyle: "vertical",
       placeholder: "내용을 입력하세요.",
@@ -209,11 +227,8 @@ export default {
       startDateMenu: false,
       endDateMenu: false,
       content: "",
-
       uploadPreThumbnailUrl: [],
-
       thumbnailFile: "",
-
       thumbnailPreview: [],
     };
   },
@@ -227,7 +242,6 @@ export default {
     onEndDateSelected() {
       this.endDateMenu = false;
     },
-
     async uploadImage(blob, callback) {
       let formData = new FormData();
       const fileExtension = blob.type.split("/")[1];
@@ -245,8 +259,6 @@ export default {
         console.log("response.data", response.data);
         const imageUrl = response.data;
         console.log("imageUrl", imageUrl);
-        // const decodedImageUrl = decodeURIComponent(imageUrl);
-        // callback(decodedImageUrl, "alt text");
         callback(imageUrl, "alt text");
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -264,10 +276,7 @@ export default {
     },
     handleFileUpload() {
       this.thumbnailFile = this.$refs.thumbnailFile.files;
-      console.log("this.thumbnailFile", this.thumbnailFile);
-      console.log("this.thumbnailFile[0]", this.thumbnailFile[0]);
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
-      console.log("this.thumbnailPreview", this.thumbnailPreview);
     },
 
     async onSubmit() {
@@ -288,25 +297,6 @@ export default {
           content: this.content,
           code: JSON.parse(localStorage.getItem("userInfo")).code,
         };
-        // const editor = document.getElementById("editor"); // HTML 요소 가져오기
-        // const html = editor.innerHTML;
-
-        // const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
-        // const matches = html.match(regex);
-
-        // if (matches != null) {
-        //   matches.forEach((match, index) => {
-        //     const base64Data = match.split(",")[1]; // Base64 문자열 추출
-        //     const blob = new Blob(
-        //       [Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0))],
-        //       { type: "image/png" }
-        //     ); // Blob 생성
-        //     const file = new File([blob], `image_${index}.png`, {
-        //       type: "image/png",
-        //     }); // File 객체 생성
-        //     formData.append("fileList", file); // Form 데이터에 File 객체 추가
-        //   });
-        // }
 
         formData.append(
           "info",
@@ -322,6 +312,7 @@ export default {
     thumbnailCancel() {
       this.thumbnailFile = "";
       this.$refs.thumbnailFile.value = "";
+      this.thumbnailPreview = ""; // 이 부분을 추가해주세요.
     },
 
     cancel() {
@@ -361,4 +352,5 @@ table.thumbTable {
   line-height: 24px;
   margin-bottom: 50px;
 }
+
 </style>
