@@ -1,6 +1,7 @@
 import {
     REQUEST_EVENT_LIST_TO_SPRING,
     REQUEST_EVENT_DETAIL_TO_SPRING,
+    REQUEST_CAFE_BY_EVENT_SPRING,
 
 
 
@@ -50,8 +51,19 @@ export default {
 
     requestImageURLToSpring({},formData){
         return  axiosInst.post(`/event/api/upload/`,formData)
-    }
-
+    },
+    requestCafeByEventId({commit},eventId){
+        console.log("requestCafeByEventId 작동 eventId:",eventId)
+        return  axiosInst.get(`/event/getCafe/${eventId}`)
+        .then((res) => {
+            console.log("커밋전")
+            commit(REQUEST_CAFE_BY_EVENT_SPRING, res.data)
+            console.log("커밋후")
+        })
+        .catch((error) => {
+            alert(error)
+        })
+    },
     
 
 
