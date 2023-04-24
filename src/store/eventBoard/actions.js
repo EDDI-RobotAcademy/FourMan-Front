@@ -60,8 +60,17 @@ export default {
                 alert(res.message);
             });
     },
-
-
+    requestDeleteEventToSpring({},eventId){
+        console.log(" requestDeleteEventToSpring() 작동")
+        return axiosInst.delete(`/event/delete/${eventId}`)
+            .then(() => {
+                alert("이벤트가 삭제 되었습니다");
+              
+            })
+            .catch(() => {
+                alert();
+            });
+    },
     requestImageURLToSpring({},formData){
         return  axiosInst.post(`/event/api/upload/`,formData)
     },
