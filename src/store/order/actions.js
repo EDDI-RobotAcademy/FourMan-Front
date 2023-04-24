@@ -22,7 +22,7 @@ export default {
          })
    },
    requestOrderInformationsToSpring({ commit }, memberId) {
-      return axiosInst.get(`/order/list/${memberId}`)
+      return axiosInst.get(`/order/orderList/${memberId}`)
       .then((res) => {
          commit(REQUEST_ORDER_INFORMATIONS_TO_SPRING, res.data)
          console.log('orderInformations: ' + JSON.stringify(res.data))
