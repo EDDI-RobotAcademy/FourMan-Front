@@ -30,19 +30,15 @@
     </div>
     <div class="d-flex justify-center align-center">
       <v-btn  v-if="this.$store.state.memberModule.isAuthenticated"
-              class="brown darken-0 white--text mb-1"
+              class="brown darken-0 white--text mb-1 mx-2"
               @click="incRecommendation(freeBoard.boardId)">
-        <v-icon>mdi-thumb-up</v-icon>
+        <v-icon>mdi-thumb-up</v-icon> {{ freeBoard.recommendation }}
       </v-btn>
-        <h3 v-if="this.$store.state.memberModule.isAuthenticated"
-            class="text-center mx-4 my-5">
-            추천수 : {{ freeBoard.recommendation }}
-        </h3>
-      <v-btn v-if="this.$store.state.memberModule.isAuthenticated"
-             class="brown darken-0 white--text mb-1"
-             @click="decRecommendation(freeBoard.boardId)">
-        <v-icon>mdi-thumb-down</v-icon>
-      </v-btn>
+        <v-btn v-if="this.$store.state.memberModule.isAuthenticated"
+          class="brown darken-0 white--text mb-1 mx-2"
+          @click="decRecommendation(freeBoard.boardId)">
+          <v-icon left>mdi-thumb-down</v-icon> {{ freeBoard.unRecommendation }}
+        </v-btn>
     </div>
     <div>
       <v-btn class="brown darken-2 white--text mb-5" :to="{ name: 'FreeBoardListPage' }" style="float: right;">
@@ -61,6 +57,12 @@ const freeBoardModule= 'freeBoardModule'
 
   export default {
       name: "FreeBoardReadForm",
+      data() {
+        return {
+          clickedUp : false,
+          clickedDown: false,
+        }
+      },
       props: {
           freeBoard: {
               type: Object,
@@ -75,6 +77,7 @@ const freeBoardModule= 'freeBoardModule'
             'requestDeleteFreeBoardToSpring',
             'requestFreeBoardIncRecommendationToSpring',
             'requestFreeBoardDecRecommendationToSpring',
+            'requestfetchUserRecommendationStatus'
         ]),
         loginCheck() {
             if(JSON.parse(localStorage.getItem('userInfo'))) {
@@ -101,12 +104,14 @@ const freeBoardModule= 'freeBoardModule'
             await this.$router.push({ name: 'FreeBoardModifyPage', params: this.freeBoard.boardId  })
           },
           async incRecommendation (boardId) {
+            this.clickedUp = true;
             const memberId = JSON.parse(localStorage.getItem('userInfo')).id
             console.log('추천 check :' +boardId +'id 체크 : ' + memberId)
             await this.requestFreeBoardIncRecommendationToSpring({boardId, memberId})
             await this.$router.go((this.$router.currentRoute))
           },
           async decRecommendation(boardId) {
+            this.clickedDown = true;
             const memberId = JSON.parse(localStorage.getItem('userInfo')).id
             console.log('추천 check :' +boardId +'id 체크 : ' + memberId)
             await this.requestFreeBoardDecRecommendationToSpring({boardId, memberId})
@@ -117,7 +122,7 @@ const freeBoardModule= 'freeBoardModule'
         compiledMarkdown: function () {
           return marked(this.freeBoard.content || '');
         }
-      }
+      },
   }
   </script>
 
