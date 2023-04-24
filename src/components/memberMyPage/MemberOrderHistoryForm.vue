@@ -17,7 +17,7 @@
             <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9;">
                <v-card-subtitle style="border-bottom: 1px solid #eaebee;">
                   <v-layout>
-                     <h3 style="display:flex; align-items:center;"> 상품 총 {{ orderInfo.totalQuantity }}건</h3>
+                     <h3 style="display:flex; align-items:center;"> {{ orderInfo.cafeName }}</h3>
                      
                      <span style="display:flex; align-items:center;" class="ml-3">
                         {{ orderInfo.orderNo }} | {{ orderInfo. orderDate }}
@@ -41,11 +41,35 @@
                                     </center>
                                  </td>
                                  <td width="300"> 
-                                    <span class="d-block">{{ orderInfo.orderProductList[0].productName }} 포함 {{ orderInfo.orderProductList.length }}건</span>
-                                    <span class="d-block mt-2">{{ orderInfo.totalPrice | comma }}원</span>
+                                    <h3>상품 정보</h3>
+                                    <div class="mt-4">
+                                       <span class="d-block" style="font-size: 16px;">
+                                          {{ orderInfo.orderProductList[0].productName }} 포함 {{ orderInfo.orderProductList.length }}건
+                                       </span>
+                                       <span class="d-block mt-2" style="font-size: 16px;">{{ orderInfo.totalPrice | comma }}원</span>
+                                    </div>
                                  </td>
-                                 <td>
-                                    예약 좌석 정보 간략히 
+                                 <td v-if="orderInfo.reservationTime != null">
+                                    <h3 class="mt-3">예약 정보</h3>
+                                    <div class="mt-3">
+                                       <div class="d-flex align-center">
+                                          <v-icon class="mr-2">mdi-clock-time-eight-outline</v-icon> 
+                                          <span style="font-size: 16px;">{{ orderInfo.reservationTime }}</span>
+                                       </div>
+                                       <div class="d-flex align-center mt-2">
+                                          <div>
+                                             <v-icon class="mr-2">mdi-seat</v-icon>
+                                          </div>
+                                          <div v-for="(seat, j) in orderInfo.seatNoList" :key="j" class="d-inline-block mr-2">
+                                             <span style="font-size: 16px;">{{ seat.seatNo }}</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </td>
+                                 <td v-else>
+                                    <div class="ml-12">
+                                       <h3>포장 주문</h3>
+                                    </div>
                                  </td>
                               </tr>
                            </table>
@@ -72,6 +96,7 @@
 
                      </v-expansion-panel-header>
 
+                     <!-- 펼쳤을 시 하단 content -->
                      <v-expansion-panel-content>
                         <!-- <v-divider></v-divider> -->
                         <div v-for="(orderProduct, i) in orderInfo.orderProductList" :key="i" style="border-top: 1px solid #eaebee;" class="pl-6 pr-6 pb-4 pt-4">
@@ -83,7 +108,7 @@
                                     </center>
                                  </td>
                                  <td width="300"> 
-                                    <span class="d-block">{{ orderProduct.productName }}</span>
+                                    <h4 class="d-block">{{ orderProduct.productName }}</h4>
                                     <span class="d-block ">{{ orderProduct.price | comma }}원</span>
                                     <span class="d-block ">{{ orderProduct.drinkType }}</span>
                                     <span class="d-block ">수량 : {{ orderProduct.count }}</span>
