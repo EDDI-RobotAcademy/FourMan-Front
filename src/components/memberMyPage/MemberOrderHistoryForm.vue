@@ -97,7 +97,7 @@
                                     </center>
                                  </td>
                                  <td width="300">
-                                    <h3 class="mt-2">결제 상세 정보</h3>
+                                    <h3 class="">결제 상세 정보</h3>
                                     <div>
                                        <div class="mt-3">
                                           <div v-if="orderInfo.usePoint != 0" class="d-flex align-center justify-center">
@@ -136,6 +136,17 @@
                                        </div>
                                     </div>
                                  </td>
+                                 <!-- <td width="300" v-if="orderInfo.canceledAt != null"> 
+                                    <h3 class="mt-2">취소 일자</h3>
+                                    <div>
+                                       <div class="mt-2">
+                                          <div class="d-flex align-center justify-center">
+                                             <v-icon class="mr-2">mdi-cancel</v-icon> 
+                                             <span style="font-size: 16px;">{{ orderInfo.canceledAt }}</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </td> -->
                               </tr>
                            </table>
                         </div>
