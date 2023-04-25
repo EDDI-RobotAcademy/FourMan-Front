@@ -147,17 +147,13 @@ export default {
   },
   methods: {
     ...mapActions(eventBoardModule, ["requestCafeByEventId"]),
+    ...mapActions(eventBoardModule, ["requestDeleteEventToSpring"]),
     async deleteEvent() {
       try {
-        // 이벤트를 삭제하는 API 호출을 수행합니다.
-        // 예를 들어, `deleteEventById`라는 메소드가 있다고 가정합니다.
-        // await this.deleteEventById(this.event.eventId);
-
-        // 삭제 성공 메시지를 표시하거나 다른 페이지로 리디렉션할 수 있습니다.
+        await this.requestDeleteEventToSpring(this.event.eventId);
         this.$router.push({ name: "EventBoardListPage" });
       } catch (error) {
         console.error("Failed to delete event:", error);
-        // 에러 메시지를 표시하거나 처리할 수 있습니다.
       }
     },
 

@@ -66,7 +66,7 @@
           style="position: absolute; right: 200px"
         >
           <v-btn
-            v-if="cafePass == 'CAFE'"
+            v-if="this.cafePass == 'CAFE'"
             type="button"
             class="brown darken-2 white--text"
             @click="checkCafeNum"
@@ -98,10 +98,13 @@ export default {
     return {
       selectedSorting: "최신등록순",
       searchText: "",
-      cafePass: JSON.parse(localStorage.getItem("userInfo")).authorityName,
+      cafePass: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")).authorityName : null,
       dataPerPage: 6,
       curPageNum: 1,
     };
+  },
+  mounted(){
+    console.log("this.cafePass", this.cafePass)
   },
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestCafeNumToSpring"]),

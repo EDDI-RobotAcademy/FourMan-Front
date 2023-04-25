@@ -113,7 +113,7 @@ export default {
       searchText: "",
       dataPerPage: 6,
       curPageNum: 1,
-      cafePass: JSON.parse(localStorage.getItem("userInfo")).authorityName,
+      cafePass: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")).authorityName : null,
     };
   },
   methods: {
