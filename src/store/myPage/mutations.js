@@ -21,7 +21,11 @@ import {
     REQUEST_MY_CAFE_INFO_TO_SPRING,
 
     //사이드바 내 정보 관련
-    REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING
+    REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING,
+
+    REQUEST_POINT_DETAILS_LIST_TO_SPRING,
+    REQUEST_POINT_DETAILS_TO_SPRING
+
  } from './mutation-types'
 
  export default {
@@ -64,5 +68,13 @@ import {
    // 사이드바 내 정보 관련
    [REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING] (state, passingData) {
       state.myInfoSideBar = passingData
+   },
+
+   [REQUEST_POINT_DETAILS_LIST_TO_SPRING] (state, passingData) {
+      state.PointDetailsList = passingData
+   },
+   [REQUEST_POINT_DETAILS_TO_SPRING] (state, passingData) {
+      state.PointDetails = passingData
    }
+
  }

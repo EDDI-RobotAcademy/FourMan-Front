@@ -17,7 +17,8 @@ export default {
         console.log(" requestCreateEventToSpring() 작동")
         return axiosInst.post("/event/register", formData)
             .then((res) => {
-                alert("이벤트가 등록되었습니다eventId:", res.data);
+                alert("이벤트가 등록되었습니다");
+                console.log("eventId:",res.data)
                 // 로컬 스토리지에서 userInfo 가져오기
             })
             .catch((res) => {
@@ -48,7 +49,28 @@ export default {
                 alert(error)
             })
     },
-
+    requestModifyEventToSpring({}, {formData,eventId}) {
+        console.log(" requestModifyEventToSpring() 작동")
+        return axiosInst.put(`/event/modify/${eventId}`, formData)
+            .then((res) => {
+                alert("이벤트가 변경 되었습니다");
+                console.log("eventId:",res.data)
+            })
+            .catch((res) => {
+                alert(res.message);
+            });
+    },
+    requestDeleteEventToSpring({},eventId){
+        console.log(" requestDeleteEventToSpring() 작동")
+        return axiosInst.delete(`/event/delete/${eventId}`)
+            .then(() => {
+                alert("이벤트가 삭제 되었습니다");
+              
+            })
+            .catch(() => {
+                alert();
+            });
+    },
     requestImageURLToSpring({},formData){
         return  axiosInst.post(`/event/api/upload/`,formData)
     },
@@ -64,6 +86,7 @@ export default {
             alert(error)
         })
     },
+    
     
 
 

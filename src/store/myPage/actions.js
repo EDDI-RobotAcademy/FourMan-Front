@@ -21,7 +21,10 @@ import {
    REQUEST_MY_CAFE_INFO_TO_SPRING,
 
    // 사이드바 내 정보 관련
-   REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING
+   REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING,
+
+   REQUEST_POINT_DETAILS_LIST_TO_SPRING,
+   REQUEST_POINT_DETAILS_TO_SPRING
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -182,14 +185,26 @@ export default {
             return  axiosInst.post(`/member/check-nickName/${nickName}`)
         },
         requestAddPointToSpring({ }, payload) {
-            const {memberId, point} = payload
+            const {memberId, point, history} = payload
             return  axiosInst.put(`/my-page/add-point/${memberId}`,
-            { point })
+            { point, history })
             .then((res) => {
                 alert(point + "포인트가 지급되었습니다.")
             })
             .catch(() => {
                 alert("문제 발생!")
             })
-        }
+        },
+        requestPointDetailsListToSpring({ commit }) {
+            return axiosInst.get('/my-page/point-details-list')
+                .then((res) => {
+                    commit(REQUEST_POINT_DETAILS_LIST_TO_SPRING, res.data)
+                })
+        },
+        requestPointDetailsToSpring({ commit }, memberId) {
+            return axiosInst.get(`/my-page/point-details/${memberId}`)
+                .then((res) => {
+                    commit(REQUEST_POINT_DETAILS_TO_SPRING, res.data)
+                })
+        },
 }

@@ -16,6 +16,7 @@
             >
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
+            
             <v-btn
               class="brown darken-2 white--text mr-10"
               text
@@ -23,6 +24,24 @@
             >
               예약하기
             </v-btn>
+
+            <div>
+              <!-- 수정 아이콘 -->
+              <router-link
+                v-if="isCafeOwner"
+                :to="{
+                  name: 'EventBoardModifyPage',
+                  params: { eventId: event.eventId.toString() },
+                }"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </router-link>
+
+              <!-- 삭제 아이콘 -->
+              <v-icon v-if="isCafeOwner" @click="deleteEvent" class="mx-5"
+                >mdi-delete</v-icon
+              >
+            </div>
             <!-- 공유를 눌렀을때 나오는거 -->
 
             <v-dialog v-model="dialog" width="400">
@@ -82,7 +101,7 @@
             contain
             width="800px"
             :src="
-              require(`../../assets/event/uploadImgs/${event.thumbnailFileName}`)
+              require(`../../../public/assets/event/uploadImgs/${event.thumbnailFileName}`)
             "
             class="mx-auto"
           />
@@ -121,9 +140,22 @@ export default {
   }),
   computed: {
     ...mapState(eventBoardModule, ["cafe"]),
+    isCafeOwner() {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      return userInfo && userInfo.cafeId === this.cafe.cafeId;
+    },
   },
   methods: {
     ...mapActions(eventBoardModule, ["requestCafeByEventId"]),
+    ...mapActions(eventBoardModule, ["requestDeleteEventToSpring"]),
+    async deleteEvent() {
+      try {
+        await this.requestDeleteEventToSpring(this.event.eventId);
+        this.$router.push({ name: "EventBoardListPage" });
+      } catch (error) {
+        console.error("Failed to delete event:", error);
+      }
+    },
 
     shareOnFacebook() {
       const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -166,8 +198,12 @@ export default {
     event: {
       handler() {
         this.loaded = false;
-        this.requestCafeByEventId(this.event.eventId);
-        this.shareUrl = window.location.href;
+        const eventId = this.$route.params.eventId;
+        if (eventId) {
+          this.requestCafeByEventId(eventId);
+          this.shareUrl = window.location.href;
+        }
+
         this.$nextTick(() => {
           this.loaded = true;
         });
@@ -177,9 +213,8 @@ export default {
   },
   created() {
     // this.shareUrl = window.location.href;
-      // this.requestCafeByEventId(this.event.eventId);//에러남
+    // this.requestCafeByEventId(this.event.eventId);//에러남
   },
-  
 };
 </script>
 <style scoped>
