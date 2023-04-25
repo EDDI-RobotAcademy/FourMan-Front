@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(memberInfo, index) in filteredMembers" :key="index">
+                <tr v-for="(memberInfo, index) in displayedMembers" :key="index">
                     <td>{{ memberInfo.id }}</td>
                     <td>{{ memberInfo.nickName }}</td>
                     <td>{{ memberInfo.authorityName }}</td>
@@ -31,9 +31,9 @@
                     <td>{{ memberInfo.phoneNumber }}</td>
                     <td>{{ memberInfo.point }}</td>
                     <td v-if="memberInfo.authorityName === '일반회원'">
-                      <input class="mb-2" type="text" placeholder="포인트 지급 사유" v-model="history" style="border: 1px solid #ccc; border-radius: 6px;">
+                      <input class="mb-2" type="text" placeholder="포인트 지급 사유" v-model="pointHistory[memberInfo.id].history" style="border: 1px solid #ccc; border-radius: 6px;">
                       <br>
-                      <input type="number" style="border: 1px solid #ccc; border-radius: 5px; width: 100px;" v-model="point" required step="10">
+                      <input type="number" style="border: 1px solid #ccc; border-radius: 5px; width: 100px;" v-model="pointHistory[memberInfo.id].point" required step="10">
                       <v-btn class="ms-2" small @click="addPoint(memberInfo.id)">지급</v-btn>
                     </td>
                     <td v-else></td>
@@ -41,6 +41,13 @@
                 </tr>
             </tbody>
 	    </table>
+      <v-pagination
+                class="mt-5"
+                v-model="page"
+                :length="Math.ceil(filteredMembers.length / itemsPerPage)"
+                :total-visible="5"
+                color="#5D4037"
+            ></v-pagination>
     </div>
   </div>
 </template>
@@ -60,8 +67,19 @@ export default {
     data() {
       return {
         searchText: '',
-        point: 0,
-        history: '',
+        page: 1,
+        itemsPerPage: 10,
+        pointHistory: {},
+      }
+    },
+    watch: {
+      memberInfoList: {
+        immediate: true,
+        handler() {
+          this.memberInfoList.forEach(member => {
+            this.$set(this.pointHistory, member.id, { history: '', point: 0 });
+          });
+        }
       }
     },
     methods: {
@@ -76,17 +94,23 @@ export default {
          }
       },
       async addPoint(memberId) {
-        if(this.history.length === 0) {
+        if(!this.pointHistory[memberId]) {
+          alert('포인트 지급 사유와 포인트를 입력하세요!')
+          return
+        }
+
+        if(this.pointHistory[memberId].history.length === 0) {
           alert('포인트 지급 사유를 입력하세요!')
           return
         }
 
-        if(this.point === 0) {
+        if(this.pointHistory[memberId].point === 0) {
           alert('포인트를 입력하세요!')
           return
         }
 
-        const { point, history } = this
+
+        const { point, history } = this.pointHistory[memberId]
         await this.requestAddPointToSpring({ memberId, point, history })
         location.reload()
       }
@@ -96,7 +120,12 @@ export default {
         return this.memberInfoList.filter(member => {
           return member.nickName.includes(this.searchText);
         });
-      }
+      },
+      displayedMembers() {
+        const start = (this.page - 1) * this.itemsPerPage;
+        const end = this.page * this.itemsPerPage;
+        return this.filteredMembers.slice(start, end);
+      },
     }
 }
 </script>

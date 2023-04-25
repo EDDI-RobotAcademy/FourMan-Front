@@ -48,8 +48,7 @@ import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardD
 import EventBoardListPage from '@/views/eventBoard/EventBoardListPage.vue'
 import EventBoardRegisterPage from '@/views/eventBoard/EventBoardRegisterPage.vue'
 import EventBoardDetailPage  from '@/views/eventBoard/EventBoardDetailPage.vue'
-
-
+import EventBoardModifyPage  from '@/views/eventBoard/EventBoardModifyPage.vue'
 //마이페이지 관련
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
@@ -60,6 +59,9 @@ import MemberManagementPage from '@/views/managerMyPage/MemberManagementPage.vue
 import CafeManagementPage from '@/views/managerMyPage/CafeManagementPage.vue'
 import MyCafeManagementPage from '@/views/cafeMyPage/MyCafeManagementPage.vue'
 import MyCafeModifyPage from '@/views/cafeMyPage/MyCafeModifyPage.vue'
+import PointDetailsPage from '@/views/managerMyPage/PointDetailsPage.vue'
+import MemberPointDetailsPage from '@/views/memberMyPage/MemberPointDetailsPage.vue'
+
 
 //공지사항관련
 import NoticeBoardRegisterPage from '@/views/noticeBoard/NoticeBoardRegisterPage.vue'
@@ -117,6 +119,16 @@ const routes = [
     name: 'EventBoardDetailPage',
     components: {
       default:  EventBoardDetailPage
+    },
+    props: {
+      default: true
+    },
+  },
+  {
+    path: '/event-board-modify-page/:eventId',
+    name: 'EventBoardModifyPage',
+    components: {
+      default: EventBoardModifyPage
     },
     props: {
       default: true
@@ -428,6 +440,26 @@ const routes = [
     name: 'MyCafeModifyPage',
     components: {
       default: MyCafeModifyPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/point-details-page',
+    name: 'PointDetailsPage',
+    components: {
+      default: PointDetailsPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/member-point-details-page',
+    name: ' MemberPointDetailsPage',
+    components: {
+      default:  MemberPointDetailsPage
     },
     props: {
       default: true
