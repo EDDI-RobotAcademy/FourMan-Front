@@ -75,6 +75,17 @@ export default {
                 alert(error)
             })
     },
+    requestDeleteCafeToSpring({},cafeId){
+        console.log(" requestDeleteCafeToSpring() 작동")
+        return axiosInst.delete(`/cafe/delete/${cafeId}`)
+            .then(() => {
+                alert("카페가 삭제 되었습니다");
+              
+            })
+            .catch(() => {
+                alert();
+            });
+    },
     async requestCafeRatingToSpring({ }, cafeName) {
         console.log("requestCafeRatingToSpring() 작동")
         return axiosInst.get(`/review-board/rating/${cafeName}`)

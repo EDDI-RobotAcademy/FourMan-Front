@@ -188,7 +188,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "vuex";
+const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 export default {
   name: "CafeIntroBoardDetailForm",
   props: {
@@ -212,13 +213,22 @@ export default {
   }),
 
   methods: {
+    ...mapActions(cafeIntroduceBoardModule, ["requestDeleteCafeToSpring"]),
+
     getImagePath(imageName) {
       if (imageName) {
         return require(`../../../public/assets/cafe/uploadImgs/${imageName}`);
       }
       return null;
     },
-    async deleteCafe() {},
+    async deleteCafe() {
+      try {
+        await this.requestDeleteCafeToSpring(this.cafe.cafeId);
+        this.$router.push({ name: "CafeIntroBoardListPage" });
+      } catch (error) {
+        console.error("Failed to delete cafe:", error);
+      }
+    },
     loadKakaoMapsSDK() {
       return new Promise((resolve, reject) => {
         const script = document.createElement("script");
