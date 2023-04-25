@@ -15,21 +15,38 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(freeBoard, index) in calData" :key="index">
-                          <td>{{ freeBoard.boardId }}</td>
+                        <tr v-for="(bestFreeBoard, index) in calBestData" :key="'best' + index" class="best-row">
+                          <td>{{ bestFreeBoard.boardId }}</td>
                           <th>
                             <router-link
-                                :to="{
-                                    name: 'FreeBoardReadPage',
-                                    params: { boardId: freeBoard.boardId.toString() },
-                                }"
-                                >{{ freeBoard.title}}</router-link>
+                              :to="{
+                                name: 'FreeBoardReadPage',
+                                params: { boardId: bestFreeBoard.boardId.toString() },
+                              }"
+                            > <v-icon
+                                color="brown"
+                                size="medium">mdi-thumb-up</v-icon>       {{ bestFreeBoard.title }}</router-link>
                           </th>
-                          <td>{{ freeBoard.writer }}</td>
-                          <td>{{ freeBoard.regDate.slice(0, 10) }}</td>
-                          <td>{{ freeBoard.viewCnt }}</td>
-                          <td>{{ freeBoard.recommendation }}</td>
-                      </tr>
+                          <td>{{ bestFreeBoard.writer }}</td>
+                          <td>{{ bestFreeBoard.regDate.slice(0, 10) }}</td>
+                          <td>{{ bestFreeBoard.viewCnt }}</td>
+                          <td>{{ bestFreeBoard.recommendation }}</td>
+                        </tr>
+                        <tr v-for="(freeBoard, index) in calFreeData" :key="'free' + index">
+                            <td>{{ freeBoard.boardId }}</td>
+                            <th>
+                              <router-link
+                                  :to="{
+                                      name: 'FreeBoardReadPage',
+                                      params: { boardId: freeBoard.boardId.toString() },
+                                  }"
+                                  >{{ freeBoard.title}}</router-link>
+                            </th>
+                            <td>{{ freeBoard.writer }}</td>
+                            <td>{{ freeBoard.regDate.slice(0, 10) }}</td>
+                            <td>{{ freeBoard.viewCnt }}</td>
+                            <td>{{ freeBoard.recommendation }}</td>
+                        </tr>
                       </tbody>
                   </table>
                   <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="freeBoards.length === 0">
@@ -39,7 +56,7 @@
           </div>
           <v-pagination
             v-model="curPageNum"
-            :length="numOfPages"
+            :length="numOfFreePages"
             color="#5D4037"
             class="mt-10"
             flat
@@ -57,6 +74,9 @@ import router from "@/router"
       props: {
           freeBoards: {
               type: Array
+          },
+          bestFreeBoards: {
+            type: Array
           }
       },
       data () {
@@ -70,7 +90,7 @@ import router from "@/router"
                   { text: '추천수', value: 'recommendation', width: "50px" },
               ],
               selectedItems: [],
-              dataPerPage: 8,
+              dataPerPage: 10,
               curPageNum: 1,
               //boardsWithSelected: [this.boards.map(x => ({...x, isSelectable: false}))],
           }
@@ -84,18 +104,24 @@ import router from "@/router"
           },
       },
       computed: {
-            startOffset() {
-                return (this.curPageNum - 1) * this.dataPerPage;
-            },
-            endOffset() {
-                return this.startOffset + this.dataPerPage;
-            },
-            numOfPages() {
-                return Math.ceil(this.freeBoards.length / this.dataPerPage);
-            },
-            calData() {
-                return this.freeBoards.slice(this.startOffset, this.endOffset);
-            },
+        startOffset() {
+          return (this.curPageNum - 1) * this.dataPerPage;
+        },
+        endOffset() {
+          return this.startOffset + this.dataPerPage;
+        },
+        numOfBestPages() {
+          return Math.ceil(this.bestFreeBoards.length / this.dataPerPage);
+        },
+        numOfFreePages() {
+          return Math.ceil(this.freeBoards.length / this.dataPerPage);
+        },
+        calBestData() {
+          return this.bestFreeBoards.slice(0, 3);
+        },
+        calFreeData() {
+          return this.freeBoards.slice(this.startOffset, this.endOffset);
+        },
         },
     }
 
@@ -279,4 +305,7 @@ import router from "@/router"
     width: 1px;
     height: 1px;
   }
+  .best-row {
+  background-color: #f2f2f2;
+}
   </style>
