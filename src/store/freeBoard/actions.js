@@ -9,6 +9,9 @@ import {
     REQUEST_SEARCH_FREE_BOARD_LIST_TO_SPRING,
 
     REQUEST_FREE_BOARD_IMAGE_LIST_TO_SPRING,
+
+    //베스트 게시물 관련
+    REQUEST_BEST_FREE_BOARD_LIST_TO_SPRING,
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -138,5 +141,17 @@ export default {
                     commit(REQUEST_FREE_BOARD_IMAGE_LIST_TO_SPRING, res.data)
                 })
         },
+
+        //베스트 게시물 관련
+        requestBestFreeBoardListToSpring({commit}) {
+            return axiosInst.get('/free-board/best-free-board')
+            .then((res) => {
+                commit(REQUEST_BEST_FREE_BOARD_LIST_TO_SPRING, res.data)
+                console.log('bestFreeBoards 확인:' + JSON.stringify(res.data))
+            })
+            .catch(() => {
+                console.log('Best FreeBoard 출력 실패')
+            })
+        }
 
 }

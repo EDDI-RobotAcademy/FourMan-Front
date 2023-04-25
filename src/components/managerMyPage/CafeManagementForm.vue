@@ -90,13 +90,12 @@ export default {
         });
       },
     },
-    created() {
-      this.totalSales = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthTotalSales, 0);
-      this.totalOrderCount = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthOrderCount, 0);
-      this.totalReservationCount = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthReservationCount, 0);
-    },
     watch: {
       cafeInfoList: function() {
+        this.totalSales = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthTotalSales, 0);
+        this.totalOrderCount = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthOrderCount, 0);
+        this.totalReservationCount = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthReservationCount, 0);
+        
         const ctx = this.$refs.myChart.getContext('2d');
         new Chart(ctx, {
           type: 'bar',
