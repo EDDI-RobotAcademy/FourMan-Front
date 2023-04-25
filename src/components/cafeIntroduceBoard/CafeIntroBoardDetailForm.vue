@@ -122,6 +122,9 @@
         {{ cafe.cafeInfo.description }}
       </div>
     </v-card>
+    <div id="app">
+      <div ref="map" style="width: 100%; height: 400px"></div>
+    </div>
   </v-container>
 </template>
 
@@ -135,13 +138,77 @@ export default {
       required: true,
     },
   },
+  async mounted() {
+    await this.loadKakaoMapScript();
+    this.initializeMap();
+  },
   data: () => ({
+    address: "",
+    map: null,
+    marker: null,
+
     copied: false,
     dialog: false,
     shareUrl: "",
   }),
 
   methods: {
+    loadKakaoMapScript() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=1b9ab9c85ce4696e324d95f2d27458e2&libraries=services`;
+        script.onload = () => {
+          if (window.kakao && window.kakao.maps) {
+            resolve();
+          } else {
+            reject(new Error("Failed to load Kakao Map API"));
+          }
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    },
+
+    async initializeMap() {
+      this.map = new window.kakao.maps.Map(this.$refs.map, {
+        center: new window.kakao.maps.LatLng(37.5665, 126.978),
+        level: 3,
+      });
+      this.marker = new window.kakao.maps.Marker({
+        position: this.map.getCenter(),
+      });
+      this.marker.setMap(this.map);
+
+      await this.setMapCenter(this.cafe.cafeAddress);
+    },
+    // async setMapCenter(address) {
+    //   const geocoder = new window.kakao.maps.services.Geocoder();
+    //   geocoder.addressSearch(address, (result, status) => {
+    //     if (status === window.kakao.maps.services.Status.OK) {
+    //       const addressName = result[0].address_name;
+    //       const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+    //       this.map.setCenter(coords);
+    //       this.marker.setPosition(coords);
+    //       console.log("Address name: ", addressName);
+    //     } else {
+    //       console.error("Geocoder failed due to: " + status);
+    //     }
+    //   });
+    // },
+    async setMapCenter(cafeName) {
+      const places = new window.kakao.maps.services.Places();
+      places.keywordSearch(cafeName, (result, status) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+          this.map.setCenter(coords);
+          this.marker.setPosition(coords);
+          console.log("Cafe name: ", cafeName);
+        } else {
+          console.error("Keyword search failed due to: " + status);
+        }
+      });
+    },
     shareOnFacebook() {
       const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         this.shareUrl
