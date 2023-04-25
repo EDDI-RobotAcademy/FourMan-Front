@@ -12,28 +12,32 @@
         </v-col>
         <v-col class="d-flex" cols="6">
           <v-carousel
-            v-model="selectedImageIndex"
             cycle
             hide-delimiters
             show-arrows-on-hover
             :style="{ height: '350px' }"
             interval="5000"
           >
-            <v-carousel-item v-for="(chunk, i) in getChunkedImages" :key="i">
-              <v-row>
-                <v-col
-                  v-for="(imageName, index) in chunk"
-                  :key="index"
-                  cols="4"
-                >
+            <v-carousel-item
+              v-for="(imageName, index) in allImages"
+              :key="index"
+            >
+              <v-row class="align-center justify-center">
+                <v-col v-for="n in 3" :key="n" cols="4">
                   <v-img
                     :style="{
                       height: '100px',
                       width: '100%',
                       cursor: 'pointer',
                     }"
-                    :src="require(`../../assets/cafe/uploadImgs/${imageName}`)"
-                    @click="selectedImageIndex = i * 3 + index"
+                    :src="
+                      getImagePath(
+                        allImages[(index + n - 1) % allImages.length]
+                      )
+                    "
+                    @click="
+                      selectedImageIndex = (index + n - 1) % allImages.length
+                    "
                   />
                 </v-col>
               </v-row>
@@ -194,7 +198,7 @@ export default {
     },
   },
   async mounted() {
-    await this.loadKakaoMapScript();
+    await this.loadKakaoMapsSDK();
     this.initializeMap();
   },
   data: () => ({
@@ -208,34 +212,18 @@ export default {
   }),
 
   methods: {
-    goPrev() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
+    getImagePath(imageName) {
+      if (imageName) {
+        return require(`../../assets/cafe/uploadImgs/${imageName}`);
       }
+      return null;
     },
-    goNext() {
-      if (
-        this.cafeLists &&
-        this.cafeLists.length > 4 &&
-        this.currentIndex < this.cafeLists.length - 3
-      ) {
-        this.currentIndex++;
-      } else {
-        this.currentIndex = 0;
-      }
-    },
-    autoSlide() {
-      this.autoSlideInterval = setInterval(() => {
-        this.goNext();
-      }, 5000);
-    },
-
     async deleteCafe() {},
-    loadKakaoMapScript() {
+    loadKakaoMapsSDK() {
       return new Promise((resolve, reject) => {
         const script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=1b9ab9c85ce4696e324d95f2d27458e2&libraries=services`;
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=1b9ab9c85ce4696e324d95f2d27458e2&libraries=services`;
         script.onload = () => {
           if (window.kakao && window.kakao.maps) {
             resolve();
@@ -327,18 +315,25 @@ export default {
 
   computed: {
     allImages() {
-      return [
+      if (!this.cafe || !this.cafe.cafeInfo) {
+        return [];
+      }
+
+      const images = [
         this.cafe.cafeInfo.thumbnailFileName,
         ...this.cafe.cafeInfo.cafeImagesName,
       ];
-    },
-    getChunkedImages() {
-      const chunkSize = 1;
-      const chunkedArray = [];
-      for (let i = 0; i < this.allImages.length; i += chunkSize) {
-        chunkedArray.push(this.allImages.slice(i, i + chunkSize));
-      }
-      return chunkedArray;
+
+      // 이미지 배열에서 정의되지 않은 요소를 제거합니다.
+      return images.filter((image) => {
+        try {
+          require(`../../assets/cafe/uploadImgs/${image}`);
+          return true;
+        } catch (e) {
+          console.error(`Cannot find image: ${image}`);
+          return false;
+        }
+      });
     },
     isOperating() {
       const currentTime = new Date();
