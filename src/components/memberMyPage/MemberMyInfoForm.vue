@@ -85,7 +85,7 @@
                               prepend-icon="mdi-lock-outline"
                               :counter="15"
                               color="orange"
-                              :type="showPassword ? 'text' : 'password'"
+                              :type="inputType"
                               />
                            </div>
                            <div>
@@ -104,7 +104,6 @@
                               class="mt-6 brown darken-2 white--text"
                               @click="passwordCheck()"
                               :disabled="false"
-                              dialog =false
                               >확인</v-btn
                            >
                         </v-card-text>
@@ -156,6 +155,11 @@ export default {
          if(boolean) {
             this.$router.push({ name: 'MemberMyInfoModifyPage'})
          }
+      },
+   },
+   computed: {
+      inputType() {
+         return this.showPassword ? 'text' : 'password';
       },
    },
 }
