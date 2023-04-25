@@ -5,7 +5,9 @@
     </div>
         <search-bar-form class="mb-2 me-7" style="float: right;" v-model="searchText" @search="onSearch" />
         <div v-if="searchBoards.length === 0">
-        <free-board-list-form :freeBoards="freeBoards"/>
+        <free-board-list-form
+        :freeBoards="freeBoards"
+        :bestFreeBoards="bestFreeBoards"/>
         </div>
         <div v-else>
           <free-board-search-result-form :searchBoards="searchBoards" />
@@ -40,17 +42,20 @@
     },
     computed: {
       ...mapState(freeBoardModule,[
-        'freeBoards', 'searchBoards'
+        'freeBoards','bestFreeBoards', 'searchBoards'
       ]),
     },
-    mounted () {
-      this.requestFreeBoardListToSpring()
-      this.requestSearchFreeBoardListToSpring()
+    async mounted () {
+      await this.requestFreeBoardListToSpring()
+      await this.requestSearchFreeBoardListToSpring()
+      await this.requestBestFreeBoardListToSpring()
+      console.log(JSON.stringify(this.bestFreeBoards))
     },
     methods: {
       ...mapActions(freeBoardModule,[
         'requestFreeBoardListToSpring',
-        'requestSearchFreeBoardListToSpring'
+        'requestSearchFreeBoardListToSpring',
+        'requestBestFreeBoardListToSpring'
       ]),
       // loginCheck() {
       //   const userInfo = localStorage.getItem('userInfo');
@@ -77,6 +82,7 @@
           }
       },
     }
+
   }
   </script>
 
