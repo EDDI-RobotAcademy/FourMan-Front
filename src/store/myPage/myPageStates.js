@@ -25,4 +25,5 @@ export default {
    myInfoSideBar: {},
 
    PointDetailsList: [],
+   PointDetails: [],
 }
