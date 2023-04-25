@@ -124,6 +124,10 @@ export default {
             title: "카페 리스트",
             icon: "mdi-coffee",
             route: "/cafe-management-page"},
+          {
+            title: "포인트 내역",
+            icon: "mdi-currency-usd",
+            route: "/point-details-page"},
       ]
     }
   },
