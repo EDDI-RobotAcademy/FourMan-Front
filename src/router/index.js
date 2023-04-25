@@ -60,6 +60,7 @@ import CafeManagementPage from '@/views/managerMyPage/CafeManagementPage.vue'
 import MyCafeManagementPage from '@/views/cafeMyPage/MyCafeManagementPage.vue'
 import MyCafeModifyPage from '@/views/cafeMyPage/MyCafeModifyPage.vue'
 import PointDetailsPage from '@/views/managerMyPage/PointDetailsPage.vue'
+import MemberPointDetailsPage from '@/views/memberMyPage/MemberPointDetailsPage.vue'
 
 
 //공지사항관련
@@ -449,6 +450,16 @@ const routes = [
     name: 'PointDetailsPage',
     components: {
       default: PointDetailsPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/member-point-details-page',
+    name: ' MemberPointDetailsPage',
+    components: {
+      default:  MemberPointDetailsPage
     },
     props: {
       default: true

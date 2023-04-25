@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(memberInfo, index) in filteredMembers" :key="index">
+                <tr v-for="(memberInfo, index) in displayedMembers" :key="index">
                     <td>{{ memberInfo.id }}</td>
                     <td>{{ memberInfo.nickName }}</td>
                     <td>{{ memberInfo.authorityName }}</td>
@@ -41,6 +41,13 @@
                 </tr>
             </tbody>
 	    </table>
+      <v-pagination
+                class="mt-5"
+                v-model="page"
+                :length="Math.ceil(filteredMembers.length / itemsPerPage)"
+                :total-visible="5"
+                color="#5D4037"
+            ></v-pagination>
     </div>
   </div>
 </template>
@@ -62,6 +69,8 @@ export default {
         searchText: '',
         point: 0,
         history: '',
+        page: 1,
+        itemsPerPage: 10,
       }
     },
     methods: {
@@ -96,7 +105,12 @@ export default {
         return this.memberInfoList.filter(member => {
           return member.nickName.includes(this.searchText);
         });
-      }
+      },
+      displayedMembers() {
+        const start = (this.page - 1) * this.itemsPerPage;
+        const end = this.page * this.itemsPerPage;
+        return this.filteredMembers.slice(start, end);
+      },
     }
 }
 </script>
