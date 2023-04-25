@@ -369,7 +369,7 @@ export default {
         await this.$router.push({ name: "CafeIntroBoardListPage" });
         //파일 업로드 하지 않은 경우
       } else {
-        alert("상품 사진을 업로드해주세요");
+        alert("카페 사진을 업로드해주세요");
       }
     },
     thumbnailCancel() {
