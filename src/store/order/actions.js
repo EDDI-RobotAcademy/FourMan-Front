@@ -38,6 +38,14 @@ export default {
          commit(REQUEST_HOLD_POINT_TO_SPRING, res.data)
          console.log('holdPoint: ' + JSON.stringify(res.data))
       })
+   },
+   requestCancelOrderToSpring({}, orderId) {
+      return axiosInst.post(`/order/cancel/${orderId}`)
+         .then(() => {
+            alert("취소 성공")
+         })
+         .catch(() => {
+            alert("문제 발생!")
+         })
    }
-
 }
