@@ -77,7 +77,6 @@
 
                            <div class="d-flex">
                               <v-text-field
-                              type="password"
                               v-model="password"
                               label="비밀번호"
                               :rules="password_rule"
