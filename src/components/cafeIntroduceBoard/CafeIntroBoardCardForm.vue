@@ -22,7 +22,7 @@
               v-if="cafe && loaded"
               height="250"
               :src="
-                require(`../../assets/cafe/uploadImgs/${cafe.cafeInfo.thumbnailFileName}`)
+                require(`../../../public/assets/cafe/uploadImgs/${cafe.cafeInfo.thumbnailFileName}`)
               "
             />
           </router-link>

@@ -190,7 +190,7 @@
                 class="imageTd"
               >
                 <v-img
-                  :src="image"
+                  :src="image.url"
                   width="300px"
                   contain
                   style="display: block"
@@ -199,37 +199,6 @@
             </tr>
           </table>
         </v-row>
-
-        <!-- <v-row class="mt-10">
-          <table v-show="this.multipleFiles.length > 0">
-            <tr>
-              <td align="right">
-                <v-btn
-                  text
-                  color="grey"
-                  style="font-size: 16px"
-                  @click="uploadCancel"
-                  >cancel<v-icon>mdi-delete-outline</v-icon></v-btn
-                >
-              </td>
-            </tr>
-            <tr
-              v-for="(image, index) in this.multiplePreview"
-              :key="index"
-              style="border-bottom: none"
-            >
-              <td colspan="4" class="imageTd">
-                <v-img
-                  :src="image"
-                  width="400px"
-                  contain
-                  style=" display: block"
-                />
-              </td>
-            </tr>
-          </table>
-        </v-row> -->
-
         <!-- 등록하기 -->
         <v-row class="justify-center mt-15 mb-5">
           <div>
@@ -259,8 +228,43 @@
 import { mapActions } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
-  name: "CafeIntroBoardRegisterForm",
+  name: "CafeIntroBoardModifyForm",
+  props: {
+    cafe: {
+      type: Object,
+      required: true,
+    },
+  },
   created() {
+    this.cafeAddress = this.cafe.cafeAddress;
+    this.cafeTel = this.cafe.cafeTel;
+    this.startTime = this.cafe.startTime;
+    this.endTime = this.cafe.endTime;
+    this.subTitle = this.cafe.cafeInfo.subTitle;
+    this.description = this.cafe.cafeInfo.description;
+    this.thumbnailFile = this.cafe.cafeInfo.thumbnailFileName;
+    console.log(
+      " this.cafe.cafeInfo.thumbnailFileName:",
+      this.cafe.cafeInfo.thumbnailFileName
+    );
+    this.thumbnailPreview = `/assets/cafe/uploadImgs/${this.thumbnailFile}`;
+    console.log("this.thumbnailPreview", this.thumbnailPreview);
+
+    console.log(
+      "this.cafe.cafeInfo.cafeImagesName",
+      this.cafe.cafeInfo.cafeImagesName
+    );
+
+    if (this.cafe.cafeInfo && this.cafe.cafeInfo.cafeImagesName) {
+      this.multipleFiles = this.cafe.cafeInfo.cafeImagesName.map((fileName) => {
+        return {
+          file: fileName,
+          url: `/assets/cafe/uploadImgs/${fileName}`,
+        };
+      });
+    }
+    console.log("this.multipleFiles", this.multipleFiles);
+
     const startTime = new Date();
     startTime.setHours(0, 0, 0, 0); // 00:00:00
     const endTime = new Date();
@@ -285,7 +289,7 @@ export default {
       for (let i = 0; i < this.multipleFiles.length; i += 3) {
         const rowImages = [];
         for (let j = 0; j < 3 && i + j < this.multipleFiles.length; j++) {
-          rowImages.push(URL.createObjectURL(this.multipleFiles[i + j]));
+          rowImages.push(this.multipleFiles[i + j]);
         }
         imageRows.push(rowImages);
       }
@@ -309,8 +313,9 @@ export default {
       thumbnailFile: "",
       multipleFiles: "",
       fileNum: 0,
-      multiplePreview: [],
+      // multiplePreview: [],
       thumbnailPreview: [],
+      add:true
     };
   },
 
@@ -324,18 +329,27 @@ export default {
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
     },
     handleMultipleFileUpload() {
-      this.multipleFiles = this.$refs.multipleFiles.files;
-      this.fileNum += this.$refs.multipleFiles.files.length;
-      for (let i = 0; i < this.$refs.multipleFiles.files.length; i++) {
-        this.multiplePreview[i] = URL.createObjectURL(
-          this.$refs.multipleFiles.files[i]
-        );
-      }
+      const newFiles = this.$refs.multipleFiles.files;
+      this.multipleFiles = [
+        ...this.multipleFiles,
+        ...Array.from(newFiles).map((file) => {
+          return {
+            file,
+            url: URL.createObjectURL(file),
+          };
+        }),
+      ];
+      console.log("this.$refs.multipleFiles전", this.$refs.multipleFiles);
+      console.log(
+        "this.$refs.multipleFiles.value",
+        this.$refs.multipleFiles.value
+      );
+      this.$refs.multipleFiles.value = "";
+      console.log("this.$refs.multipleFiles후", this.$refs.multipleFiles);
     },
 
     async onSubmit() {
       console.log("카페 등록- registerform");
-
       //파일 업로드한 경우
       if (!this.multipleFiles.length == 0 && !this.thumbnailFile.length == 0) {
         let formData = new FormData();
@@ -344,7 +358,8 @@ export default {
 
         for (let idx = 0; idx < this.multipleFiles.length; idx++) {
           console.log("파일리스트 반복문:" + idx);
-          formData.append("fileList", this.multipleFiles[idx]);
+          console.log("this.multipleFiles[idx]" + this.multipleFiles[idx]);
+          formData.append("fileList", this.multipleFiles[idx].file);
         }
 
         let cafeContents = {
@@ -355,6 +370,7 @@ export default {
           subTitle: this.subTitle,
           description: this.description,
           code: JSON.parse(localStorage.getItem("userInfo")).code,
+          add:this.add
         };
 
         formData.append(
@@ -363,10 +379,8 @@ export default {
             type: "application/json",
           })
         );
+        this.$emit("submit", formData);
 
-        await this.requestCreateCafeToSpring(formData);
-        await this.requestCafeListToSpring();
-        await this.$router.push({ name: "CafeIntroBoardListPage" });
         //파일 업로드 하지 않은 경우
       } else {
         alert("카페 사진을 업로드해주세요");
@@ -375,10 +389,12 @@ export default {
     thumbnailCancel() {
       this.thumbnailFile = "";
       this.$refs.thumbnailFile.value = "";
+      this.thumbnailPreview = ""; // 이 부분을 추가해주세요.
     },
     uploadCancel() {
       this.multipleFiles = "";
       this.$refs.multipleFiles.value = "";
+      this.add=false;
     },
     cancel() {
       this.$router.go(-1);

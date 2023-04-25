@@ -43,6 +43,7 @@ import TotalOrderPage from '@/views/order/TotalOrderPage'
 import CafeIntroBoardListPage from '@/views/cafeIntroduceBoard/CafeIntroBoardListPage.vue'
 import CafeIntroBoardRegisterPage from '@/views/cafeIntroduceBoard/CafeIntroBoardRegisterPage.vue'
 import CafeIntroBoardDetailPage from '@/views/cafeIntroduceBoard/CafeIntroBoardDetailPage.vue'
+import CafeIntroBoardModifyPage from '@/views/cafeIntroduceBoard/CafeIntroBoardModifyPage.vue'
 
 //이벤트 게시판 관련
 import EventBoardListPage from '@/views/eventBoard/EventBoardListPage.vue'
@@ -151,6 +152,16 @@ const routes = [
   name: 'CafeIntroBoardDetailPage',
   components: {
     default:CafeIntroBoardDetailPage
+  },
+  props: {
+    default: true
+  }
+},
+{
+  path: '/cafe-board-modify-page/:cafeId',
+  name: 'CafeIntroBoardModifyPage',
+  components: {
+    default:CafeIntroBoardModifyPage
   },
   props: {
     default: true
