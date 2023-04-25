@@ -27,7 +27,14 @@
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
                      포장 주문
                      </v-sheet>
-                     
+                     <v-sheet v-if="orderInfo.ready == false" class="d-inline-flex align-center justify-center white--text" :elevation="0" 
+                     style="width: 80px; height: 35px; font-weight: bold;  background-color: #ff9800" rounded>
+                     준비중
+                     </v-sheet>
+                     <v-sheet v-else class="d-inline-flex align-center justify-center white--text success" :elevation="0" 
+                     style="width: 80px; height: 35px; font-weight: bold;" rounded>
+                     준비완료
+                     </v-sheet>
                   </v-layout>
                </v-card-subtitle>
 
