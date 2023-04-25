@@ -85,6 +85,10 @@ export default {
             icon: "mdi-currency-usd",
             route: "/member-order-history-page"},
          {
+            title: "포인트 내역",
+            icon: "mdi-circle-multiple",
+            route: "/member-point-details-page"},
+         {
             title: "나의 게시글",
             icon: "mdi-clipboard-text",
             route: "/my-free-board-page"},
@@ -124,6 +128,10 @@ export default {
             title: "카페 리스트",
             icon: "mdi-coffee",
             route: "/cafe-management-page"},
+          {
+            title: "포인트 내역",
+            icon: "mdi-circle-multiple",
+            route: "/point-details-page"},
       ]
     }
   },

@@ -23,4 +23,7 @@ export default {
 
    // 사이드 바 관련
    myInfoSideBar: {},
+
+   PointDetailsList: [],
+   PointDetails: [],
 }
