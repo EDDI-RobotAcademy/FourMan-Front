@@ -6,34 +6,38 @@
           <v-img
             :style="{ height: '350px', width: '100%' }"
             :src="
-              require(`../../assets/cafe/uploadImgs/${allImages[selectedImageIndex]}`)
+              require(`../../../public/assets/cafe/uploadImgs/${allImages[selectedImageIndex]}`)
             "
           />
         </v-col>
         <v-col class="d-flex" cols="6">
           <v-carousel
-            v-model="selectedImageIndex"
             cycle
             hide-delimiters
             show-arrows-on-hover
             :style="{ height: '350px' }"
             interval="5000"
           >
-            <v-carousel-item v-for="(chunk, i) in getChunkedImages" :key="i">
-              <v-row>
-                <v-col
-                  v-for="(imageName, index) in chunk"
-                  :key="index"
-                  cols="4"
-                >
+            <v-carousel-item
+              v-for="(imageName, index) in allImages"
+              :key="index"
+            >
+              <v-row class="align-center justify-center">
+                <v-col v-for="n in 3" :key="n" cols="4">
                   <v-img
                     :style="{
                       height: '100px',
                       width: '100%',
                       cursor: 'pointer',
                     }"
-                    :src="require(`../../assets/cafe/uploadImgs/${imageName}`)"
-                    @click="selectedImageIndex = i * 3 + index"
+                    :src="
+                      getImagePath(
+                        allImages[(index + n - 1) % allImages.length]
+                      )
+                    "
+                    @click="
+                      selectedImageIndex = (index + n - 1) % allImages.length
+                    "
                   />
                 </v-col>
               </v-row>
@@ -98,7 +102,7 @@
               <router-link
                 v-if="isCafeOwner"
                 :to="{
-                  name: 'CafeIntroBoardListPage',
+                  name: 'CafeIntroBoardModifyPage',
                   params: { cafetId: cafe.cafeId.toString() },
                 }"
               >
@@ -184,7 +188,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "vuex";
+const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 export default {
   name: "CafeIntroBoardDetailForm",
   props: {
@@ -194,7 +199,7 @@ export default {
     },
   },
   async mounted() {
-    await this.loadKakaoMapScript();
+    await this.loadKakaoMapsSDK();
     this.initializeMap();
   },
   data: () => ({
@@ -208,34 +213,27 @@ export default {
   }),
 
   methods: {
-    goPrev() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-      }
-    },
-    goNext() {
-      if (
-        this.cafeLists &&
-        this.cafeLists.length > 4 &&
-        this.currentIndex < this.cafeLists.length - 3
-      ) {
-        this.currentIndex++;
-      } else {
-        this.currentIndex = 0;
-      }
-    },
-    autoSlide() {
-      this.autoSlideInterval = setInterval(() => {
-        this.goNext();
-      }, 5000);
-    },
+    ...mapActions(cafeIntroduceBoardModule, ["requestDeleteCafeToSpring"]),
 
-    async deleteCafe() {},
-    loadKakaoMapScript() {
+    getImagePath(imageName) {
+      if (imageName) {
+        return require(`../../../public/assets/cafe/uploadImgs/${imageName}`);
+      }
+      return null;
+    },
+    async deleteCafe() {
+      try {
+        await this.requestDeleteCafeToSpring(this.cafe.cafeId);
+        this.$router.push({ name: "CafeIntroBoardListPage" });
+      } catch (error) {
+        console.error("Failed to delete cafe:", error);
+      }
+    },
+    loadKakaoMapsSDK() {
       return new Promise((resolve, reject) => {
         const script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=1b9ab9c85ce4696e324d95f2d27458e2&libraries=services`;
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=1b9ab9c85ce4696e324d95f2d27458e2&libraries=services`;
         script.onload = () => {
           if (window.kakao && window.kakao.maps) {
             resolve();
@@ -327,18 +325,25 @@ export default {
 
   computed: {
     allImages() {
-      return [
+      if (!this.cafe || !this.cafe.cafeInfo) {
+        return [];
+      }
+
+      const images = [
         this.cafe.cafeInfo.thumbnailFileName,
         ...this.cafe.cafeInfo.cafeImagesName,
       ];
-    },
-    getChunkedImages() {
-      const chunkSize = 1;
-      const chunkedArray = [];
-      for (let i = 0; i < this.allImages.length; i += chunkSize) {
-        chunkedArray.push(this.allImages.slice(i, i + chunkSize));
-      }
-      return chunkedArray;
+
+      // 이미지 배열에서 정의되지 않은 요소를 제거합니다.
+      return images.filter((image) => {
+        try {
+          require(`../../../public/assets/cafe/uploadImgs/${image}`);
+          return true;
+        } catch (e) {
+          console.error(`Cannot find image: ${image}`);
+          return false;
+        }
+      });
     },
     isOperating() {
       const currentTime = new Date();

@@ -63,6 +63,29 @@ export default {
                 alert(error)
             })
     },
+
+    requestModifyCafeToSpring({}, { formData, cafeId }) {
+        console.log("requestCafeModifyToSpring() 작동")
+        return axiosInst.put(`/cafe/modify/${cafeId}`,formData)
+            .then((res) => {
+                alert("카페가 변경 되었습니다");
+                console.log("cafeId : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
+    requestDeleteCafeToSpring({},cafeId){
+        console.log(" requestDeleteCafeToSpring() 작동")
+        return axiosInst.delete(`/cafe/delete/${cafeId}`)
+            .then(() => {
+                alert("카페가 삭제 되었습니다");
+              
+            })
+            .catch(() => {
+                alert();
+            });
+    },
     async requestCafeRatingToSpring({ }, cafeName) {
         console.log("requestCafeRatingToSpring() 작동")
         return axiosInst.get(`/review-board/rating/${cafeName}`)

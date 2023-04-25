@@ -10,4 +10,7 @@ export default {
    searchBoards: [],
 
    freeBoardImages: [],
+
+   //베스트 게시물관련
+   bestFreeBoards: [],
 }
