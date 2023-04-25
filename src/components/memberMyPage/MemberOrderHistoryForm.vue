@@ -3,7 +3,7 @@
    <div class="mt-8">
       <v-layout>
          <center>
-            <h2>예약 내역</h2>
+            <h2>결제 내역</h2>
          </center>
       </v-layout>
    </div>
@@ -23,13 +23,17 @@
                         {{ orderInfo.orderNo }} | {{ orderInfo. orderDate }}
                      </span>
                      <v-spacer />
-                     <v-sheet v-if="orderInfo.packing == true" class="d-inline-flex align-center justify-center primary white--text mr-3" :elevation="0" 
+                     <v-sheet v-if="orderInfo.packing == true && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center primary white--text mr-3" :elevation="0" 
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
                      포장 주문
                      </v-sheet>
-                     <v-sheet v-if="orderInfo.ready == false" class="d-inline-flex align-center justify-center white--text" :elevation="0" 
+                     <v-sheet v-if="orderInfo.ready == false && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center white--text" :elevation="0" 
                      style="width: 80px; height: 35px; font-weight: bold;  background-color: #ff9800" rounded>
                      준비중
+                     </v-sheet>
+                     <v-sheet v-else-if="orderInfo.canceledAt != null" class="d-inline-flex align-center justify-center white--text error" :elevation="0" 
+                     style="width: 80px; height: 35px; font-weight: bold;" rounded>
+                     취소 완료
                      </v-sheet>
                      <v-sheet v-else class="d-inline-flex align-center justify-center white--text success" :elevation="0" 
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
@@ -98,14 +102,16 @@
                                        <div class="mt-3">
                                           <div v-if="orderInfo.usePoint != 0" class="d-flex align-center justify-center">
                                              <span style="font-size: 16px; font-weight: bold;">사용 포인트 : </span>
-                                             <span class="ml-1" style="font-size: 16px; font-weight: bold;">{{ orderInfo.usePoint | comma }}</span>
+                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">{{ orderInfo.usePoint | comma }}</span>
+                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">{{ orderInfo.usePoint | comma }}</span>
                                              <v-icon class="ml-1" style="font-size: 18px;">mdi-alpha-p-circle-outline</v-icon>
                                           </div>
                                        </div>
                                        <div class="mt-3">
                                           <div class="d-flex align-center justify-center">
                                              <span style="font-size: 16px; font-weight: bold;">총 결제 금액 : </span>
-                                             <span class="ml-1" style="font-size: 16px; font-weight: bold;">{{ orderInfo.totalPrice | comma }}</span>
+                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">{{ orderInfo.totalPrice | comma }}</span>
+                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">{{ orderInfo.totalPrice | comma }}</span>
                                              <v-icon class="ml-1" style="font-size: 18px;">mdi-currency-krw</v-icon>
                                           </div>
                                        </div>
@@ -138,7 +144,6 @@
 
                      <!-- 펼쳤을 시 하단 content -->
                      <v-expansion-panel-content>
-                        <!-- <v-divider></v-divider> -->
                         <div v-for="(orderProduct, i) in orderInfo.orderProductList" :key="i" style="border-top: 1px solid #eaebee;" class="pl-6 pr-6 pb-4 pt-4">
                            <table class="d-block" style="text-align: center; border: 1px; border-collapse: collapse;">
                               <tr>
@@ -147,11 +152,25 @@
                                        <v-img :src="require(`@/assets/product/uploadImgs/${ orderProduct.imageResource }`)" width="80px" height="100px" />
                                     </center>
                                  </td>
-                                 <td width="250"> 
+                                 <td width="300"> 
                                     <h4 class="d-block">{{ orderProduct.productName }}</h4>
                                     <span class="d-block ">{{ orderProduct.price | comma }}원</span>
                                     <span class="d-block ">{{ orderProduct.drinkType }}</span>
                                     <span class="d-block ">수량 : {{ orderProduct.count }}</span>
+                                 </td>
+                                 <td v-if="(i === orderInfo.orderProductList.length - 1) && orderInfo.canceledAt == null" width="540">
+                                    <v-dialog v-model="dialog" persistent max-width="300">
+                                       <v-card>
+                                       <v-card-title class="headline">결제 취소</v-card-title>
+                                       <v-card-text>정말 결제를 취소하시겠습니까?</v-card-text>
+                                       <v-card-actions>
+                                          <v-spacer></v-spacer>
+                                          <v-btn color="blue darken-1" text @click="dialog = false">취소</v-btn>
+                                          <v-btn color="blue darken-1" text @click="cancelOrder(orderInfo.orderId)">확인</v-btn>
+                                       </v-card-actions>
+                                       </v-card>
+                                    </v-dialog>
+                                    <v-btn class="mt-12" style="float: right;" color="red" outlined @click="dialog = true">결제 취소</v-btn>
                                  </td>
                               </tr>
                            </table>
@@ -168,6 +187,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
+const orderModule = 'orderModule'
 
 export default {
    name: "MemberOrderHistoryForm",
@@ -175,6 +197,7 @@ export default {
       return {
          isExpanded: false,
          expandedArr: [],
+         dialog: false,
       }
    },
    props: {
@@ -189,6 +212,9 @@ export default {
     }
    },
    methods: {
+      ...mapActions(
+        orderModule, ['requestCancelOrderToSpring']
+      ),
       async whenExpanded(index) {
          if(this.isExpanded == false && this.expandedArr[index] != true) {
             this.isExpanded = true
@@ -204,6 +230,14 @@ export default {
          // console.log("expanded[" + index + "]: " + this.expandedArr[index])
          // console.log("isExpanded: " + this.isExpanded)
       },
+      async cancelOrder(payload) {
+         let orderId = payload
+
+         await this.requestCancelOrderToSpring(orderId)
+
+         // 새로고침
+         this.$router.go()
+      }
    }
 }
 </script>
@@ -211,5 +245,9 @@ export default {
 <style scoped>
 .v-expansion-panel-content>>> .v-expansion-panel-content__wrap {
   padding: 0;
+}
+
+.canceled {
+    text-decoration: line-through;
 }
 </style>
