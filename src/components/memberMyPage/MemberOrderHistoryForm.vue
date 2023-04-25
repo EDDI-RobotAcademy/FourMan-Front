@@ -37,7 +37,7 @@
                      </v-sheet>
                      <v-sheet v-else class="d-inline-flex align-center justify-center white--text success" :elevation="0" 
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
-                     준비완료
+                     준비 완료
                      </v-sheet>
                   </v-layout>
                </v-card-subtitle>
@@ -136,17 +136,30 @@
                                        </div>
                                     </div>
                                  </td>
-                                 <!-- <td width="300" v-if="orderInfo.canceledAt != null"> 
-                                    <h3 class="mt-2">취소 일자</h3>
+                                 <td v-else width="300">
+                                 </td>
+                                 <td width="300" v-if="orderInfo.canceledAt != null"> 
+                                    <h3 class="mt-2 red--text">취소 일자</h3>
                                     <div>
                                        <div class="mt-2">
                                           <div class="d-flex align-center justify-center">
-                                             <v-icon class="mr-2">mdi-cancel</v-icon> 
+                                             <v-icon class="mr-2 red--text">mdi-close-outline</v-icon> 
                                              <span style="font-size: 16px;">{{ orderInfo.canceledAt }}</span>
                                           </div>
                                        </div>
                                     </div>
-                                 </td> -->
+                                    <!-- <v-row class="my-2">
+                                       <v-col>
+                                          <h3 class="text-h6 red--text">취소 일자</h3>
+                                       </v-col>
+                                       </v-row>
+                                       <v-row>
+                                       <v-col class="d-flex justify-center align-center">
+                                          <v-icon class="mr-2 red--text">mdi-close-outline</v-icon>
+                                          <span class="text-subtitle-1">{{ orderInfo.canceledAt }}</span>
+                                       </v-col>
+                                       </v-row> -->
+                                 </td>
                               </tr>
                            </table>
                         </div>
@@ -169,7 +182,7 @@
                                     <span class="d-block ">{{ orderProduct.drinkType }}</span>
                                     <span class="d-block ">수량 : {{ orderProduct.count }}</span>
                                  </td>
-                                 <td v-if="(i === orderInfo.orderProductList.length - 1) && orderInfo.canceledAt == null" width="540">
+                                 <td v-if="(i === orderInfo.orderProductList.length - 1) && orderInfo.canceledAt == null && orderInfo.ready == false" width="540">
                                     <v-dialog v-model="dialog" persistent max-width="300">
                                        <v-card>
                                        <v-card-title class="headline">결제 취소</v-card-title>
@@ -182,6 +195,9 @@
                                        </v-card>
                                     </v-dialog>
                                     <v-btn class="mt-12" style="float: right;" color="red" outlined @click="dialog = true">결제 취소</v-btn>
+                                 </td>
+                                 <td v-else-if="(i === orderInfo.orderProductList.length - 1) && orderInfo.canceledAt == null && orderInfo.ready == true" width="540">
+                                    <v-btn class="mt-12" style="float: right;" color="black" outlined @click="goReview(orderInfo.cafeName)">후기 작성</v-btn>
                                  </td>
                               </tr>
                            </table>
@@ -248,6 +264,12 @@ export default {
 
          // 새로고침
          this.$router.go()
+      },
+      goReview(cafeName) {
+         this.$router.push({
+               name: "ReviewBoardRegisterPage",
+               params: { reviewCafeName: cafeName } 
+         })
       }
    }
 }

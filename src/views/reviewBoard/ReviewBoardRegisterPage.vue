@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <div>
-            <review-board-register-form @submit="onSubmit" />
+            <review-board-register-form @submit="onSubmit" :reviewCafeName="reviewCafeName"/>
         </div>
     </v-container>
 </template>
@@ -26,6 +26,11 @@ export default {
               })
           }
     },
+    props: {
+        reviewCafeName: {
+            type: String,
+        }
+    }
 };
 </script>
 
