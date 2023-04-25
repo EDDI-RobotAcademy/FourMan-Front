@@ -148,17 +148,6 @@
                                           </div>
                                        </div>
                                     </div>
-                                    <!-- <v-row class="my-2">
-                                       <v-col>
-                                          <h3 class="text-h6 red--text">취소 일자</h3>
-                                       </v-col>
-                                       </v-row>
-                                       <v-row>
-                                       <v-col class="d-flex justify-center align-center">
-                                          <v-icon class="mr-2 red--text">mdi-close-outline</v-icon>
-                                          <span class="text-subtitle-1">{{ orderInfo.canceledAt }}</span>
-                                       </v-col>
-                                       </v-row> -->
                                  </td>
                               </tr>
                            </table>
@@ -254,8 +243,6 @@ export default {
             this.isExpanded = false
             this.expandedArr[index] = false
          }
-         // console.log("expanded[" + index + "]: " + this.expandedArr[index])
-         // console.log("isExpanded: " + this.isExpanded)
       },
       async cancelOrder(payload) {
          let orderId = payload
