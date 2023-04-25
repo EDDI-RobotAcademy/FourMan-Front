@@ -102,7 +102,7 @@
               <router-link
                 v-if="isCafeOwner"
                 :to="{
-                  name: 'CafeIntroBoardListPage',
+                  name: 'CafeIntroBoardModifyPage',
                   params: { cafetId: cafe.cafeId.toString() },
                 }"
               >
