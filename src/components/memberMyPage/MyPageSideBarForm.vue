@@ -81,7 +81,7 @@ export default {
             icon: "mdi-account",
             route: "/member-my-page"},
          {
-            title: "예약 내역",
+            title: "결제 내역",
             icon: "mdi-currency-usd",
             route: "/member-order-history-page"},
          {
