@@ -52,7 +52,7 @@
                               <tr>
                                  <td width="80">
                                     <center>
-                                       <v-img :src="require(`@/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
+                                       <v-img :src="require(`../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
                                     </center>
                                  </td>
                                  <td width="300"> 
@@ -93,7 +93,7 @@
                               <tr>
                                  <td width="80">
                                     <center>
-                                       <v-img :src="require(`@/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
+                                       <v-img :src="require(`../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
                                     </center>
                                  </td>
                                  <td width="300">
