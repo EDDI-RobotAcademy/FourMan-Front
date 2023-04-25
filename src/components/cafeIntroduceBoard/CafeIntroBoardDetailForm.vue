@@ -6,7 +6,7 @@
           <v-img
             :style="{ height: '350px', width: '100%' }"
             :src="
-              require(`../../assets/cafe/uploadImgs/${allImages[selectedImageIndex]}`)
+              require(`../../../public/assets/cafe/uploadImgs/${allImages[selectedImageIndex]}`)
             "
           />
         </v-col>
@@ -214,7 +214,7 @@ export default {
   methods: {
     getImagePath(imageName) {
       if (imageName) {
-        return require(`../../assets/cafe/uploadImgs/${imageName}`);
+        return require(`../../../public/assets/cafe/uploadImgs/${imageName}`);
       }
       return null;
     },
@@ -327,7 +327,7 @@ export default {
       // 이미지 배열에서 정의되지 않은 요소를 제거합니다.
       return images.filter((image) => {
         try {
-          require(`../../assets/cafe/uploadImgs/${image}`);
+          require(`../../../public/assets/cafe/uploadImgs/${image}`);
           return true;
         } catch (e) {
           console.error(`Cannot find image: ${image}`);
