@@ -24,7 +24,7 @@
                                     params: { boardId: questionBoard.boardId.toString() },
                                 }">
                                 <b v-bind:class="{ 'hover-cursor': isHover }" v-on:mouseover="isHover = true" v-on:mouseout="isHover = false">
-                                {{ questionBoard.title}}</b>
+                                {{ questionBoard.title}} [ {{ questionBoard.commentCount }}]</b>
                               </th>
                           <td>{{ questionBoard.writer }}</td>
                           <td>{{ questionBoard.regDate.slice(0, 10) }}</td>
