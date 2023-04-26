@@ -90,14 +90,17 @@ import SiteIntroducePage from '@/views/siteIntroduce/SiteIntroducePage.vue'
 import store from "@/store";
 Vue.use(VueRouter)
 
-const userInfo = localStorage.getItem('userInfo');
-const token = userInfo ? JSON.parse(userInfo).token : null;
 
 //토큰으로 회원인지여부확인
 const isLoggedIn = async () => {
+  const userInfo = localStorage.getItem('userInfo');
+  const token = userInfo ? JSON.parse(userInfo).token : null;
+
   console.log("token!!:", token)
   if (token !== null) {
     const res = await store.dispatch('memberModule/requestMemberToSpring', token);
+    console.log("라우터의 res", res)
+    console.log("라우터의 res.data", res.data)
     const object = res.data
     console.log("Member?", res.data)
     return object !== null //로그인이되었으면 true
@@ -107,11 +110,15 @@ const isLoggedIn = async () => {
 };
 
 const memberTypeCheck = async () => {
+  const userInfo = localStorage.getItem('userInfo');
+  const token = userInfo ? JSON.parse(userInfo).token : null;
+
   console.log("token!!:", token)
   if (token !== null) {
     const res = await store.dispatch('memberModule/requestMemberToSpring', token);
+    console.log("라우터의 res", res)
+    console.log("라우터의 res.data", res.data)
     const object = res.data
-    console.log("Member?", res.data)
     console.log("Member?", res.data)
     return object.authority.authorityName;//로그인이되었으면 true
   }
