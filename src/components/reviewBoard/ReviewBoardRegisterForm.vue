@@ -55,6 +55,12 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         cafeList: [],
       };
     },
+    props: {
+      reviewCafeName: {
+        type: String,
+      }
+    }
+    ,
     methods: {
         ...mapActions (reviewBoardModule,[
             'requestCafeListToSpring'
@@ -110,6 +116,9 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
     },
     created() {
       this.requestCafeList()
+      if(this.reviewCafeName != null) {
+        this.cafeName = this.reviewCafeName
+      }
     },
     mounted() {
       this.editor = new Editor({
@@ -123,6 +132,7 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
       this.editor.on('change', () => {
         this.content = this.editor.getMarkdown();
       });
+      console.log(this.reviewCafeName)
     }
   };
   </script>

@@ -5,7 +5,7 @@
         </div>
         <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                매출액: {{ myCafeInfo.monthTotalSales }}
+                매출액 {{ myCafeInfo.monthTotalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.monthTotalSales / 300000"
@@ -14,7 +14,7 @@
                 />
             </div>
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                예약건수: {{ myCafeInfo.monthReservationCount }}
+                예약건수 {{ myCafeInfo.monthReservationCount }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.monthReservationCount / 30"
@@ -23,7 +23,7 @@
                 />
             </div>
             <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                주문건수: {{ myCafeInfo.monthOrderCount }}
+                주문건수 {{ myCafeInfo.monthOrderCount }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.monthOrderCount / 30"
@@ -37,7 +37,7 @@
         </div>
         <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                매출액: {{ myCafeInfo.dayTotalSales }}
+                매출액 {{ myCafeInfo.dayTotalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.dayTotalSales / 10000"
@@ -46,7 +46,7 @@
                 />
             </div>
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                예약건수: {{ myCafeInfo.dayReservationCount }}
+                예약건수 {{ myCafeInfo.dayReservationCount }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.dayReservationCount"
@@ -55,7 +55,7 @@
                 />
             </div>
             <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                주문건수: {{ myCafeInfo.dayOrderCount }}
+                주문건수 {{ myCafeInfo.dayOrderCount }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.dayOrderCount"
