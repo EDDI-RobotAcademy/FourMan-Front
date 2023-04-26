@@ -1,10 +1,12 @@
 <template>
-  <v-container style="max-width: 1000px">
-  <my-page-side-bar-form/>
-    <div class="wrap productWrap">
-      <CafeIntroBoardListForm :cafeLists="cafeLists"></CafeIntroBoardListForm>
-    </div>
-  </v-container>
+  <div class="d-flex">
+    <my-page-side-bar-form/>
+    <v-container style="max-width: 1000px">
+      <div class="wrap productWrap">
+        <CafeIntroBoardListForm :cafeLists="cafeLists"></CafeIntroBoardListForm>
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script>

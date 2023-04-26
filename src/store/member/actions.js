@@ -27,6 +27,14 @@ export default {
         return axiosInst.post(`/member/check-manager/${codeText}`)
 
     },
+    requestMemberToSpring({commit}, token) {
+        return axiosInst.post("/member/user-verification", token)
+        .then((res)=>{
+            const member = res.data;
+            commit('setMember', member);
+        })
+    },
+
     requestSignOutToSpring({ commit }, token) {
         return axiosInst.post("/member/logout", token)
             .then(() => {

@@ -22,16 +22,12 @@ export default {
   },
   data() {
     return { 
-
-    
     };
   },
   methods: {
     ...mapActions(eventBoardModule, [
       "requestEventListToSpring",
     ]),
-
-
   },
    async created() {
     await this.requestEventListToSpring();

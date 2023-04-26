@@ -1,11 +1,11 @@
 <template>
-  <div>
-   <my-page-side-bar-form />
+   <div class="d-flex">
+      <my-page-side-bar-form />
 
-   <v-container style="width: 1000px">
-      <member-order-history-form :orderInformations="orderInformations"/>
-   </v-container>
-  </div>
+      <v-container style="width: 1000px">
+         <member-order-history-form :orderInformations="orderInformations"/>
+      </v-container>
+   </div>
 </template>
 
 <script>

@@ -48,8 +48,8 @@ import CafeIntroBoardModifyPage from '@/views/cafeIntroduceBoard/CafeIntroBoardM
 //이벤트 게시판 관련
 import EventBoardListPage from '@/views/eventBoard/EventBoardListPage.vue'
 import EventBoardRegisterPage from '@/views/eventBoard/EventBoardRegisterPage.vue'
-import EventBoardDetailPage  from '@/views/eventBoard/EventBoardDetailPage.vue'
-import EventBoardModifyPage  from '@/views/eventBoard/EventBoardModifyPage.vue'
+import EventBoardDetailPage from '@/views/eventBoard/EventBoardDetailPage.vue'
+import EventBoardModifyPage from '@/views/eventBoard/EventBoardModifyPage.vue'
 
 //마이페이지 관련
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
@@ -86,7 +86,76 @@ import MyReviewBoardPage from '@/views/cafeMyPage/MyReviewBoardPage.vue'
 // 사이트 소개
 import SiteIntroducePage from '@/views/siteIntroduce/SiteIntroducePage.vue'
 
+//
+import store from "@/store";
 Vue.use(VueRouter)
+
+const userInfo = localStorage.getItem('userInfo');
+const token = userInfo ? JSON.parse(userInfo).token : null;
+
+//토큰으로 회원인지여부확인
+const isLoggedIn = async () => {
+  console.log("token!!:", token)
+  if (token !== null) {
+    const res = await store.dispatch('memberModule/requestMemberToSpring', token);
+    const object = res.data
+    console.log("Member?", res.data)
+    return object !== null //로그인이되었으면 true
+  }
+  return false;//로그인이 안되어있으면
+
+};
+
+const memberTypeCheck = async () => {
+  console.log("token!!:", token)
+  if (token !== null) {
+    const res = await store.dispatch('memberModule/requestMemberToSpring', token);
+    const object = res.data
+    console.log("Member?", res.data)
+    console.log("Member?", res.data)
+    return object.authority.authorityName;//로그인이되었으면 true
+  }
+  return false;
+};
+
+
+const ifNotMember = async (to, from, next) => {//비회원인경우만 접속가능하게ex)로그인페이지
+  if (!await isLoggedIn()) {//로그인이안되었다면
+    next();//다음 라우트로 이동
+    return;
+  }
+  alert("비회원만 가능합니다.")
+  next("/");//로그인이되었다면 루트경로로이동
+};
+
+const ifMember = async (to, from, next) => {//회원인경우만 접속가능하게
+  if (await isLoggedIn()) {//로그인이되었다면
+    next();//진행
+    return;
+  }
+  alert("로그인 페이지로 이동합니다.")
+  next("/sign-in");//로그인이 안되었다면 로그인페이지로이동
+};
+
+
+
+const ifManager = async (to, from, next) => {//매니저인경우
+  if (await memberTypeCheck() == 'MANAGER') {
+    next();
+    return;
+  }
+  alert("관리자만 가능합니다.")
+  next('/');
+};
+
+const ifCafe = async (to, from, next) => {//카페사업자인경우
+  if (await memberTypeCheck() == 'CAFE') {
+    next();
+    return;
+  }
+  alert("카페사업자만 가능합니다.")
+  next('/cafe-board-list-page');
+};
 
 const routes = [
   //공통 페이지 관련
@@ -105,8 +174,8 @@ const routes = [
     },
     props: {
       default: true
-    }
-
+    },
+    beforeEnter: ifMember
   },
   //이벤트 게시판 관련
   {
@@ -117,13 +186,14 @@ const routes = [
   {
     path: '/event-board-register-page',
     name: 'EventBoardRegisterPage',
-    component: EventBoardRegisterPage
+    component: EventBoardRegisterPage,
+    beforeEnter: ifCafe
   },
   {
     path: '/event-board-detail-page/:eventId',
     name: 'EventBoardDetailPage',
     components: {
-      default:  EventBoardDetailPage
+      default: EventBoardDetailPage
     },
     props: {
       default: true
@@ -138,41 +208,44 @@ const routes = [
     props: {
       default: true
     },
+    beforeEnter: ifCafe
   },
 
   //카페소개 게시판 관련
-{
-  path: '/cafe-board-list-page',
-  name: 'CafeIntroBoardListPage',
-  component: CafeIntroBoardListPage
-},
-{
-  path: '/cafe-board-register-page',
-  name: 'CafeIntroBoardRegisterPage',
-  component: CafeIntroBoardRegisterPage
-},
-{
-  path: '/cafe-board-detail-page/:cafeId',
-  name: 'CafeIntroBoardDetailPage',
-  components: {
-    default:CafeIntroBoardDetailPage
+  {
+    path: '/cafe-board-list-page',
+    name: 'CafeIntroBoardListPage',
+    component: CafeIntroBoardListPage
   },
-  props: {
-    default: true
-  }
-},
-{
-  path: '/cafe-board-modify-page/:cafeId',
-  name: 'CafeIntroBoardModifyPage',
-  components: {
-    default:CafeIntroBoardModifyPage
+  {
+    path: '/cafe-board-register-page',
+    name: 'CafeIntroBoardRegisterPage',
+    component: CafeIntroBoardRegisterPage,
+    beforeEnter: ifCafe
   },
-  props: {
-    default: true
-  }
-},
+  {
+    path: '/cafe-board-detail-page/:cafeId',
+    name: 'CafeIntroBoardDetailPage',
+    components: {
+      default: CafeIntroBoardDetailPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/cafe-board-modify-page/:cafeId',
+    name: 'CafeIntroBoardModifyPage',
+    components: {
+      default: CafeIntroBoardModifyPage
+    },
+    props: {
+      default: true
+    },
+    beforeEnter: ifCafe
+  },
 
-//상품 관련
+  //상품 관련
   {
     path: '/product-register-page',
     name: 'ProductRegisterPage',
@@ -189,7 +262,7 @@ const routes = [
     }
   },
 
-// 주문 관련
+  // 주문 관련
   {
     path: '/total-order-page',
     name: 'TotalOrderPage',
@@ -202,50 +275,55 @@ const routes = [
   },
 
 
-//로그인 관련
+  //로그인 관련
   {
     path: '/sign-up',
     name: 'SignUpPage',
     components: {
-     default: SignUpPage
+      default: SignUpPage
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifNotMember
   },
   {
     path: '/sign-in',
     name: 'SignInPage',
-    component: SignInPage
+    component: SignInPage,
+    beforeEnter: ifNotMember
   },
   {
     path: '/search-password',
     name: 'SearchMemberPasswordPage',
-    component: SearchMemberPasswordPage
+    component: SearchMemberPasswordPage,
+    beforeEnter: ifNotMember
   },
   {
     path: '/sign-up-accept',
     name: 'SignUpAcceptPage',
     components: {
       default: SignUpAcceptPage
-     },
+    },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifNotMember
   },
   {
     path: '/sign-up-choice',
     name: 'SignUpChoicePage',
     components: {
       default: SignUpChoicePage
-     },
+    },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifNotMember
   },
 
 
-// 자유 게시판 관련
+  // 자유 게시판 관련
   {
     path: '/free-board-list-page',
     name: 'FreeBoardListPage',
@@ -489,30 +567,32 @@ const routes = [
     path: '/member-point-details-page',
     name: ' MemberPointDetailsPage',
     components: {
-      default:  MemberPointDetailsPage
+      default: MemberPointDetailsPage
     },
     props: {
       default: true
     }
-  },{
+  }, {
     path: '/my-favorite-cafe-page',
     name: 'MemberFavoriteCafePage',
     components: {
-      default:  MemberFavoriteCafePage
+      default: MemberFavoriteCafePage
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
   {
     path: '/my-cafe-event-page',
     name: 'MyCafeEventListPage',
     components: {
-      default:  MyCafeEventListPage
+      default: MyCafeEventListPage
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
 
 
