@@ -297,7 +297,12 @@ const routes = [
   {
     path: '/review-board-register-page',
     name: 'ReviewBoardRegisterPage',
-    component: ReviewBoardRegisterPage,
+    components: {
+      default: ReviewBoardRegisterPage
+    },
+    props: {
+      default: true
+    },
     beforeEnter: (to, from, next) => {
       const userInfo = localStorage.getItem('userInfo');
       if (userInfo != null) {
