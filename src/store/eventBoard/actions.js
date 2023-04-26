@@ -86,6 +86,17 @@ export default {
             alert(error)
         })
     },
+    requestMyCafeEventListToSpring({ commit },cafeId) {
+        console.log("requestMyCafeEventListToSpring 작동")
+        return axiosInst.get(`/event/mylist/${cafeId}`)
+            .then((res) => {
+                commit(REQUEST_EVENT_LIST_TO_SPRING, res.data)
+                console.log("res.data : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
     
     
 
