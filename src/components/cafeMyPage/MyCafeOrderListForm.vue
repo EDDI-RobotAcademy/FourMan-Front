@@ -34,7 +34,7 @@
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
                      포장 주문
                      </v-sheet>
-                     <v-sheet v-if="orderInfo.ready == false && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center white--text" :elevation="0" @click="isReadyAlarm"
+                     <v-sheet v-if="orderInfo.ready == false && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center white--text" :elevation="0" @click="orderIsReady(orderInfo.orderId)"
                      style="cursor: pointer; width: 80px; height: 35px; font-weight: bold; background-color: #ff9800" rounded>
                      준비 <v-icon class="ml-1" style="font-size: 18px;">mdi-bell</v-icon> 
                      </v-sheet>
@@ -194,18 +194,18 @@
                                     <span class="d-block ">수량 : {{ orderProduct.count }}</span>
                                  </td>
                                  <td v-if="(i === orderInfo.orderProductList.length - 1) && orderInfo.canceledAt == null && orderInfo.ready == false" width="540">
-                                    <v-dialog v-model="dialog" persistent max-width="300">
+                                    <v-dialog v-model="cancelDialog" persistent max-width="300">
                                        <v-card>
                                        <v-card-title class="headline">주문 취소</v-card-title>
                                        <v-card-text>정말 주문를 취소하시겠습니까?</v-card-text>
                                        <v-card-actions>
                                           <v-spacer></v-spacer>
-                                          <v-btn color="blue darken-1" text @click="dialog = false">취소</v-btn>
+                                          <v-btn color="blue darken-1" text @click="cancelDialog = false">취소</v-btn>
                                           <v-btn color="blue darken-1" text @click="cancelOrder(orderInfo.orderId)">확인</v-btn>
                                        </v-card-actions>
                                        </v-card>
                                     </v-dialog>
-                                    <v-btn class="mt-12" style="float: right;" color="red" outlined @click="dialog = true">주문 취소</v-btn>
+                                    <v-btn class="mt-12" style="float: right;" color="red" outlined @click="cancelDialog = true">주문 취소</v-btn>
                                  </td>
                               </tr>
                            </table>
@@ -232,7 +232,7 @@ export default {
       return {
          isExpanded: false,
          expandedArr: [],
-         dialog: false,
+         cancelDialog: false,
          currentTime: new Date(),
       }
    },
@@ -249,7 +249,7 @@ export default {
    },
    methods: {
       ...mapActions(
-        orderModule, ['requestCancelOrderToSpring']
+        orderModule, ['requestCancelOrderToSpring', 'requestOrderIsReadySpring']
       ),
       async whenExpanded(index) {
          if(this.isExpanded == false && this.expandedArr[index] != true) {
@@ -264,16 +264,20 @@ export default {
             this.expandedArr[index] = false
          }
       },
-      async cancelOrder(payload) {
-         let orderId = payload
-
+      async cancelOrder(orderId) {
          await this.requestCancelOrderToSpring(orderId)
 
          // 새로고침
          this.$router.go()
       },
-      isReadyAlarm() {
-         alert('준비 완료 상태로 변경하였습니다.')
+      async orderIsReady(orderId) {
+         if (confirm("정말 완료 처리하겠습니까?")) {
+            await this.requestOrderIsReadySpring(orderId)
+            // 새로고침
+            this.$router.go()
+         } else {
+            console.log("완료 처리가 취소되었습니다.");
+         }
       },
       orderDateTime(orderDate) {
          const [year, month, day, hour, minute] = orderDate.split(/년|월|일|시|분/);
