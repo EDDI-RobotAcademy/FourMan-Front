@@ -174,10 +174,10 @@ export default {
       JSON.parse(localStorage.getItem("userInfo")).id
     );
 
-    console.log("sideBar:" + this.myInfoSideBar.memberType);
-    this.nickName = this.myInfoSideBar.nickName;
-    this.memberType = this.myInfoSideBar.memberType;
-    this.point = this.myInfoSideBar.point;
+
+    this.nickName = this.myInfoSideBar.nickName
+    this.memberType = this.myInfoSideBar.memberType
+    this.point = this.myInfoSideBar.point
 
     if (this.point == null) {
       this.point = 0;

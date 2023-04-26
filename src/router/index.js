@@ -50,6 +50,7 @@ import EventBoardListPage from '@/views/eventBoard/EventBoardListPage.vue'
 import EventBoardRegisterPage from '@/views/eventBoard/EventBoardRegisterPage.vue'
 import EventBoardDetailPage  from '@/views/eventBoard/EventBoardDetailPage.vue'
 import EventBoardModifyPage  from '@/views/eventBoard/EventBoardModifyPage.vue'
+
 //마이페이지 관련
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
@@ -64,6 +65,7 @@ import PointDetailsPage from '@/views/managerMyPage/PointDetailsPage.vue'
 import MemberPointDetailsPage from '@/views/memberMyPage/MemberPointDetailsPage.vue'
 import MemberFavoriteCafePage from '@/views/memberMyPage/MemberFavoriteCafePage.vue'
 import MyCafeEventListPage from '@/views/cafeMyPage/MyCafeEventListPage.vue'
+import MyCafeOrderListPage from '@/views/cafeMyPage/MyCafeOrderListPage.vue'
 
 
 //공지사항관련
@@ -458,6 +460,16 @@ const routes = [
     name: 'MyCafeModifyPage',
     components: {
       default: MyCafeModifyPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/my-cafe-order-list-page',
+    name: 'MyCafeOrderListPage',
+    components: {
+      default: MyCafeOrderListPage
     },
     props: {
       default: true
