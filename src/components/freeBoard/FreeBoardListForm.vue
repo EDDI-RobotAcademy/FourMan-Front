@@ -25,7 +25,7 @@
                               }"
                             > <v-icon
                                 color="brown"
-                                size="medium">mdi-thumb-up</v-icon>       {{ bestFreeBoard.title }}</router-link>
+                                size="medium">mdi-thumb-up</v-icon>       {{ bestFreeBoard.title }} [{{ bestFreeBoard.commentCount }}]</router-link>
                           </th>
                           <td>{{ bestFreeBoard.writer }}</td>
                           <td>{{ bestFreeBoard.regDate.slice(0, 10) }}</td>
@@ -40,7 +40,7 @@
                                       name: 'FreeBoardReadPage',
                                       params: { boardId: freeBoard.boardId.toString() },
                                   }"
-                                  >{{ freeBoard.title}}</router-link>
+                                  >{{ freeBoard.title}} [ {{ freeBoard.commentCount }}]</router-link>
                             </th>
                             <td>{{ freeBoard.writer }}</td>
                             <td>{{ freeBoard.regDate.slice(0, 10) }}</td>
