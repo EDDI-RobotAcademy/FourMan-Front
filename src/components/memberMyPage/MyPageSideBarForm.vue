@@ -2,47 +2,58 @@
   <div>
     <v-navigation-drawer
         permanent
-        height="100%"
-        app
-        color="brown lighten-2"
         hide-overlay
+        height="100%"
+        color=""
+        width="250"
+        style="position: relative;"
+        class="mb-15"
     >
-      <v-divider style="border-color: black; margin-top: 79px" ></v-divider>
+      <div class="d-flex align-center justify-center">
+        <v-text-field
+          v-model="search"
+          label="메뉴 검색"
+          single-line
+          hide-details
+          solo class="ml-3 mt-5 mr-3 mb-5"
+        ></v-text-field>
+      </div>
 
-      <v-list-item style="height: 20%">
+      <v-list-item style="height: 250px">
         <v-list-item-content>
-          <v-list-item-title class="mb-5" style="margin-top: 145px">
+          <v-list-item-title>
             <div align="center">
               <router-link to="/member-my-page">
                 <v-avatar
-                    :size="110"
+                    :size="120"
                     color="grey lighten-4">
                   <img src="@/assets/myPage/default_profile_image.png" alt="avatar">
                 </v-avatar>
               </router-link>
             </div>
           </v-list-item-title>
-          <v-list-item-subtitle class="black--text justify-center mt-3">
-            <div align="center" style="font-size: 17px">
+          <v-list-item-subtitle class="black--text justify-center">
+            <div class="mt-4" align="center" style="font-size: 17px; font-weight: bold;">
                {{ nickName }} 님
             </div>
-            <div align="center" class="mt-1" style="font-size: 15px">
+            <div align="center" class="mt-3" style="font-size: 16px">
                {{ memberType }}
             </div>
-            <div v-if="memberType == '일반회원'" align="center" class="mt-1" style="font-size: 15px">
-               보유 포인트: {{ point | comma }}P
+            <div v-if="memberType == '일반회원'" class="mt-2 d-flex align-center justify-center">
+               <span style="font-size: 16px">보유 포인트 : {{ point | comma }}</span> 
+               <v-icon style="font-size: 28px; margin-left: -7px; font-weight: bold;">mdi-alpha-p</v-icon> 
             </div>
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
-      <v-divider style="border-color: black; margin-top: 130px" ></v-divider>
+      <!-- <v-divider style="border-color: gray;"></v-divider> -->
 
       <!-- 선택 메뉴 -->
 
       <v-list dense nav>
         <v-list-item
-            v-for="menu in menus"
+            v-for="menu in filterMenus()"
             :key="menu.title"
             :to="menu.route"
             link
@@ -65,7 +76,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 
-const myPageModule= 'myPageModule'
+const myPageModule = 'myPageModule'
 
 export default {
    name: "MyPageSideBarForm",
@@ -75,6 +86,7 @@ export default {
       memberType: String,
       point: Number,
       menus: [],
+      search: "",
       menusForMember: [
          {
             title: "내 정보",
@@ -166,7 +178,10 @@ export default {
   methods: {
     ...mapActions(
       myPageModule, ['requestMyInfoForSideBarToSpring']
-    )
+    ),
+    filterMenus() {
+      return this.menus.filter(menu => menu.title.toLowerCase().includes(this.search.toLowerCase()));
+    },
   },
   computed: {
     ...mapState(
@@ -201,6 +216,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
