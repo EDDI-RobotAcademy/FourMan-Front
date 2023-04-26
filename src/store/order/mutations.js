@@ -2,7 +2,8 @@ import {
    //주문 관련
    REQUEST_ORDER_INFORMATIONS_TO_SPRING,
    UPDATE_IS_ORDER_PACKING,
-   REQUEST_HOLD_POINT_TO_SPRING
+   REQUEST_HOLD_POINT_TO_SPRING,
+   REQUEST_CAFE_ORDER_LIST_TO_SPRING
 
 } from './mutation-types'
 
@@ -17,6 +18,10 @@ export default {
    },
    [REQUEST_HOLD_POINT_TO_SPRING](state, passingData) {
       state.holdPoint = passingData
-   }
+   },
+   [REQUEST_CAFE_ORDER_LIST_TO_SPRING](state, passingData) {
+      state.cafeOrderInformations = passingData
+   },
+
 
 }

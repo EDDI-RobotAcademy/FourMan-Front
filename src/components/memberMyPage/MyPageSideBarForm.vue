@@ -86,7 +86,7 @@ export default {
             route: "/member-order-history-page"},
          {
             title: "포인트 내역",
-            icon: "mdi-circle-multiple",
+            icon: "mdi-alpha-p-circle",
             route: "/member-point-details-page"},
          {
             title: "나의 게시글",
@@ -107,12 +107,16 @@ export default {
             icon: "mdi-account",
             route: "/member-my-page"},
          {
+            title: "주문 내역",
+            icon: "mdi-table-chair",
+            route: "/my-cafe-order-list-page"},
+         {
             title: "카페 관리",
             icon: "mdi-coffee",
             route: "/my-cafe-management-page"},
          {
             title: "메뉴 관리",
-            icon: "mdi-list-box",
+            icon: "mdi-cup",
             route: "/product-manage-page"},
       ],
       menusForManager : [
@@ -130,7 +134,7 @@ export default {
             route: "/cafe-management-page"},
           {
             title: "포인트 내역",
-            icon: "mdi-circle-multiple",
+            icon: "mdi-alpha-p-circle",
             route: "/point-details-page"},
       ]
     }
@@ -148,7 +152,7 @@ export default {
   async created() {
     await this.requestMyInfoForSideBarToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
 
-    console.log("sideBar:" + this.myInfoSideBar.memberType)
+    console.log("memberType: " + this.myInfoSideBar.memberType)
     this.nickName = this.myInfoSideBar.nickName
     this.memberType = this.myInfoSideBar.memberType
     this.point = this.myInfoSideBar.point
