@@ -23,7 +23,7 @@
               :key="index"
             >
               <v-row class="align-center justify-center">
-                <v-col v-for="n in 3" :key="n" cols="4">
+                <v-col v-for="n in 9" :key="n" cols="4">
                   <v-img
                     :style="{
                       height: '100px',
@@ -189,7 +189,7 @@
 
 <script>
 import { mapActions } from "vuex";
-const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
+const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
   name: "CafeIntroBoardDetailForm",
   props: {
