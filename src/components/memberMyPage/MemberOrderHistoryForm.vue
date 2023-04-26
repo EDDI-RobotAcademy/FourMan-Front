@@ -61,7 +61,7 @@
                                        <span class="d-block" style="font-size: 16px;">
                                           {{ orderInfo.orderProductList[0].productName }} 포함 총 {{ orderInfo.totalQuantity }}건
                                        </span>
-                                       <span class="d-block mt-3" style="font-size: 16px; font-weight: bold;">{{ orderInfo.totalPrice | comma }}원</span>
+                                       <span class="d-block mt-3" style="font-size: 16px; font-weight: bold;">{{ orderInfo.totalPrice + orderInfo.usePoint | comma }}원</span>
                                     </div>
                                  </td>
 
