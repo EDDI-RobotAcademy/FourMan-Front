@@ -21,6 +21,7 @@
                   <v-text-field
                       v-model="email"
                       label="이메일"
+                      autocomplete="current-email"
                       :rules="email_rule"
                       clearable
                       prepend-icon="mdi-account-outline"
@@ -31,6 +32,7 @@
                 <div class="d-flex">
                   <v-text-field
                       type="password"
+                      autocomplete="current-password"
                       v-model="password"
                       label="비밀번호"
                       :rules="password_rule"
@@ -91,7 +93,7 @@ export default {
         }
       ],
       password_rule: [
-        v => this.state === 'ins' ? !!v || '패스워드는 필수 입력사항입니다.' : true,
+        v => !!v || '패스워드는 필수 입력사항입니다.',
         v => !(v && v.length > 20) || '패스워드는 20자를 초과 입력할 수 없습니다.',
       ],
     };

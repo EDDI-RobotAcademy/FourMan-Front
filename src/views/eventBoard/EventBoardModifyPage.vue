@@ -22,16 +22,6 @@ export default {
     ...mapState( eventBoardModule,['event'])
   },
   created: function () {
-    if (JSON.parse(localStorage.getItem("userInfo")).authorityName !== "CAFE") {
-      console.log(
-        "JSON.parse(localStorage.getItem('userInfo')).authorityName :",
-        JSON.parse(localStorage.getItem("userInfo")).authorityName
-      );
-      this.$router.push({
-        name: "EventBoardListPage",
-      });
-    }
-
     this.requestEventDetailToSpring(this.eventId)
   },
   methods: {

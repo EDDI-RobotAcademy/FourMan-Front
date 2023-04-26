@@ -1,10 +1,10 @@
 <template>
-    <div>
-    <my-page-side-bar-form />
-    
-    <v-container style="width: 1000px">
-        <my-cafe-modify-form :myCafeInfo="myCafeInfo" @submit="onSubmit" />
-    </v-container>
+    <div class="d-flex">
+        <my-page-side-bar-form />
+        
+        <v-container style="width: 1000px">
+            <my-cafe-modify-form :myCafeInfo="myCafeInfo" @submit="onSubmit" />
+        </v-container>
 </div>
 </template>
 

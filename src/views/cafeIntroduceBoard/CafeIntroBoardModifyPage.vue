@@ -22,15 +22,6 @@ export default {
     ...mapState(cafeIntroduceBoardModule, ["cafe"]),
   },
   created: function () {
-    if (JSON.parse(localStorage.getItem("userInfo")).authorityName !== "CAFE") {
-      console.log(
-        "JSON.parse(localStorage.getItem('userInfo')).authorityName :",
-        JSON.parse(localStorage.getItem("userInfo")).authorityName
-      );
-      this.$router.push({
-        name: "CafeIntroBoardListPage",
-      });
-    }
     this.requestCafeDetailToSpring(this.cafeId);
   },
   methods: {
