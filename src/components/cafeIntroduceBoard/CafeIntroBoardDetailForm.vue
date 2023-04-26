@@ -64,17 +64,28 @@
             ></v-rating>
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
-            <div class="grey--text">
+            <div>
               <span v-if="rating">{{ rating.toFixed(1) }}</span>
               <span v-else>0</span>
               <span> ({{ totalRating }})</span>
             </div>
+            <v-icon
+              v-if="!isFavorite"
+              class="mx-2 mr-5"
+              color="grey"
+              @click="toggleFavorite"
+            >
+              mdi-heart-outline
+            </v-icon>
+            <v-icon v-else class="mx-2" color="red" @click="toggleFavorite">
+              mdi-heart
+            </v-icon>
           </v-col>
         </v-row>
 
         <v-row class="mx-0 d-flex justify-space-between" align="center">
           <v-col cols="auto">
-            <div class="grey--text">
+            <div>
               <span>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</span> &nbsp;
               <span>영업 시간: {{ cafe.startTime }} ~ {{ cafe.endTime }}</span>
               &nbsp;
@@ -188,7 +199,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+const memberModule = "memberModule";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
   name: "CafeIntroBoardDetailForm",
@@ -204,6 +216,7 @@ export default {
   },
   data: () => ({
     selectedImageIndex: 0,
+    isFavorite: false,
     map: null,
     marker: null,
 
@@ -214,6 +227,23 @@ export default {
 
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestDeleteCafeToSpring"]),
+    ...mapActions(memberModule, [
+      "sendFavoriteStatusToSpring",
+      "checkFavoriteStatus",
+    ]),
+    async toggleFavorite() {
+      if (this.isAuthenticated) {
+        this.isFavorite = !this.isFavorite;
+        const payload = {
+          cafeId: this.cafe.cafeId,
+          memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+          isFavorite: this.isFavorite,
+        };
+        await this.sendFavoriteStatusToSpring(payload);
+      } else {
+        this.dialog = true;
+      }
+    },
 
     getImagePath(imageName) {
       if (imageName) {
@@ -324,6 +354,7 @@ export default {
   },
 
   computed: {
+    ...mapState(memberModule, ["isAuthenticated"]),
     allImages() {
       if (!this.cafe || !this.cafe.cafeInfo) {
         return [];
@@ -372,7 +403,24 @@ export default {
       return this.$route.query.totalRating;
     },
   },
-  created() {
+  async created() {
+    console.log("this.cafe.cafeId", this.cafe.cafeId);
+    const cafeId = Number(this.$route.params.cafeId);
+    console.log(
+      " Number(this.$route.params.cafeId);",
+      Number(this.$route.params.cafeId)
+    );
+    console.log("this.isAuthenticated ",this.isAuthenticated )
+    // 하... 새로고침하는순간 isAuthenticated값이 false가 되는게 문제임
+    if (this.isAuthenticated == true) {
+      const payload = {
+        cafeId: cafeId,
+        memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+      };
+      const res = await this.checkFavoriteStatus(payload);
+      console.log("찜했냐res.data", res.data);
+      this.isFavorite = res.data;
+    }
     this.shareUrl = window.location.href;
   },
 };
