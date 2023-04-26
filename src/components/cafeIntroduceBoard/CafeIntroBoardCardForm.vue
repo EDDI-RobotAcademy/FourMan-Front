@@ -41,7 +41,7 @@
               background-color="gray"
             ></v-rating>
 
-            <div class="grey--text ms-4">
+            <div class=" ms-4">
               <span v-if="rating">{{ rating.toFixed(1) }}</span>
               <span v-else>0</span>
               <span> ({{ totalRating }})</span>
