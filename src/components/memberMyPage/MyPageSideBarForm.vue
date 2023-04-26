@@ -79,59 +79,87 @@ export default {
          {
             title: "내 정보",
             icon: "mdi-account",
-            route: "/member-my-page"},
+            route: "/member-my-page"
+         },
          {
             title: "결제 내역",
             icon: "mdi-currency-usd",
-            route: "/member-order-history-page"},
+            route: "/member-order-history-page"
+         },
          {
             title: "포인트 내역",
-            icon: "mdi-circle-multiple",
-            route: "/member-point-details-page"},
+            icon: "mdi-alpha-p-circle",
+            route: "/member-point-details-page"
+         },
          {
             title: "나의 게시글",
             icon: "mdi-clipboard-text",
-            route: "/my-free-board-page"},
+            route: "/my-free-board-page"
+         },
+         {
+            title: "내가 찜한 카페",
+            icon: "mdi-coffee",
+            route: "/my-favorite-cafe-page",
+         },
          {
             title: "나의 문의",
             icon: "mdi-comment-question",
-            route: "/my-question-board-page"},
+            route: "/my-question-board-page"
+         },
          {
             title: "나의 후기",
             icon: "mdi-star",
-            route: "/my-review-board-page"},
+            route: "/my-review-board-page"
+         },
       ],
       menusForCafe : [
          {
             title: "내 정보",
             icon: "mdi-account",
-            route: "/member-my-page"},
+            route: "/member-my-page"
+         },
+         {
+            title: "주문 내역",
+            icon: "mdi-table-chair",
+            route: "/my-cafe-order-list-page"
+         },
+         {
+            title: "이벤트 관리",
+            icon: "mdi-clipboard-text",
+            route: "/my-cafe-event-page"
+         },
          {
             title: "카페 관리",
             icon: "mdi-coffee",
-            route: "/my-cafe-management-page"},
+            route: "/my-cafe-management-page"
+         },
          {
             title: "메뉴 관리",
-            icon: "mdi-list-box",
-            route: "/product-manage-page"},
+            icon: "mdi-cup",
+            route: "/product-manage-page"
+         },
       ],
       menusForManager : [
          {
             title: "내 정보",
             icon: "mdi-account",
-            route: "/member-my-page"},
+            route: "/member-my-page"
+         },
          {
             title: "회원 관리",
             icon: "mdi-account-supervisor",
-            route: "/member-management-page"},
+            route: "/member-management-page"
+         },
          {
             title: "카페 리스트",
             icon: "mdi-coffee",
-            route: "/cafe-management-page"},
-          {
+            route: "/cafe-management-page"
+         },
+         {
             title: "포인트 내역",
-            icon: "mdi-circle-multiple",
-            route: "/point-details-page"},
+            icon: "mdi-alpha-p-circle",
+            route: "/point-details-page"
+         },
       ]
     }
   },
@@ -148,7 +176,7 @@ export default {
   async created() {
     await this.requestMyInfoForSideBarToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
 
-    console.log("sideBar:" + this.myInfoSideBar.memberType)
+    console.log("memberType: " + this.myInfoSideBar.memberType)
     this.nickName = this.myInfoSideBar.nickName
     this.memberType = this.myInfoSideBar.memberType
     this.point = this.myInfoSideBar.point

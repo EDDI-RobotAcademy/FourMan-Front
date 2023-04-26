@@ -4,4 +4,5 @@ export default {
    isOrderPacking: Boolean,
    orderInformations: [],
    holdPoint: Number,
+   cafeOrderInformations: [],
  }

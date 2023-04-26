@@ -50,6 +50,7 @@ import EventBoardListPage from '@/views/eventBoard/EventBoardListPage.vue'
 import EventBoardRegisterPage from '@/views/eventBoard/EventBoardRegisterPage.vue'
 import EventBoardDetailPage  from '@/views/eventBoard/EventBoardDetailPage.vue'
 import EventBoardModifyPage  from '@/views/eventBoard/EventBoardModifyPage.vue'
+
 //마이페이지 관련
 import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
 import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
@@ -62,6 +63,9 @@ import MyCafeManagementPage from '@/views/cafeMyPage/MyCafeManagementPage.vue'
 import MyCafeModifyPage from '@/views/cafeMyPage/MyCafeModifyPage.vue'
 import PointDetailsPage from '@/views/managerMyPage/PointDetailsPage.vue'
 import MemberPointDetailsPage from '@/views/memberMyPage/MemberPointDetailsPage.vue'
+import MemberFavoriteCafePage from '@/views/memberMyPage/MemberFavoriteCafePage.vue'
+import MyCafeEventListPage from '@/views/cafeMyPage/MyCafeEventListPage.vue'
+import MyCafeOrderListPage from '@/views/cafeMyPage/MyCafeOrderListPage.vue'
 
 
 //공지사항관련
@@ -462,6 +466,16 @@ const routes = [
     }
   },
   {
+    path: '/my-cafe-order-list-page',
+    name: 'MyCafeOrderListPage',
+    components: {
+      default: MyCafeOrderListPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
     path: '/point-details-page',
     name: 'PointDetailsPage',
     components: {
@@ -480,7 +494,28 @@ const routes = [
     props: {
       default: true
     }
+  },{
+    path: '/my-favorite-cafe-page',
+    name: 'MemberFavoriteCafePage',
+    components: {
+      default:  MemberFavoriteCafePage
+    },
+    props: {
+      default: true
+    }
   },
+  {
+    path: '/my-cafe-event-page',
+    name: 'MyCafeEventListPage',
+    components: {
+      default:  MyCafeEventListPage
+    },
+    props: {
+      default: true
+    }
+  },
+
+
   // 공지사항 관련
   {
     path: '/notice-board-register-page',
