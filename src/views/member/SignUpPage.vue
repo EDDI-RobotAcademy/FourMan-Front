@@ -25,14 +25,6 @@ export default {
 
   },
 
-  mounted: function () {
-    console.log("this.memberType: ", this.memberType);
-    if (this.memberType === undefined) {
-      this.$router.push({
-        name: "SignUpChoicePage",
-      });
-    }
-  },
   methods: {
     ...mapActions(memberModule, ["requestSignUpToSpring"]),
 

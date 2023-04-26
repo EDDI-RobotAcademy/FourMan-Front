@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex";
-const memberModule= 'memberModule'
+import { mapState, mapActions } from "vuex";
+const memberModule = "memberModule";
 import LoginForm from "@/components/member/SignInForm.vue";
 import Vue from "vue";
 import cookies from "vue-cookies";
@@ -17,34 +17,19 @@ export default {
     LoginForm,
   },
   data() {
-    return {
-      // isLogin: false,
-    };
+    return {};
   },
-  mounted() {
-    
-    // if (this.$store.state.isAuthenticated != false) {//로그인상태이면
-    //   this.isLogin = true;//isLogin은 디버깅용으로 작성해놓은거다.
-    // } else {//로그인상태가 아니면 
-    //   this.isLogin = false;
-    // }
-  },
-   computed: {
-    ...mapState(memberModule,[
-      'isAuthenticated'
-    ]),
+  mounted() {},
+  computed: {
+    ...mapState(memberModule, ["isAuthenticated"]),
   },
   methods: {
-    ...mapActions(memberModule,['requestMemberSignInToSpring']),
+    ...mapActions(memberModule, ["requestMemberSignInToSpring"]),
 
-    onSubmit(payload) {//{ email, password }
-      if (!this.isAuthenticated) {//로그인상태가 아니면
-        this.requestMemberSignInToSpring(payload)
-        
+    onSubmit(payload) {
+      //{ email, password }
 
-      } else { //로그인상태이면
-        alert("이미 로그인이 되어 있습니다!");
-      }
+      this.requestMemberSignInToSpring(payload);
     },
   },
 };
