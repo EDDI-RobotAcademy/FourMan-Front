@@ -20,8 +20,15 @@
                      <h3 style="display:flex; align-items:center;"> {{ orderInfo.cafeName }}</h3>
                      
                      <span style="display:flex; align-items:center;" class="ml-3">
-                        {{ orderInfo.orderNo }} | {{ orderInfo. orderDate }}
+                        {{ orderInfo.orderNo }} | {{ orderInfo.orderDate }}
                      </span>
+                     <div v-if="(currentTime - orderDateTime(orderInfo.orderDate)) / (1000 * 60) < 30" class="d-inline-flex align-center justify-center white--text">
+                        <v-icon class="ml-2 pink--text" style="font-size: 30px;">
+                        mdi-new-box
+                        </v-icon>
+                        <v-icon class="pink--text" style="font-size: 30px; margin-left: -7px">mdi-exclamation-thick</v-icon>
+                     </div>
+
                      <v-spacer />
                      <v-sheet v-if="orderInfo.packing == true && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center primary white--text mr-3" :elevation="0" 
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
@@ -226,6 +233,7 @@ export default {
          isExpanded: false,
          expandedArr: [],
          dialog: false,
+         currentTime: new Date(),
       }
    },
    props: {
@@ -264,15 +272,18 @@ export default {
          // 새로고침
          this.$router.go()
       },
-      goReview(cafeName) {
-         this.$router.push({
-               name: "ReviewBoardRegisterPage",
-               params: { reviewCafeName: cafeName } 
-         })
-      },
       isReadyAlarm() {
          alert('준비 완료 상태로 변경하였습니다.')
+      },
+      orderDateTime(orderDate) {
+         const [year, month, day, hour, minute] = orderDate.split(/년|월|일|시|분/);
+         return new Date(year, month - 1, day, hour, minute);
       }
+   },
+   created() {
+      setInterval(() => {
+         this.currentTime = new Date();
+      }, 1000);
    }
 }
 </script>
