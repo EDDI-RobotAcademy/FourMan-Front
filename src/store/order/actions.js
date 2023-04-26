@@ -3,6 +3,7 @@ import {
    REQUEST_ORDER_INFORMATIONS_TO_SPRING,
    UPDATE_IS_ORDER_PACKING,
    REQUEST_HOLD_POINT_TO_SPRING,
+   REQUEST_CAFE_ORDER_LIST_TO_SPRING,
 
 } from './mutation-types'
 
@@ -47,5 +48,12 @@ export default {
          .catch(() => {
             alert("문제 발생!")
          })
-   }
+   },
+   requestCafeOrderListToSpring({ commit }, cafeId) {
+      return axiosInst.get(`/order/cafeOrderList/${cafeId}`)
+      .then((res) => {
+         commit(REQUEST_CAFE_ORDER_LIST_TO_SPRING, res.data)
+         console.log('cafeOrderInformations: ' + JSON.stringify(res.data))
+      })
+   },
 }
