@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex">
     <my-page-side-bar-form />
     <v-container>
       <div class="EULJIRO mt-5 mb-5 text-center">
@@ -7,7 +7,7 @@
           </div>
       <my-review-board-form class="mt-5" :myReviewBoards="myReviewBoards"/>
     </v-container>
-    </div>
+  </div>
   </template>
 
   <script>

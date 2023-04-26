@@ -1,5 +1,5 @@
 <template>
-   <div>
+   <div class="d-flex">
       <my-page-side-bar-form />
 
       <v-container style="width: 1000px">

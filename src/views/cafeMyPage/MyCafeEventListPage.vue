@@ -1,10 +1,13 @@
 <template>
-  <v-container fluid>
+  <div class="d-flex">
     <my-page-side-bar-form />
-    <div class="wrap productWrap">
-      <EventBoardListForm :eventLists="eventLists"></EventBoardListForm>
-    </div>
-  </v-container>
+
+    <v-container fluid>
+      <div class="wrap productWrap">
+        <EventBoardListForm :eventLists="eventLists"></EventBoardListForm>
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script>
