@@ -21,7 +21,8 @@
                       <td>{{ pointPaymentDetails.nickName }}</td>
                       <td>{{ pointPaymentDetails.history }}</td>
                       <td>{{ pointPaymentDetails.date.slice(0, 10) }}</td>
-                      <td>{{ pointPaymentDetails.amount }}</td>
+                      <td v-if="pointPaymentDetails.amount < 0" style="color: #ff4040;">{{ pointPaymentDetails.amount }}</td>
+                      <td v-else style="color: #0081cc;">{{ pointPaymentDetails.amount }}</td>
                       <td v-if="pointPaymentDetails.isUse === false">포인트 지급</td>
                       <td v-else>포인트 차감</td>
                   </tr>
