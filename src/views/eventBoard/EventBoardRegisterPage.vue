@@ -12,17 +12,7 @@ const eventBoardModule = "eventBoardModule";
 export default {
   components: { EventBoardRegisterForm },
   name: "EventBoardRegisterPage",
-  created: function () {
-    if (JSON.parse(localStorage.getItem("userInfo")).authorityName !== "CAFE") {
-      console.log(
-        "JSON.parse(localStorage.getItem('userInfo')).authorityName :",
-        JSON.parse(localStorage.getItem("userInfo")).authorityName
-      );
-      this.$router.push({
-        name: "EventBoardListPage",
-      });
-    }
-  },
+
   methods: {
     ...mapActions(eventBoardModule, ["requestCreateEventToSpring"]),
 
