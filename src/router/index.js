@@ -109,7 +109,7 @@ const isLoggedIn = async () => {
 const memberTypeCheck = async () => {
   console.log("token!!:", token)
   if (token !== null) {
-    const res = await store.dispatch('memberModule/requestMemberToSpring', JSON.parse(localStorage.getItem('userInfo')).token);
+    const res = await store.dispatch('memberModule/requestMemberToSpring', token);
     const object = res.data
     console.log("Member?", res.data)
     console.log("Member?", res.data)
