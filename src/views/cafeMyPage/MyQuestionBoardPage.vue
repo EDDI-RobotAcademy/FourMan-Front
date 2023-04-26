@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="d-flex">
     <my-page-side-bar-form />
-      <v-container>
-        <div class="EULJIRO mt-5 mb-5 text-center">
-          <h1>내가 쓴 게시물 <v-icon>mdi-bulletin-board</v-icon></h1>
-      </div>
-          <my-question-board-form :myQuestionBoards="myQuestionBoards"/>
-      </v-container>
+    <v-container>
+      <div class="EULJIRO mt-5 mb-5 text-center">
+        <h1>내가 쓴 게시물 <v-icon>mdi-bulletin-board</v-icon></h1>
+    </div>
+        <my-question-board-form :myQuestionBoards="myQuestionBoards"/>
+    </v-container>
     </div>
   </template>
 

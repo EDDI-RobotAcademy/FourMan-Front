@@ -1,10 +1,10 @@
 <template>
-    <div>
-    <my-page-side-bar-form />
-    
-    <v-container style="width: 1000px">
-        <point-details-form :PointDetailsList="PointDetails" />
-    </v-container>
+    <div class="d-flex">
+        <my-page-side-bar-form />
+        
+        <v-container style="width: 1000px">
+            <point-details-form :PointDetailsList="PointDetails" />
+        </v-container>
 </div>
 </template>
 
