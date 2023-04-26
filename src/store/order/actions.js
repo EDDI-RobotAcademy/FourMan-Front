@@ -56,4 +56,13 @@ export default {
          console.log('cafeOrderInformations: ' + JSON.stringify(res.data))
       })
    },
+   requestOrderIsReadySpring({}, orderId) {
+      return axiosInst.post(`/order/ready/${orderId}`)
+         .then(() => {
+            alert("완료 처리되었습니다.")
+         })
+         .catch(() => {
+            alert("문제 발생!")
+         })
+   },
 }
