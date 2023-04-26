@@ -1,19 +1,60 @@
 <template>
     <div class="mt-10 mb-10">
-      <div class="text-center mb-5" style="display: flex;">
-      <div class="me-3 pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
-        카페 수: {{ cafeInfoList.length }}
+      <div class="ms-3">
+            <h4>TOTAL (MONTH)</h4>
+        </div>
+      <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
+        <div class="me-3 pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
+          카페 수 <br>
+          {{ cafeInfoList.length }}
+        </div>
+        <div class="me-3 pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
+          총 매출액 <br>
+          {{ totalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
+        </div>
+        <div class="me-3 pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
+          총 예약건수 <br>
+          {{ totalReservationCount }}
+        </div>
+        <div class="pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
+          총 포장건수 <br>
+          {{ totalOrderCount }}
+        </div>
       </div>
-      <div class="me-3 pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
-        총 매출액: {{ totalSales }}
+      <div v-for="(cafeInfo, index) in cafeInfoList" :key="index">
+        <div class="ms-3">
+            <h4>{{ cafeInfo.cafeName }} (MONTH)</h4>
+        </div>
+        <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
+            <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                매출액 {{ cafeInfo.monthTotalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
+                <v-progress-linear
+                    :height="10"
+                    :value="cafeInfo.monthTotalSales / 300000"
+                    color="blue"
+                    background-color="grey lighten-2"
+                />
+            </div>
+            <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                예약건수 {{ cafeInfo.monthReservationCount }}
+                <v-progress-linear
+                    :height="10"
+                    :value="cafeInfo.monthReservationCount / 15"
+                    color="blue"
+                    background-color="grey lighten-2"
+                />
+            </div>
+            <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
+                포장건수 {{ cafeInfo.monthOrderCount }}
+                <v-progress-linear
+                    :height="10"
+                    :value="cafeInfo.monthOrderCount / 15"
+                    color="blue"
+                    background-color="grey lighten-2"
+                />
+            </div>
+        </div>
       </div>
-      <div class="me-3 pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
-        총 예약건수 {{ totalReservationCount }}
-      </div>
-      <div class="me-3 pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
-        총 주문건수: {{ totalOrderCount }}
-      </div>
-    </div>
         <div class="text-center">
           <canvas ref="myChart" style="height: 500px; width: 200px;"></canvas>
         </div>
@@ -105,20 +146,10 @@ export default {
               label: '카페별 예약 건수',
               data: this.cafeInfoList.map(cafe => cafe.monthReservationCount),
               backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                '#ffb6c1',
               ],
               borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                '#ffb6c1',
               ],
               borderWidth: 1
             },
@@ -126,20 +157,10 @@ export default {
               label: '카페별 주문 건수',
               data: this.cafeInfoList.map(cafe => cafe.monthOrderCount),
               backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                '#90d5eb',
               ],
               borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                '#90d5eb',
               ],
               borderWidth: 1
             }]
@@ -150,7 +171,7 @@ export default {
             scales: {
               yAxes: [{
                 ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
                 }
               }]
             }

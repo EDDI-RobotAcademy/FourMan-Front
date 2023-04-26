@@ -5,30 +5,30 @@
         </div>
         <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                매출액: {{ myCafeInfo.monthTotalSales }}
+                 매출액 {{ myCafeInfo.monthTotalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.monthTotalSales / 300000"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                예약건수: {{ myCafeInfo.monthReservationCount }}
+                예약건수 {{ myCafeInfo.monthReservationCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="myCafeInfo.monthReservationCount / 30"
+                    :value="myCafeInfo.monthReservationCount / 15"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
             <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                주문건수: {{ myCafeInfo.monthOrderCount }}
+                포장건수 {{ myCafeInfo.monthOrderCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="myCafeInfo.monthOrderCount / 30"
+                    :value="myCafeInfo.monthOrderCount / 15"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
         </div>
@@ -37,30 +37,30 @@
         </div>
         <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                매출액: {{ myCafeInfo.dayTotalSales }}
+                매출액 {{ myCafeInfo.dayTotalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.dayTotalSales / 10000"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                예약건수: {{ myCafeInfo.dayReservationCount }}
+                예약건수 {{ myCafeInfo.dayReservationCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="myCafeInfo.dayReservationCount"
+                    :value="myCafeInfo.dayReservationCount * 2"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
             <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                주문건수: {{ myCafeInfo.dayOrderCount }}
+                포장건수 {{ myCafeInfo.dayOrderCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="myCafeInfo.dayOrderCount"
+                    :value="myCafeInfo.dayOrderCount * 2"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
         </div>
@@ -181,6 +181,7 @@ export default {
             (v) =>
             !(v && v.length > 20) || "패스워드는 20자를 초과 입력할 수 없습니다.",
             ],
+            monthTotalSales: 0,
         }
     },
     methods: {

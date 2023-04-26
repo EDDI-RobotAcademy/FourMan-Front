@@ -14,9 +14,9 @@
                   <tr>
                       <th>순번</th>
                       <th>이름</th>
-                      <th>적립내역</th>
+                      <th>포인트 변경 사유</th>
                       <th>적립일자</th>
-                      <th>적립 포인트</th>
+                      <th>포인트 변경 내역</th>
                       <th></th>
                   </tr>
               </thead>
@@ -26,7 +26,8 @@
                       <td>{{ pointPaymentDetails.nickName }}</td>
                       <td>{{ pointPaymentDetails.history }}</td>
                       <td>{{ pointPaymentDetails.date.slice(0, 10) }}</td>
-                      <td>{{ pointPaymentDetails.amount }}</td>
+                      <td v-if="pointPaymentDetails.amount < 0" style="color: #ff4040;">{{ pointPaymentDetails.amount }}</td>
+                      <td v-else style="color: #0081cc;">{{ pointPaymentDetails.amount }}</td>
                       <td v-if="pointPaymentDetails.isUse === false">포인트 지급</td>
                       <td v-else>포인트 차감</td>
                   </tr>
