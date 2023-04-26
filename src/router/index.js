@@ -62,6 +62,8 @@ import MyCafeManagementPage from '@/views/cafeMyPage/MyCafeManagementPage.vue'
 import MyCafeModifyPage from '@/views/cafeMyPage/MyCafeModifyPage.vue'
 import PointDetailsPage from '@/views/managerMyPage/PointDetailsPage.vue'
 import MemberPointDetailsPage from '@/views/memberMyPage/MemberPointDetailsPage.vue'
+import MemberFavoriteCafePage from '@/views/memberMyPage/MemberFavoriteCafePage.vue'
+import MyCafeEventListPage from '@/views/cafeMyPage/MyCafeEventListPage.vue'
 
 
 //공지사항관련
@@ -475,7 +477,28 @@ const routes = [
     props: {
       default: true
     }
+  },{
+    path: '/my-favorite-cafe-page',
+    name: 'MemberFavoriteCafePage',
+    components: {
+      default:  MemberFavoriteCafePage
+    },
+    props: {
+      default: true
+    }
   },
+  {
+    path: '/my-cafe-event-page',
+    name: 'MyCafeEventListPage',
+    components: {
+      default:  MyCafeEventListPage
+    },
+    props: {
+      default: true
+    }
+  },
+
+
   // 공지사항 관련
   {
     path: '/notice-board-register-page',

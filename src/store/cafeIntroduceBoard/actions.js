@@ -90,6 +90,17 @@ export default {
         console.log("requestCafeRatingToSpring() 작동")
         return axiosInst.get(`/review-board/rating/${cafeName}`)
     },
+    requestFavoriteCafeListToSpring({ commit },memberId) {
+        console.log("requestFavoriteCafeListToSpring 작동")
+        return axiosInst.get(`/cafe/list/${memberId}`)
+            .then((res) => {
+                commit(REQUEST_CAFE_LIST_TO_SPRING, res.data)
+                console.log("res.data : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
 
 
 
