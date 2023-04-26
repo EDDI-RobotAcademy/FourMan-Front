@@ -17,7 +17,7 @@
           {{ totalReservationCount }}
         </div>
         <div class="pt-5 pb-5" style="width: 25%; border: 1px solid #ccc; border-radius: 10px;">
-          총 주문건수 <br>
+          총 포장건수 <br>
           {{ totalOrderCount }}
         </div>
       </div>
@@ -32,25 +32,25 @@
                     :height="10"
                     :value="cafeInfo.monthTotalSales / 300000"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
                 예약건수 {{ cafeInfo.monthReservationCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="cafeInfo.monthReservationCount / 30"
+                    :value="cafeInfo.monthReservationCount / 15"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
             <div class="pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                주문건수 {{ cafeInfo.monthOrderCount }}
+                포장건수 {{ cafeInfo.monthOrderCount }}
                 <v-progress-linear
                     :height="10"
-                    :value="cafeInfo.monthOrderCount / 30"
+                    :value="cafeInfo.monthOrderCount / 15"
                     color="blue"
-                    background-color="grey lighten-1"
+                    background-color="grey lighten-2"
                 />
             </div>
         </div>
@@ -146,10 +146,10 @@ export default {
               label: '카페별 예약 건수',
               data: this.cafeInfoList.map(cafe => cafe.monthReservationCount),
               backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
+                '#ffb6c1',
               ],
               borderColor: [
-                'rgba(255, 99, 132, 1)',
+                '#ffb6c1',
               ],
               borderWidth: 1
             },
@@ -157,10 +157,10 @@ export default {
               label: '카페별 주문 건수',
               data: this.cafeInfoList.map(cafe => cafe.monthOrderCount),
               backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
+                '#90d5eb',
               ],
               borderColor: [
-                'rgba(54, 162, 235, 1)',
+                '#90d5eb',
               ],
               borderWidth: 1
             }]
@@ -171,7 +171,7 @@ export default {
             scales: {
               yAxes: [{
                 ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
                 }
               }]
             }
