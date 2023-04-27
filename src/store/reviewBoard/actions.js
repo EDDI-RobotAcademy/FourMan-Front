@@ -10,8 +10,15 @@ import router from '@/router'
 
 export default {
    requestCreateReviewBoardToSpring ({}, formData) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         return axiosInst.post('/review-board/register',
-            formData)
+            formData
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            }
+            )
             .then(() => {
                 alert('상품 등록 성공!')
             })
@@ -38,7 +45,13 @@ export default {
             })
     },
     requestDeleteReviewBoardToSpring ({}, reviewBoardId) {
-        return axiosInst.delete(`/review-board/${reviewBoardId}`)
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
+        return axiosInst.delete(`/review-board/${reviewBoardId}`
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then(() => {
                 alert("삭제 성공")
             })
@@ -48,9 +61,15 @@ export default {
     },
     requestReviewBoardModifyToSpring ({}, payload) {
         const { reviewBoardId, title, content, rating } = payload
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
 
         return axiosInst.put(`/review-board/${reviewBoardId}`,
-            { title, content, rating })
+            { title, content, rating }
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then(() => {
                 alert("수정 성공")
             })
