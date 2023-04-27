@@ -35,8 +35,14 @@ import { COMMIT_IS_AUTHENTICATED } from '@/store/member/mutation-types';
 export default {
    // 마이페이지 내 정보 관련
    requestMyInfoToSpring({ commit }, memberId) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log('requestMyInfoToSpring 작동')
-        return axiosInst.get(`/my-page/${memberId}`)
+        return axiosInst.get(`/my-page/${memberId}`
+        , {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
         .then((res) => {
             commit(REQUEST_MY_INFO_TO_SPRING, res.data)
             console.log(JSON.stringify(res))
@@ -44,9 +50,15 @@ export default {
     },
     requestMemberInfoModifyToSpring ({}, payload) {
         const { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode } = payload
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
 
         return axiosInst.put(`/my-page/member-info-modify/${memberId}`,
-            { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode })
+            { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode }
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then((res) => {
                 localStorage.setItem("userInfo", JSON.stringify(res.data));
                 alert("수정 성공")
@@ -57,7 +69,14 @@ export default {
     },
     requestWithdrawalToSpring ({}, payload) {
         const { memberId } = payload
-        return axiosInst.delete(`/my-page/withdrawal/${memberId}`)
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
+
+        return axiosInst.delete(`/my-page/withdrawal/${memberId}`
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then(() => {
                 alert("탈퇴 성공")
             })
@@ -147,20 +166,37 @@ export default {
 
         //관리자 마이페이지 회원관리 관련
         requestMemberInfoListToSpring ({ commit }) {
-            return axiosInst.get('/my-page/member-list')
+            const token =JSON.parse(localStorage.getItem('userInfo')).token
+            return axiosInst.get('/my-page/member-list'
+                , {
+                    headers: {
+                        'Authorization': `Basic ${token}`
+                    }
+                })
                 .then((res) => {
                     commit(REQUEST_MEMBER_INFO_LIST_TO_SPRING, res.data)
                 })
         },
         //관리자 마이페이지 카페관리 관련
         requestCafeInfoListToSpring ({ commit }) {
-            return axiosInst.get('/my-page/cafe-list')
+            const token =JSON.parse(localStorage.getItem('userInfo')).token
+            return axiosInst.get('/my-page/cafe-list', {
+                    headers: {
+                        'Authorization': `Basic ${token}`
+                    }
+                })
                 .then((res) => {
                     commit(REQUEST_CAFE_INFO_LIST_TO_SPRING, res.data)
                 })
         },
         requestMyCafeInfoToSpring ({ commit }, { cafeId }) {
-            return axiosInst.get(`/my-page/my-cafe-info/${ cafeId }`)
+            const token =JSON.parse(localStorage.getItem('userInfo')).token
+            return axiosInst.get(`/my-page/my-cafe-info/${ cafeId }`
+                , {
+                    headers: {
+                        'Authorization': `Basic ${token}`
+                    }
+                })
                 .then((res) => {
                     commit(REQUEST_MY_CAFE_INFO_TO_SPRING, res.data)
                 })
@@ -169,18 +205,18 @@ export default {
                     router.push({ name: 'MemberMyPage'})
                 })
         },
-        requestCafeInfoModifyToSpring({}, payload) {
-            const { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description } = payload
+        // requestCafeInfoModifyToSpring({}, payload) {
+        //     const { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description } = payload
     
-            return axiosInst.put(`/my-page/cafe-info-modify/${cafeId}`,
-                { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description })
-                .then((res) => {
-                    alert("수정 성공")
-                })
-                .catch(() => {
-                    alert("문제 발생!")
-                })
-        },
+        //     return axiosInst.put(`/my-page/cafe-info-modify/${cafeId}`,
+        //         { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description })
+        //         .then((res) => {
+        //             alert("수정 성공")
+        //         })
+        //         .catch(() => {
+        //             alert("문제 발생!")
+        //         })
+        // },
         async requestSignUpCheckNickNameToSpring({ }, nickName) {
             return  axiosInst.post(`/member/check-nickName/${nickName}`)
         },

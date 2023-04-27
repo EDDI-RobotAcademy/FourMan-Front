@@ -19,8 +19,14 @@ import axios from 'axios'
 
 export default {
    requestCreateFreeBoardToSpring ({ }, formData) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         return axiosInst.post('/free-board/register',
-        formData)
+        formData
+        , {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert('게시물 등록 성공!')
                 return res
@@ -43,7 +49,13 @@ export default {
         })
     },
     requestDeleteFreeBoardToSpring ({}, boardId) {
-        return axiosInst.delete(`/free-board/${boardId}`)
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
+        return axiosInst.delete(`/free-board/${boardId}`
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then(() => {
                 alert("삭제 성공")
             })
@@ -53,9 +65,15 @@ export default {
     },
     requestFreeBoardModifyToSpring ({}, payload) {
         const { title, content, boardId, writer } = payload
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
 
         return axiosInst.put(`/free-board/${boardId}`,
-            { title, content, writer })
+            { title, content, writer }
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then(() => {
                 alert("수정 성공")
             })
