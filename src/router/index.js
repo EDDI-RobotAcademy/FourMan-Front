@@ -98,12 +98,21 @@ const isLoggedIn = async () => {
 
   console.log("token!!:", token)
   if (token !== null) {
-    const res = await store.dispatch('memberModule/requestMemberToSpring', token);
-    console.log("라우터의 res", res)
-    console.log("라우터의 res.data", res.data)
-    const object = res.data
-    console.log("Member?", res.data)
-    return object !== null //로그인이되었으면 true
+    try {
+      const res = await store.dispatch('memberModule/requestMemberToSpring', token);
+      console.log("라우터의 res", res)
+      console.log("라우터의 res.data", res.data)
+      const object = res.data
+      console.log("Member?", res.data)
+      return object !== null //로그인이되었으면 true
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log("401에러발생!!")
+        return false;
+      }
+      console.log("401이 아닌 다른 에러발생!!")
+      console.error("에러 발생:", error);
+    }
   }
   return false;//로그인이 안되어있으면
 
@@ -115,12 +124,21 @@ const memberTypeCheck = async () => {
 
   console.log("token!!:", token)
   if (token !== null) {
-    const res = await store.dispatch('memberModule/requestMemberToSpring', token);
-    console.log("라우터의 res", res)
-    console.log("라우터의 res.data", res.data)
-    const object = res.data
-    console.log("Member?", res.data)
-    return object.authority.authorityName;//로그인이되었으면 true
+    try {
+      const res = await store.dispatch('memberModule/requestMemberToSpring', token);
+      console.log("라우터의 res", res)
+      console.log("라우터의 res.data", res.data)
+      const object = res.data
+      console.log("Member?", res.data)
+      return object.authority.authorityName;//로그인이되었으면 true
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log("401에러발생!!")
+        return false;
+      }
+      console.log("401이 아닌 다른 에러발생!!")
+      console.error("에러 발생:", error);
+    }
   }
   return false;
 };
@@ -256,7 +274,8 @@ const routes = [
   {
     path: '/product-register-page',
     name: 'ProductRegisterPage',
-    component: ProductRegisterPage
+    component: ProductRegisterPage,
+    beforeEnter: ifCafe
   },
   {
     path: '/product-list-page',
@@ -266,7 +285,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
 
   // 주문 관련
@@ -278,7 +298,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
 
 
@@ -458,7 +479,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
   {
     path: '/product-modify-page',
@@ -468,12 +490,14 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
   {
     path: '/member-order-history-page',
     name: 'MemberOrderHistoryPage',
-    component: MemberOrderHistoryPage
+    component: MemberOrderHistoryPage,
+    beforeEnter: ifMember
   },
   {
     path: '/member-my-info-modify-page',
