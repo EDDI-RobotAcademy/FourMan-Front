@@ -27,12 +27,16 @@ export default {
         return axiosInst.post(`/member/check-manager/${codeText}`)
 
     },
-    requestMemberToSpring({commit}, token) {
-        return axiosInst.post("/member/user-verification", token)
-        .then((res)=>{
-            const member = res.data;
-            commit('setMember', member);
-        })
+    requestMemberToSpring({ commit }, token) {
+        return axiosInst.post("/member/user-verification", token)//then res를 쓰는순간 return 값은 undefined구나
+            .then((res) => {
+                console.log("res", res)
+                console.log("res.data", res.data)//이게멤버객체맞고
+                const member = res.data;
+                commit('setMember', member);
+                console.log("커밋작동")
+                return res;// 이걸해줘야 res를 보낼수있따.
+            })
     },
 
     requestSignOutToSpring({ commit }, token) {
@@ -89,10 +93,10 @@ export default {
             });
     },
     sendFavoriteStatusToSpring({ }, payload) {
-        const { cafeId, memberId,isFavorite } = payload
-        return axiosInst.post("/member/favorites", {cafeId, memberId, isFavorite  })
+        const { cafeId, memberId, isFavorite } = payload
+        return axiosInst.post("/member/favorites", { cafeId, memberId, isFavorite })
             .then((res) => {
-                if(res.data){
+                if (res.data) {
                     alert(res.data)
                 }
             })
@@ -100,15 +104,15 @@ export default {
                 alert(res.response.data.message)
             })
     },
-    checkFavoriteStatus({},payload ){
+    checkFavoriteStatus({ }, payload) {
         const { cafeId, memberId } = payload
         return axiosInst.get(`/member/favorites/${memberId}/${cafeId}`)
-    
+
 
     }
-    
-    
-    
+
+
+
 
 
 
