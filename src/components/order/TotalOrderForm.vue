@@ -77,9 +77,9 @@
                   <v-card flat>
                     <v-card-text>
                       <h3 class="mt-1 mb-3">포인트 사용</h3>
-                      <span>보유 포인트 : {{ holdPoint | comma }}P</span>
+                      <span>보유 포인트 : {{ numberHoldPoint | comma }}P</span>
                       <div class="d-flex align-center mt-5">
-                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="holdPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
+                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="numberHoldPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
                       </div>
                     </v-card-text>
                   </v-card>
@@ -116,9 +116,9 @@
                   <v-card flat>
                     <v-card-text>
                       <h3 class="mt-1 mb-3">포인트 사용</h3>
-                      <span>보유 포인트 : {{ holdPoint | comma }}P</span>
+                      <span>보유 포인트 : {{ numberHoldPoint | comma }}P</span>
                       <div class="d-flex align-center mt-5">
-                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="holdPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
+                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="numberHoldPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
                       </div>
                     </v-card-text>
                   </v-card>
@@ -186,7 +186,7 @@ export default {
         type: Boolean,
         required: true,
       },
-      holdPoint: {
+      numberHoldPoint: {
         type: Number,
         required: true,
       },
@@ -304,13 +304,16 @@ export default {
         });
       },
       pointLimitCheck() {
-        if(this.usePoint > this.holdPoint) {
+        if(this.usePoint > this.numberHoldPoint) {
           alert('보유 포인트 금액 이상 사용은 불가능합니다.')
-          this.usePoint = this.holdPoint
+          this.usePoint = this.numberHoldPoint
         } else if(this.usePoint < 0) {
           alert('0보다 작은 금액은 사용이 불가능합니다.') 
           this.usePoint = 0
-        } 
+        } else if(this.usePoint > this.totalOrderPrice) {
+          alert('총 가격보다 많은 양은 사용이 불가능합니다.') 
+          this.usePoint = this.totalOrderPrice
+        }
       },
    },
    watch: {
