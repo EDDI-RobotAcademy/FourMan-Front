@@ -12,6 +12,7 @@ export default {
    
    // 상품 관련
    requestCreateProductToSpring ({}, payload) {
+      const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
       return axiosInst.post('/product/register', payload)
          .then((res) => {
@@ -22,20 +23,6 @@ export default {
             alert('문제 발생!')
          })
    },
-   // requestProductListToSpring({ commit }) {
-   //    return axiosInst.get('/product/list')
-   //       .then((res) => {
-   //          commit(REQUEST_PRODUCT_LIST_TO_SPRING, res.data)
-   //          console.log('productList: ' + JSON.stringify(res.data))
-   //       })
-   // },
-   // requestProductImageListToSpring({ commit }) {
-   //    return axiosInst.get('/product/imageList')
-   //    .then((res) => {
-   //       commit(REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING, res.data)
-   //       console.log('imageList: ' + JSON.stringify(res.data))
-   //       })
-   // },
    requestAllOfProductToSpring ({ commit }, cafeId) {
       return axiosInst.get(`/product/all/${cafeId}`)
          .then((res) => {
