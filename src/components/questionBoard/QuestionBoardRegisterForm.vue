@@ -35,6 +35,12 @@ export default {
     components: {
       'editor': Editor,
     },
+    props:{
+      parentBoardId: {
+        type: Number,
+        default: null,
+      }
+    },
     data () {
         return {
             title: '',
@@ -47,8 +53,8 @@ export default {
     },
     methods: {
         onSubmit () {
-            const { title, questionType, writer, content, memberId, secret } = this
-            this.$emit('submit', { title, questionType, writer, content, memberId, secret })
+            const { title, questionType, writer, content, memberId, secret, parentBoardId } = this
+            this.$emit('submit', { title, questionType, writer, content, memberId, secret, parentBoardId })
         },
         // form으로 emit
         setSecret () {

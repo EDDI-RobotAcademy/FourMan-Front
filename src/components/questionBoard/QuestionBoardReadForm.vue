@@ -32,6 +32,13 @@
       <v-btn class="brown darken-2 white--text mb-5" :to="{ name: 'FreeBoardListPage' }" style="float: right;">
         목록
       </v-btn>
+      <v-btn class="brown darken-2 white--text mb-5 mr-2"
+      :to="{
+        name: 'QuestionBoardRegisterPage',
+        params: { parentBoardId: questionBoard.boardId } }"
+         style="float: right;">
+      답글 달기
+      </v-btn>
     </div>
   </div>
 </template>
