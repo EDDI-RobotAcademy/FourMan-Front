@@ -429,9 +429,11 @@ const routes = [
     component: QuestionBoardListPage
   },
   {
-    path: '/question-board-register-page',
+    path: '/question-board-register-page/:boardId?',
+    //선택적 매개변수(부모의 boardId가 주어지지 않아도 라우터 작동함)
     name: 'QuestionBoardRegisterPage',
     component: QuestionBoardRegisterPage,
+    props: true,
     beforeEnter: ifMember
     },
   {

@@ -132,4 +132,20 @@ export default {
     //     })
 
     // }
+
+    //답글 등록 Register
+    requestCreateReplyToSpring({}, payload) {
+        const { title, questionType, writer, content, memberId, secret, parentBoardId } = payload;
+        return axiosInst.post("/question-board/register-reply", {
+          title, questionType, writer, content, memberId, secret, parentBoardId
+        })
+        .then((res) => {
+          alert("답글 등록 성공");
+          return res;
+        })
+        .catch(() => {
+          alert("답글 등록에 실패했습니다");
+        });
+      },
+
 }
