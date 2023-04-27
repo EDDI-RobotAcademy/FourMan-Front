@@ -605,7 +605,8 @@ const routes = [
   {
     path: '/notice-board-register-page',
     name: 'NoticeBoardRegisterPage',
-    component: NoticeBoardRegisterPage
+    component: NoticeBoardRegisterPage,
+    beforeEnter: ifMember
   },
   {
     path: '/notice-board-list-page',
@@ -631,7 +632,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
 
   //내가 쓴 게시물 관련
