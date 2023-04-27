@@ -74,7 +74,7 @@
                   <h5 style="font-weight: normal">예약 비용</h5>
                   <div>
                      <span style="font-size: 30px; font-weight: bold">
-                     {{ 3000 | comma}}
+                     {{ 1000 | comma}}
                      </span>
                      <span>원</span>
                   </div>
@@ -85,7 +85,7 @@
                <div>
                   <h5 style="font-weight: normal">예상 총 금액</h5>
                   <span style="font-size: 30px; font-weight: bold">
-                     {{ this.totalOrderPrice + 3000 | comma}}
+                     {{ this.totalOrderPrice + 1000 | comma}}
                   </span>
                   <span>
                      원

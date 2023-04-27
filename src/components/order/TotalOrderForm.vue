@@ -90,18 +90,18 @@
                       <h3 class="mt-1">결제 정보</h3>
                       <div class="mt-3">
                         <span class="d-flex align-center" style="font-size: 18px;">
-                          상품 금액 <v-spacer/> {{ totalOrderPrice - 3000 | comma}}원
+                          상품 금액 <v-spacer/> + {{ totalOrderPrice - 1000 | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          예약 비용 <v-spacer/> {{ 3000 | comma}}원
+                          예약 비용 <v-spacer/> + {{ 1000 | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          포인트 사용 <v-spacer/> {{ usePoint | comma}}원
+                          포인트 사용 <v-spacer/> <span class="mr-1" v-if="this.usePoint != 0">-</span>{{ usePoint | comma}}원
                         </span>
                       </div>
                       <v-divider class="mt-3" />
                       <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice - usePoint | comma}}원
+                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice - usePoint | comma }}원
                         </span>
                     </v-card-text>
                   </v-card>
@@ -132,7 +132,7 @@
                           상품 금액 <v-spacer/> {{ totalOrderPrice | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          포인트 사용 <v-spacer/> {{ usePoint | comma}}원
+                          포인트 사용 <v-spacer/> -{{ usePoint | comma}}원
                         </span>
                       </div>
                       <v-divider class="mt-3" />
