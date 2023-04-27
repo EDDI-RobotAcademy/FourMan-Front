@@ -8,12 +8,12 @@
       </v-layout>
    </div>
 
-   <div class="mt-10 mb-15">
+   <div class="mt-10">
       <div v-if="!orderInformations || (Array.isArray(orderInformations) && orderInformations.length === 0)">
-         <h3> 예약 내역 정보가 존재하지 않습니다 </h3>
+         <h3> 결제 내역 정보가 존재하지 않습니다 </h3>
       </div>
       <v-expansion-panels v-else flat popout>
-         <v-expansion-panel v-for="(orderInfo, index) in this.orderInformations.slice().reverse()" :key="index" class="mb-5">
+         <v-expansion-panel v-for="(orderInfo, index) in this.calData" :key="index" class="mb-5">
             <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9;">
                <v-card-subtitle style="border-bottom: 1px solid #eaebee;">
                   <v-layout>
@@ -160,7 +160,6 @@
                               </tr>
                            </table>
                         </div>
-
                      </v-expansion-panel-header>
 
                      <!-- 펼쳤을 시 하단 content -->
@@ -207,6 +206,14 @@
       </v-expansion-panels>
    </div>
 
+   <v-pagination
+      v-model="curPageNum"
+      :length="numOfPages"
+      color="#5D4037"
+      class="mt-2 mb-5"
+      flat
+   ></v-pagination>
+
   </div>
 </template>
 
@@ -222,6 +229,8 @@ export default {
          isExpanded: false,
          expandedArr: [],
          dialog: false,
+         dataPerPage: 5,
+         curPageNum: 1,
       }
    },
    props: {
@@ -266,6 +275,22 @@ export default {
                params: { reviewCafeName: cafeName } 
          })
       }
+   },
+   computed: {
+      startOffset() {
+        return (this.curPageNum - 1) * this.dataPerPage;
+      },
+      endOffset() {
+        return this.startOffset + this.dataPerPage;
+      },
+      numOfPages() {
+         let reverseData = this.orderInformations.slice().reverse()
+        return Math.ceil(reverseData.length / this.dataPerPage);
+      },
+      calData() {
+         let reverseData = this.orderInformations.slice().reverse()
+        return reverseData.slice(this.startOffset, this.endOffset);
+      },
    }
 }
 </script>
@@ -273,9 +298,5 @@ export default {
 <style scoped>
 .v-expansion-panel-content>>> .v-expansion-panel-content__wrap {
   padding: 0;
-}
-
-.canceled {
-    text-decoration: line-through;
 }
 </style>
