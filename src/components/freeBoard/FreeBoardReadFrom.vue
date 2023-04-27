@@ -32,12 +32,12 @@
       <v-btn v-if="this.$store.state.memberModule.isAuthenticated"
               class="brown darken-0 white--text mb-1 mx-2"
               @click="incRecommendation(freeBoard.boardId)">
-        <v-icon size="20" left>mdi-thumb-up</v-icon> {{ freeBoard.upRecommendation }}
+        <v-icon size="20" left>mdi-thumb-up</v-icon> {{ freeBoard.recommendation }}
       </v-btn>
         <v-btn v-if="this.$store.state.memberModule.isAuthenticated"
           class="brown darken-0 white--text mb-1 mx-2"
           @click="decRecommendation(freeBoard.boardId)">
-          <v-icon size="20" left>mdi-thumb-down</v-icon> {{ freeBoard.downRecommendation }}
+          <v-icon size="20" left>mdi-thumb-down</v-icon> {{ freeBoard.unRecommendation }}
         </v-btn>
     </div>
     <div>

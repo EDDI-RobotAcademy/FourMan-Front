@@ -432,18 +432,8 @@ const routes = [
     path: '/question-board-register-page',
     name: 'QuestionBoardRegisterPage',
     component: QuestionBoardRegisterPage,
-    beforeEnter: (to, from, next) => {
-      const userInfo = localStorage.getItem('userInfo');
-      if (userInfo != null) {
-        // 로그인 되어 있을 때는 페이지 이동을 허용
-        next();
-      } else {
-        // 로그인 되어 있지 않을 때는 로그인 페이지로 이동
-        alert('로그인 후 글을 작성할 수 있습니다.')
-        next('/sign-in');
-      }
-    }
-  },
+    beforeEnter: ifMember
+    },
   {
     path: '/question-board-read-page/:boardId',
     name: 'QuestionBoardReadPage',
@@ -462,7 +452,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
   //마이페이지 관련
   {
@@ -614,7 +605,8 @@ const routes = [
   {
     path: '/notice-board-register-page',
     name: 'NoticeBoardRegisterPage',
-    component: NoticeBoardRegisterPage
+    component: NoticeBoardRegisterPage,
+    beforeEnter: ifMember
   },
   {
     path: '/notice-board-list-page',
@@ -640,24 +632,29 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
 
   //내가 쓴 게시물 관련
   {
     path: '/my-free-board-page',
     name: 'MyFreeBoardPage',
-    component: MyFreeBoardPage
+    component: MyFreeBoardPage,
+    beforeEnter: ifMember
   },
+
   {
     path: '/my-question-board-page',
     name: 'MyQuestionBoardPage',
-    component: MyQuestionBoardPage
+    component: MyQuestionBoardPage,
+    beforeEnter: ifMember
   },
   {
     path: '/my-review-board-page',
     name: 'MyReviewBoardPage',
-    component: MyReviewBoardPage
+    component: MyReviewBoardPage,
+    beforeEnter: ifMember
   },
   // 사이트 소개 페이지
   {
