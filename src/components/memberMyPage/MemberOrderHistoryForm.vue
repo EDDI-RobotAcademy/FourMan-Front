@@ -1,19 +1,30 @@
 <template>
   <div>
-   <div class="mt-8">
+   <div class="mt-8 d-flex align-center justify-center">
       <v-layout>
          <center>
             <h2>결제 내역</h2>
          </center>
       </v-layout>
+      <v-spcaer />
+      <v-col cols="12" sm="6" md="4" lg="3">
+        <v-text-field
+          v-model="search"
+          label="주문번호 검색"
+          single-line
+          hide-details
+          class="mr-1"
+          append-icon="mdi-magnify"
+        ></v-text-field>
+      </v-col>
    </div>
 
-   <div class="mt-10 mb-15">
+   <div class="mt-10">
       <div v-if="!orderInformations || (Array.isArray(orderInformations) && orderInformations.length === 0)">
-         <h3> 예약 내역 정보가 존재하지 않습니다 </h3>
+         <h3> 결제 내역 정보가 존재하지 않습니다 </h3>
       </div>
       <v-expansion-panels v-else flat popout>
-         <v-expansion-panel v-for="(orderInfo, index) in this.orderInformations.slice().reverse()" :key="index" class="mb-5">
+         <v-expansion-panel v-for="(orderInfo, index) in this.calData" :key="index" class="mb-5">
             <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9;">
                <v-card-subtitle style="border-bottom: 1px solid #eaebee;">
                   <v-layout>
@@ -100,10 +111,18 @@
                                     <h3 class="">결제 상세 정보</h3>
                                     <div>
                                        <div class="mt-3">
+                                          <div class="d-flex align-center justify-center">
+                                             <span style="font-size: 16px; font-weight: bold;">적립 포인트 : </span>
+                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">+ {{ orderInfo.savedPoint | comma }}</span>
+                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">+ {{ orderInfo.savedPoint | comma }}</span>
+                                             <v-icon class="ml-1" style="font-size: 18px;">mdi-alpha-p-circle-outline</v-icon>
+                                          </div>
+                                       </div>
+                                       <div class="mt-3">
                                           <div v-if="orderInfo.usePoint != 0" class="d-flex align-center justify-center">
                                              <span style="font-size: 16px; font-weight: bold;">사용 포인트 : </span>
-                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">{{ orderInfo.usePoint | comma }}</span>
-                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">{{ orderInfo.usePoint | comma }}</span>
+                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">- {{ orderInfo.usePoint | comma }}</span>
+                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">- {{ orderInfo.usePoint | comma }}</span>
                                              <v-icon class="ml-1" style="font-size: 18px;">mdi-alpha-p-circle-outline</v-icon>
                                           </div>
                                        </div>
@@ -152,7 +171,6 @@
                               </tr>
                            </table>
                         </div>
-
                      </v-expansion-panel-header>
 
                      <!-- 펼쳤을 시 하단 content -->
@@ -199,6 +217,14 @@
       </v-expansion-panels>
    </div>
 
+   <v-pagination
+      v-model="curPageNum"
+      :length="numOfPages"
+      color="#5D4037"
+      class="mt-2 mb-5"
+      flat
+   ></v-pagination>
+
   </div>
 </template>
 
@@ -214,6 +240,9 @@ export default {
          isExpanded: false,
          expandedArr: [],
          dialog: false,
+         dataPerPage: 5,
+         curPageNum: 1,
+         search: '',
       }
    },
    props: {
@@ -258,6 +287,31 @@ export default {
                params: { reviewCafeName: cafeName } 
          })
       }
+   },
+   computed: {
+      reverseData() {
+         return this.orderInformations.slice().reverse()
+      },
+      startOffset() {
+        return (this.curPageNum - 1) * this.dataPerPage
+      },
+      endOffset() {
+        return this.startOffset + this.dataPerPage
+      },
+      numOfPages() {
+        return Math.ceil(this.filteredData.length / this.dataPerPage)
+      },
+      calData() {
+        return this.filteredData.slice(this.startOffset, this.endOffset)
+      },
+      filteredData() {
+         if (!this.search) {
+            return this.reverseData
+         }
+         return this.reverseData.filter((order) => {
+            return order.orderNo.toLowerCase().includes(this.search.toLowerCase())
+         })
+      }
    }
 }
 </script>
@@ -265,9 +319,5 @@ export default {
 <style scoped>
 .v-expansion-panel-content>>> .v-expansion-panel-content__wrap {
   padding: 0;
-}
-
-.canceled {
-    text-decoration: line-through;
 }
 </style>

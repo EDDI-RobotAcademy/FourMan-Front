@@ -19,8 +19,14 @@ import axios from 'axios'
 
 export default {
    requestCreateFreeBoardToSpring ({ }, formData) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         return axiosInst.post('/free-board/register',
-        formData)
+        formData
+        , {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert('게시물 등록 성공!')
                 return res
@@ -36,13 +42,20 @@ export default {
             })
     },
     requestFreeBoardToSpring ({ commit }, boardId) {
-    return axiosInst.get(`/free-board/${boardId}`)
+        const memberId = JSON.parse(localStorage.getItem('userInfo')).id
+    return axiosInst.get(`/free-board/${boardId}?memberId=${memberId}`)
         .then((res) => {
             commit(REQUEST_FREE_BOARD_TO_SPRING, res.data)
         })
     },
     requestDeleteFreeBoardToSpring ({}, boardId) {
-        return axiosInst.delete(`/free-board/${boardId}`)
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
+        return axiosInst.delete(`/free-board/${boardId}`
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then(() => {
                 alert("삭제 성공")
             })
@@ -52,9 +65,15 @@ export default {
     },
     requestFreeBoardModifyToSpring ({}, payload) {
         const { title, content, boardId, writer } = payload
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
 
         return axiosInst.put(`/free-board/${boardId}`,
-            { title, content, writer })
+            { title, content, writer }
+            , {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
             .then(() => {
                 alert("수정 성공")
             })
@@ -118,7 +137,6 @@ export default {
             console.log('게시물 비추천 action 작동')
             return axiosInst.post(`/free-board/down-recommendation/${boardId}`,{ boardId, memberId })
             .then(() => {
-                alert('게시물을 비추천 하였습니다')
             })
             .catch(() => {
                 alert('error occured')
@@ -129,7 +147,6 @@ export default {
             console.log('게시물 추천 action 작동')
             return axiosInst.post(`/free-board/up-recommendation/${boardId}`, {boardId, memberId})
             .then (() => {
-                alert('게시물을 추천 하였습니다')
             })
             .catch(() => {
                 alert('error occured')

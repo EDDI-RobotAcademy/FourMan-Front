@@ -14,8 +14,13 @@ export default {
 
     //카페소개보드 관련
     requestCreateCafeToSpring({ }, formData) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestCreateCafeToSpring() 작동")
-        return axiosInst.post("/cafe/register", formData)
+        return axiosInst.post("/cafe/register", formData, {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert("카페가 등록되었습니다cafeId:", res.data);
                 // 로컬 스토리지에서 userInfo 가져오기
@@ -65,8 +70,13 @@ export default {
     },
 
     requestModifyCafeToSpring({}, { formData, cafeId }) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestCafeModifyToSpring() 작동")
-        return axiosInst.put(`/cafe/modify/${cafeId}`,formData)
+        return axiosInst.put(`/cafe/modify/${cafeId}`,formData, {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert("카페가 변경 되었습니다");
                 console.log("cafeId : " + res.data)
@@ -76,8 +86,13 @@ export default {
             })
     },
     requestDeleteCafeToSpring({},cafeId){
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestDeleteCafeToSpring() 작동")
-        return axiosInst.delete(`/cafe/delete/${cafeId}`)
+        return axiosInst.delete(`/cafe/delete/${cafeId}`, {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then(() => {
                 alert("카페가 삭제 되었습니다");
               
@@ -91,8 +106,13 @@ export default {
         return axiosInst.get(`/review-board/rating/${cafeName}`)
     },
     requestFavoriteCafeListToSpring({ commit },memberId) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestFavoriteCafeListToSpring 작동")
-        return axiosInst.get(`/cafe/list/${memberId}`)
+        return axiosInst.get(`/cafe/list/${memberId}`,{
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 commit(REQUEST_CAFE_LIST_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)

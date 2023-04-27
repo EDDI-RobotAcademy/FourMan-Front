@@ -292,10 +292,11 @@ export default {
             let token = localStorage.getItem("userInfo");
             const length = token.length;
             token = token.substr(1, length - 2);
-            await this.requestLogoutToSpring({ token })
 
             const memberId = this.memberId
             await this.requestWithdrawalToSpring({ memberId })
+
+            await this.requestLogoutToSpring({ token })
             
             await this.$router.push({ name: 'MainPage' })
          }
