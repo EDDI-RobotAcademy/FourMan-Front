@@ -1,11 +1,22 @@
 <template>
   <div>
-   <div class="mt-8">
+   <div class="mt-8 d-flex align-center justify-center">
       <v-layout>
          <center>
             <h2>결제 내역</h2>
          </center>
       </v-layout>
+      <v-spcaer />
+      <v-col cols="12" sm="6" md="4" lg="3">
+        <v-text-field
+          v-model="search"
+          label="주문번호 검색"
+          single-line
+          hide-details
+          class="mr-1"
+          append-icon="mdi-magnify"
+        ></v-text-field>
+      </v-col>
    </div>
 
    <div class="mt-10">
@@ -231,6 +242,7 @@ export default {
          dialog: false,
          dataPerPage: 5,
          curPageNum: 1,
+         search: '',
       }
    },
    props: {
@@ -277,20 +289,29 @@ export default {
       }
    },
    computed: {
+      reverseData() {
+         return this.orderInformations.slice().reverse()
+      },
       startOffset() {
-        return (this.curPageNum - 1) * this.dataPerPage;
+        return (this.curPageNum - 1) * this.dataPerPage
       },
       endOffset() {
-        return this.startOffset + this.dataPerPage;
+        return this.startOffset + this.dataPerPage
       },
       numOfPages() {
-         let reverseData = this.orderInformations.slice().reverse()
-        return Math.ceil(reverseData.length / this.dataPerPage);
+        return Math.ceil(this.filteredData.length / this.dataPerPage)
       },
       calData() {
-         let reverseData = this.orderInformations.slice().reverse()
-        return reverseData.slice(this.startOffset, this.endOffset);
+        return this.filteredData.slice(this.startOffset, this.endOffset)
       },
+      filteredData() {
+         if (!this.search) {
+            return this.reverseData
+         }
+         return this.reverseData.filter((order) => {
+            return order.orderNo.toLowerCase().includes(this.search.toLowerCase())
+         })
+      }
    }
 }
 </script>
