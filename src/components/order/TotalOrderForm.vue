@@ -77,9 +77,9 @@
                   <v-card flat>
                     <v-card-text>
                       <h3 class="mt-1 mb-3">포인트 사용</h3>
-                      <span>보유 포인트 : {{ holdPoint | comma }}P</span>
+                      <span>보유 포인트 : {{ numberHoldPoint | comma }}P</span>
                       <div class="d-flex align-center mt-5">
-                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="holdPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
+                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="numberHoldPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
                       </div>
                     </v-card-text>
                   </v-card>
@@ -90,18 +90,18 @@
                       <h3 class="mt-1">결제 정보</h3>
                       <div class="mt-3">
                         <span class="d-flex align-center" style="font-size: 18px;">
-                          상품 금액 <v-spacer/> {{ totalOrderPrice - 3000 | comma}}원
+                          상품 금액 <v-spacer/> + {{ totalOrderPrice - 1000 | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          예약 비용 <v-spacer/> {{ 3000 | comma}}원
+                          예약 비용 <v-spacer/> + {{ 1000 | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          포인트 사용 <v-spacer/> {{ usePoint | comma}}원
+                          포인트 사용 <v-spacer/> <span class="mr-1" v-if="this.usePoint != 0">-</span>{{ usePoint | comma}}원
                         </span>
                       </div>
                       <v-divider class="mt-3" />
                       <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice - usePoint | comma}}원
+                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice - usePoint | comma }}원
                         </span>
                     </v-card-text>
                   </v-card>
@@ -116,9 +116,9 @@
                   <v-card flat>
                     <v-card-text>
                       <h3 class="mt-1 mb-3">포인트 사용</h3>
-                      <span>보유 포인트 : {{ holdPoint | comma }}P</span>
+                      <span>보유 포인트 : {{ numberHoldPoint | comma }}P</span>
                       <div class="d-flex align-center mt-5">
-                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="holdPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
+                        <v-text-field v-model.number="usePoint" label="사용할 포인트" type="number" min="0" :max="numberHoldPoint" clearable variant="underlined"  @change="pointLimitCheck"></v-text-field> <span class="ml-2">원</span>
                       </div>
                     </v-card-text>
                   </v-card>
@@ -132,7 +132,7 @@
                           상품 금액 <v-spacer/> {{ totalOrderPrice | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          포인트 사용 <v-spacer/> {{ usePoint | comma}}원
+                          포인트 사용 <v-spacer/> -{{ usePoint | comma}}원
                         </span>
                       </div>
                       <v-divider class="mt-3" />
@@ -186,7 +186,7 @@ export default {
         type: Boolean,
         required: true,
       },
-      holdPoint: {
+      numberHoldPoint: {
         type: Number,
         required: true,
       },
@@ -304,13 +304,16 @@ export default {
         });
       },
       pointLimitCheck() {
-        if(this.usePoint > this.holdPoint) {
+        if(this.usePoint > this.numberHoldPoint) {
           alert('보유 포인트 금액 이상 사용은 불가능합니다.')
-          this.usePoint = this.holdPoint
+          this.usePoint = this.numberHoldPoint
         } else if(this.usePoint < 0) {
           alert('0보다 작은 금액은 사용이 불가능합니다.') 
           this.usePoint = 0
-        } 
+        } else if(this.usePoint > this.totalOrderPrice) {
+          alert('총 가격보다 많은 양은 사용이 불가능합니다.') 
+          this.usePoint = this.totalOrderPrice
+        }
       },
    },
    watch: {

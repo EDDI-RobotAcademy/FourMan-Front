@@ -36,7 +36,8 @@ export default {
             })
     },
     requestFreeBoardToSpring ({ commit }, boardId) {
-    return axiosInst.get(`/free-board/${boardId}`)
+        const memberId = JSON.parse(localStorage.getItem('userInfo')).id
+    return axiosInst.get(`/free-board/${boardId}?memberId=${memberId}`)
         .then((res) => {
             commit(REQUEST_FREE_BOARD_TO_SPRING, res.data)
         })
@@ -118,7 +119,6 @@ export default {
             console.log('게시물 비추천 action 작동')
             return axiosInst.post(`/free-board/down-recommendation/${boardId}`,{ boardId, memberId })
             .then(() => {
-                alert('게시물을 비추천 하였습니다')
             })
             .catch(() => {
                 alert('error occured')
@@ -129,7 +129,6 @@ export default {
             console.log('게시물 추천 action 작동')
             return axiosInst.post(`/free-board/up-recommendation/${boardId}`, {boardId, memberId})
             .then (() => {
-                alert('게시물을 추천 하였습니다')
             })
             .catch(() => {
                 alert('error occured')

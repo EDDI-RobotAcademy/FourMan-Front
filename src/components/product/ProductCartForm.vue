@@ -74,7 +74,7 @@
                   <h5 style="font-weight: normal">예약 비용</h5>
                   <div>
                      <span style="font-size: 30px; font-weight: bold">
-                     {{ 3000 | comma}}
+                     {{ 1000 | comma}}
                      </span>
                      <span>원</span>
                   </div>
@@ -85,7 +85,7 @@
                <div>
                   <h5 style="font-weight: normal">예상 총 금액</h5>
                   <span style="font-size: 30px; font-weight: bold">
-                     {{ this.totalOrderPrice + 3000 | comma}}
+                     {{ this.totalOrderPrice + 1000 | comma}}
                   </span>
                   <span>
                      원
@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 
 const reservationModule = 'reservationModule'
 const orderModule = 'orderModule'
@@ -156,15 +156,15 @@ export default {
       ),
    },
    methods: {
-      cartItemMinus(cartItem) {
-         var item = this.cartItems[cartItem]
+      cartItemMinus(index) {
+         var item = this.cartItems[index]
          if(item.count > 1) {
             item.count--
             item.totalPrice = item.price * item.count
          }
       },
-      cartItemPlus(cartItem) {
-         var item = this.cartItems[cartItem]
+      cartItemPlus(index) {
+         var item = this.cartItems[index]
          item.count++
          item.totalPrice = item.price * item.count
          this.totalOrderPrice = item.totalPrice
@@ -175,19 +175,23 @@ export default {
          this.cartItems.splice(index, 1);
       },
       totalOrder() {
-         const cartItems = this.cartItems
-         
-         localStorage.setItem("cartItems", JSON.stringify(cartItems));
-         localStorage.setItem("isOrderPacking", this.isOrderPacking)
-
          if((Array.isArray(this.cartItems) && this.cartItems.length === 0)) {
             alert('장바구니에 물품이 존재하지 않습니다.')
          } else {
             if(this.isOrderPacking == false) {
-               this.$router.push({
-                  name: "TotalOrderPage",
-               })
-            } else { // 포장주문인 경우
+               let totalItemCount = this.cartItems.reduce((acc, cur) => acc + cur.count, 0);
+               if(totalItemCount < this.selectedSeats.seatList.length) {
+                  alert('1 좌석 당 1 메뉴는 주문해주셔야 합니다.')
+               } else {
+                  const cartItems = this.cartItems
+                  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+                  this.$router.push({
+                     name: "TotalOrderPage",
+                  })
+               }
+            } else {
+               const cartItems = this.cartItems
+               localStorage.setItem("cartItems", JSON.stringify(cartItems));
                this.$router.push({ 
                   name: "TotalOrderPage",
                })
