@@ -1,7 +1,7 @@
 <template>
    <v-container>
       <div>
-         <total-order-form :cartItems="cartItems" :totalOrderPrice="totalOrderPrice" :selectedSeats="selectedSeats" :isOrderPacking="isOrderPacking" :holdPoint="holdPoint"/>
+         <total-order-form :cartItems="cartItems" :totalOrderPrice="totalOrderPrice" :selectedSeats="selectedSeats" :isOrderPacking="isOrderPacking" :numberHoldPoint="numberHoldPoint"/>
       </div>
    </v-container>
 </template>
@@ -22,7 +22,6 @@ export default {
       return {
          cartItmes: [],
          totalOrderPrice: 0,
-         isOrderPacking: Boolean,
       }
    },
    computed: {
@@ -30,8 +29,11 @@ export default {
          reservationModule, ['selectedSeats'],
       ),
       ...mapState(
-         orderModule, ['holdPoint']
+         orderModule, ['holdPoint', 'isOrderPacking']
       ),
+      numberHoldPoint() {
+         return Number(this.holdPoint);
+      }
    },
    methods: {
       ...mapActions(
@@ -39,16 +41,20 @@ export default {
       ),
    },
    async created() {
-      this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
-      this.isOrderPacking = JSON.parse(localStorage.getItem('isOrderPacking')) 
-      if(this.isOrderPacking == false) {
-         this.totalOrderPrice = 3000
-      } 
-      for(let i = 0; i < this.cartItems.length; i++) {
-             this.totalOrderPrice += this.cartItems[i].totalPrice
-      } 
-      this.requestHoldPointToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
-      console.log("selectedSeats: " + JSON.stringify(this.selectedSeats))
+      if(this.isOrderPacking != true && this.isOrderPacking != false) {
+         alert('카페 정보가 존재하지 않습니다. 카페 선택 창으로 이동합니다.');
+         this.$router.push({ name: "CafeIntroBoardListPage" });
+      } else {
+         this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
+         if(this.isOrderPacking == false) {
+            this.totalOrderPrice = 3000
+         } 
+         for(let i = 0; i < this.cartItems.length; i++) {
+                this.totalOrderPrice += this.cartItems[i].totalPrice
+         } 
+         this.requestHoldPointToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
+         console.log("selectedSeats: " + JSON.stringify(this.selectedSeats))
+      }
    }
 }
 </script>

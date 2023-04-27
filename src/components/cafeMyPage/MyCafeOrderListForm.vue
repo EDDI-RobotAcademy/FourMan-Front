@@ -1,19 +1,30 @@
 <template>
    <div>
-   <div class="mt-8">
+   <div class="mt-8 d-flex align-center justify-center">
       <v-layout>
          <center>
             <h2>주문 내역</h2>
          </center>
       </v-layout>
+      <v-spcaer />
+      <v-col cols="12" sm="6" md="4" lg="3">
+        <v-text-field
+          v-model="search"
+          label="주문번호 검색"
+          single-line
+          hide-details
+          class="mr-1"
+          append-icon="mdi-magnify"
+        ></v-text-field>
+      </v-col>
    </div>
 
-   <div class="mt-10 mb-15">
+   <div class="mt-10">
       <div v-if="!cafeOrderInformations || (Array.isArray(cafeOrderInformations) && cafeOrderInformations.length === 0)">
          <h3> 주문 내역 정보가 존재하지 않습니다 </h3>
       </div>
       <v-expansion-panels v-else flat popout>
-         <v-expansion-panel v-for="(orderInfo, index) in this.cafeOrderInformations.slice().reverse()" :key="index" class="mb-5">
+         <v-expansion-panel v-for="(orderInfo, index) in calData" :key="index" class="mb-5">
             <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9;">
                <v-card-subtitle style="border-bottom: 1px solid #eaebee;">
                   <v-layout>
@@ -30,6 +41,7 @@
                      </div>
 
                      <v-spacer />
+
                      <v-sheet v-if="orderInfo.packing == true && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center primary white--text mr-3" :elevation="0" 
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
                      포장 주문
@@ -174,7 +186,6 @@
                               </tr>
                            </table>
                         </div>
-
                      </v-expansion-panel-header>
 
                      <!-- 펼쳤을 시 하단 content -->
@@ -218,6 +229,14 @@
       </v-expansion-panels>
    </div>
 
+   <v-pagination
+      v-model="curPageNum"
+      :length="numOfPages"
+      color="#5D4037"
+      class="mt-2 mb-5"
+      flat
+   ></v-pagination>
+
   </div>
 </template>
 
@@ -234,6 +253,9 @@ export default {
          expandedArr: [],
          cancelDialog: false,
          currentTime: new Date(),
+         dataPerPage: 5,
+         curPageNum: 1,
+         search: '',
       }
    },
    props: {
@@ -271,23 +293,48 @@ export default {
          this.$router.go()
       },
       async orderIsReady(orderId) {
-         if (confirm("정말 완료 처리하겠습니까?")) {
+         if (confirm("정말 완료 처리하시겠습니까?")) {
             await this.requestOrderIsReadySpring(orderId)
             // 새로고침
             this.$router.go()
          } else {
-            console.log("완료 처리가 취소되었습니다.");
+            console.log("완료 처리가 취소되었습니다.")
          }
       },
       orderDateTime(orderDate) {
          const [year, month, day, hour, minute] = orderDate.split(/년|월|일|시|분/);
-         return new Date(year, month - 1, day, hour, minute);
+         return new Date(year, month - 1, day, hour, minute)
       }
    },
    created() {
       setInterval(() => {
-         this.currentTime = new Date();
+         this.currentTime = new Date()
       }, 1000);
+   },
+   computed: {
+      reverseData() {
+         return this.cafeOrderInformations.slice().reverse()
+      },
+      startOffset() {
+        return (this.curPageNum - 1) * this.dataPerPage
+      },
+      endOffset() {
+        return this.startOffset + this.dataPerPage
+      },
+      numOfPages() {
+         return Math.ceil(this.filteredData.length / this.dataPerPage)
+      },
+      calData() {
+         return this.filteredData.slice(this.startOffset, this.endOffset)
+      },
+      filteredData() {
+         if (!this.search) {
+            return this.reverseData
+         }
+         return this.reverseData.filter((order) => {
+            return order.orderNo.toLowerCase().includes(this.search.toLowerCase())
+         });
+      }
    }
 }
 </script>
@@ -295,9 +342,5 @@ export default {
 <style scoped>
 .v-expansion-panel-content>>> .v-expansion-panel-content__wrap {
   padding: 0;
-}
-
-.canceled {
-    text-decoration: line-through;
 }
 </style>

@@ -12,8 +12,13 @@ export default {
 
 
     requestCreateCafeSeatToSpring({ }, payload) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestCreateCafeSeatToSpring 작동")
-        return axiosInst.post("/reservation/register", payload)
+        return axiosInst.post("/reservation/register", payload,{
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert("예약완료되었습니다.");
             })
