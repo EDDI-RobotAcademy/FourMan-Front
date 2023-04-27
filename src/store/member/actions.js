@@ -28,17 +28,30 @@ export default {
 
     },
     requestMemberToSpring({ commit }, token) {
-        return axiosInst.post("/member/user-verification", token)//then res를 쓰는순간 return 값은 undefined구나
+        return axiosInst.post("/member/user-verification", token)
             .then((res) => {
-                console.log("res", res)
-                console.log("res.data", res.data)//이게멤버객체맞고
+                console.log("res", res);
+                console.log("res.data", res.data);
                 const member = res.data;
                 commit('setMember', member);
-                console.log("커밋작동")
-                return res;// 이걸해줘야 res를 보낼수있따.
+                console.log("커밋작동");
+                return res;
             })
+            .catch((error) => {
+                if (error.response && error.response.status === 401) {
+                    // 로그아웃 처리
+                    localStorage.removeItem("userInfo");
+                    localStorage.removeItem("cartItems");
+                    commit(COMMIT_IS_AUTHENTICATED, false);
+                    alert("로그인이 1시간이 경과하여 로그아웃처리 됩니다")
+                    console.log("로그아웃 처리됩니다.");
+                } else {
+                    console.log("에러발생@@!!!!")
+                    console.error("에러 발생@@:", error);
+                }
+                throw error;
+            });
     },
-
     requestSignOutToSpring({ commit }, token) {
         return axiosInst.post("/member/logout", token)
             .then(() => {
