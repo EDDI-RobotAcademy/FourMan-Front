@@ -22,7 +22,6 @@ export default {
       return {
          cartItmes: [],
          totalOrderPrice: 0,
-         isOrderPacking: Boolean,
       }
    },
    computed: {
@@ -30,7 +29,7 @@ export default {
          reservationModule, ['selectedSeats'],
       ),
       ...mapState(
-         orderModule, ['holdPoint']
+         orderModule, ['holdPoint', 'isOrderPacking']
       ),
    },
    methods: {
@@ -40,7 +39,6 @@ export default {
    },
    async created() {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
-      this.isOrderPacking = JSON.parse(localStorage.getItem('isOrderPacking')) 
       if(this.isOrderPacking == false) {
          this.totalOrderPrice = 3000
       } 
