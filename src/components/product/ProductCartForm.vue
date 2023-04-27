@@ -175,22 +175,24 @@ export default {
          this.cartItems.splice(index, 1);
       },
       totalOrder() {
-         const cartItems = this.cartItems
-         
-         localStorage.setItem("cartItems", JSON.stringify(cartItems));
-         localStorage.setItem("isOrderPacking", this.isOrderPacking)
-
          if((Array.isArray(this.cartItems) && this.cartItems.length === 0)) {
             alert('장바구니에 물품이 존재하지 않습니다.')
-         } else {
-            if(this.isOrderPacking == false) {
-               this.$router.push({
-                  name: "TotalOrderPage",
-               })
-            } else { // 포장주문인 경우
-               this.$router.push({ 
-                  name: "TotalOrderPage",
-               })
+            } else {
+               if(this.selectedSeats.seatList.length > this.cartItems.length) {
+                  alert('1 좌석 당 1 메뉴는 주문해주셔야 합니다.')
+               } else {
+               const cartItems = this.cartItems
+               
+               localStorage.setItem("cartItems", JSON.stringify(cartItems));
+               if(this.isOrderPacking == false) {
+                  this.$router.push({
+                     name: "TotalOrderPage",
+                  })
+               } else { // 포장주문인 경우
+                  this.$router.push({ 
+                     name: "TotalOrderPage",
+                  })
+               }
             }
          }
       },
