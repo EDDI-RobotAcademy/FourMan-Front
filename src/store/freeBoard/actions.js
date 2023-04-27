@@ -118,7 +118,6 @@ export default {
             console.log('게시물 비추천 action 작동')
             return axiosInst.post(`/free-board/down-recommendation/${boardId}`,{ boardId, memberId })
             .then(() => {
-                alert('게시물을 비추천 하였습니다')
             })
             .catch(() => {
                 alert('error occured')
@@ -129,7 +128,6 @@ export default {
             console.log('게시물 추천 action 작동')
             return axiosInst.post(`/free-board/up-recommendation/${boardId}`, {boardId, memberId})
             .then (() => {
-                alert('게시물을 추천 하였습니다')
             })
             .catch(() => {
                 alert('error occured')

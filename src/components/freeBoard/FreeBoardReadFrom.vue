@@ -29,13 +29,27 @@
       </div>
     </div>
     <div class="d-flex justify-center align-center">
-      <v-btn v-if="this.$store.state.memberModule.isAuthenticated"
-              class="brown darken-0 white--text mb-1 mx-2"
+      <!-- 눌렀을때 -->
+      <v-btn v-if="this.$store.state.memberModule.isAuthenticated && freeBoard.incRecommendationStatus"
+              class="primary white--text mb-1 mx-2"
               @click="incRecommendation(freeBoard.boardId)">
         <v-icon size="20" left>mdi-thumb-up</v-icon> {{ freeBoard.recommendation }}
       </v-btn>
-        <v-btn v-if="this.$store.state.memberModule.isAuthenticated"
-          class="brown darken-0 white--text mb-1 mx-2"
+       <!-- 안 눌렀을때 -->
+       <v-btn v-else-if="this.$store.state.memberModule.isAuthenticated"
+              class="mb-1 mx-2"
+              @click="incRecommendation(freeBoard.boardId)">
+        <v-icon size="20" left>mdi-thumb-up</v-icon> {{ freeBoard.recommendation }}
+      </v-btn>
+      <!-- 눌렀을때 -->
+        <v-btn v-if="this.$store.state.memberModule.isAuthenticated && freeBoard.decRecommendationStatus"
+          class="error white--text mb-1 mx-2"
+          @click="decRecommendation(freeBoard.boardId)">
+          <v-icon size="20" left>mdi-thumb-down</v-icon> {{ freeBoard.unRecommendation }}
+        </v-btn>
+        <!-- 안 눌렀을때 -->
+        <v-btn v-else-if="this.$store.state.memberModule.isAuthenticated"
+          class="mb-1 mx-2"
           @click="decRecommendation(freeBoard.boardId)">
           <v-icon size="20" left>mdi-thumb-down</v-icon> {{ freeBoard.unRecommendation }}
         </v-btn>

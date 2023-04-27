@@ -40,7 +40,7 @@
                                       name: 'FreeBoardReadPage',
                                       params: { boardId: freeBoard.boardId.toString() },
                                   }"
-                                  >{{ freeBoard.title}} [ {{ freeBoard.commentCount }}]</router-link>
+                                  >{{ freeBoard.title}} [{{ freeBoard.commentCount }}]</router-link>
                             </th>
                             <td>{{ freeBoard.writer }}</td>
                             <td>{{ freeBoard.regDate.slice(0, 10) }}</td>
