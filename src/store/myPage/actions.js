@@ -180,12 +180,11 @@ export default {
         //관리자 마이페이지 카페관리 관련
         requestCafeInfoListToSpring ({ commit }) {
             const token =JSON.parse(localStorage.getItem('userInfo')).token
-            return axiosInst.get('/my-page/cafe-list')
-                , {
+            return axiosInst.get('/my-page/cafe-list', {
                     headers: {
                         'Authorization': `Basic ${token}`
                     }
-                }
+                })
                 .then((res) => {
                     commit(REQUEST_CAFE_INFO_LIST_TO_SPRING, res.data)
                 })
