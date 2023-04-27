@@ -100,10 +100,18 @@
                                     <h3 class="">결제 상세 정보</h3>
                                     <div>
                                        <div class="mt-3">
+                                          <div class="d-flex align-center justify-center">
+                                             <span style="font-size: 16px; font-weight: bold;">적립 포인트 : </span>
+                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">+ {{ orderInfo.savedPoint | comma }}</span>
+                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">+ {{ orderInfo.savedPoint | comma }}</span>
+                                             <v-icon class="ml-1" style="font-size: 18px;">mdi-alpha-p-circle-outline</v-icon>
+                                          </div>
+                                       </div>
+                                       <div class="mt-3">
                                           <div v-if="orderInfo.usePoint != 0" class="d-flex align-center justify-center">
                                              <span style="font-size: 16px; font-weight: bold;">사용 포인트 : </span>
-                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">{{ orderInfo.usePoint | comma }}</span>
-                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">{{ orderInfo.usePoint | comma }}</span>
+                                             <span v-if="orderInfo.canceledAt == null" class="ml-1" style="font-size: 16px; font-weight: bold;">- {{ orderInfo.usePoint | comma }}</span>
+                                             <span v-else class="ml-1" style="font-size: 16px; font-weight: bold; text-decoration: line-through;">- {{ orderInfo.usePoint | comma }}</span>
                                              <v-icon class="ml-1" style="font-size: 18px;">mdi-alpha-p-circle-outline</v-icon>
                                           </div>
                                        </div>
