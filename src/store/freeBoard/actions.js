@@ -36,7 +36,8 @@ export default {
             })
     },
     requestFreeBoardToSpring ({ commit }, boardId) {
-    return axiosInst.get(`/free-board/${boardId}`)
+        const memberId = JSON.parse(localStorage.getItem('userInfo')).id
+    return axiosInst.get(`/free-board/${boardId}?memberId=${memberId}`)
         .then((res) => {
             commit(REQUEST_FREE_BOARD_TO_SPRING, res.data)
         })
