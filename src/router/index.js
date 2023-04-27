@@ -256,7 +256,8 @@ const routes = [
   {
     path: '/product-register-page',
     name: 'ProductRegisterPage',
-    component: ProductRegisterPage
+    component: ProductRegisterPage,
+    beforeEnter: ifCafe
   },
   {
     path: '/product-list-page',
@@ -266,7 +267,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
 
   // 주문 관련
@@ -278,7 +280,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
 
 
@@ -483,7 +486,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
   {
     path: '/product-modify-page',
@@ -493,12 +497,14 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
   {
     path: '/member-order-history-page',
     name: 'MemberOrderHistoryPage',
-    component: MemberOrderHistoryPage
+    component: MemberOrderHistoryPage,
+    beforeEnter: ifMember
   },
   {
     path: '/member-my-info-modify-page',
@@ -558,7 +564,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
   {
     path: '/point-details-page',
