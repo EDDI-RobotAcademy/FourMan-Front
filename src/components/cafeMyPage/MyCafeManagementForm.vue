@@ -5,7 +5,7 @@
         </div>
         <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                 매출액 {{ myCafeInfo.monthTotalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
+                 매출액 {{ myCafeInfo.monthTotalSales?.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.monthTotalSales / 300000"
@@ -37,7 +37,7 @@
         </div>
         <div class="text-center mb-5 pt-2 pb-2 ps-2 pe-2" style="display: flex;">
             <div class="me-3 pt-5 pb-5" style="width: 33%; border: 1px solid #ccc; border-radius: 10px;">
-                매출액 {{ myCafeInfo.dayTotalSales.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
+                매출액 {{ myCafeInfo.dayTotalSales?.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' }) }}
                 <v-progress-linear
                     :height="10"
                     :value="myCafeInfo.dayTotalSales / 10000"

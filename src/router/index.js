@@ -343,17 +343,7 @@ const routes = [
     path: '/free-board-register-page',
     name: 'FreeBoardRegisterPage',
     component: FreeBoardRegisterPage,
-    beforeEnter: (to, from, next) => {
-      const userInfo = localStorage.getItem('userInfo');
-      if (userInfo != null) {
-        // 로그인 되어 있을 때는 페이지 이동을 허용
-        next();
-      } else {
-        // 로그인 되어 있지 않을 때는 로그인 페이지로 이동
-        alert('로그인 후 글을 작성할 수 있습니다.')
-        next('/sign-in');
-      }
-    }
+    beforeEnter: ifMember
   },
   {
     path: '/free-board-read-page/:boardId',
@@ -374,16 +364,7 @@ const routes = [
     props: {
       default: true
     },
-    // 추후 게시글 작성자, 관리자만 수정할 수 있도록 변경 예정
-    beforeEnter: (to, from, next) => {
-      const userInfo = localStorage.getItem('userInfo');
-      if (userInfo != null) {
-        next();
-      } else {
-        alert('로그인 후 글을 작성할 수 있습니다.')
-        next('/sign-in');
-      }
-    }
+    beforeEnter: ifMember
   },
   // 리뷰 게시판 관련
   {
@@ -395,15 +376,7 @@ const routes = [
     props: {
       default: true
     },
-    beforeEnter: (to, from, next) => {
-      const userInfo = localStorage.getItem('userInfo');
-      if (userInfo != null) {
-        next();
-      } else {
-        alert('로그인 후 글을 작성할 수 있습니다.')
-        next('/sign-in');
-      }
-    }
+    beforeEnter: ifMember
   },
   {
     path: '/review-board-list-page',
@@ -428,7 +401,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
   //질문 게시판 관련
   {
@@ -476,7 +450,8 @@ const routes = [
   {
     path: '/member-my-page',
     name: 'MemberMyPage',
-    component: MemberMyPage
+    component: MemberMyPage,
+    beforeEnter: ifMember
   },
   {
     path: '/product-manage-page',
@@ -514,7 +489,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   },
   {
     path: '/member-management-page',
@@ -524,7 +500,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifManager
   },
   {
     path: '/cafe-management-page',
@@ -534,7 +511,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifManager
   },
   {
     path: '/my-cafe-management-page',
@@ -544,7 +522,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
   {
     path: '/my-cafe-modify-page',
@@ -554,7 +533,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifCafe
   },
   {
     path: '/my-cafe-order-list-page',
@@ -575,7 +555,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifManager
   },
   {
     path: '/member-point-details-page',
@@ -585,7 +566,8 @@ const routes = [
     },
     props: {
       default: true
-    }
+    },
+    beforeEnter: ifMember
   }, {
     path: '/my-favorite-cafe-page',
     name: 'MemberFavoriteCafePage',
