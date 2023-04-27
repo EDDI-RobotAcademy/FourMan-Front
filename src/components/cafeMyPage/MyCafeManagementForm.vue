@@ -119,7 +119,6 @@
 
                                 <div class="d-flex">
                                     <v-text-field
-                                    type="password"
                                     v-model="password"
                                     label="비밀번호"
                                     :rules="password_rule"
@@ -127,7 +126,7 @@
                                     prepend-icon="mdi-lock-outline"
                                     :counter="15"
                                     color="orange"
-                                    :type="showPassword ? 'text' : 'password'"
+                                    :type="inputType"
                                     />
                                 </div>
                                 <div>
@@ -200,6 +199,11 @@ export default {
                     params: { cafeId: this.myCafeInfo.cafeId.toString() } 
                 })
             }
+        },
+    },
+    computed: {
+        inputType() {
+            return this.showPassword ? 'text' : 'password';
         },
     },
 }

@@ -6,7 +6,7 @@
             <h2>결제 내역</h2>
          </center>
       </v-layout>
-      <v-spcaer />
+      <v-spacer />
       <v-col cols="12" sm="6" md="4" lg="3">
         <v-text-field
           v-model="search"
