@@ -14,8 +14,13 @@ export default {
 
     //이벤트 관련
     requestCreateEventToSpring({ }, formData) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestCreateEventToSpring() 작동")
-        return axiosInst.post("/event/register", formData)
+        return axiosInst.post("/event/register", formData,{
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert("이벤트가 등록되었습니다");
                 console.log("eventId:",res.data)
@@ -50,8 +55,13 @@ export default {
             })
     },
     requestModifyEventToSpring({}, {formData,eventId}) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestModifyEventToSpring() 작동")
-        return axiosInst.put(`/event/modify/${eventId}`, formData)
+        return axiosInst.put(`/event/modify/${eventId}`, formData,{
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert("이벤트가 변경 되었습니다");
                 console.log("eventId:",res.data)
@@ -61,8 +71,13 @@ export default {
             });
     },
     requestDeleteEventToSpring({},eventId){
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestDeleteEventToSpring() 작동")
-        return axiosInst.delete(`/event/delete/${eventId}`)
+        return axiosInst.delete(`/event/delete/${eventId}`,{
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then(() => {
                 alert("이벤트가 삭제 되었습니다");
               
@@ -87,8 +102,13 @@ export default {
         })
     },
     requestMyCafeEventListToSpring({ commit },cafeId) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestMyCafeEventListToSpring 작동")
-        return axiosInst.get(`/event/mylist/${cafeId}`)
+        return axiosInst.get(`/event/mylist/${cafeId}`,{
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 commit(REQUEST_EVENT_LIST_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)
