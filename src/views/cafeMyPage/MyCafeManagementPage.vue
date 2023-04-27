@@ -1,44 +1,46 @@
 <template>
-    <div class="d-flex">
-        <my-page-side-bar-form />
-        
-        <v-container style="width: 1000px">
-            <my-cafe-management-form :myCafeInfo="myCafeInfo"/>
-        </v-container>
-</div>
+  <div class="d-flex">
+    <my-page-side-bar-form />
+
+    <v-container style="width: 1000px">
+      <my-cafe-management-form :myCafeInfo="myCafeInfo" />
+      <cafe-intro-board-detail-form :cafe="cafe" :myPage="true" />
+    </v-container>
+  </div>
 </template>
 
 <script>
-import MyCafeManagementForm from '@/components/cafeMyPage/MyCafeManagementForm.vue'
-import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+import MyCafeManagementForm from "@/components/cafeMyPage/MyCafeManagementForm.vue";
+import MyPageSideBarForm from "@/components/memberMyPage/MyPageSideBarForm.vue";
+import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm.vue";
 
-import { mapActions, mapState } from 'vuex'
-const myPageModule= 'myPageModule'
-
+import { mapActions, mapState } from "vuex";
+const myPageModule = "myPageModule";
+const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
-    name: "MyCafeManagementPage",
-    components: {
-        MyCafeManagementForm,
-        MyPageSideBarForm
-    },
-    computed: {
-        ...mapState(myPageModule,[
-            'myCafeInfo',
-        ]),
-    },
-    created () {
-        const cafeId = JSON.parse(localStorage.getItem('userInfo')).cafeId
-        console.log('cafeId: ' + cafeId)
-        this.requestMyCafeInfoToSpring({ cafeId })
-    },
-    methods: {
-        ...mapActions(myPageModule,[
-            'requestMyCafeInfoToSpring'
-        ]),
-    }
-}
+  name: "MyCafeManagementPage",
+  components: {
+    MyCafeManagementForm,
+    MyPageSideBarForm,
+    CafeIntroBoardDetailForm,
+  },
+  computed: {
+    ...mapState(cafeIntroduceBoardModule, ["cafe"]),
+    ...mapState(myPageModule, ["myCafeInfo"]),
+  },
+  async created() {
+    const cafeId = JSON.parse(localStorage.getItem("userInfo")).cafeId;
+    console.log("cafeId: " + cafeId);
+    await this.requestCafeDetailToSpring(cafeId);
+    await this.requestMyCafeInfoToSpring({ cafeId });
+  },
+  methods: {
+    ...mapActions(cafeIntroduceBoardModule, ["requestCafeDetailToSpring"]),
+
+    ...mapActions(myPageModule, ["requestMyCafeInfoToSpring"]),
+  },
+};
 </script>
 
 <style>
-
 </style>

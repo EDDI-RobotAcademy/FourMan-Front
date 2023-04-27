@@ -62,7 +62,7 @@ export default {
         return axiosInst.get(`/cafe/detail/${cafeId}`)
             .then((res) => {
                 commit(REQUEST_CAFE_DETAIL_TO_SPRING, res.data)
-                console.log("res.data : " + res.data)
+                console.log("res.data!@~@ : " + res.data)
             })
             .catch((error) => {
                 alert(error)
