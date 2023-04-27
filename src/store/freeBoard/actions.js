@@ -117,8 +117,12 @@ export default {
         requestFreeBoardDecRecommendationToSpring({} , {boardId, memberId}) {
             console.log('게시물 비추천 action 작동')
             return axiosInst.post(`/free-board/down-recommendation/${boardId}`,{ boardId, memberId })
-            .then(() => {
-                alert('게시물을 비추천 하였습니다')
+            .then((res) => {
+                if(res.data === -1) {
+                    alert('비추천 하였습니다')
+                } else {
+                    alert('비추천을 취소했습니다.')
+                }
             })
             .catch(() => {
                 alert('error occured')
@@ -128,8 +132,12 @@ export default {
         requestFreeBoardIncRecommendationToSpring( {} ,{boardId, memberId}) {
             console.log('게시물 추천 action 작동')
             return axiosInst.post(`/free-board/up-recommendation/${boardId}`, {boardId, memberId})
-            .then (() => {
-                alert('게시물을 추천 하였습니다')
+            .then ((res) => {
+                if(res.data === 1) {
+                    alert('추천 하였습니다')
+                } else {
+                    alert('추천을 취소했습니다.')
+                }
             })
             .catch(() => {
                 alert('error occured')
