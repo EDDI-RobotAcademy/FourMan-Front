@@ -102,6 +102,7 @@
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
             <v-btn
+              v-if="!myPage"
               class="brown darken-2 white--text mr-10"
               text
               @click="reserve"
@@ -114,7 +115,7 @@
                 v-if="isCafeOwner"
                 :to="{
                   name: 'CafeIntroBoardModifyPage',
-                  params: { cafetId: cafe.cafeId.toString() },
+                  params: { cafeId: cafe.cafeId.toString() },
                 }"
               >
                 <v-icon>mdi-pencil</v-icon>
@@ -208,6 +209,9 @@ export default {
     cafe: {
       type: Object,
       required: true,
+    },
+    myPage: {
+      type: Boolean,
     },
   },
   async mounted() {
@@ -346,6 +350,9 @@ export default {
     reserve() {
       this.$router.push({
         name: "HallSeatPage",
+        // query: {
+        //   cafe: JSON.stringify(this.cafe),
+        // },
         params: {
           cafe: this.cafe,
         },
@@ -403,24 +410,38 @@ export default {
       return this.$route.query.totalRating;
     },
   },
+  watch: {
+    cafe: {
+      immediate: true,
+      handler(newVal, oldVal) {
+        if (newVal && newVal.cafeId) {
+          console.log("this.cafe.cafeId", newVal.cafeId);
+          console.log("this.cafe", this.cafe);
+          console.log("this.cafe.cafeId", this.cafe.cafeId);
+          console.log(
+            " Number(this.$route.params.cafeId);",
+            Number(this.$route.params.cafeId)
+          );
+          console.log("this.isAuthenticated ", this.isAuthenticated);
+
+          const cafeIdParam = Number(this.$route.params.cafeId);
+          const cafeId = isNaN(cafeIdParam) ? this.cafe.cafeId : cafeIdParam;
+          console.log("cafeId:", cafeId);
+          // 하... 새로고침하는순간 isAuthenticated값이 false가 되는게 문제임
+          if (this.isAuthenticated == true) {
+            const payload = {
+              cafeId: cafeId,
+              memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+            };
+            const res = this.checkFavoriteStatus(payload);
+            console.log("찜했냐res.data", res.data);
+            this.isFavorite = res.data;
+          }
+        }
+      },
+    },
+  },
   async created() {
-    console.log("this.cafe.cafeId", this.cafe.cafeId);
-    const cafeId = Number(this.$route.params.cafeId);
-    console.log(
-      " Number(this.$route.params.cafeId);",
-      Number(this.$route.params.cafeId)
-    );
-    console.log("this.isAuthenticated ",this.isAuthenticated )
-    // 하... 새로고침하는순간 isAuthenticated값이 false가 되는게 문제임
-    if (this.isAuthenticated == true) {
-      const payload = {
-        cafeId: cafeId,
-        memberId: JSON.parse(localStorage.getItem("userInfo")).id,
-      };
-      const res = await this.checkFavoriteStatus(payload);
-      console.log("찜했냐res.data", res.data);
-      this.isFavorite = res.data;
-    }
     this.shareUrl = window.location.href;
   },
 };

@@ -1,5 +1,6 @@
 <template>
-    <div class="mt-5" style="margin-left: 100px; margin-right: 100px;">
+    <!-- <div class="mt-5" style="margin-left: 100px; margin-right: 100px;"> -->
+    <div class="mt-5">
         <div class="ms-3">
             <h4>MONTH</h4>
         </div>
@@ -64,44 +65,7 @@
                 />
             </div>
         </div>
-        <div class="mt-5 mb-5" style="border: 1px solid #ccc; border-radius: 10px;">
-            <div style="margin: 20px">
-                <div class="mb-5">
-                    <span class="HANNA">
-                    <h2>{{ myCafeInfo.cafeName }}</h2>
-                    </span>
-                </div>
-                <v-divider class="mt-3 mb-3"></v-divider>
-                <div style="display: flex;">
-                    <span style="width: 30%; color: gray; font-size: 15px;">주소</span>
-                    <span>{{ myCafeInfo.cafeAddress }}</span>
-                </div>
-                <v-divider class="mt-3 mb-3"></v-divider>
-                <div style="display: flex;">
-                    <span style="width: 30%; color: gray; font-size: 15px;">전화번호</span>
-                    <span>{{ myCafeInfo.cafeTel }}</span>
-                </div>
-                <v-divider class="mt-3 mb-3"></v-divider>
-                <div style="display: flex;">
-                    <span style="width: 25%; color: gray; font-size: 15px;">영업시작</span>
-                    <span>{{ myCafeInfo.startTime }}</span>
-                    <span style="width: 20%;"></span>
-                    <span style="width: 25%; color: gray; font-size: 15px;">영업종료</span>
-                    <span>{{ myCafeInfo.endTime }}</span>
-                </div>
-                <v-divider class="mt-3 mb-3"></v-divider>
-                <div style="display: flex;">
-                    <span style="width: 30%; color: gray; font-size: 15px;">카페 간단 설명</span>
-                    <span>{{ myCafeInfo.subTitle }}</span>
-                </div>
-                <v-divider class="mt-3 mb-3"></v-divider>
-                <div style="display: flex; height: 150px;">
-                    <span style="width: 30%; color: gray; font-size: 15px;">카페 상세 설명</span>
-                    <span>{{ myCafeInfo.description }}</span>
-                </div>
-            </div>
-        </div>
-        <div>
+        <!-- <div>
             <v-btn class="mb-6 brown darken-2 white--text" style="float: right;" @click="openDialog()">
                     정보 수정
             </v-btn>
@@ -109,9 +73,9 @@
             v-model="dialog"
             @open-dialog="openDialog"
             width="400px"
-            height="300px">
+            height="300px"> -->
                 <!-- dialog에 나올 UI -->
-                <v-card width="460">
+                <!-- <v-card width="460">
                                 <v-card-text class="text-center px-12 py-16">
                                 <div class="text-h4 font-weight-black mb-10">
                                     <span class="HANNA">비밀번호 확인</span>
@@ -151,7 +115,7 @@
                                 </v-card-text>
                             </v-card>
             </v-dialog>
-        </div>
+        </div> -->
     </div>
 </template>
 
