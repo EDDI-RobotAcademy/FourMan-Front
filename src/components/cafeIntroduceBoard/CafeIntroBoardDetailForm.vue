@@ -232,6 +232,7 @@ export default {
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestDeleteCafeToSpring"]),
     ...mapActions(memberModule, [
+      "requestMemberToSpring",
       "sendFavoriteStatusToSpring",
       "checkFavoriteStatus",
     ]),
@@ -361,7 +362,7 @@ export default {
   },
 
   computed: {
-    ...mapState(memberModule, ["isAuthenticated"]),
+    ...mapState(memberModule, ["isAuthenticated","member"]),
     allImages() {
       if (!this.cafe || !this.cafe.cafeInfo) {
         return [];
@@ -413,7 +414,12 @@ export default {
   watch: {
     cafe: {
       immediate: true,
-      handler(newVal, oldVal) {
+      async handler(newVal, oldVal) {
+        const userInfo = localStorage.getItem("userInfo");
+        const token = userInfo ? JSON.parse(userInfo).token : null;
+        if (token != null) {
+          await this.requestMemberToSpring(token);
+        }
         if (newVal && newVal.cafeId) {
           console.log("this.cafe.cafeId", newVal.cafeId);
           console.log("this.cafe", this.cafe);
@@ -428,12 +434,13 @@ export default {
           const cafeId = isNaN(cafeIdParam) ? this.cafe.cafeId : cafeIdParam;
           console.log("cafeId:", cafeId);
           // 하... 새로고침하는순간 isAuthenticated값이 false가 되는게 문제임
-          if (this.isAuthenticated == true) {
+          if (this.member) {
+            console.log("멤버가 존재합니다")
             const payload = {
               cafeId: cafeId,
               memberId: JSON.parse(localStorage.getItem("userInfo")).id,
             };
-            const res = this.checkFavoriteStatus(payload);
+            const res = await this.checkFavoriteStatus(payload);
             console.log("찜했냐res.data", res.data);
             this.isFavorite = res.data;
           }
