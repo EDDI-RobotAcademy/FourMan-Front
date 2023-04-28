@@ -350,6 +350,9 @@ export default {
     reserve() {
       this.$router.push({
         name: "HallSeatPage",
+        // query: {
+        //   cafe: JSON.stringify(this.cafe),
+        // },
         params: {
           cafe: this.cafe,
         },
