@@ -14,8 +14,7 @@
           <router-link
             :to="{
               name: 'CafeIntroBoardDetailPage',
-              params: { cafeId: cafe.cafeId.toString() },
-              query: { rating: rating, totalRating: totalRating },
+              params: { cafeId: cafe.cafeId.toString() }
             }"
           >
             <v-img
@@ -32,7 +31,7 @@
         <v-card-text>
           <v-row align="center" class="mx-0">
             <v-rating
-              :value="rating"
+              :value="cafe.avgRating"
               color="amber"
               dense
               half-increments
@@ -42,9 +41,8 @@
             ></v-rating>
 
             <div class=" ms-4">
-              <span v-if="rating">{{ rating.toFixed(1) }}</span>
-              <span v-else>0</span>
-              <span> ({{ totalRating }})</span>
+              <span>{{ cafe.avgRating.toFixed(1) }}</span>
+              <span> ({{ cafe.totalRating }})</span>
 
               <v-icon
                 v-if="!isFavorite"
@@ -160,8 +158,8 @@ export default {
     dialog: false,
     availableTimes: [],
     selection: 0,
-    rating: 0,
-    totalRating: 0,
+    // rating: 0,
+    // totalRating: 0,
     loaded: false,
     isFavorite: false,
   }),
@@ -194,7 +192,7 @@ export default {
         endTime1: this.cafe.endTime,
       });
       this.availableTimes = this.formattedAvailableTimes(availableTimes);
-      await this.cafeRating();
+      // await this.cafeRating();
 
       if (this.isAuthenticated == true) {
         const payload = {
@@ -279,14 +277,14 @@ export default {
         params: { cafeId: this.cafe.cafeId },
       });
     },
-    async cafeRating() {
-      const res = await this.requestCafeRatingToSpring(this.cafe.cafeName);
-      const sum = res.data.reduce((acc, cur) => acc + cur, 0);
-      this.rating = sum / res.data.length;
-      this.totalRating = res.data.length;
+    // async cafeRating() {
+    //   const res = await this.requestCafeRatingToSpring(this.cafe.cafeName);
+    //   const sum = res.data.reduce((acc, cur) => acc + cur, 0);
+    //   this.rating = sum / res.data.length;
+    //   this.totalRating = res.data.length;
 
-      console.log("res.data: " + res.data);
-    },
+    //   console.log("res.data: " + res.data);
+    // },
   },
 };
 </script>
