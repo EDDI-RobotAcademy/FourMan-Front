@@ -110,7 +110,9 @@ import router from "@/router"
           return Math.ceil(this.freeBoards.length / this.dataPerPage);
         },
         calBestData() {
-          return this.bestFreeBoards.slice(0, 3);
+          if(this.bestFreeBoards) {
+            return this.bestFreeBoards.slice(0, 3);
+          }
         },
         calFreeData() {
           return this.freeBoards.slice(this.startOffset, this.endOffset);

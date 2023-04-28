@@ -1,25 +1,27 @@
 <template>
   <div class="d-flex">
     <my-page-side-bar-form />
-    <v-container>
-      <div class="EULJIRO mt-5 mb-5 text-center">
-              <h1>내가 쓴 리뷰 <v-icon>mdi-camera</v-icon></h1>
-          </div>
-      <my-review-board-form class="mt-5" :myReviewBoards="myReviewBoards"/>
+    <v-container class="ms-16 me-16">
+      <div class="NanumGothic mt-10 mb-4">
+          <h2>내가 쓴 리뷰 <v-icon>mdi-camera</v-icon></h2>
+      </div>
+      <review-board-list-form class="mt-5" :reviewBoards="myReviewBoards"/>
+      <!-- <my-review-board-form class="mt-5" :myReviewBoards="myReviewBoards"/> -->
     </v-container>
   </div>
   </template>
 
   <script>
-  import MyReviewBoardForm from '@/components/cafeMyPage/MyReviewBoardForm.vue'
+  // import MyReviewBoardForm from '@/components/cafeMyPage/MyReviewBoardForm.vue'
+  import ReviewBoardListForm from '@/components/reviewBoard/ReviewBoardListForm.vue'
   import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
   import { mapActions, mapState } from 'vuex'
   const myPageModule = 'myPageModule'
 
   export default {
     components: {
-      MyReviewBoardForm,
-      MyPageSideBarForm
+      MyPageSideBarForm,
+      ReviewBoardListForm
     },
     name: "MyReviewBoardPage",
     computed: {
