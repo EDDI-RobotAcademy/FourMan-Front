@@ -16,3 +16,32 @@
 .HANNA {
     font-family: 'HANNA', sans-serif;
 }
+
+@font-face {
+    font-family: 'NanumGothic';
+    src: url('../../public/fonts/NanumGothic.ttf');
+}
+
+.NanumGothic {
+    font-family: 'NanumGothic', sans-serif;
+}
+
+@font-face {
+    font-family: 'Santana';
+    src: url('../../public/fonts/Santana.ttf');
+}
+
+.Santana {
+    font-family: 'Santana', sans-serif;
+}
+
+@font-face {
+    font-family: 'omyu_pretty';
+    src: url('../../public/fonts/omyu_pretty.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.omyu_pretty {
+    font-family: 'omyu_pretty', sans-serif;
+}

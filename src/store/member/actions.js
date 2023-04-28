@@ -10,6 +10,26 @@ import router from '@/router';
 
 export default {
     //멤버 관련
+    async verifyEmailToSpring({ }, email) {
+        return axiosInst.post(`/api/email/verify`, email)
+
+    },
+
+    async sendVerificationEmailToSpring({ }, email) {
+        return axiosInst.post(`/api/email/send`, null, {
+            params: {
+                email: email,
+            },
+        });
+    },
+    async requestRenewPWToSpring({ }, { email, password }) {
+        return axiosInst.post(`/member/applyNewPassword/`, { email, password })
+
+    },
+    async requestEmailMatchToSpring({ }, { email }) {
+        return axiosInst.post(`/member/emailMatch`, { email })
+
+    },
     async requestSignUpCheckEmailToSpring({ }, email) {
         return axiosInst.post(`/member/check-email/${email}`)
 
@@ -34,6 +54,7 @@ export default {
                 console.log("res.data", res.data);
                 const member = res.data;
                 commit('setMember', member);
+                commit(COMMIT_IS_AUTHENTICATED, true);
                 console.log("커밋작동");
                 return res;
             })

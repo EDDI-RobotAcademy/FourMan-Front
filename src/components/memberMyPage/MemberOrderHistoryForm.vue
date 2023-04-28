@@ -197,7 +197,7 @@
                                        <v-card-actions>
                                           <v-spacer></v-spacer>
                                           <v-btn color="blue darken-1" text @click="dialog = false">취소</v-btn>
-                                          <v-btn color="blue darken-1" text @click="cancelOrder(orderInfo.orderId)">확인</v-btn>
+                                          <v-btn color="blue darken-1" text @click="cancelOrder(orderInfo)">확인</v-btn>
                                        </v-card-actions>
                                        </v-card>
                                     </v-dialog>
@@ -273,10 +273,17 @@ export default {
             this.expandedArr[index] = false
          }
       },
-      async cancelOrder(payload) {
-         let orderId = payload
+      async cancelOrder(orderInfo) {
+         let seatNoList = orderInfo.seatNoList.map(seat => seat.seatNo)
 
-         await this.requestCancelOrderToSpring(orderId)
+         let cancelReservation = {
+            orderId: orderInfo.orderId,
+            reservationTime: orderInfo.reservationTime,
+            seatNoList: seatNoList,
+         }
+
+         console.log('cancel: ' + JSON.stringify(cancelReservation))
+         await this.requestCancelOrderToSpring(cancelReservation)
 
          // 새로고침
          this.$router.go()

@@ -71,7 +71,7 @@
           </tbody>
         </table>
         <div
-          class="EULJIRO mt-5 mb-5"
+          class="NanumGothic mt-5 mb-5"
           style="height: 250px; display: flex; justify-content: center; align-items: center;"
           v-if="questionBoards.length === 0"
         >

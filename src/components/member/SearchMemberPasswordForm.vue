@@ -13,8 +13,8 @@
           <!-- 이메일인증이 완료되지 않은 경우 -->
           <v-card width="460" v-if="!isPass">
             <v-card-text class="text-center px-12 py-16">
-              <v-form>
-                <div class="text-h4 font-weight-black mb-10">PW 찾기</div>
+              <v-form @submit.prevent>
+                <div class="text-h4 font-weight-black mb-10">비밀번호 찾기</div>
 
                 <div class="d-flex">
                   <v-text-field
@@ -23,7 +23,8 @@
                     :rules="email_rule"
                     clearable
                     prepend-icon="mdi-email"
-                    color="orange"
+                    color="brown"
+                    @keyup.enter="sendVerificationEmail"
                   />
                 </div>
 
@@ -31,20 +32,19 @@
                   block
                   x-large
                   rounded
-                  color="orange lighten-1"
-                  class="mt-6"
-                  @click="findAccountEmail"
+                  class="mt-6 brown darken-2 white--text"
+                  @click="sendVerificationEmail"
                   :disabled="false"
-                  >찾기</v-btn
+                  >인증 메일 보내기</v-btn
                 >
               </v-form>
             </v-card-text>
           </v-card>
-
           <!-- 이메일인증이 완료된경우 -->
-          <v-card width="460" v-if="isPass">
+          <v-card width="460" v-else-if="isPass">
             <v-card-text class="text-center px-12 py-16">
-              <v-form>
+              <v-form @submit.prevent
+                >>
                 <div class="text-h4 font-weight-black mb-10">
                   비밀번호 재설정
                 </div>
@@ -58,7 +58,7 @@
                     clearable
                     prepend-icon="mdi-lock-outline"
                     :counter="15"
-                    color="orange"
+                    color="brown"
                   />
                 </div>
 
@@ -71,7 +71,8 @@
                     clearable
                     prepend-icon="mdi-lock-check-outline"
                     :counter="15"
-                    color="orange"
+                    color="brown"
+                    @keyup.enter="resetPw"
                   />
                 </div>
 
@@ -80,8 +81,7 @@
                   block
                   x-large
                   rounded
-                  color="orange lighten-1"
-                  class="mt-6"
+                  class="mt-6 brown darken-2 white--text"
                   @click="resetPw"
                   :disabled="false"
                   >비밀번호 변경</v-btn
@@ -89,6 +89,61 @@
               </v-form>
             </v-card-text>
           </v-card>
+          <!-- 이메일 인증번호 입력 모달 창 추가 -->
+          <v-dialog v-if="!isPass" v-model="codeCheckDialog" max-width="460">
+            <v-card>
+              <v-card-text class="text-center px-12 py-16">
+                <v-form @submit.prevent
+                  >>
+                  <div class="text-h4 font-weight-black mb-10">인증번호</div>
+                  <div class="d-flex">
+                    <v-text-field
+                      v-model="verificationCode"
+                      label="인증번호"
+                      required
+                      @keyup.enter="verifyEmail"
+                    ></v-text-field>
+                  </div>
+                  <v-btn
+                    block
+                    x-large
+                    rounded
+                    class="mt-6 brown darken-2 white--text"
+                    @click="verifyEmail"
+                    :disabled="false"
+                  >
+                    인증 완료
+                  </v-btn>
+                </v-form>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+          <!-- 
+          <v-card width="460" v-else-if="!isPass && codeCheck">
+            <v-card-text class="text-center px-12 py-16">
+              <v-form  @submit.prevent>>
+                <div class="text-h4 font-weight-black mb-10">PW 찾기</div>
+
+                <div class="d-flex">
+                  <v-text-field
+                    v-model="verificationCode"
+                    label="인증번호"
+                    required
+                  ></v-text-field>
+                </div>
+
+                <v-btn
+                  block
+                  x-large
+                  rounded
+                  class="mt-6 brown darken-2 white--text"
+                  @click="verifyEmail"
+                  :disabled="false"
+                  >인증 완료</v-btn
+                >
+              </v-form>
+            </v-card-text>
+          </v-card> -->
         </v-col>
       </v-row>
     </v-container>
@@ -97,12 +152,17 @@
 
 <script>
 import axios from "axios";
+import { mapActions } from "vuex";
+const memberModule = "memberModule";
 export default {
   name: "SearchMemberPasswordForm",
   data() {
     return {
+      codeCheckDialog: false,
+      verificationCode: "",
       email: "",
       phoneNumber: "",
+      // codeCheck: false,
       isPass: false,
       password: "",
       passwordConfirm: "",
@@ -129,37 +189,91 @@ export default {
             ? !!v || "패스워드는 필수 입력사항입니다."
             : true,
         (v) =>
-          !(v && v.length >= 20) || "패스워드는 20자를 초과 입력할 수 없습니다.",
+          !(v && v.length >= 20) ||
+          "패스워드는 20자를 초과 입력할 수 없습니다.",
         (v) => v === this.password || "패스워드가 일치하지 않습니다.",
       ],
     };
   },
   methods: {
-    findAccountEmail() {
+    ...mapActions(memberModule, [
+      "requestEmailMatchToSpring",
+      "requestRenewPWToSpring",
+      "sendVerificationEmailToSpring",
+      "verifyEmailToSpring",
+    ]),
+    async verifyEmail() {
+      try {
+        const { email, verificationCode } = this;
+        const response = await this.verifyEmailToSpring({
+          email,
+          verificationCode,
+        });
+        console.log("response", response);
+        console.log("response.status", response.status);
+        if (response.status === 200) {
+          alert("인증에 성공하였습니다.");
+          this.isPass = true;
+        } else {
+          alert("인증에 실패하였습니다.");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          alert(error.response.data);
+        } else {
+          alert("??오류가 발생했습니다.");
+        }
+        console.error(error);
+      }
+    },
+    async sendVerificationEmail() {
+      const existId = await this.findAccountEmail();
+      console.log("existId:", existId);
+      if (existId) {
+        try {
+          const { email } = this;
+          console.log("email", email);
+          const response = await this.sendVerificationEmailToSpring(email);
+          console.log("여기까진오나?");
+          if (response.status === 200) {
+            alert("인증 이메일이 전송되었습니다.");
+            // this.codeCheck = true;
+            this.codeCheckDialog = true;
+          } else {
+            alert("이메일 전송에 실패하였습니다.");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("오류2가 발생했습니다.");
+        }
+      }
+    },
+
+    async findAccountEmail() {
       //PW찾기 시스템
       const { email } = this;
-      axios
-        .post("http://localhost:8888/member/emailMatch", { email })
-        .then((res) => {
-          if (res.data) {
-            //res.data가 true면 //해당아이디가 존재할경우
-            console.log("res.data: ", res.data);
-            alert("인증이 완료되었습니다.");
-            this.isPass = true;
-          } else {
-            alert("입력하신 정보로 가입된 정보가 없습니다.");
-            this.isPass = false;
-          }
-        });
+      const res = await this.requestEmailMatchToSpring({ email });
+      console.log("res", res);
+      console.log("res,data", res.data);
+      if (res.data) {
+        //res.data가 true면 //해당아이디가 존재할경우
+        console.log("res.data: ", res.data);
+        alert(
+          "아이디가 존재합니다. 인증 메일을 보내겠습니다 잠시 기다려주세요!"
+        );
+        return true;
+        // this.isPass = true;
+      } else {
+        alert("입력하신 정보로 가입된 정보가 없습니다.");
+        // this.isPass = false;
+        return false;
+      }
     },
     resetPw() {
       //비밀번호 재설정하기.
       const { email, password } = this;
-       const res = axios
-          .post("http://localhost:8888/member/applyNewPassword/", {
-            email, password,
-          })
-      if (res) { 
+      const res = this.requestRenewPWToSpring({ email, password });
+      if (res) {
         alert("비밀번호가 변경되었습니다.");
         this.$router.push("/sign-in");
       }

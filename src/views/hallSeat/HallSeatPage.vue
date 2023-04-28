@@ -51,7 +51,9 @@
 
                 <v-row class="mt-10 ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-10 info-text">카페명:</span>
+                    ><span class="font-weight-bold mr-10 info-text"
+                      >카페명:</span
+                    >
                     {{ this.cafe.cafeName }}</v-col
                   >
                 </v-row>
@@ -63,20 +65,26 @@
                 </v-row>
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-10 info-text">닉네임:</span>
+                    ><span class="font-weight-bold mr-10 info-text"
+                      >닉네임:</span
+                    >
                     {{ this.nickName }}</v-col
                   >
                 </v-row>
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-10 info-text">예약일자:</span>
+                    ><span class="font-weight-bold mr-10 info-text"
+                      >예약일자:</span
+                    >
                     {{ getFormattedDate() }}
                   </v-col>
                 </v-row>
 
                 <v-row class="ml-1">
                   <v-col cols="3"
-                    ><span class="font-weight-bold info-text">예약 시간:</span></v-col
+                    ><span class="font-weight-bold info-text"
+                      >예약 시간:</span
+                    ></v-col
                   >
                   <v-col cols="5">
                     <v-select
@@ -94,7 +102,9 @@
 
                 <v-row class="ml-1">
                   <v-col cols="6"
-                    ><span class="font-weight-bold mr-15 info-text">전체 좌석수:</span>
+                    ><span class="font-weight-bold mr-15 info-text"
+                      >전체 좌석수:</span
+                    >
                     {{ this.total }} 석</v-col
                   >
                 </v-row>
@@ -129,21 +139,20 @@
               <div>
                 <v-btn
                   @click="cancel"
-                  class="brown darken-2 white--text custom-btn "
+                  class="brown darken-2 white--text custom-btn"
                   large
                   style="width: 100px; font-size: 18px"
                   >취소</v-btn
                 >
                 <v-btn
                   type="submit"
-                  class="ml-15 brown darken-2 white--text custom-btn "
+                  class="ml-15 brown darken-2 white--text custom-btn"
                   large
                   style="width: 100px; font-size: 18px"
                   >메뉴 주문
                 </v-btn>
               </div>
             </v-row>
-
           </table>
         </v-form>
       </div>
@@ -157,6 +166,7 @@ import { mdiSeat } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
 const reservationModule = "reservationModule";
 const orderModule = "orderModule";
+const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 import HallSeatForm from "@/components/hallSeat/HallSeatForm.vue";
 export default {
   name: "HallSeatPage",
@@ -165,10 +175,10 @@ export default {
     SvgIcon,
   },
   props: {
-    cafe: {
-      type: Object,
-      required: true,
-    },
+    // cafe: {
+    //   type: Object,
+    //   required: true,
+    // },
     timeSelection: {
       type: Number,
     },
@@ -181,13 +191,13 @@ export default {
       selectedSeats: [],
       unreserved: 0,
       total: 0,
-
+      // cafe: null,
     };
   },
   computed: {
     ...mapState(reservationModule, ["seatData", "tableData", "availableTimes"]),
+     ...mapState(cafeIntroduceBoardModule,['cafe' ])
   },
-
 
   methods: {
     ...mapActions(reservationModule, [
@@ -197,9 +207,9 @@ export default {
       "calculateAvailableTimes",
       "setSelectedSeats",
     ]),
-    ...mapActions(orderModule, [
-      "updateIsOrderPacking",
-    ]),
+    ...mapActions(cafeIntroduceBoardModule, [
+        'requestCafeDetailToSpring' ]),
+    ...mapActions(orderModule, ["updateIsOrderPacking"]),
     async fetchReservations() {
       try {
         const payload = { cafeId: this.cafe.cafeId, time: this.selectedTime };
@@ -252,10 +262,10 @@ export default {
         timeString: this.selectedTime,
       };
       // await this.requestCreateCafeSeatToSpring(payload);//카페를 db에 등록
-      await this.setSelectedSeats(payload)
-    
+      await this.setSelectedSeats(payload);
+
       // 포장 주문인지 아닌지 값 전달
-      this.updateIsOrderPacking(false)
+      this.updateIsOrderPacking(false);
       // 상품 주문 페이지로 해당 cafeId 넘겨서 이동
       await this.$router.push({
         name: "ProductListPage",
@@ -271,6 +281,12 @@ export default {
   },
 
   async created() {
+     const cafeId = this.$route.params.cafeId;//url로 접속시 cafeId받아오는 방법
+     await this.requestCafeDetailToSpring(cafeId)
+
+    // if (this.$route.query.cafe) {
+    //   this.cafe = JSON.parse(this.$route.query.cafe);//query쓰면 url지저분해짐
+    // }
     console.log("this.cafe.startTime", this.cafe.startTime);
     console.log("this.cafe.endTime", this.cafe.endTime);
     await this.calculateAvailableTimes({
@@ -290,7 +306,6 @@ export default {
 </script>
 
 <style scoped>
-
 .my-custom-container {
   position: relative;
   height: 800px;
@@ -344,17 +359,17 @@ li {
   color: #fff;
 }
 .title-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 24px;
   color: #5d4037;
 }
 
 .info-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 18px;
-    color: #5d4037;
+  color: #5d4037;
 }
 
 .custom-btn {

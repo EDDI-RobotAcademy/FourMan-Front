@@ -54,7 +54,7 @@
           </v-col>
           <v-col cols="auto">
             <v-rating
-              :value="rating"
+              :value="cafe.avgRating"
               color="amber"
               dense
               half-increments
@@ -65,9 +65,8 @@
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
             <div>
-              <span v-if="rating">{{ rating.toFixed(1) }}</span>
-              <span v-else>0</span>
-              <span> ({{ totalRating }})</span>
+              <span>{{ cafe.avgRating.toFixed(1) }}</span>
+              <span> ({{ cafe.totalRating }})</span>
             </div>
             <v-icon
               v-if="!isFavorite"
@@ -102,6 +101,7 @@
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
             <v-btn
+              v-if="!myPage"
               class="brown darken-2 white--text mr-10"
               text
               @click="reserve"
@@ -114,7 +114,7 @@
                 v-if="isCafeOwner"
                 :to="{
                   name: 'CafeIntroBoardModifyPage',
-                  params: { cafetId: cafe.cafeId.toString() },
+                  params: { cafeId: cafe.cafeId.toString() },
                 }"
               >
                 <v-icon>mdi-pencil</v-icon>
@@ -209,6 +209,9 @@ export default {
       type: Object,
       required: true,
     },
+    myPage: {
+      type: Boolean,
+    },
   },
   async mounted() {
     await this.loadKakaoMapsSDK();
@@ -228,6 +231,7 @@ export default {
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestDeleteCafeToSpring"]),
     ...mapActions(memberModule, [
+      "requestMemberToSpring",
       "sendFavoriteStatusToSpring",
       "checkFavoriteStatus",
     ]),
@@ -346,6 +350,9 @@ export default {
     reserve() {
       this.$router.push({
         name: "HallSeatPage",
+        // query: {
+        //   cafe: JSON.stringify(this.cafe),
+        // },
         params: {
           cafe: this.cafe,
         },
@@ -354,7 +361,7 @@ export default {
   },
 
   computed: {
-    ...mapState(memberModule, ["isAuthenticated"]),
+    ...mapState(memberModule, ["isAuthenticated","member"]),
     allImages() {
       if (!this.cafe || !this.cafe.cafeInfo) {
         return [];
@@ -396,31 +403,51 @@ export default {
       const userInfo = JSON.parse(localStorage.getItem("userInfo"));
       return userInfo && userInfo.cafeId === this.cafe.cafeId;
     },
-    rating() {
-      return Number(this.$route.query.rating);
-    },
-    totalRating() {
-      return this.$route.query.totalRating;
+    // rating() {
+    //   return Number(this.$route.query.rating);
+    // },
+    // totalRating() {
+    //   return this.$route.query.totalRating;
+    // },
+  },
+  watch: {
+    cafe: {
+      immediate: true,
+      async handler(newVal, oldVal) {
+        const userInfo = localStorage.getItem("userInfo");
+        const token = userInfo ? JSON.parse(userInfo).token : null;
+        if (token != null) {
+          await this.requestMemberToSpring(token);
+        }
+        if (newVal && newVal.cafeId) {
+          console.log("this.cafe.cafeId", newVal.cafeId);
+          console.log("this.cafe", this.cafe);
+          console.log("this.cafe.cafeId", this.cafe.cafeId);
+          console.log(
+            " Number(this.$route.params.cafeId);",
+            Number(this.$route.params.cafeId)
+          );
+          console.log("this.isAuthenticated ", this.isAuthenticated);
+
+          const cafeIdParam = Number(this.$route.params.cafeId);
+          const cafeId = isNaN(cafeIdParam) ? this.cafe.cafeId : cafeIdParam;
+          console.log("cafeId:", cafeId);
+          // 하... 새로고침하는순간 isAuthenticated값이 false가 되는게 문제임
+          if (this.member) {
+            console.log("멤버가 존재합니다")
+            const payload = {
+              cafeId: cafeId,
+              memberId: JSON.parse(localStorage.getItem("userInfo")).id,
+            };
+            const res = await this.checkFavoriteStatus(payload);
+            console.log("찜했냐res.data", res.data);
+            this.isFavorite = res.data;
+          }
+        }
+      },
     },
   },
   async created() {
-    console.log("this.cafe.cafeId", this.cafe.cafeId);
-    const cafeId = Number(this.$route.params.cafeId);
-    console.log(
-      " Number(this.$route.params.cafeId);",
-      Number(this.$route.params.cafeId)
-    );
-    console.log("this.isAuthenticated ",this.isAuthenticated )
-    // 하... 새로고침하는순간 isAuthenticated값이 false가 되는게 문제임
-    if (this.isAuthenticated == true) {
-      const payload = {
-        cafeId: cafeId,
-        memberId: JSON.parse(localStorage.getItem("userInfo")).id,
-      };
-      const res = await this.checkFavoriteStatus(payload);
-      console.log("찜했냐res.data", res.data);
-      this.isFavorite = res.data;
-    }
     this.shareUrl = window.location.href;
   },
 };
