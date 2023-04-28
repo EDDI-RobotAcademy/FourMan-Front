@@ -2,7 +2,8 @@ import axios from "axios";
 
 const axiosInst = axios.create({
     baseURL: 'http://localhost:8888',
-    timeout:2500
+    // timeout:2500
+    timeout: 10000, //
 })
 /* 
 생성된 axiosInst를 사용하여 API 요청을 보낼 때마다 요청이 2.5초 이내에 완료되지 않으면
