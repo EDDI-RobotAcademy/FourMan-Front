@@ -54,7 +54,7 @@
           </v-col>
           <v-col cols="auto">
             <v-rating
-              :value="rating"
+              :value="cafe.avgRating"
               color="amber"
               dense
               half-increments
@@ -65,9 +65,8 @@
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
             <div>
-              <span v-if="rating">{{ rating.toFixed(1) }}</span>
-              <span v-else>0</span>
-              <span> ({{ totalRating }})</span>
+              <span>{{ cafe.avgRating.toFixed(1) }}</span>
+              <span> ({{ cafe.totalRating }})</span>
             </div>
             <v-icon
               v-if="!isFavorite"
@@ -403,12 +402,12 @@ export default {
       const userInfo = JSON.parse(localStorage.getItem("userInfo"));
       return userInfo && userInfo.cafeId === this.cafe.cafeId;
     },
-    rating() {
-      return Number(this.$route.query.rating);
-    },
-    totalRating() {
-      return this.$route.query.totalRating;
-    },
+    // rating() {
+    //   return Number(this.$route.query.rating);
+    // },
+    // totalRating() {
+    //   return this.$route.query.totalRating;
+    // },
   },
   watch: {
     cafe: {
