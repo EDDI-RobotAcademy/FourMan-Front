@@ -94,7 +94,7 @@
             <v-card>
               <v-card-text class="text-center px-12 py-16">
                 <v-form @submit.prevent
-                  >>
+                  >
                   <div class="text-h4 font-weight-black mb-10">인증번호</div>
                   <div class="d-flex">
                     <v-text-field
