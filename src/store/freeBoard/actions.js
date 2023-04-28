@@ -42,7 +42,7 @@ export default {
             })
     },
     requestFreeBoardToSpring ({ commit }, boardId) {
-        const memberId = 0
+        let memberId = 0
         if(JSON.parse(localStorage.getItem('userInfo'))) {
             memberId = JSON.parse(localStorage.getItem('userInfo')).id
         }

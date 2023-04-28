@@ -6,7 +6,7 @@
           to="/event-board-list-page"
           style="text-decoration: none; color: inherit"
         >
-          <h1>이벤트 <v-icon>mdi-coffee</v-icon></h1>
+          <h2 class="NanumGothic">이벤트 <v-icon>mdi-coffee</v-icon></h2>
         </router-link>
       </div>
       <div

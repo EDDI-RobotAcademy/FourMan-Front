@@ -2,7 +2,6 @@
     <section>
         <!-- board list area -->
           <div id="board-list">
-              <div class="container">
                   <table class="board-table">
                       <thead>
                       <tr>
@@ -32,10 +31,9 @@
                       </tr>
                       </tbody>
                   </table>
-                  <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="questionBoards.length === 0">
+                  <div class="NanumGothic mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="questionBoards.length === 0">
                     <h2>작성된 게시물이 없습니다!</h2>
                     </div>
-              </div>
           </div>
 
           <v-pagination
