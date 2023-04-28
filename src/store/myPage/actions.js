@@ -126,8 +126,15 @@ export default {
     },
     // 사이드바 관련
     requestMyInfoForSideBarToSpring({ commit }, memberId) {
+        const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log('requestMyInfoForSideBarToSpring 작동')
-        return axiosInst.get(`/my-page/side-bar/${memberId}`)
+        return axiosInst.get(`/my-page/side-bar/${memberId}`,
+            {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            }
+        )
         .then((res) => {
             commit(REQUEST_MY_INFO_FOR_SIDE_BAR_TO_SPRING, res.data)
             console.log(JSON.stringify(res))

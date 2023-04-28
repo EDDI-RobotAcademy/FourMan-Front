@@ -1,7 +1,5 @@
 import {
    // 상품 관련
-   // REQUEST_PRODUCT_LIST_TO_SPRING,
-   // REQUEST_PRODUCT_IMAGE_LIST_TO_SPRING,
    REQUEST_ALL_PRODUCT_TO_SPRING,
 
 } from './mutation-types'
@@ -14,7 +12,13 @@ export default {
    requestCreateProductToSpring ({}, payload) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return axiosInst.post('/product/register', payload)
+      return axiosInst.post('/product/register', payload, 
+         {
+            headers: {
+               'Authorization': `Basic ${token}`
+            }
+         }
+      )
          .then((res) => {
             alert('게시물 등록 성공!')
             return res;
@@ -24,15 +28,29 @@ export default {
          })
    },
    requestAllOfProductToSpring ({ commit }, cafeId) {
-      return axiosInst.get(`/product/all/${cafeId}`)
+      const token =JSON.parse(localStorage.getItem('userInfo')).token
+      return axiosInst.get(`/product/all/${cafeId}`,
+         {
+            headers: {
+               'Authorization': `Basic ${token}`
+            }
+         }
+      )
          .then((res) => {
                commit(REQUEST_ALL_PRODUCT_TO_SPRING, res.data)
                console.log("allProduct: " + JSON.stringify(res.data))
          })
    },
    requestEditProductWithoutImageToSpring({}, payload) {
+      const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return axiosInst.post('/product/editProductWithoutImage', payload)
+      return axiosInst.post('/product/editProductWithoutImage', payload,
+         {
+            headers: {
+               'Authorization': `Basic ${token}`
+            }
+         }
+      )
          .then(() => {
                alert('게시물 수정 성공!')
          })
@@ -41,8 +59,15 @@ export default {
          })
    },
    requestEditProductWithImageToSpring({}, payload) {
+      const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return axiosInst.post('/product/editProductWithImage', payload)
+      return axiosInst.post('/product/editProductWithImage', payload,
+         {
+            headers: {
+               'Authorization': `Basic ${token}`
+            }
+         }
+      )
          .then(() => {
                alert('게시물 수정 성공!')
          })
@@ -51,7 +76,14 @@ export default {
          })
    },
    requestDeleteProductToSpring({}, productId) {
-      return axiosInst.delete(`/product/${productId}`)
+      const token =JSON.parse(localStorage.getItem('userInfo')).token
+      return axiosInst.delete(`/product/${productId}`, 
+         {
+            headers: {
+               'Authorization': `Basic ${token}`
+            }
+         }
+      )
          .then(() => {
             alert("삭제 성공")
          })
