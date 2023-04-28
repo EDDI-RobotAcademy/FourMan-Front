@@ -1,15 +1,17 @@
 <template>
     <v-container>
-        <div class="EULJIRO mt-5 mb-5 text-center">
-            <h1> 공지사항 <v-icon>mdi-bullhorn</v-icon></h1>
-        </div>
-        <div>
-            <notice-board-list-form :noticeBoards="noticeBoards"></notice-board-list-form>
-        </div>
-        <div class="text-right">
-            <v-btn v-if="manager == 'MANAGER'">
-                게시물 작성
-            </v-btn>
+        <div style="margin:0 150px;">
+            <div class="NanumGothic mt-10 mb-14">
+                <h2> 공지사항 <v-icon>mdi-bullhorn</v-icon></h2>
+            </div>
+            <div>
+                <notice-board-list-form :noticeBoards="noticeBoards"></notice-board-list-form>
+            </div>
+            <div class="text-right">
+                <v-btn v-if="manager == 'MANAGER'">
+                    게시물 작성
+                </v-btn>
+            </div>
         </div>
     </v-container>
 </template>
