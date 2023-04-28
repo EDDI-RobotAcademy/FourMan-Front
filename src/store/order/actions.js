@@ -13,7 +13,7 @@ export default {
    
    //주문 관련
    requestCreateOrderInformationsToSpring({}, payload) {
-      const token =JSON.parse(localStorage.getItem('userInfo')).token
+      const token = JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
       return axiosInst.post('/order/register', payload,
          {
@@ -30,7 +30,7 @@ export default {
          })
    },
    requestOrderInformationsToSpring({ commit }, memberId) {
-      const token =JSON.parse(localStorage.getItem('userInfo')).token
+      const token = JSON.parse(localStorage.getItem('userInfo')).token
       return axiosInst.get(`/order/orderList/${memberId}`,
          {
             headers: {
@@ -48,7 +48,7 @@ export default {
       commit(UPDATE_IS_ORDER_PACKING, payload)
    },
    requestHoldPointToSpring({ commit }, memberId) {
-      const token =JSON.parse(localStorage.getItem('userInfo')).token
+      const token = JSON.parse(localStorage.getItem('userInfo')).token
       return axiosInst.get(`/order/point/${memberId}`,
          {
             headers: {
@@ -61,9 +61,10 @@ export default {
          console.log('holdPoint: ' + JSON.stringify(res.data))
       })
    },
-   requestCancelOrderToSpring({}, orderId) {
-      const token =JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.post(`/order/cancel/${orderId}`, {},
+   requestCancelOrderToSpring({}, cancelReservation) {
+      const token = JSON.parse(localStorage.getItem('userInfo')).token
+      const{ orderId, reservationTime, seatNoList } = cancelReservation
+      return axiosInst.post(`/order/cancel/${orderId}`, { reservationTime, seatNoList },
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -78,7 +79,7 @@ export default {
          })
    },
    requestCafeOrderListToSpring({ commit }, cafeId) {
-      const token =JSON.parse(localStorage.getItem('userInfo')).token
+      const token = JSON.parse(localStorage.getItem('userInfo')).token
       return axiosInst.get(`/order/cafeOrderList/${cafeId}`,
          {
             headers: {
@@ -92,7 +93,7 @@ export default {
       })
    },
    requestOrderIsReadySpring({}, orderId) {
-      const token =JSON.parse(localStorage.getItem('userInfo')).token
+      const token = JSON.parse(localStorage.getItem('userInfo')).token
       return axiosInst.post(`/order/ready/${orderId}`, {},
          {
             headers: {
