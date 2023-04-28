@@ -1,12 +1,12 @@
 <template>
   <div class="main-container ms-10 me-10 mt-10 mb-10">
     <v-container>
-      <div class="EULJIRO mb-3">
+      <div class="mb-3">
         <router-link
           to="/review-board-list-page"
           style="text-decoration: none; color: inherit"
         >
-          <h1>실시간 리뷰 <v-icon>mdi-camera</v-icon></h1>
+          <h2 class="NanumGothic">실시간 리뷰 <v-icon>mdi-camera</v-icon></h2>
         </router-link>
       </div>
       <div
