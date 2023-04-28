@@ -19,7 +19,7 @@ import axiosInst from '@/utility/axiosObject'
 export default {
 
     requestQuestionBoardListToSpring ({ commit }) {
-        return axiosInst.get('/question-board/list')
+        return axiosInst.get('/question-board/all-list')
             .then((res) => {
                 commit(REQUEST_QUESTION_BOARD_LIST_TO_SPRING, res.data)
             })
