@@ -45,32 +45,35 @@ export default {
     },
     methods: {
         onSubmit () {
-          
-          let formData = new FormData()
-
-          for(let idx = 0; idx < this.files.length; idx++) {
-            formData.append('imageFileList', this.files[idx])
+          if(this.drinkType.length == 0 || this.cafeId.length == 0 || this.price.length == 0 || this.productName.length == 0 || this.files.length == 0) {
+            alert('정보를 다 기입해주셔야 합니다!')
+          } else {
+            let formData = new FormData()
+  
+            for(let idx = 0; idx < this.files.length; idx++) {
+              formData.append('imageFileList', this.files[idx])
+            }
+  
+            const { cafeId, productName, price, drinkType } = this
+            
+            let productInfo = {
+              cafeId: cafeId,
+              productName: productName,
+              price: price,
+              drinkType: drinkType,
+            }
+  
+            console.log('productInfo: ' + JSON.stringify(productInfo))
+  
+            formData.append(
+              "productInfo",
+              new Blob([JSON.stringify(productInfo)], { type: "application/json" })
+            )
+  
+            console.log('formData: ' + JSON.stringify(formData))
+  
+            this.$emit('submit', formData)
           }
-
-          const { cafeId, productName, price, drinkType } = this
-          
-          let productInfo = {
-            cafeId: cafeId,
-            productName: productName,
-            price: price,
-            drinkType: drinkType,
-          }
-
-          console.log('productInfo: ' + JSON.stringify(productInfo))
-
-          formData.append(
-            "productInfo",
-            new Blob([JSON.stringify(productInfo)], { type: "application/json" })
-          )
-
-          console.log('formData: ' + JSON.stringify(formData))
-
-          this.$emit('submit', formData)
         },
         handleFileUpload() {
           this.files = this.$refs.files.files
