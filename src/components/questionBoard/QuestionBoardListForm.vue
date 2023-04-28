@@ -1,54 +1,92 @@
 <template>
-    <section>
-        <!-- board list area -->
-          <div id="board-list">
-                  <table class="board-table">
-                      <thead>
-                      <tr>
-                          <th scope="col" class="th-num">번호</th>
-                          <th scope="col">질문유형</th>
-                          <th scope="col" class="th-title">제목</th>
-                          <th scope="col" class="th-writer">작성자</th>
-                          <th scope="col" class="th-date">등록일</th>
-                          <th scope="col" class="th-viewCnt">조회수</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr v-for="(questionBoard, index) in calData" :key="index">
-                          <td>{{ questionBoard.boardId }}</td>
-                          <td>{{ questionBoard.questionType }}</td>
-                          <th  @click.prevent="checkSecret(index, questionBoard)"
-                                  :to="{
-                                    name: 'QuestionBoardReadPage',
-                                    params: { boardId: questionBoard.boardId.toString() },
-                                }">
-                                <b v-bind:class="{ 'hover-cursor': isHover }" v-on:mouseover="isHover = true" v-on:mouseout="isHover = false">
-                                {{ questionBoard.title}} [ {{ questionBoard.commentCount }}]</b>
-                              </th>
-                          <td>{{ questionBoard.writer }}</td>
-                          <td>{{ questionBoard.regDate.slice(0, 10) }}</td>
-                          <td>{{ questionBoard.viewCnt }}</td>
-                      </tr>
-                      </tbody>
-                  </table>
-                  <div class="NanumGothic mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="questionBoards.length === 0">
-                    <h2>작성된 게시물이 없습니다!</h2>
-                    </div>
-          </div>
+    <div id="board-list">
+        <table class="board-table">
+          <thead>
+            <tr>
+              <th scope="col" class="th-num">번호</th>
+              <th scope="col">질문유형</th>
+              <th scope="col" class="th-title">제목</th>
+              <th scope="col" class="th-writer">작성자</th>
+              <th scope="col" class="th-date">등록일</th>
+              <th scope="col" class="th-viewCnt">조회수</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 부모 게시물 행 -->
+            <template v-for="(questionBoard, index) in calData">
+              <tr :key="questionBoard.boardId">
+                <td>{{ questionBoard.boardId }}</td>
+                <td>{{ questionBoard.questionType }}</td>
+                <th
+                  @click.prevent="checkSecret(index, questionBoard)"
+                  :to="{
+                    name: 'QuestionBoardReadPage',
+                    params: { boardId: questionBoard.boardId.toString() },
+                  }"
+                  :style="{ marginLeft: `${questionBoard.depth * 20}px` }"
+                >
+                  <b
+                    v-bind:class="{ 'hover-cursor': isHover }"
+                    v-on:mouseover="isHover = true"
+                    v-on:mouseout="isHover = false"
+                  >
+                    {{ questionBoard.title }} [{{ questionBoard.commentCount }}]
+                  </b>
+                </th>
 
-          <v-pagination
-            v-model="curPageNum"
-            :length="numOfPages"
-            color="#5D4037"
-            class="mt-10"
-            flat
-            ></v-pagination>
-      </section>
-  </template>
+                <td>{{ questionBoard.writer }}</td>
+                <td>{{ questionBoard.regDate.slice(0, 10) }}</td>
+                <td>{{ questionBoard.viewCnt }}</td>
+              </tr>
+
+              <!-- 자식 게시물 행 -->
+              <template v-if="questionBoard.replies">
+                <tr v-for="(reply, replyIndex) in questionBoard.replies" :key="'child' + index + 'reply' + replyIndex">
+                  <td >{{ reply.boardId }}</td>
+                  <td>{{ reply.questionType }}</td>
+                  <th
+                  @click.prevent="checkSecret(index, questionBoard)"
+                  :to="{
+                    name: 'QuestionBoardReadPage',
+                    params: { boardId: reply.boardId.toString() },
+                  }"
+                >
+                  <b
+                    v-bind:class="{ 'hover-cursor': isHover }"
+                    v-on:mouseover="isHover = true"
+                    v-on:mouseout="isHover = false"
+                  >
+                  <v-icon v-if="reply.depth>0">mdi-subdirectory-arrow-right</v-icon> {{ reply.title }}
+                  </b>
+                </th>
+                  <td>{{ reply.writer }}</td>
+                  <td>{{ reply.regDate.slice(0, 10) }}</td>
+                  <td>{{ reply.viewCnt }}</td>
+                </tr>
+              </template>
+            </template>
+          </tbody>
+        </table>
+        <div
+          class="NanumGothic mt-5 mb-5"
+          style="height: 250px; display: flex; justify-content: center; align-items: center;"
+          v-if="questionBoards.length === 0"
+        >
+          <h2>작성된 게시물이 없습니다!</h2>
+        </div>
+        <v-pagination
+          v-model="curPageNum"
+          :length="numOfPages"
+          color="#5D4037"
+          class="mt-10"
+          flat
+        ></v-pagination>
+      </div>
+</template>
 
   <script>
 
-  export default {
+  export default  {
       name: "QuestionBoardListForm",
       props: {
           questionBoards: {
