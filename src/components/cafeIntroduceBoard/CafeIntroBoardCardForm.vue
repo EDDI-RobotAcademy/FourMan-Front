@@ -235,6 +235,7 @@ export default {
       this.$router.push({
         name: "HallSeatPage",
         params: {
+          cafeId: this.cafe.cafeId,//url 에 적용되기 위함.(라우터index.js에 :cafeId와 매칭)
           cafe: this.cafe,
           timeSelection: this.selection,
         },
