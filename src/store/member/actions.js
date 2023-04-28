@@ -10,8 +10,32 @@ import router from '@/router';
 
 export default {
     //멤버 관련
-    async verifyEmailToSpring({ }, email) {
-        return axiosInst.post(`/api/email/verify`, email)
+    async verifyPhoneToSpring({ }, {
+        phoneNumber,
+        verificationCode,
+    }) {
+        return axiosInst.post(`/api/phone/verify`, {
+            phoneNumber,
+            verificationCode,
+        })
+
+    },
+
+    async sendVerificationPhoneToSpring({ }, phoneNumber) {
+        return axiosInst.post(`/api/phone/send`, null, {
+            params: {
+                phoneNumber: phoneNumber,
+            },
+        });
+    },
+    async verifyEmailToSpring({ }, {
+        email,
+        verificationCode,
+    }) {
+        return axiosInst.post(`/api/email/verify`, {
+            email,
+            verificationCode,
+        })
 
     },
 
