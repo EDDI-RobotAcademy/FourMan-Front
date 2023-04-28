@@ -1,19 +1,21 @@
 <template>
     <v-container>
-      <div class="EULJIRO mt-5 mb-5 text-center">
-        <h1>Q&A 게시판 <v-icon>mdi-bulletin-board</v-icon></h1>
-      </div>
-        <search-bar-form class="mb-2 me-7" style="float: right;" v-model="searchText" @search="onSearch" />
-        <div v-if="searchBoards.length === 0">
-        <question-board-list-form :questionBoards="questionBoards" @check-secret="checkSecret"/>
+      <div style="margin:0 150px;">
+        <div class="NanumGothic mt-10">
+          <h2>Q&A 게시판 <v-icon>mdi-bulletin-board</v-icon></h2>
         </div>
-        <div v-else>
-          <question-board-search-result-form :searchBoards="searchBoards" />
+          <search-bar-form class="mb-2" style="float: right;" v-model="searchText" @search="onSearch" />
+          <div v-if="searchBoards.length === 0">
+          <question-board-list-form :questionBoards="questionBoards" @check-secret="checkSecret"/>
+          </div>
+          <div v-else>
+            <question-board-search-result-form :searchBoards="searchBoards" />
+          </div>
+          <div class="text-right">
+            <v-btn v-if="this.$store.state.memberModule.isAuthenticated" class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
+              게시물 작성
+          </v-btn>
         </div>
-        <div class="text-right">
-          <v-btn v-if="this.$store.state.memberModule.isAuthenticated" class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
-            게시물 작성
-        </v-btn>
       </div>
     </v-container>
 </template>

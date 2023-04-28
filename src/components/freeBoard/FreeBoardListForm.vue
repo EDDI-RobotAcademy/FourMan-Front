@@ -1,8 +1,5 @@
 <template>
-    <section>
-        <!-- board list area -->
           <div id="board-list">
-              <div class="container">
                   <table class="board-table">
                       <thead>
                       <tr>
@@ -49,21 +46,17 @@
                         </tr>
                       </tbody>
                   </table>
-                  <div class="EULJIRO mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="freeBoards.length === 0">
+                  <div class="NanumGothic mt-5 mb-5" style="height: 250px; display: flex; justify-content: center; align-items: center;" v-if="freeBoards.length === 0">
                     <h2>작성된 게시물이 없습니다!</h2>
                     </div>
-              </div>
+              <v-pagination
+                v-model="curPageNum"
+                :length="numOfFreePages"
+                color="#5D4037"
+                class="mt-10"
+                flat
+                ></v-pagination>
           </div>
-          <v-pagination
-            v-model="curPageNum"
-            :length="numOfFreePages"
-            color="#5D4037"
-            class="mt-10"
-            flat
-            ></v-pagination>
-      </section>
-
-
   </template>
 
   <script>
