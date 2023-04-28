@@ -37,7 +37,7 @@
       </v-btn>
        <!-- 안 눌렀을때 -->
        <v-btn v-else-if="this.$store.state.memberModule.isAuthenticated"
-              class="mb-1 mx-2"
+              class="mb-1 mx-2 border-blue"
               @click="incRecommendation(freeBoard.boardId)">
         <v-icon size="20" left>mdi-thumb-up</v-icon> {{ freeBoard.recommendation }}
       </v-btn>
@@ -49,7 +49,7 @@
         </v-btn>
         <!-- 안 눌렀을때 -->
         <v-btn v-else-if="this.$store.state.memberModule.isAuthenticated"
-          class="mb-1 mx-2"
+          class="mb-1 mx-2 border-red"
           @click="decRecommendation(freeBoard.boardId)">
           <v-icon size="20" left>mdi-thumb-down</v-icon> {{ freeBoard.unRecommendation }}
         </v-btn>
@@ -131,5 +131,11 @@ const freeBoardModule= 'freeBoardModule'
   }
   </script>
 
-  <style scoped>
-  </style>
+ <style scoped>
+.border-blue {
+  border: 2px solid blue;
+}
+.border-red {
+  border: 2px solid red;
+}
+</style>

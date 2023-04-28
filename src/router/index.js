@@ -192,7 +192,7 @@ const routes = [
 
   //예약 페이지 관련
   {
-    path: '/seats',
+    path: '/seats/:cafeId',
     name: 'HallSeatPage',
     components: {
       default: HallSeatPage

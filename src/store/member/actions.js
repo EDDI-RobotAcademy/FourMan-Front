@@ -34,6 +34,7 @@ export default {
                 console.log("res.data", res.data);
                 const member = res.data;
                 commit('setMember', member);
+                commit(COMMIT_IS_AUTHENTICATED, true);
                 console.log("커밋작동");
                 return res;
             })
