@@ -192,7 +192,7 @@ export default {
         endTime1: this.cafe.endTime,
       });
       this.availableTimes = this.formattedAvailableTimes(availableTimes);
-      await this.cafeRating();
+      // await this.cafeRating();
 
       if (this.isAuthenticated == true) {
         const payload = {
