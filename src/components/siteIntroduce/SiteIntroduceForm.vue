@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-16">
+  <div class="NanumGothic mt-16">
     <div class="text-center mb-10" style="font-size: 35px; font-weight: bold">
       FOUR MAN 소개
     </div>
@@ -95,7 +95,7 @@
           </div>
           <div>4명 (본사 기준, 2023년 기준)</div>
         </div>
-        <v-divider class="m" />
+        <v-divider class="mt-3 mb-3" />
       </div>
     </div>
 
