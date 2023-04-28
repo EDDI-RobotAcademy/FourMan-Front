@@ -1,6 +1,6 @@
 <template>
 <v-container>
-    <question-board-register-form @submit="onSubmit"/>
+    <question-board-register-form :parent-board-id="parentBoardId" @submit="onSubmit"/>
 </v-container>
 </template>
 
@@ -15,16 +15,33 @@ export default {
     components: {
         QuestionBoardRegisterForm
     },
-
+    data() {
+        return {
+            parentBoardId: null,
+        }
+    },
+    created() {
+    if (this.$route.params.parentBoardId) {
+        this.parentBoardId = this.$route.params.parentBoardId;
+    }
+    },
+    mounted() {
+    console.log('부모 보드아이디 확인' + this.parentBoardId)
+    },
     methods: {
         ...mapActions (questionBoardModule,[
-            'requestCreateQuestionBoardToSpring'
+            'requestCreateQuestionBoardToSpring',
+            'requestCreateReplyToSpring'
         ]),
         async onSubmit (payload) {
-            await this.requestCreateQuestionBoardToSpring(payload)
-            await this.$router.push({
-                name: 'QuestionBoardListPage',
-            })
+            if(this.parentBoardId) {
+                await this.requestCreateReplyToSpring(payload)
+            } else {
+                await this.requestCreateQuestionBoardToSpring(payload)
+            }
+                await this.$router.push({
+                    name: 'QuestionBoardListPage',
+                })
         },
       }
   }
