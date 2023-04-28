@@ -32,7 +32,9 @@
       <v-btn class="brown darken-2 white--text mb-5" :to="{ name: 'FreeBoardListPage' }" style="float: right;">
         목록
       </v-btn>
-      <v-btn class="brown darken-2 white--text mb-5 mr-2"
+      <v-btn
+      v-if="isManager()"
+      class="brown darken-2 white--text mb-5 mr-2"
       :to="{
         name: 'QuestionBoardRegisterPage',
         params: { parentBoardId: questionBoard.boardId } }"
@@ -87,6 +89,10 @@ export default {
           },
           async onModify () {
             await this.$router.push({ name: 'QuestionBoardModifyPage', params: this.questionBoard.boardId  })
+          },
+          isManager() {
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            return userInfo && userInfo.authorityName ==='MANAGER'
           }
   },
   computed: {
