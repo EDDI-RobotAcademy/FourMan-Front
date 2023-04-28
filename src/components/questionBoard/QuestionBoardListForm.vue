@@ -1,8 +1,5 @@
 <template>
-  <section>
-    <!-- board list area -->
     <div id="board-list">
-      <div class="container">
         <table class="board-table">
           <thead>
             <tr>
@@ -77,17 +74,14 @@
         >
           <h2>작성된 게시물이 없습니다!</h2>
         </div>
+        <v-pagination
+          v-model="curPageNum"
+          :length="numOfPages"
+          color="#5D4037"
+          class="mt-10"
+          flat
+        ></v-pagination>
       </div>
-    </div>
-
-    <v-pagination
-      v-model="curPageNum"
-      :length="numOfPages"
-      color="#5D4037"
-      class="mt-10"
-      flat
-    ></v-pagination>
-  </section>
 </template>
 
   <script>
