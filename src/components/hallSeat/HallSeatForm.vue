@@ -67,7 +67,7 @@ export default {
       path: mdiSeat,
       selectedSeats: [],
     };
-  }, 
+  },
   computed: {
     unreservedSeatsCount() {
       return this.seatData.filter((seat) => !seat.reserved).length;
@@ -78,19 +78,19 @@ export default {
   },
   watch: {
     unreservedSeatsCount(newUnreservedCount) {
-      this.$emit('update-seats-count', {
+      this.$emit("update-seats-count", {
         unreserved: newUnreservedCount,
         total: this.totalSeatsCount,
       });
     },
     totalSeatsCount(newTotalCount) {
-      this.$emit('update-seats-count', {
+      this.$emit("update-seats-count", {
         unreserved: this.unreservedSeatsCount,
         total: newTotalCount,
       });
     },
   },
-  
+
   methods: {
     reserveSeat(seat) {
       if (!seat.isReserved) {
@@ -103,6 +103,7 @@ export default {
         } else {
           this.selectedSeats.push(seat);
         }
+        this.selectedSeats.sort((a, b) => a.seatNo - b.seatNo);
         this.$emit("onUpdateSelectedSeats", this.selectedSeats);
       }
     },
@@ -112,12 +113,11 @@ export default {
     resetSelectedSeats() {
       this.selectedSeats = [];
     },
-    
   },
-  created(){
-    console.log("자식컴퍼넌트cafe:",this.cafe)
-    console.log(this.seatData[2])
-  }
+  created() {
+    console.log("자식컴퍼넌트cafe:", this.cafe);
+    console.log(this.seatData[2]);
+  },
 };
 </script>
 <style scoped>
