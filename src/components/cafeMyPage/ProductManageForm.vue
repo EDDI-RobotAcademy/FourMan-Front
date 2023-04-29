@@ -52,13 +52,15 @@
 
                   <!-- 수정 -->
                   <td>
-                     <v-btn elevation="0" @click="modifyBtn(product)">수정</v-btn> <!-- 버튼을 눌렀을 때 v-card가 보여진다. -->
+                     <v-btn outlined elevation="0" @click="modifyBtn(product)">
+                        <v-icon>mdi-pencil</v-icon>
+                     </v-btn> <!-- 버튼을 눌렀을 때 v-card가 보여진다. -->
                   </td>
 
                   <!-- 삭제 -->
                   <td>
-                     <v-btn elevation="0" @click="deleteBtn(product)">
-                        삭제
+                     <v-btn color="red" outlined elevation="0" @click="deleteBtn(product)">
+                        <v-icon>mdi-delete</v-icon>
                      </v-btn>
                   </td>
                </tr>
@@ -151,12 +153,15 @@ export default {
             })
       },
       async deleteBtn(product) {
-         console.log(product.productId)
-         let productId = product.productId
-         await this.requestDeleteProductToSpring(productId)
-
-         // 새로고침 
-         this.$router.go()
+         if (confirm("정말 삭제 하시겠습니까?")) {
+            let productId = product.productId
+            await this.requestDeleteProductToSpring(productId)
+            
+            // 새로고침
+            this.$router.go()
+         } else {
+            console.log("상품 삭제 취소되었습니다.")
+         }
       }
    },
    computed: {
