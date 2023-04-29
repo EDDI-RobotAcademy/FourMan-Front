@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container  style="max-width: 1200px">
     <v-card class="mx-auto overflow-hidden" style="max-width: 1200px">
       <v-row>
         <v-col cols="6">

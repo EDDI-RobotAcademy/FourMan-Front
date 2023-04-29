@@ -50,8 +50,9 @@
     </v-container>
 
     <v-container fluid>
-      <v-row no-gutters align="center">
-        <v-col cols="12" class="text-center">
+      <v-row class="d-flex justify-space-between" no-gutters align="center">
+        <v-col cols="auto"> </v-col>
+        <v-col cols="auto" class="text-center">
           <v-pagination
             v-model="curPageNum"
             :length="numOfPages"
@@ -60,11 +61,7 @@
             flat
           ></v-pagination>
         </v-col>
-        <v-col
-          cols="auto"
-          class="text-right"
-          style="position: absolute; right: 200px"
-        >
+        <v-col cols="auto" class="text-right" style="right: 200px">
           <v-btn
             v-if="this.cafePass == 'CAFE'"
             type="button"
@@ -98,13 +95,15 @@ export default {
     return {
       selectedSorting: "최신등록순",
       searchText: "",
-      cafePass: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")).authorityName : null,
+      cafePass: localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo")).authorityName
+        : null,
       dataPerPage: 6,
       curPageNum: 1,
     };
   },
-  mounted(){
-    console.log("this.cafePass", this.cafePass)
+  mounted() {
+    console.log("this.cafePass", this.cafePass);
   },
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestCafeNumToSpring"]),
@@ -148,7 +147,7 @@ export default {
 </script>
 <style scoped>
 .title-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 24px;
   color: #5d4037;
