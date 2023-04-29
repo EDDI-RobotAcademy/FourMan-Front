@@ -3,25 +3,34 @@
     <h2>카페코드 추가</h2>
     <v-form ref="form" @submit.prevent="submitForm">
       <v-row class="d-flex justify-space-around align-center">
-        <v-col cols="12" sm="4">
+        <v-col cols="auto">
           <v-text-field
             label="카페 이름"
             v-model="cafeName"
             :rules="[required]"
             required
-            style="width: 200px"
+            style="width: 150px"
           ></v-text-field>
         </v-col>
-        <v-col cols="12" sm="4">
+        <v-col cols="auto">
           <v-text-field
             label="카페 코드"
             v-model="codeOfCafe"
             :rules="[required]"
             required
-            style="width: 200px"
+            style="width: 150px"
           ></v-text-field>
         </v-col>
-        <v-col cols="12" sm="4">
+        <v-col cols="auto">
+          <v-text-field
+            label="자리배치 코드"
+            v-model="layoutIndex"
+            :rules="[required]"
+            required
+            style="width: 150px"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="auto">
           <v-btn type="submit" class="brown darken-2 white--text"
             >카페코드 추가</v-btn
           >
@@ -52,6 +61,7 @@ export default {
         message: "",
         color: "",
       },
+      layoutIndex: "",
       cafeName: "",
       codeOfCafe: "",
       required: (value) => !!value || "필수 입력 사항입니다",
@@ -64,12 +74,14 @@ export default {
         const response = await this.requestAddCafeCodeToSpring({
           cafeName: this.cafeName,
           codeOfCafe: this.codeOfCafe,
+          layoutIndex: this.layoutIndex,
         });
 
         if (response) {
           this.showSnackbar("카페코드가 추가되었습니다.", "success");
           this.cafeName = "";
           this.codeOfCafe = "";
+          this.layoutIndex="";
           this.$refs.form.resetValidation(); // 유효성 검사 초기화
         } else {
           this.showSnackbar("카페코드 추가에 실패했습니다.", "error");
