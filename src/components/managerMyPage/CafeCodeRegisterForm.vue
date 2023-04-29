@@ -23,7 +23,7 @@
         </v-col>
         <v-col cols="12" sm="4">
           <v-btn type="submit" class="brown darken-2 white--text"
-            >카페 추가</v-btn
+            >카페코드 추가</v-btn
           >
         </v-col>
       </v-row>
