@@ -101,6 +101,7 @@
                 </tbody>
             </table>
         </div>
+        <CafeIntroBoardCardForm/>
     </div>
     
     
@@ -108,9 +109,13 @@
 
 <script>
 import { Chart } from 'chart.js/auto';
+import CafeIntroBoardCardForm from "@/components/managerMyPage/CafeCodeRegisterForm.vue";
 
 export default {
     name: 'CafeManagementForm',
+    components:{
+      CafeIntroBoardCardForm
+    },
     props: {
         cafeInfoList: {
             type: Array
