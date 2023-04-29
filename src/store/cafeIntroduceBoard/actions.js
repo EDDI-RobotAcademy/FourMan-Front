@@ -3,6 +3,7 @@ import {
     REQUEST_CAFE_LIST_TO_SPRING,
     REQUEST_CAFE_NUM_TO_SPRING,
     REQUEST_CAFE_DETAIL_TO_SPRING,
+    REQUEST_CAFE_TOP3_TO_SPRING
 
 
 } from './mutation-types'
@@ -121,6 +122,20 @@ export default {
                 alert(error)
             })
     },
+
+    requestTop3MenuToSpring({ commit }, cafeId) {
+        console.log("requestTop3MenuToSpring 작동")
+        return axiosInst.get(`/cafe/top3/${cafeId}`)
+            .then((res) => {
+                commit(REQUEST_CAFE_TOP3_TO_SPRING, res.data)
+                console.log("res.data!@~@ : " + res.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    },
+
+  
 
 
 
