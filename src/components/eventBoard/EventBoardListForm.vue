@@ -60,8 +60,9 @@
       </v-row>
     </v-container>
     <v-container fluid>
-      <v-row no-gutters align="center">
-        <v-col cols="12" class="text-center">
+      <v-row class="d-flex justify-space-between" no-gutters align="center">
+        <v-col cols="auto"> </v-col>
+        <v-col cols="auto" class="text-center">
           <v-pagination
             v-model="curPageNum"
             :length="numOfPages"
@@ -73,7 +74,7 @@
         <v-col
           cols="auto"
           class="text-right"
-          style="position: absolute; right: 200px;"
+          style="right: 200px"
         >
           <v-btn
             v-if="cafePass === 'CAFE'"
@@ -113,7 +114,9 @@ export default {
       searchText: "",
       dataPerPage: 6,
       curPageNum: 1,
-      cafePass: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")).authorityName : null,
+      cafePass: localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo")).authorityName
+        : null,
     };
   },
   methods: {
@@ -183,7 +186,7 @@ export default {
 </script>
 <style scoped>
 .title-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 24px;
   color: #5d4037;
