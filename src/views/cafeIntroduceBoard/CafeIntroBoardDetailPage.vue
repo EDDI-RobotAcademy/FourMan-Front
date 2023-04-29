@@ -1,6 +1,7 @@
 <template>
   <div>
     <CafeIntroBoardDetailForm :cafe="cafe" />
+    <CafeTop3MenuForm :cafe="cafe"/>
     <cafe-review-comment-form :cafe="cafe" />
   </div>
 </template>
@@ -9,13 +10,17 @@
 import {mapActions, mapState} from "vuex";
 import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm"
 import CafeReviewCommentForm from '@/components/cafeIntroduceBoard/CafeReviewCommentForm.vue';
+import CafeTop3MenuForm from '@/components/cafeIntroduceBoard/CafeTop3MenuForm.vue';
+
 
 const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
 export default {
     name: "CafeIntroBoardDetailage",
     components: {
         CafeIntroBoardDetailForm,
-        CafeReviewCommentForm
+        CafeReviewCommentForm,
+        CafeTop3MenuForm
+        
 
   },
   data(){
