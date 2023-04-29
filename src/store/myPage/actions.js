@@ -252,9 +252,10 @@ export default {
     },
     requestAddCafeCodeToSpring({ }, payload) {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        const { cafeName, codeOfCafe } = payload
+        const { cafeName, codeOfCafe,layoutIndex } = payload
+        console.log("layoutIndex",layoutIndex)
         return axiosInst.put(`/my-page/add-cafe-code/`,
-            { cafeName, codeOfCafe }, {
+            { cafeName, codeOfCafe,layoutIndex }, {
             headers: {
                 'Authorization': `Basic ${token}`
             }
