@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid style="max-width: 1000px;">
     <div class="wrap productWrap">
       <EventBoardListForm :eventLists="eventLists"></EventBoardListForm>
     </div>
