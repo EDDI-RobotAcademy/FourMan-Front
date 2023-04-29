@@ -1,29 +1,29 @@
 <template>
   <form class="register-form" @submit.prevent="onSubmit">
     <div class="form-field">
-      <label for="files">Cafe Name</label>
+      <label for="files">카페 이름</label>
       <input type="text" id="price" v-model="cafeName" disabled/>
     </div>
     <div class="form-field">
-      <label for="files">Register photo</label>
+      <label for="files">상품 사진</label>
       <input type="file" id="files" ref="files" @change="handleFileUpload"/>
     </div>
     <div class="form-field">
-      <label>DrinkType</label>
-      <v-select v-model="drinkType" @change="drinkTypeSelect" label="DrinkType" :items="drinkTypeList">
+      <label>카테고리</label>
+      <v-select style="margin-top: -8px" v-model="drinkType" @change="drinkTypeSelect" label="DrinkType" :items="drinkTypeList">
       </v-select>
     </div>
-    <div class="form-field">
-      <label for="productName">Product name</label>
-      <input type="text" id="productName" v-model="productName"/>
+    <div style="margin-top: -10px;" class="form-field">
+      <label for="productName">상품 이름</label>
+      <input type="text" id="productName" v-model="productName" placeholder="상품명을 입력하세요" />
     </div>
     <div class="form-field">
-      <label for="price">Price</label>
-      <input type="text" id="price" v-model="price"/>
+      <label for="price">가격</label>
+      <input type="text" id="price" v-model="price" placeholder="가격을 입력하세요" @input="restrictToNumbers" />
     </div>
-    <div>
-        <v-btn class="brown darken-2 white--text" @click="onSubmit">Register</v-btn>
-        <v-btn class="brown darken-2 white--text" @click="moveToListPage">Cancel</v-btn>
+    <div class="mt-5">
+        <v-btn class="brown darken-2 white--text mr-5" @click="cancel">취소</v-btn>
+        <v-btn class="brown darken-2 white--text ml-5" @click="onSubmit">등록</v-btn>
     </div>
   </form>
 </template>
@@ -34,8 +34,8 @@ export default {
     name: "ProductRegisterForm",
     data () {
         return {
-            productName: '상품명을 입력하세요.',
-            price: 0,
+            productName: '',
+            price: '',
             files: '',
             drinkTypeList: ['COFFEE & LATTE', 'BUBBLETEA & NON-COFFEE', 'ADE & TEA', 'SMOOTHIE & FRUIT BEVERAGE'],
             drinkType: '',
@@ -78,14 +78,17 @@ export default {
         handleFileUpload() {
           this.files = this.$refs.files.files
         },
-        moveToListPage() {
+        cancel() {
           this.$router.push( {
-            name: 'ProductListPage'
+            name: 'ProductManagePage'
           })
         },
         drinkTypeSelect(drinkType) {
           this.drinkType = drinkType
-        }
+        },
+        restrictToNumbers(event) {
+        event.target.value = event.target.value.replace(/[^0-9]/g, '');
+        },
     },
     updated() {
       console.log('drinkType: ' + this.drinkType)
@@ -138,7 +141,6 @@ input[type="text"] {
 }
 
 button {
-  background-color: #4CAF50;
   border: none;
   border-radius: 4px;
   color: white;
@@ -151,10 +153,6 @@ button {
   text-decoration: none;
   transition: background-color 0.3s ease;
   width: 8rem;
-}
-
-button:hover {
-  background-color: #3e8e41;
 }
 
 .cancel-button {
