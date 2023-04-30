@@ -1,5 +1,13 @@
 <template>
           <div id="board-list">
+            <div class="mb-1" style="float: right;">
+              <v-text-field
+                  label="검색어를 입력하세요"
+                  hide-details="auto"
+                  append-icon="mdi-magnify"
+                  v-model="searchText"
+                  />
+            </div>
                   <table class="board-table">
                       <thead>
                       <tr>
@@ -29,7 +37,7 @@
                           <td>{{ bestFreeBoard.viewCnt }}</td>
                           <td>{{ bestFreeBoard.recommendation }}</td>
                         </tr>
-                        <tr v-for="(freeBoard, index) in calFreeData" :key="'free' + index">
+                        <tr v-for="(freeBoard, index) in displayedBoards" :key="'free' + index">
                             <td>{{ freeBoard.boardId }}</td>
                             <th>
                               <router-link
@@ -50,8 +58,8 @@
                     <h2>작성된 게시물이 없습니다!</h2>
                     </div>
               <v-pagination
-                v-model="curPageNum"
-                :length="numOfFreePages"
+                v-model="page"
+                :length="Math.ceil(filteredBoards.length / itemsPerPage)"
                 color="#5D4037"
                 class="mt-10"
                 flat
@@ -83,8 +91,9 @@ import router from "@/router"
                   { text: '추천수', value: 'recommendation', width: "50px" },
               ],
               selectedItems: [],
-              dataPerPage: 10,
-              curPageNum: 1,
+              page: 1,
+              itemsPerPage: 10,
+              searchText: '',
               //boardsWithSelected: [this.boards.map(x => ({...x, isSelectable: false}))],
           }
       },
@@ -97,27 +106,37 @@ import router from "@/router"
           },
       },
       computed: {
-        startOffset() {
-          return (this.curPageNum - 1) * this.dataPerPage;
-        },
-        endOffset() {
-          return this.startOffset + this.dataPerPage;
-        },
-        numOfBestPages() {
-          return Math.ceil(this.bestFreeBoards.length / this.dataPerPage);
-        },
-        numOfFreePages() {
-          return Math.ceil(this.freeBoards.length / this.dataPerPage);
-        },
+        // startOffset() {
+        //   return (this.curPageNum - 1) * this.dataPerPage;
+        // },
+        // endOffset() {
+        //   return this.startOffset + this.dataPerPage;
+        // },
+        // numOfBestPages() {
+        //   return Math.ceil(this.bestFreeBoards.length / this.dataPerPage);
+        // },
+        // numOfFreePages() {
+        //   return Math.ceil(this.freeBoards.length / this.dataPerPage);
+        // },
         calBestData() {
           if(this.bestFreeBoards) {
             return this.bestFreeBoards.slice(0, 3);
           }
         },
-        calFreeData() {
-          return this.freeBoards.slice(this.startOffset, this.endOffset);
+        // calFreeData() {
+        //   return this.freeBoards.slice(this.startOffset, this.endOffset);
+        // },
+        filteredBoards() {
+          return this.freeBoards.filter(freeBoard => {
+            return freeBoard.title.includes(this.searchText);
+          });
         },
+        displayedBoards() {
+          const start = (this.page - 1) * this.itemsPerPage;
+          const end = this.page * this.itemsPerPage;
+          return this.filteredBoards.slice(start, end);
         },
+      },
     }
 
   </script>
