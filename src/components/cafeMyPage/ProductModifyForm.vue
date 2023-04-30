@@ -98,6 +98,11 @@ export default {
             })
     },
     previewFile(file) {
+      if (!file) {
+        this.preview = "";
+        return;
+      }
+
       const fileData = (data) => {
         this.preview = data
       }

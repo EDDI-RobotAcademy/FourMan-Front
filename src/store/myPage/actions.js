@@ -140,6 +140,25 @@ export default {
                 console.log(JSON.stringify(res))
             })
     },
+    requestModifyProfileImageToSpring({}, payload) {
+        const token = JSON.parse(localStorage.getItem('userInfo')).token
+        const{ memberId, formData } = payload
+        console.log('requestChangeProfileImageToSpring 작동')
+        return axiosInst.put(`/my-page/side-bar/profile-image/${memberId}`, formData,
+            {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            }
+        )
+            .then((res) => {
+                alert('수정 성공')
+                console.log(JSON.stringify(res))
+            })
+            .catch((res) => {
+                alert("수정 실패");
+            });
+    },
     //나의 게시판 관련
     requestMyFreeBoardListToSpring({ commit }, memberId) {
         console.log('requestMyFreeBoardListToSpring 작동')
