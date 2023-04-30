@@ -5,4 +5,6 @@ export default {
    orderInformations: [],
    holdPoint: Number,
    cafeOrderInformations: [],
+   isReservationAvailable: Boolean,
+
  }
