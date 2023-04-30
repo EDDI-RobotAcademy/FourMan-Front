@@ -41,6 +41,12 @@
               @click="incRecommendation(freeBoard.boardId)">
         <v-icon size="20" left>mdi-thumb-up</v-icon> {{ freeBoard.recommendation }}
       </v-btn>
+      <!-- 비로그인일때 -->
+      <v-btn v-else-if="this.$store.state.memberModule.isAuthenticated===false"
+              class="mb-1 mx-2 border-blue"
+              @click="goLogin()">
+        <v-icon size="20" left>mdi-thumb-up</v-icon> {{ freeBoard.recommendation }}
+      </v-btn>
       <!-- 눌렀을때 -->
         <v-btn v-if="this.$store.state.memberModule.isAuthenticated && freeBoard.decRecommendationStatus"
           class="error white--text mb-1 mx-2"
@@ -51,6 +57,12 @@
         <v-btn v-else-if="this.$store.state.memberModule.isAuthenticated"
           class="mb-1 mx-2 border-red"
           @click="decRecommendation(freeBoard.boardId)">
+          <v-icon size="20" left>mdi-thumb-down</v-icon> {{ freeBoard.unRecommendation }}
+        </v-btn>
+        <!-- 비로그인 일때 -->
+        <v-btn v-else-if="this.$store.state.memberModule.isAuthenticated===false"
+          class="mb-1 mx-2 border-red"
+          @click="goLogin()">
           <v-icon size="20" left>mdi-thumb-down</v-icon> {{ freeBoard.unRecommendation }}
         </v-btn>
     </div>
@@ -101,6 +113,13 @@ const freeBoardModule= 'freeBoardModule'
 
             if(!JSON.parse(localStorage.getItem('userInfo'))) {
               return false
+            }
+          },
+          goLogin(){
+            if(confirm('로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?')) {
+              this.router.push({
+                name: 'SignInPage'
+              })
             }
           },
           async onDelete () {

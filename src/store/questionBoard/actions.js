@@ -27,8 +27,13 @@ export default {
 
     requestCreateQuestionBoardToSpring({}, payload) {
         const { title, questionType, writer, content, memberId, secret} = payload
+        const token = JSON.parse(localStorage.getItem('userInfo')).token
         return axiosInst.post('/question-board/register',
-        { title, questionType, writer, content, memberId, secret})
+        { title, questionType, writer, content, memberId, secret} ,{
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then((res) => {
                 alert('게시물 등록 성공')
                 return res;
@@ -47,8 +52,13 @@ export default {
 
     requestQuestionBoardModifyToSpring({}, payload) {
         const { boardId, title, content} = payload
+        const token = JSON.parse(localStorage.getItem('userInfo')).token
         return axiosInst.put(`/question-board/${boardId}`,
-        { title, content})
+        { title, content}, {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
         .then(() => {
             alert('게시물 수정 성공')
         })
@@ -84,9 +94,14 @@ export default {
     //댓글 관련
     requestQuestionBoardCommentRegisterToSpring( {}, payload) {
         const {comment, boardId, commentWriter,memberId} = payload
+        const token = JSON.parse(localStorage.getItem('userInfo')).token
         console.log('데이터보내져랏')
         return axiosInst.post('/question-board/comment/register',
-            {comment, boardId, commentWriter, memberId})
+            {comment, boardId, commentWriter, memberId}, {
+                headers: {
+                    'Authorization': `Basic ${token}`
+                }
+            })
         .then(() =>{
             alert('댓글 등록 완료')
         })
@@ -100,7 +115,12 @@ export default {
     },
     requestQuestionBoardCommentDeleteToSpring ({}, commentId) {
         console.log('delete 전송 되냐?')
-        return axiosInst.delete(`/question-board/comment/${commentId}`)
+        const token = JSON.parse(localStorage.getItem('userInfo')).token
+        return axiosInst.delete(`/question-board/comment/${commentId}`, {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then(() => {
                 alert("삭제 성공")
             })
@@ -111,9 +131,14 @@ export default {
 
     requestQuestionBoardCommentModifyToSpring(_, payload) {
         console.log('comment Modify 전송')
+        const token = JSON.parse(localStorage.getItem('userInfo')).token
         const { commentId, commentModify } = payload
         return axiosInst.put(`/question-board/comment/${commentId}`,
-        { commentId, comment: commentModify })
+        { commentId, comment: commentModify }, {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
+        })
             .then(() => {
                 alert('수정 성공')
             })
@@ -135,9 +160,15 @@ export default {
 
     //답글 등록 Register
     requestCreateReplyToSpring({}, payload) {
-        const { title, questionType, writer, content, memberId, secret, parentBoardId } = payload;
+        const { title, questionType, writer, content, memberId, secret, parentBoardId } = payload
+        const token = JSON.parse(localStorage.getItem('userInfo')).token
         return axiosInst.post("/question-board/register-reply", {
           title, questionType, writer, content, memberId, secret, parentBoardId
+        },
+         {
+            headers: {
+                'Authorization': `Basic ${token}`
+            }
         })
         .then((res) => {
           alert("답글 등록 성공");

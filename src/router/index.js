@@ -434,7 +434,7 @@ const routes = [
     name: 'QuestionBoardRegisterPage',
     component: QuestionBoardRegisterPage,
     props: true,
-    beforeEnter: ifMember
+    beforeEnter: ifManager
     },
   {
     path: '/question-board-read-page/:boardId',

@@ -1,5 +1,13 @@
 <template>
     <div id="board-list">
+      <div class="mb-1" style="float: right;">
+        <v-text-field
+            label="검색어를 입력하세요"
+            hide-details="auto"
+            append-icon="mdi-magnify"
+            v-model="searchText"
+            />
+      </div>
         <table class="board-table">
           <thead>
             <tr>
@@ -13,7 +21,7 @@
           </thead>
           <tbody>
             <!-- 부모 게시물 행 -->
-            <template v-for="(questionBoard, index) in calData">
+            <template v-for="(questionBoard, index) in displayedBoards">
               <tr :key="questionBoard.boardId">
                 <td>{{ questionBoard.boardId }}</td>
                 <td>{{ questionBoard.questionType }}</td>
@@ -75,8 +83,8 @@
           <h2>작성된 게시물이 없습니다!</h2>
         </div>
         <v-pagination
-          v-model="curPageNum"
-          :length="numOfPages"
+          v-model="page"
+          :length="Math.ceil(filteredBoards.length / itemsPerPage)"
           color="#5D4037"
           class="mt-10"
           flat
@@ -104,9 +112,10 @@
                   { text: '조회수', value: 'viewCnt', width: "50px" },
               ],
               selectedItems: [],
-              dataPerPage: 8,
-              curPageNum: 1,
+              page: 1,
+              itemsPerPage: 10,
               isHover: false,
+              searchText: '',
           }
       },
       methods: {
@@ -121,17 +130,27 @@
           }
       },
       computed: {
-            startOffset() {
-                return (this.curPageNum - 1) * this.dataPerPage;
+            // startOffset() {
+            //     return (this.curPageNum - 1) * this.dataPerPage;
+            // },
+            // endOffset() {
+            //     return this.startOffset + this.dataPerPage;
+            // },
+            // numOfPages() {
+            //     return Math.ceil(this.questionBoards.length / this.dataPerPage);
+            // },
+            // calData() {
+            //     return this.questionBoards.slice(this.startOffset, this.endOffset);
+            // },
+            filteredBoards() {
+              return this.questionBoards.filter(questionBoard => {
+                return questionBoard.title.includes(this.searchText);
+              });
             },
-            endOffset() {
-                return this.startOffset + this.dataPerPage;
-            },
-            numOfPages() {
-                return Math.ceil(this.questionBoards.length / this.dataPerPage);
-            },
-            calData() {
-                return this.questionBoards.slice(this.startOffset, this.endOffset);
+            displayedBoards() {
+              const start = (this.page - 1) * this.itemsPerPage;
+              const end = this.page * this.itemsPerPage;
+              return this.filteredBoards.slice(start, end);
             },
         },
   }
