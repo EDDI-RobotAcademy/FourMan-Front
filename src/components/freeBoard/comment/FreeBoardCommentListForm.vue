@@ -5,25 +5,19 @@
         <span class="HANNA" style="font-weight: bold;">{{ comment.commentWriter }}</span>
         <span style="float: right;">
           <!-- 댓글 수정 버튼-->
-          <v-btn v-if="commentAuthorCheck(comment.memberId)" class="small-button" @click="openDialog(comment.commentId)" icon>
+          <v-btn v-if="commentAuthorCheck(comment.memberId)" class="small-button mr-1" @click="openDialog(comment.commentId)" icon>
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          <v-dialog
-          v-model="dialog"
-          @open-dialog="openDialog"
-          width="auto">
-          <!-- dialog에 나올 UI -->
+          <v-dialog v-model="dialog" max-width="600">
             <v-card>
+              <v-card-title class="brown darken-2 white--text mb-5 headline mb-0">댓글 수정</v-card-title>
               <v-card-text>
-                <form @submit="saveComment">
-                  <v-textarea label="내용" cols="50"
-                  v-model="commentModify"> 수정할 내용</v-textarea>
-                </form>
+                <v-textarea label="댓글 수정 할 내용" v-model="commentModify" no-resize></v-textarea>
               </v-card-text>
-              <v-card-actions>
+              <v-card-actions class="d-flex justify-end">
+                <v-btn color="error" text @click="dialog = false" class="mr-4">취소</v-btn>
+                <v-btn color="primary" text @click="saveComment()">저장</v-btn>
               </v-card-actions>
-              <v-btn @click="dialog = false">취소</v-btn>
-              <v-btn @click="saveComment(), dialog =false" >저장</v-btn>
             </v-card>
           </v-dialog>
           <!-- 댓글 삭제 -->
