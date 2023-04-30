@@ -4,5 +4,6 @@ export default {
    cafeLists:[],
    cafeCheck:false,
    cafe:{},
+   top3Product:[]
 
 }

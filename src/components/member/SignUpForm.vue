@@ -9,23 +9,36 @@
             class="mx-auto mb-6"
           />
         </router-link>
-        <v-card width="460">
+        <v-card width="500">
           <v-card-text class="text-center px-12 py-16">
             <v-form @submit.prevent="onSubmit" ref="form">
               <div class="text-h4 font-weight-black mb-10 brown--text">
                 회원 가입
               </div>
 
-              <div class="d-flex" v-if="memberType === 'cafe' || memberType === 'manager'">
-                  <v-text-field class="mt-3" v-model="codeText" label="카페 사업자/관리자 코드 입력해주세요" :disabled="authorityPass"
-                                required color="black"/>
-                  <v-btn text large outlined style="font-size: 13px; height: 55px"
-                                class="mt-3 ml-5 mr-0 brown darken-2 white--text"
-                                @click="checkCode"
-                                :disabled="authorityPass"
-                       >코드 확인   
-                  </v-btn>
-                </div>
+              <div
+                class="d-flex"
+                v-if="memberType === 'cafe' || memberType === 'manager'"
+              >
+                <v-text-field
+                  class="mt-3"
+                  v-model="codeText"
+                  label="카페 사업자/관리자 코드 입력해주세요"
+                  :disabled="authorityPass"
+                  required
+                  color="black"
+                />
+                <v-btn
+                  text
+                  large
+                  outlined
+                  style="font-size: 13px; height: 55px"
+                  class="mt-3 ml-5 mr-0 brown darken-2 white--text"
+                  @click="checkCode"
+                  :disabled="authorityPass"
+                  >코드 확인
+                </v-btn>
+              </div>
 
               <div class="d-flex">
                 <v-text-field
@@ -108,12 +121,51 @@
                 <v-text-field
                   v-model="phoneNumber"
                   label="전화번호 ('-'포함 11자리)"
-                  :disabled="false"
+                  :disabled="phonePass"
                   :rules="phoneNumber_rule"
                   required
                   color="black"
                 />
+                <v-btn
+                  text
+                  large
+                  outlined
+                  style="font-size: 13px; height: 55px"
+                  class="mt-0 ml-5 mr-0 brown darken-2 white--text"
+                  @click="sendVerificationPhone"
+                  :disabled="phonePass"
+                  >휴대폰 인증
+                </v-btn>
               </div>
+              <v-dialog v-model="codeCheckDialog" max-width="460">
+                <v-card>
+                  <v-card-text class="text-center px-12 py-16">
+                    <v-form @submit.prevent>
+                      <div class="text-h4 font-weight-black mb-10">
+                        인증번호
+                      </div>
+                      <div class="d-flex">
+                        <v-text-field
+                          v-model="verificationCode"
+                          label="인증번호"
+                          required
+                          @keyup.enter="verifyPhone"
+                        ></v-text-field>
+                      </div>
+                      <v-btn
+                        block
+                        x-large
+                        rounded
+                        class="mt-6 brown darken-2 white--text"
+                        @click="verifyPhone"
+                        :disabled="false"
+                      >
+                        인증 완료
+                      </v-btn>
+                    </v-form>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
 
               <div class="d-flex">
                 <v-text-field
@@ -194,17 +246,20 @@ export default {
   },
   data() {
     return {
+      codeCheckDialog: false,
+      verificationCode: "",
       codeText: "",
       email: "",
       password: "",
       password_confirm: "",
       nickName: "",
       birthdate: "",
-      phoneNumber: "",
+      phoneNumber: "010-1234-1234", //@@@@@@항상 true로 폰인증꺼놈
       city: "",
       street: "",
       addressDetail: "",
       zipcode: "",
+      phonePass: true, //@@@@@@항상 true로 폰인증꺼놈
       authorityPass: false,
       emailPass: false, //아디중복체크후 사용가능한 이메일인지 여부
       streetPass: false, //주소입력여부
@@ -264,7 +319,57 @@ export default {
       "requestSignUpCheckNickNameToSpring",
       "requestSignUpCheckCafeCodeToSpring",
       "requestSignUpCheckManagerCodeToSpring",
+      "sendVerificationPhoneToSpring",
+      "verifyPhoneToSpring",
     ]),
+    async verifyPhone() {
+      try {
+        const { phoneNumber, verificationCode } = this;
+        console.log("인증phoneNumber", phoneNumber);
+        console.log("인증verificationCode", verificationCode);
+        const response = await this.verifyPhoneToSpring({
+          phoneNumber,
+          verificationCode,
+        });
+        console.log("인증response", response);
+        console.log("인증response.status", response.status);
+        if (response.status === 200) {
+          alert("인증에 성공하였습니다.");
+          this.phonePass = true;
+          this.codeCheckDialog = false;
+        } else {
+          alert("인증에 실패하였습니다.");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          alert(error.response.data);
+        } else {
+          alert("??오류가 발생했습니다.");
+        }
+        console.error(error);
+      }
+    },
+    async sendVerificationPhone() {
+      try {
+        const { phoneNumber } = this;
+        console.log("보냄phoneNumber", phoneNumber);
+        const response = await this.sendVerificationPhoneToSpring(phoneNumber);
+        console.log("보냄response:", response);
+        console.log("보냄response.data:", response.data);
+        console.log("보냄response.data.statusCode:", response.data.statusCode);
+        console.log("보냄response.status ", response.status);
+        if (response.status === 200) {
+          alert("인증코드가 문자전송되었습니다.");
+          // this.codeCheck = true;
+          this.codeCheckDialog = true;
+        } else {
+          alert("인증코드 전송에 실패하였습니다.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("오류2가 발생했습니다.");
+      }
+    },
 
     onSubmit() {
       let authorityName = "";
@@ -274,6 +379,7 @@ export default {
         authorityName = "MEMBER";
       }
       if (
+        this.phonePass &&
         this.authorityPass &&
         this.emailPass &&
         this.streetPass &&
@@ -318,7 +424,6 @@ export default {
     },
     isFormValid() {
       return (
-
         this.emailPass &&
         this.nickNamePass &&
         this.streetPass &&

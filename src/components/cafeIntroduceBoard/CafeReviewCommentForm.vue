@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-7 mb-5">
+  <v-container class="mt-7 mb-5"  style="max-width: 1200px">
     <div class="EULJIRO ms-2 mb-5">
         리뷰 한줄평 <v-icon>mdi-camera</v-icon>
     </div>

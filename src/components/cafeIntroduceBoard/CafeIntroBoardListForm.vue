@@ -2,21 +2,22 @@
   <div>
     <v-container class="cafe-list">
       <v-row class="d-flex justify-end">
-        <v-col cols="7">
+        <v-col cols="8">
           <v-tabs
             v-model="selectedSorting"
             background-color="transparent"
             slider-color="brown darken-2"
-            @change="sortCafes"
+            @change="handleTabChange"
           >
             <v-tab>최신 등록 순</v-tab>
-            <v-tab>인기순</v-tab>
+            <v-tab>최다 판매 순</v-tab>
             <v-tab>별점 높은 순</v-tab>
             <v-tab>별점 많은 순</v-tab>
+            <v-tab>찜 순</v-tab>
           </v-tabs>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="3">
           <v-text-field
             label="제목,주소 검색"
             append-icon="mdi-magnify"
@@ -50,8 +51,9 @@
     </v-container>
 
     <v-container fluid>
-      <v-row no-gutters align="center">
-        <v-col cols="12" class="text-center">
+      <v-row class="d-flex justify-space-between" no-gutters align="center">
+        <v-col cols="auto"> </v-col>
+        <v-col cols="auto" class="text-center">
           <v-pagination
             v-model="curPageNum"
             :length="numOfPages"
@@ -60,11 +62,7 @@
             flat
           ></v-pagination>
         </v-col>
-        <v-col
-          cols="auto"
-          class="text-right"
-          style="position: absolute; right: 200px"
-        >
+        <v-col cols="auto" class="text-right" style="right: 200px">
           <v-btn
             v-if="this.cafePass == 'CAFE'"
             type="button"
@@ -96,18 +94,25 @@ export default {
   },
   data() {
     return {
-      selectedSorting: "최신등록순",
+      selectedSorting: "0",
       searchText: "",
-      cafePass: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")).authorityName : null,
+      cafePass: localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo")).authorityName
+        : null,
       dataPerPage: 6,
       curPageNum: 1,
     };
   },
-  mounted(){
-    console.log("this.cafePass", this.cafePass)
+  mounted() {
+    console.log("this.cafePass", this.cafePass);
   },
   methods: {
     ...mapActions(cafeIntroduceBoardModule, ["requestCafeNumToSpring"]),
+    handleTabChange(value) {
+      console.log("핸들탭체인지");
+      this.selectedSorting = value;
+      console.log("this.selectedSorting", this.selectedSorting);
+    },
     sortCafes() {},
     searchCafes() {},
 
@@ -140,15 +145,52 @@ export default {
     numOfPages() {
       return Math.ceil(this.cafeLists.length / this.dataPerPage);
     },
+    sortedCafeLists() {
+      let sortedList = [...this.cafeLists];
+      let filteredBySearchText = sortedList;
+      if (this.searchText !== "") {
+        filteredBySearchText = sortedList.filter(
+          (cafe) =>
+            cafe.cafeName
+              .toLowerCase()
+              .includes(this.searchText.toLowerCase()) ||
+            cafe.cafeAddress
+              .toLowerCase()
+              .includes(this.searchText.toLowerCase())
+        );
+      }
+
+      switch (this.selectedSorting) {
+        case 0:
+          console.log("최신순 정렬!!");
+          return filteredBySearchText.sort((a, b) => b.cafeId - a.cafeId);
+        case 1:
+          console.log("최다판매순 정렬!!");
+          return filteredBySearchText.sort((a, b) => b.avgRating - a.avgRating);
+        case 2:
+          console.log("별점높은순 정렬!!");
+          return filteredBySearchText.sort((a, b) => b.avgRating - a.avgRating);
+        case 3:
+          console.log("별점많은순 정렬!!");
+          return filteredBySearchText.sort(
+            (a, b) => b.totalRating - a.totalRating
+          );
+        case 4:
+          console.log("찜순 정렬!!");
+          return filteredBySearchText.sort((a, b) => b.avgRating - a.avgRating);
+        default:
+          return filteredBySearchText;
+      }
+    },
     calData() {
-      return this.cafeLists.slice(this.startOffset, this.endOffset);
+      return this.sortedCafeLists.slice(this.startOffset, this.endOffset);
     },
   },
 };
 </script>
 <style scoped>
 .title-text {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 24px;
   color: #5d4037;

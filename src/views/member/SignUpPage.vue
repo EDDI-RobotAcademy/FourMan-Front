@@ -22,7 +22,11 @@ export default {
   },
   components: {
     SignUpForm,
-
+  },
+  mounted() {
+    if (!this.memberType) {
+      this.$router.push({ name: "SignUpChoicePage" });
+    }
   },
 
   methods: {
