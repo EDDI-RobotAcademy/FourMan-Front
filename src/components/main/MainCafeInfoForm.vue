@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container ms-10 me-10 mt-10  mb-10">
+  <div class="main-container ms-10 me-10 mt-10 mb-10">
     <v-container>
       <div>
         <router-link
@@ -37,6 +37,7 @@
               v-if="cafe"
               :index="index"
               :uniqueKey="cafe.uniqueKey"
+              @updateCafe="updateCafeData()"
             ></CafeIntroBoardCardForm>
           </v-col>
         </v-row>
@@ -47,7 +48,6 @@
           ><v-icon>mdi-chevron-right</v-icon></v-btn
         >
       </div>
-     
     </v-container>
   </div>
 </template>
@@ -89,6 +89,9 @@ export default {
       this.autoSlideInterval = setInterval(() => {
         this.goNext();
       }, 5000);
+    },
+    async updateCafeData() {
+      await this.requestCafeListToSpring();
     },
   },
   computed: {

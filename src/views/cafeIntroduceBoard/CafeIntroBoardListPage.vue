@@ -1,7 +1,10 @@
 <template>
-  <v-container style="max-width: 1000px;">
+  <v-container style="max-width: 1000px">
     <div class="wrap productWrap">
-      <CafeIntroBoardListForm :cafeLists="cafeLists"></CafeIntroBoardListForm>
+      <CafeIntroBoardListForm
+        :cafeLists="cafeLists"
+        @updateCafe="updateCafeData()"
+      ></CafeIntroBoardListForm>
     </div>
   </v-container>
 </template>
@@ -19,20 +22,17 @@ export default {
     ...mapState(cafeIntroduceBoardModule, ["cafeLists"]),
   },
   data() {
-    return {
-      
-    };
+    return {};
   },
   methods: {
-    ...mapActions(cafeIntroduceBoardModule, [
-      "requestCafeListToSpring",
-    ]),
-
+    ...mapActions(cafeIntroduceBoardModule, ["requestCafeListToSpring"]),
+    async updateCafeData() {
+      await this.requestCafeListToSpring();
+    },
   },
 
-
-  created() {
-    this.requestCafeListToSpring();
+  async created() {
+    await this.requestCafeListToSpring();
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-container  style="max-width: 1200px">
+  <v-container style="max-width: 1200px">
     <v-card class="mx-auto overflow-hidden" style="max-width: 1200px">
       <v-row>
         <v-col cols="6">
@@ -70,7 +70,7 @@
             </div>
             <v-icon
               v-if="!isFavorite"
-              class="mx-2 mr-5"
+              class="ml-5"
               color="grey"
               @click="toggleFavorite"
             >
@@ -79,6 +79,7 @@
             <v-icon v-else class="mx-2" color="red" @click="toggleFavorite">
               mdi-heart
             </v-icon>
+            ({{ cafe.favorites }})
           </v-col>
         </v-row>
 
@@ -244,6 +245,7 @@ export default {
           isFavorite: this.isFavorite,
         };
         await this.sendFavoriteStatusToSpring(payload);
+        this.$emit("updateCafe");
       } else {
         this.dialog = true;
       }
@@ -361,7 +363,7 @@ export default {
   },
 
   computed: {
-    ...mapState(memberModule, ["isAuthenticated","member"]),
+    ...mapState(memberModule, ["isAuthenticated", "member"]),
     allImages() {
       if (!this.cafe || !this.cafe.cafeInfo) {
         return [];
@@ -434,7 +436,7 @@ export default {
           console.log("cafeId:", cafeId);
           // 하... 새로고침하는순간 isAuthenticated값이 false가 되는게 문제임
           if (this.member) {
-            console.log("멤버가 존재합니다")
+            console.log("멤버가 존재합니다");
             const payload = {
               cafeId: cafeId,
               memberId: JSON.parse(localStorage.getItem("userInfo")).id,

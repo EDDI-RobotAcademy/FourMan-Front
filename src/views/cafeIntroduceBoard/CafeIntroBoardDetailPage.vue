@@ -1,57 +1,51 @@
 <template>
   <div>
-    <CafeIntroBoardDetailForm :cafe="cafe" />
-    <CafeTop3MenuForm :cafe="cafe"/>
+    <CafeIntroBoardDetailForm :cafe="cafe"   @updateCafe="updateCafeData()" />
+    <CafeTop3MenuForm :cafe="cafe" />
     <cafe-review-comment-form :cafe="cafe" />
   </div>
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
-import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm"
-import CafeReviewCommentForm from '@/components/cafeIntroduceBoard/CafeReviewCommentForm.vue';
-import CafeTop3MenuForm from '@/components/cafeIntroduceBoard/CafeTop3MenuForm.vue';
+import { mapActions, mapState } from "vuex";
+import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm";
+import CafeReviewCommentForm from "@/components/cafeIntroduceBoard/CafeReviewCommentForm.vue";
+import CafeTop3MenuForm from "@/components/cafeIntroduceBoard/CafeTop3MenuForm.vue";
 
-
-const cafeIntroduceBoardModule= 'cafeIntroduceBoardModule'
+const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
-    name: "CafeIntroBoardDetailage",
-    components: {
-        CafeIntroBoardDetailForm,
-        CafeReviewCommentForm,
-        CafeTop3MenuForm
-        
-
+  name: "CafeIntroBoardDetailage",
+  components: {
+    CafeIntroBoardDetailForm,
+    CafeReviewCommentForm,
+    CafeTop3MenuForm,
   },
-  data(){
-    return{
-    }
+  data() {
+    return {};
   },
   props: {
     cafeId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    ...mapState(cafeIntroduceBoardModule,['cafe' ])
+    ...mapState(cafeIntroduceBoardModule, ["cafe"]),
   },
-   methods: {
+  methods: {
+    async updateCafeData() {
+     await this.requestCafeDetailToSpring(this.cafeId);
+    },
 
-    ...mapActions(cafeIntroduceBoardModule, [
-        'requestCafeDetailToSpring' ]),
-   
+    ...mapActions(cafeIntroduceBoardModule, ["requestCafeDetailToSpring"]),
   },
-  async created () {
-        // alert("created!")
-        console.log('cafeId: ' + this.cafeId)
-        await this.requestCafeDetailToSpring(this.cafeId)
-    }
-  
-
-}
+  async created() {
+    // alert("created!")
+    console.log("cafeId: " + this.cafeId);
+    await this.requestCafeDetailToSpring(this.cafeId);
+  },
+};
 </script>
 
 <style>
-
 </style>
