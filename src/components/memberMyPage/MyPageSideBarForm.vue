@@ -60,10 +60,10 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" text @click="dialog = false" outlined>
+                  <v-btn color="black" text @click="dialog = false">
                     취소
                   </v-btn>
-                  <v-btn color="primary" text @click="changeProfileImage" outlined>
+                  <v-btn color="black" text @click="changeProfileImage">
                     변경하기
                   </v-btn>
                 </v-card-actions>

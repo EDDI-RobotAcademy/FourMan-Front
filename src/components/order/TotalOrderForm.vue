@@ -201,16 +201,53 @@ export default {
    },
    computed: {
       ...mapState(
-        orderModule, ['orderInformations'],
+        orderModule, ['orderInformations', 'isReservationAvailable'],
       ),
    },
    methods: {
       ...mapActions(
-        orderModule, ['requestCreateOrderInformationsToSpring'],
+        orderModule, ['requestCreateOrderInformationsToSpring', 'requestIsReservationAvailableToSpring'],
       ),
-      purchase() {
-        this.kakaoPayAPI()
-        // this.saveOrderInformations()
+      async purchase() {
+        // 예약 가능한지 좌석 체크
+        await this.isAvailable()
+
+        if(this.isReservationAvailable == true) {
+          await this.kakaoPayAPI()
+        } else if(this.isReservationAvailable == false) {
+          alert('이미 예약된 좌석입니다 다시 좌석과 시간을 선택해 주세요!')
+          this.$router.push({ name: "CafeIntroBoardListPage" });
+          // this.$router.push({ path: '/seats/:cafeId', params: { cafeId: this.selectedSeats.cafe.cafeId } })
+        } else {
+          console.log('포장 주문')
+          await this.kakaoPayAPI()
+        }
+      },
+      async isAvailable() {
+        if(this.isOrderPacking == false) {
+          let formData = new FormData()
+          let seatList = []
+
+          if(this.isOrderPacking == false) { // 예약 주문
+            for(let i = 0; i < this.selectedSeats.seatList.length; i++) {
+              seatList.push(this.selectedSeats.seatList[i].seatNo)
+            }
+          }
+          let cafeId = this.selectedSeats.cafe.cafeId
+
+          let reservationInfo = {
+            seatList: seatList,
+            time: this.selectedSeats.timeString,
+          }
+
+          formData.append(
+            "reservationInfo",
+            new Blob([JSON.stringify(reservationInfo)], { type: "application/json" })
+          )
+
+          await this.requestIsReservationAvailableToSpring({cafeId, formData})
+          console.log('ddd' + this.isReservationAvailable)
+        } 
       },
       saveOrderInformations() {
         let formData = new FormData()
