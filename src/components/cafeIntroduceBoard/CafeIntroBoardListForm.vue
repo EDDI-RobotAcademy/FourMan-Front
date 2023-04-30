@@ -10,10 +10,10 @@
             @change="handleTabChange"
           >
             <v-tab>최신 등록 순</v-tab>
-            <v-tab>최다 판매 순</v-tab>
+            <v-tab>최다 주문 순</v-tab>
             <v-tab>별점 높은 순</v-tab>
             <v-tab>별점 많은 순</v-tab>
-            <v-tab>찜 순</v-tab>
+            <v-tab>찜 많은 순</v-tab>
           </v-tabs>
         </v-col>
 
@@ -45,7 +45,10 @@
           sm="6"
           md="4"
         >
-          <CafeIntroBoardCardForm :cafe="cafe"></CafeIntroBoardCardForm>
+          <CafeIntroBoardCardForm
+            :cafe="cafe"
+            @updateCafe="updateCafeData"
+          ></CafeIntroBoardCardForm>
         </v-col>
       </v-row>
     </v-container>
@@ -115,6 +118,9 @@ export default {
     },
     sortCafes() {},
     searchCafes() {},
+    updateCafeData(cafeId) {
+      this.$emit("updateCafe");
+    },
 
     async checkCafeNum() {
       if (
@@ -166,7 +172,7 @@ export default {
           return filteredBySearchText.sort((a, b) => b.cafeId - a.cafeId);
         case 1:
           console.log("최다판매순 정렬!!");
-          return filteredBySearchText.sort((a, b) => b.avgRating - a.avgRating);
+          return filteredBySearchText.sort((a, b) => b.sellCount - a.sellCount);
         case 2:
           console.log("별점높은순 정렬!!");
           return filteredBySearchText.sort((a, b) => b.avgRating - a.avgRating);
@@ -177,7 +183,7 @@ export default {
           );
         case 4:
           console.log("찜순 정렬!!");
-          return filteredBySearchText.sort((a, b) => b.avgRating - a.avgRating);
+          return filteredBySearchText.sort((a, b) => b.favorites - a.favorites);
         default:
           return filteredBySearchText;
       }

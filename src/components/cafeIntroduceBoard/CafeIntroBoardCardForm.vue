@@ -14,7 +14,7 @@
           <router-link
             :to="{
               name: 'CafeIntroBoardDetailPage',
-              params: { cafeId: cafe.cafeId.toString() }
+              params: { cafeId: cafe.cafeId.toString() },
             }"
           >
             <v-img
@@ -40,13 +40,13 @@
               background-color="gray"
             ></v-rating>
 
-            <div class=" ms-4">
+            <div class="ms-4">
               <span>{{ cafe.avgRating.toFixed(1) }}</span>
               <span> ({{ cafe.totalRating }})</span>
 
               <v-icon
                 v-if="!isFavorite"
-                class="mx-2"
+                class="ml-5"
                 color="grey"
                 @click="toggleFavorite"
               >
@@ -55,6 +55,7 @@
               <v-icon v-else class="mx-2" color="red" @click="toggleFavorite">
                 mdi-heart
               </v-icon>
+              ({{ cafe.favorites }})
               <!-- 비회원이 찜눌럿을때 -->
               <v-dialog v-model="dialog" persistent max-width="290">
                 <v-card>
@@ -64,10 +65,16 @@
                   <v-card-text>로그인 페이지로 이동하시겠습니까?</v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="brown darken-2 white--text" text @click="goToLoginPage"
+                    <v-btn
+                      class="brown darken-2 white--text"
+                      text
+                      @click="goToLoginPage"
                       >예</v-btn
                     >
-                    <v-btn class="brown darken-2 white--text" text @click="dialog = false"
+                    <v-btn
+                      class="brown darken-2 white--text"
+                      text
+                      @click="dialog = false"
                       >아니오</v-btn
                     >
                   </v-card-actions>
@@ -104,15 +111,27 @@
         <v-card-actions
           class="actions-container d-flex flex-sm-row justify-space-around"
         >
-          <v-btn class="brown darken-2 white--text custom-button" text @click="showDetail">
+          <v-btn
+            class="brown darken-2 white--text custom-button"
+            text
+            @click="showDetail"
+          >
             상세 보기
           </v-btn>
 
-          <v-btn class="brown darken-2 white--text custom-button" text @click="reserve">
+          <v-btn
+            class="brown darken-2 white--text custom-button"
+            text
+            @click="reserve"
+          >
             자리 예약
           </v-btn>
 
-          <v-btn class="brown darken-2 white--text custom-button" text @click="order">
+          <v-btn
+            class="brown darken-2 white--text custom-button"
+            text
+            @click="order"
+          >
             포장 주문
           </v-btn>
         </v-card-actions>
@@ -147,6 +166,12 @@ export default {
     await this.updateCafeInfo();
   },
   watch: {
+    cafe: {
+      handler() {
+        this.updateCafeInfo();
+      },
+      deep: true,
+    },
     index() {
       this.updateCafeInfo();
     },
@@ -235,7 +260,7 @@ export default {
       this.$router.push({
         name: "HallSeatPage",
         params: {
-          cafeId: this.cafe.cafeId,//url 에 적용되기 위함.(라우터index.js에 :cafeId와 매칭)
+          cafeId: this.cafe.cafeId, //url 에 적용되기 위함.(라우터index.js에 :cafeId와 매칭)
           cafe: this.cafe,
           timeSelection: this.selection,
         },
@@ -250,6 +275,7 @@ export default {
           isFavorite: this.isFavorite,
         };
         await this.sendFavoriteStatusToSpring(payload);
+        this.$emit("updateCafe", this.cafe.cafeId);
       } else {
         this.dialog = true;
       }
