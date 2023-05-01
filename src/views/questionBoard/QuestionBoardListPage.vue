@@ -4,13 +4,13 @@
         <div class="NanumGothic mt-10">
           <h2>Q&A 게시판 <v-icon>mdi-bulletin-board</v-icon></h2>
         </div>
-          <search-bar-form class="mb-2" style="float: right;" v-model="searchText" @search="onSearch" />
-          <div v-if="searchBoards.length === 0">
+          <!-- <search-bar-form class="mb-2" style="float: right;" v-model="searchText" @search="onSearch" /> -->
+          <!-- <div v-if="searchBoards.length === 0"> -->
           <question-board-list-form :questionBoards="questionBoards" @check-secret="checkSecret"/>
-          </div>
+          <!-- </div>
           <div v-else>
             <question-board-search-result-form :searchBoards="searchBoards" />
-          </div>
+          </div> -->
           <div class="text-right">
             <v-btn v-if="this.$store.state.memberModule.isAuthenticated" class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
               게시물 작성
@@ -26,7 +26,7 @@
 
 import QuestionBoardListForm from '@/components/questionBoard/QuestionBoardListForm.vue';
 import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
-import QuestionBoardSearchResultForm from '@/components/questionBoard/QuestionBoardSearchResultForm.vue'
+// import QuestionBoardSearchResultForm from '@/components/questionBoard/QuestionBoardSearchResultForm.vue'
 import { mapActions, mapState } from 'vuex'
 const questionBoardModule= 'questionBoardModule'
 
@@ -40,7 +40,7 @@ export default {
     components : {
       QuestionBoardListForm,
       SearchBarForm,
-      QuestionBoardSearchResultForm,
+      // QuestionBoardSearchResultForm,
      },
 
     computed: {

@@ -15,7 +15,8 @@
           label="메뉴 검색"
           single-line
           hide-details
-          solo class="ml-3 mt-5 mr-3 mb-5"
+          class="ml-5 mt-5 mr-5 mb-5"
+          append-icon="mdi-magnify"
         ></v-text-field>
       </div>
 
@@ -24,13 +25,51 @@
           <v-list-item-title>
             <div align="center">
               <router-link to="/member-my-page">
-                <v-avatar
-                    :size="120"
-                    color="grey lighten-4">
-                  <img src="@/assets/myPage/default_profile_image.png" alt="avatar">
-                </v-avatar>
+                <div @click="dialog = !dialog">
+                  <v-avatar
+                      :size="120"
+                      color="grey lighten-4">
+                    <v-img v-if="this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" :src="require(`@/assets/myPage/${ this.myInfoSideBar.profileImage }`)"/>
+                    <v-img v-else :src="require(`@/assets/myPage/defaultProfileImage.png`)"/>
+                  </v-avatar>
+                </div>
               </router-link>
             </div>
+
+            <v-dialog v-model="dialog" max-width="500px">
+              <v-card>
+                <v-card-title>
+                  프로필 이미지 변경
+                </v-card-title>
+                <v-card-text>
+                  <div align="center" class="mt-10">
+                    <!-- 기존 이미지 -->
+                    <v-img v-if="imageFile == null && this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" class="imagePreview" :src="require(`@/assets/myPage/${ this.myInfoSideBar.profileImage }`)" max-width="120px" max-height="120px" />
+                    <v-img v-else-if="this.myInfoSideBar.profileImage == 'defaultProfileImage.png' && imageFile == null" :src="require(`@/assets/myPage/defaultProfileImage.png`)" class="imagePreview" max-width="120px" max-height="120px"/>
+
+                    <!-- 이미지 변경 있을 시 -->
+                    <v-img else-if="preview !== null" class="imagePreview" :src="preview" max-width="120px" max-height="120px" />
+
+                    <v-file-input
+                      v-model="imageFile"
+                      label="이미지 변경"
+                      accept="image/*"
+                      @change="previewFile(imageFile)"
+                    ></v-file-input>
+                  </div>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="black" text @click="dialog = false">
+                    취소
+                  </v-btn>
+                  <v-btn color="black" text @click="changeProfileImage">
+                    변경하기
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
           </v-list-item-title>
           <v-list-item-subtitle class="black--text justify-center">
             <div class="mt-4" align="center" style="font-size: 17px; font-weight: bold;">
@@ -85,8 +124,11 @@ export default {
       nickName: String,
       memberType: String,
       point: Number,
+      dialog: false,
       menus: [],
       search: "",
+      preview: '',
+      imageFile: null,
       menusForMember: [
          {
             title: "내 정보",
@@ -177,10 +219,36 @@ export default {
   },
   methods: {
     ...mapActions(
-      myPageModule, ['requestMyInfoForSideBarToSpring']
+      myPageModule, ['requestMyInfoForSideBarToSpring', 'requestModifyProfileImageToSpring']
     ),
     filterMenus() {
       return this.menus.filter(menu => menu.title.toLowerCase().includes(this.search.toLowerCase()));
+    },
+    async changeProfileImage() {
+      let memberId = JSON.parse(localStorage.getItem('userInfo')).id
+
+      const formData = new FormData();
+      formData.append('imageFile', this.imageFile);
+
+      console.log(this.imageFile)
+      await this.requestModifyProfileImageToSpring({memberId, formData})
+
+      this.$router.go()
+    },
+    previewFile(file) {
+      if (!file) {
+        this.preview = ""
+        return
+      }
+
+      const fileData = (data) => {
+        this.preview = data
+      };
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.addEventListener("load", function() {
+        fileData(reader.result)
+      }, false)
     },
   },
   computed: {
@@ -191,7 +259,7 @@ export default {
   async created() {
     await this.requestMyInfoForSideBarToSpring(JSON.parse(localStorage.getItem('userInfo')).id)
 
-    console.log("memberType: " + this.myInfoSideBar.memberType)
+    console.log("myinfoSideBar: " + JSON.stringify(this.myInfoSideBar))
     this.nickName = this.myInfoSideBar.nickName
     this.memberType = this.myInfoSideBar.memberType
     this.point = this.myInfoSideBar.point
@@ -217,5 +285,10 @@ export default {
 </script>
 
 <style scoped>
+
+.imagePreview {
+  display: inline-block;
+  vertical-align: middle;
+}
 
 </style>

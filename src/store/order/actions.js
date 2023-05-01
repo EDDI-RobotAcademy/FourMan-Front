@@ -4,6 +4,7 @@ import {
    UPDATE_IS_ORDER_PACKING,
    REQUEST_HOLD_POINT_TO_SPRING,
    REQUEST_CAFE_ORDER_LIST_TO_SPRING,
+   REQUEST_IS_RESERVATION_AVAILABLE_TO_SPRING,
 
 } from './mutation-types'
 
@@ -107,5 +108,22 @@ export default {
          .catch(() => {
             alert("문제 발생!")
          })
+   },
+   requestIsReservationAvailableToSpring({ commit }, {cafeId, formData}) {
+      const token = JSON.parse(localStorage.getItem('userInfo')).token
+      return axiosInst.post(`/order/isReservationAvailable/${cafeId}`, formData,
+         {
+            headers: {
+               'Authorization': `Basic ${token}`
+            }
+         }
+      )
+      .then((res) => {
+         commit(REQUEST_IS_RESERVATION_AVAILABLE_TO_SPRING, res.data)
+         console.log('isAvailable: ' + res.data)
+      })
+      .catch(() => {
+         alert("문제 발생!")
+      })
    },
 }
