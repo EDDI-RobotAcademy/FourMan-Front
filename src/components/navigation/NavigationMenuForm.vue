@@ -123,7 +123,7 @@ export default {
     return {
       isTrue: false,
       comunityList: ["자유게시판", "리뷰게시판"],
-      serviceCenterList: ["Q&A", "공지사항"],
+      serviceCenterList: ["Q&A", "FAQ", "공지사항"],
     };
   },
   computed: {
@@ -185,6 +185,10 @@ export default {
         } else if (item === "공지사항") {
           if (this.$route.name !== "NoticeBoardListPage") {
             this.$router.push({ name: "NoticeBoardListPage" });
+          }
+        } else if (item === "FAQ") {
+          if (this.$route.name !== "QuestionFrequentlyPage") {
+            this.$router.push({ name: "QuestionFrequentlyPage" });
           }
         }
       },

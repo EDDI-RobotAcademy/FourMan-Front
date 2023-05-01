@@ -25,6 +25,7 @@ import QuestionBoardListPage from '@/views/questionBoard/QuestionBoardListPage.v
 import QuestionBoardRegisterPage from '@/views/questionBoard/QuestionBoardRegisterPage.vue'
 import QuestionBoardReadPage from '@/views/questionBoard/QuestionBoardReadPage.vue'
 import QuestionBoardModifyPage from '@/views/questionBoard/QuestionBoardModifyPage.vue'
+import QuestionFrequentlyPage from '@/views/questionBoard/QuestionFrequentlyPage.vue'
 
 //리뷰 게시판 관련
 import ReviewBoardRegisterPage from '@/views/reviewBoard/ReviewBoardRegisterPage.vue'
@@ -456,6 +457,11 @@ const routes = [
       default: true
     },
     beforeEnter: ifMember
+  },
+  {
+    path: '/question-frequently-page',
+    name: 'QuestionFrequentlyPage',
+    component: QuestionFrequentlyPage
   },
   //마이페이지 관련
   {
