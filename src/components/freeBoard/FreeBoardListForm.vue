@@ -29,7 +29,7 @@
                                 params: { boardId: bestFreeBoard.boardId.toString() },
                               }"
                             > <v-icon
-                                color="brown"
+                                color="primary"
                                 size="medium">mdi-thumb-up</v-icon>    <b>{{ bestFreeBoard.title }} [{{ bestFreeBoard.commentCount }}]</b> </router-link>
                           </th>
                           <td>{{ bestFreeBoard.writer }}</td>
