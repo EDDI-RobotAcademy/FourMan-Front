@@ -7,6 +7,12 @@
 
 .idea
 .DS_Store
+#AWS
+dist/**
+dev.conf
+.env/**
+.env.*
+docker-compose.yml
 
 # User-specific stuff
 .idea/**/workspace.xml
