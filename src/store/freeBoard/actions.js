@@ -46,7 +46,7 @@ export default {
         if(JSON.parse(localStorage.getItem('userInfo'))) {
             memberId = JSON.parse(localStorage.getItem('userInfo')).id
         }
-    return mainRequest.get(`/free-board/${boardId}?memberId=${memberId}`)
+    return mainRequest.get(`/free-board/${boardId}?memberId=${memberId}`,{ withCredentials: true })
         .then((res) => {
             commit(REQUEST_FREE_BOARD_TO_SPRING, res.data)
         })

@@ -31,7 +31,7 @@ export default {
     },
     requestNoticeBoardToSpring({ commit }, boardId) {
         console.log('requestNoticeBoardToSpring 작동')
-        return mainRequest.get(`/notice-board/${boardId}`)
+        return mainRequest.get(`/notice-board/${boardId}`, { withCredentials: true })
         .then((res) =>{
             commit(REQUEST_NOTICE_BOARD_TO_SPRING, res.data)
         })
