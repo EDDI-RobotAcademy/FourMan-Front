@@ -44,7 +44,7 @@ export default {
     },
 
     requestQuestionBoardToSpring({commit}, boardId) {
-        return axiosInst.get(`/question-board/${boardId}`)
+        return axiosInst.get(`/question-board/${boardId}`, { withCredentials: true })
         .then((res) =>{
             commit(REQUEST_QUESTION_BOARD_TO_SPRING, res.data)
         })
