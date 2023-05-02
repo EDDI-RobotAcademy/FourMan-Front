@@ -614,12 +614,11 @@ const routes = [
     path: '/notice-board-register-page',
     name: 'NoticeBoardRegisterPage',
     component: NoticeBoardRegisterPage,
-    beforeEnter: ifMember
+    beforeEnter: ifManager
   },
   {
     path: '/notice-board-list-page',
     name: 'NoticeBoardListPage',
-
     component: NoticeBoardListPage
   },
   {

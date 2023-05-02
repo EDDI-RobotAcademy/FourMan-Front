@@ -8,7 +8,7 @@
                 <notice-board-list-form :noticeBoards="noticeBoards"></notice-board-list-form>
             </div>
             <div class="text-right">
-                <v-btn v-if="manager == 'MANAGER'">
+                <v-btn class="mb-5 me-6 brown darken-2 white--text" @click="loginCheck">
                     게시물 작성
                 </v-btn>
             </div>
@@ -43,6 +43,13 @@ export default {
         ...mapActions (noticeBoardModule,[
             'requestNoticeBoardListToSpring'
         ]),
+        loginCheck() {
+          if(JSON.parse(localStorage.getItem('userInfo')).authorityName === "MANAGER") {
+            this.$router.push({ name: 'NoticeBoardRegisterPage'})
+          } else {
+            alert('관리자만 게시글을 작성 할 수 있습니다')
+          }
+      },
+        }
     }
-}
 </script>
