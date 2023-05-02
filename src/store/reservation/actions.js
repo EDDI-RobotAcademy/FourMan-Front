@@ -3,9 +3,8 @@ import {
     REQUEST_CAFE_SEAT_TO_SPRING,
 
 } from './mutation-types'
-
-// import axios from 'axios'
-import axiosInst from '@/utility/axiosObject'
+// import axiosInst from '@/utility/axiosObject'
+import mainRequest from "@/api/mainRequest";
 export default {
 
     //예약 관련
@@ -14,7 +13,7 @@ export default {
     requestCreateCafeSeatToSpring({ }, payload) {
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestCreateCafeSeatToSpring 작동")
-        return axiosInst.post("/reservation/register", payload,{
+        return mainRequest.post("/reservation/register", payload,{
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -31,7 +30,7 @@ export default {
     requestCafeSeatToSpring({ commit }, payload) {
         console.log("requestCafeSeatToSpring 작동")
         const { cafeId, time } = payload
-        return axiosInst.get(`/reservation/cafe/${cafeId}/time/${time}`)
+        return mainRequest.get(`/reservation/cafe/${cafeId}/time/${time}`)
             .then((res) => {
                 commit(REQUEST_CAFE_SEAT_TO_SPRING, res.data)
                 // console.log(" res.data.seatResponse: " + res.data.seatResponse)
@@ -43,7 +42,7 @@ export default {
     },
     requestDeleteCafeSeatToSpring({ }) {
         console.log("requestDeleteCafeSeatToSpring 작동")
-        return axiosInst.delete(`/reservation/seats/delete`)
+        return mainRequest.delete(`/reservation/seats/delete`)
             .then(() => {
                 alert("좌석 초기화 성공")
             })

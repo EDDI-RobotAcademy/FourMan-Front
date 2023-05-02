@@ -26,8 +26,8 @@ import {
     REQUEST_POINT_DETAILS_LIST_TO_SPRING,
     REQUEST_POINT_DETAILS_TO_SPRING
 } from './mutation-types'
-
-import axiosInst from '@/utility/axiosObject'
+// import axiosInst from '@/utility/axiosObject'
+import mainRequest from "@/api/mainRequest";
 import router from '@/router'
 import store from '..'
 import { COMMIT_IS_AUTHENTICATED } from '@/store/member/mutation-types';
@@ -37,7 +37,7 @@ export default {
     requestMyInfoToSpring({ commit }, memberId) {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
         console.log('requestMyInfoToSpring 작동')
-        return axiosInst.get(`/my-page/${memberId}`
+        return mainRequest.get(`/my-page/${memberId}`
             , {
                 headers: {
                     'Authorization': `Basic ${token}`
@@ -52,7 +52,7 @@ export default {
         const { memberId, nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode } = payload
         const token = JSON.parse(localStorage.getItem('userInfo')).token
 
-        return axiosInst.put(`/my-page/member-info-modify/${memberId}`,
+        return mainRequest.put(`/my-page/member-info-modify/${memberId}`,
             { nickName, birthdate, phoneNumber, city, street, addressDetail, zipcode }
             , {
                 headers: {
@@ -71,7 +71,7 @@ export default {
         const { memberId } = payload
         const token = JSON.parse(localStorage.getItem('userInfo')).token
 
-        return axiosInst.delete(`/my-page/withdrawal/${memberId}`
+        return mainRequest.delete(`/my-page/withdrawal/${memberId}`
             , {
                 headers: {
                     'Authorization': `Basic ${token}`
@@ -86,7 +86,7 @@ export default {
     },
     async requestPasswordCheckToSpring({ }, payload) {
         const { email, password } = payload
-        return axiosInst
+        return mainRequest
             .post("/member/sign-in", { email, password })
             .then((res) => {
                 if (res.data) {//토큰이오면
@@ -106,7 +106,7 @@ export default {
     requestApplyNewPasswordToSpring({ }, payload) {
         const { email, password } = payload
 
-        return axiosInst
+        return mainRequest
             .post("/member/applyNewPassword/", {
                 email, password,
             })
@@ -117,7 +117,7 @@ export default {
     requestLogoutToSpring({ commit }, payload) {
         const { token } = payload
 
-        return axiosInst
+        return mainRequest
             .post("/member/logout", token) //토큰을 보냄
             .then(() => {
                 localStorage.removeItem("userInfo"); //로컬스토리지에서 제거
@@ -128,7 +128,7 @@ export default {
     requestMyInfoForSideBarToSpring({ commit }, memberId) {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
         console.log('requestMyInfoForSideBarToSpring 작동')
-        return axiosInst.get(`/my-page/side-bar/${memberId}`,
+        return mainRequest.get(`/my-page/side-bar/${memberId}`,
             {
                 headers: {
                     'Authorization': `Basic ${token}`
@@ -144,7 +144,7 @@ export default {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
         const{ memberId, formData } = payload
         console.log('requestChangeProfileImageToSpring 작동')
-        return axiosInst.put(`/my-page/side-bar/profile-image/${memberId}`, formData,
+        return mainRequest.put(`/my-page/side-bar/profile-image/${memberId}`, formData,
             {
                 headers: {
                     'Authorization': `Basic ${token}`
@@ -162,7 +162,7 @@ export default {
     //나의 게시판 관련
     requestMyFreeBoardListToSpring({ commit }, memberId) {
         console.log('requestMyFreeBoardListToSpring 작동')
-        return axiosInst.get(`/free-board/myPage/${memberId}`)
+        return mainRequest.get(`/free-board/myPage/${memberId}`)
             .then((res) => {
                 commit(REQUEST_MY_FREE_BOARD_LIST_TO_SPRING, res.data)
                 console.log('내가 쓴 게시물 res.data' + res.data)
@@ -173,7 +173,7 @@ export default {
 
     requestMyQuestionBoardListToSpring({ commit }, memberId) {
         console.log('requestMyQuestionBoardListToSpring 작동')
-        return axiosInst.get(`/question-board/myPage/${memberId}`)
+        return mainRequest.get(`/question-board/myPage/${memberId}`)
             .then((res) => {
                 commit(REQUEST_MY_QUESTION_BOARD_LIST_TO_SPRING, res.data)
                 console.log('내가 쓴 게시물 res.data' + res.data)
@@ -183,7 +183,7 @@ export default {
     //나의 리뷰게시판 관련
     requestMyReviewBoardListToSpring({ commit }, memberId) {
         console.log('requestMyReviewBoardListToSpring 작동')
-        return axiosInst.get(`/review-board/myPage/${memberId}`)
+        return mainRequest.get(`/review-board/myPage/${memberId}`)
             .then((res) => {
                 commit(REQUEST_MY_REVIEW_BOARD_LIST_TO_SPRING, res.data)
                 console.log('내가 쓴 게시물 res.data' + res.data)
@@ -193,7 +193,7 @@ export default {
     //관리자 마이페이지 회원관리 관련
     requestMemberInfoListToSpring({ commit }) {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        return axiosInst.get('/my-page/member-list'
+        return mainRequest.get('/my-page/member-list'
             , {
                 headers: {
                     'Authorization': `Basic ${token}`
@@ -206,7 +206,7 @@ export default {
     //관리자 마이페이지 카페관리 관련
     requestCafeInfoListToSpring({ commit }) {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        return axiosInst.get('/my-page/cafe-list', {
+        return mainRequest.get('/my-page/cafe-list', {
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -217,7 +217,7 @@ export default {
     },
     requestMyCafeInfoToSpring({ commit }, { cafeId }) {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        return axiosInst.get(`/my-page/my-cafe-info/${cafeId}`
+        return mainRequest.get(`/my-page/my-cafe-info/${cafeId}`
             , {
                 headers: {
                     'Authorization': `Basic ${token}`
@@ -234,7 +234,7 @@ export default {
     // requestCafeInfoModifyToSpring({}, payload) {
     //     const { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description } = payload
 
-    //     return axiosInst.put(`/my-page/cafe-info-modify/${cafeId}`,
+    //     return mainRequest.put(`/my-page/cafe-info-modify/${cafeId}`,
     //         { cafeId, cafeAddress, cafeTel, startTime, endTime, subTitle, description })
     //         .then((res) => {
     //             alert("수정 성공")
@@ -244,11 +244,11 @@ export default {
     //         })
     // },
     async requestSignUpCheckNickNameToSpring({ }, nickName) {
-        return axiosInst.post(`/member/check-nickName/${nickName}`)
+        return mainRequest.post(`/member/check-nickName/${nickName}`)
     },
     requestAddPointToSpring({ }, payload) {
         const { memberId, point, history } = payload
-        return axiosInst.put(`/my-page/add-point/${memberId}`,
+        return mainRequest.put(`/my-page/add-point/${memberId}`,
             { point, history })
             .then((res) => {
                 alert(point + "포인트가 지급되었습니다.")
@@ -258,13 +258,13 @@ export default {
             })
     },
     requestPointDetailsListToSpring({ commit }) {
-        return axiosInst.get('/my-page/point-details-list')
+        return mainRequest.get('/my-page/point-details-list')
             .then((res) => {
                 commit(REQUEST_POINT_DETAILS_LIST_TO_SPRING, res.data)
             })
     },
     requestPointDetailsToSpring({ commit }, memberId) {
-        return axiosInst.get(`/my-page/point-details/${memberId}`)
+        return mainRequest.get(`/my-page/point-details/${memberId}`)
             .then((res) => {
                 commit(REQUEST_POINT_DETAILS_TO_SPRING, res.data)
             })
@@ -273,7 +273,7 @@ export default {
         const token = JSON.parse(localStorage.getItem('userInfo')).token
         const { cafeName, codeOfCafe,layoutIndex } = payload
         console.log("layoutIndex",layoutIndex)
-        return axiosInst.put(`/my-page/add-cafe-code/`,
+        return mainRequest.put(`/my-page/add-cafe-code/`,
             { cafeName, codeOfCafe,layoutIndex }, {
             headers: {
                 'Authorization': `Basic ${token}`

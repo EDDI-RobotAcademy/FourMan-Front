@@ -73,37 +73,27 @@
 
       <!-- 로그인 안되어있을경우 -->
       <span class="ml-15">
-        <v-btn
-          v-if="isAuthenticated == false"
-          text
-          color="white"
-          onclick="location.href='http://localhost:8887/sign-up-choice'"
-        >
-          <span>회원가입</span>
-          <v-icon right>mdi-account-plus-outline</v-icon>
-        </v-btn>
-        <v-btn
-          v-else
-          text
-          color="white"
-          onclick="location.href='http://localhost:8887/member-my-page'"
-        >
-          <span>마이 페이지</span>
-          <!-- 아이콘 수정 필요  -->
-        </v-btn>
+        <router-link v-if="isAuthenticated == false" to="/sign-up-choice">
+          <v-btn text color="white">
+            <span>회원가입</span>
+            <v-icon right>mdi-account-plus-outline</v-icon>
+          </v-btn>
+        </router-link>
+        <router-link v-else to="/member-my-page">
+          <v-btn text color="white">
+            <span>마이 페이지</span>
+            <!-- 아이콘 수정 필요  -->
+          </v-btn>
+        </router-link>
       </span>
 
       <span>
-        <v-btn
-          v-if="isAuthenticated == false"
-          text
-          color="white"
-          onclick="location.href='http://localhost:8887/sign-in'"
-        >
-          <span>로그인</span>
-          <v-icon right>mdi-login</v-icon>
-        </v-btn>
-
+        <router-link v-if="isAuthenticated == false" to="/sign-in">
+          <v-btn text color="white">
+            <span>로그인</span>
+            <v-icon right>mdi-login</v-icon>
+          </v-btn>
+        </router-link>
         <v-btn v-else text color="white" v-on:click="logout">
           <span>로그아웃</span>
           <v-icon right>mdi-exit-to-app</v-icon>
@@ -115,7 +105,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { COMMIT_IS_AUTHENTICATED } from '@/store/member/mutation-types';
+import { COMMIT_IS_AUTHENTICATED } from "@/store/member/mutation-types";
 const memberModule = "memberModule";
 export default {
   name: "NavigationMenuForm",
@@ -127,7 +117,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(memberModule,["isAuthenticated"]),
+    ...mapState(memberModule, ["isAuthenticated"]),
   },
   mounted() {
     if (localStorage.getItem("userInfo")) {
@@ -144,15 +134,12 @@ export default {
       // this.$store.state.memberModule.isAuthenticated = false; //로그인안되어있음
 
       this.$store.commit(`memberModule/${COMMIT_IS_AUTHENTICATED}`, false);
-
-
     }
   },
   methods: {
+    ...mapActions(memberModule, ["requestSignOutToSpring"]),
 
-    ...mapActions(memberModule,["requestSignOutToSpring"]),
-
-   async logout() {
+    async logout() {
       console.log(
         'localStorage.getItem("userInfo"): ' + localStorage.getItem("userInfo")
       );
@@ -162,32 +149,33 @@ export default {
       token = token.substr(1, length - 2); //양쪽에 있는 "" 제거 substr("시작 위치", "길이")
       console.log("token: " + token + ", length: " + token.length);
 
-      await this.requestSignOutToSpring(token)
-      await this.$router.replace({ name: 'MainPage' }).catch (err => {
-        if (err.name !== 'NavigationDuplicated') {
+      await this.requestSignOutToSpring(token);
+      await this.$router.replace({ name: "MainPage" }).catch((err) => {
+        if (err.name !== "NavigationDuplicated") {
           console.error(err);
-        }})
+        }
+      });
     },
     selectItem(item) {
       console.log("Selected item:", item);
-        if (item === "자유게시판") {
-          if (this.$route.name !== "FreeBoardListPage") {
-            this.$router.push({ name: "FreeBoardListPage" });
-          }
-        } else if (item === "리뷰게시판") {
-          if (this.$route.name !== "ReviewBoardListPage") {
-            this.$router.push({ name: "ReviewBoardListPage" });
-          }
-        } else if (item === "Q&A") {
-          if (this.$route.name !== "QuestionBoardListPage") {
-            this.$router.push({ name: "QuestionBoardListPage" });
-          }
-        } else if (item === "공지사항") {
-          if (this.$route.name !== "NoticeBoardListPage") {
-            this.$router.push({ name: "NoticeBoardListPage" });
-          }
+      if (item === "자유게시판") {
+        if (this.$route.name !== "FreeBoardListPage") {
+          this.$router.push({ name: "FreeBoardListPage" });
         }
-      },
+      } else if (item === "리뷰게시판") {
+        if (this.$route.name !== "ReviewBoardListPage") {
+          this.$router.push({ name: "ReviewBoardListPage" });
+        }
+      } else if (item === "Q&A") {
+        if (this.$route.name !== "QuestionBoardListPage") {
+          this.$router.push({ name: "QuestionBoardListPage" });
+        }
+      } else if (item === "공지사항") {
+        if (this.$route.name !== "NoticeBoardListPage") {
+          this.$router.push({ name: "NoticeBoardListPage" });
+        }
+      }
+    },
   },
 };
 </script>
