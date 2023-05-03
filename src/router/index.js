@@ -53,20 +53,20 @@ import EventBoardDetailPage from '@/views/eventBoard/EventBoardDetailPage.vue'
 import EventBoardModifyPage from '@/views/eventBoard/EventBoardModifyPage.vue'
 
 //마이페이지 관련
-import MemberMyPage from '@/views/memberMyPage/MemberMyPage.vue'
-import ProductManagePage from '@/views/cafeMyPage/ProductManagePage.vue'
-import ProductModifyPage from '@/views/cafeMyPage/ProductModifyPage.vue'
-import MemberOrderHistoryPage from '@/views/memberMyPage/MemberOrderHistoryPage.vue'
-import MemberMyInfoModifyPage from '@/views/memberMyPage/MemberMyInfoModifyPage.vue'
-import MemberManagementPage from '@/views/managerMyPage/MemberManagementPage.vue'
-import CafeManagementPage from '@/views/managerMyPage/CafeManagementPage.vue'
-import MyCafeManagementPage from '@/views/cafeMyPage/MyCafeManagementPage.vue'
-import MyCafeModifyPage from '@/views/cafeMyPage/MyCafeModifyPage.vue'
-import PointDetailsPage from '@/views/managerMyPage/PointDetailsPage.vue'
-import MemberPointDetailsPage from '@/views/memberMyPage/MemberPointDetailsPage.vue'
-import MemberFavoriteCafePage from '@/views/memberMyPage/MemberFavoriteCafePage.vue'
-import MyCafeEventListPage from '@/views/cafeMyPage/MyCafeEventListPage.vue'
-import MyCafeOrderListPage from '@/views/cafeMyPage/MyCafeOrderListPage.vue'
+import MemberMyPage from '@/views/myPage/memberMyPage/MemberMyPage.vue'
+import ProductManagePage from '@/views/myPage/cafeMyPage/ProductManagePage.vue'
+import ProductModifyPage from '@/views/myPage/cafeMyPage/ProductModifyPage.vue'
+import MemberOrderHistoryPage from '@/views/myPage/memberMyPage/MemberOrderHistoryPage.vue'
+import MemberMyInfoModifyPage from '@/views/myPage/memberMyPage/MemberMyInfoModifyPage.vue'
+import MemberManagementPage from '@/views/myPage/managerMyPage/MemberManagementPage.vue'
+import CafeManagementPage from '@/views/myPage/managerMyPage/CafeManagementPage.vue'
+import MyCafeManagementPage from '@/views/myPage/cafeMyPage/MyCafeManagementPage.vue'
+import MyCafeModifyPage from '@/views/myPage/cafeMyPage/MyCafeModifyPage.vue'
+import PointDetailsPage from '@/views/myPage/managerMyPage/PointDetailsPage.vue'
+import MemberPointDetailsPage from '@/views/myPage/memberMyPage/MemberPointDetailsPage.vue'
+import MemberFavoriteCafePage from '@/views/myPage/memberMyPage/MemberFavoriteCafePage.vue'
+import MyCafeEventListPage from '@/views/myPage/cafeMyPage/MyCafeEventListPage.vue'
+import MyCafeOrderListPage from '@/views/myPage/cafeMyPage/MyCafeOrderListPage.vue'
 
 
 //공지사항관련
@@ -76,13 +76,13 @@ import NoticeBoardReadPage from '@/views/noticeBoard/NoticeBoardReadPage.vue'
 import NoticeBoardModifyPage from '@/views/noticeBoard/NoticeBoardModifyPage.vue'
 
 //나의 게시판 관련
-import MyFreeBoardPage from '@/views/cafeMyPage/MyFreeBoardPage.vue'
+import MyFreeBoardPage from '@/views/myPage/memberMyPage/MyFreeBoardPage.vue'
 
 //나의 질문게시판 관련
-import MyQuestionBoardPage from '@/views/cafeMyPage/MyQuestionBoardPage.vue'
+import MyQuestionBoardPage from '@/views/myPage/memberMyPage/MyQuestionBoardPage.vue'
 
 //나의 리뷰게시판 관련
-import MyReviewBoardPage from '@/views/cafeMyPage/MyReviewBoardPage.vue'
+import MyReviewBoardPage from '@/views/myPage/memberMyPage/MyReviewBoardPage.vue'
 
 // 사이트 소개
 import SiteIntroducePage from '@/views/siteIntroduce/SiteIntroducePage.vue'
