@@ -6,7 +6,7 @@
           to="/cafe-board-list-page"
           style="text-decoration: none; color: inherit"
         >
-          <h2 class="NanumGothic">카페 소개 <v-icon>mdi-coffee</v-icon></h2>
+          <h2 class="MBC-Font">카페 소개 <v-icon>mdi-coffee</v-icon></h2>
         </router-link>
       </div>
       <div
