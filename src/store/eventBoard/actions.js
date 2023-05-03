@@ -7,7 +7,8 @@ import {
 
 } from './mutation-types'
 
-import axiosInst from '@/utility/axiosObject'
+// import axiosInst from '@/utility/axiosObject'
+import mainRequest from "@/api/mainRequest";
 
 export default {
 
@@ -16,7 +17,7 @@ export default {
     requestCreateEventToSpring({ }, formData) {
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestCreateEventToSpring() 작동")
-        return axiosInst.post("/event/register", formData,{
+        return mainRequest.post("/event/register", formData,{
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -32,7 +33,7 @@ export default {
     },
     requestEventListToSpring({ commit }) {
         console.log("requestEventListToSpring() 작동")
-        return axiosInst.get(`/event/list`)
+        return mainRequest.get(`/event/list`)
             .then((res) => {
                 commit(REQUEST_EVENT_LIST_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)
@@ -44,7 +45,7 @@ export default {
 
     requestEventDetailToSpring({ commit }, eventId) {
         console.log("requestEventDetailToSpring() 작동")
-        return axiosInst.get(`/event/detail/${eventId}`)
+        return mainRequest.get(`/event/detail/${eventId}`)
             .then((res) => {
                 console.log("1res.data : " + res.data)
                 commit(REQUEST_EVENT_DETAIL_TO_SPRING, res.data)
@@ -57,7 +58,7 @@ export default {
     requestModifyEventToSpring({}, {formData,eventId}) {
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestModifyEventToSpring() 작동")
-        return axiosInst.put(`/event/modify/${eventId}`, formData,{
+        return mainRequest.put(`/event/modify/${eventId}`, formData,{
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -73,7 +74,7 @@ export default {
     requestDeleteEventToSpring({},eventId){
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestDeleteEventToSpring() 작동")
-        return axiosInst.delete(`/event/delete/${eventId}`,{
+        return mainRequest.delete(`/event/delete/${eventId}`,{
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -87,11 +88,11 @@ export default {
             });
     },
     requestImageURLToSpring({},formData){
-        return  axiosInst.post(`/event/api/upload/`,formData)
+        return  mainRequest.post(`/event/api/upload/`,formData)
     },
     requestCafeByEventId({commit},eventId){
         console.log("requestCafeByEventId 작동 eventId:",eventId)
-        return  axiosInst.get(`/event/getCafe/${eventId}`)
+        return  mainRequest.get(`/event/getCafe/${eventId}`)
         .then((res) => {
             console.log("커밋전")
             commit(REQUEST_CAFE_BY_EVENT_SPRING, res.data)
@@ -104,7 +105,7 @@ export default {
     requestMyCafeEventListToSpring({ commit },cafeId) {
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestMyCafeEventListToSpring 작동")
-        return axiosInst.get(`/event/mylist/${cafeId}`,{
+        return mainRequest.get(`/event/mylist/${cafeId}`,{
             headers: {
                 'Authorization': `Basic ${token}`
             }

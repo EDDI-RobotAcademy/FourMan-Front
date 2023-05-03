@@ -5,8 +5,9 @@ import {
 
 } from './mutation-types'
 
-import axiosInst from '@/utility/axiosObject'
+// import axiosInst from '@/utility/axiosObject'
 import router from '@/router';
+import mainRequest from "@/api/mainRequest";
 
 export default {
     //멤버 관련
@@ -14,7 +15,7 @@ export default {
         phoneNumber,
         verificationCode,
     }) {
-        return axiosInst.post(`/api/phone/verify`, {
+        return mainRequest.post(`/api/phone/verify`, {
             phoneNumber,
             verificationCode,
         })
@@ -22,7 +23,7 @@ export default {
     },
 
     async sendVerificationPhoneToSpring({ }, phoneNumber) {
-        return axiosInst.post(`/api/phone/send`, null, {
+        return mainRequest.post(`/api/phone/send`, null, {
             params: {
                 phoneNumber: phoneNumber,
             },
@@ -32,7 +33,7 @@ export default {
         email,
         verificationCode,
     }) {
-        return axiosInst.post(`/api/email/verify`, {
+        return mainRequest.post(`/api/email/verify`, {
             email,
             verificationCode,
         })
@@ -40,39 +41,39 @@ export default {
     },
 
     async sendVerificationEmailToSpring({ }, email) {
-        return axiosInst.post(`/api/email/send`, null, {
+        return mainRequest.post(`/api/email/send`, null, {
             params: {
                 email: email,
             },
         });
     },
     async requestRenewPWToSpring({ }, { email, password }) {
-        return axiosInst.post(`/member/applyNewPassword/`, { email, password })
+        return mainRequest.post(`/member/applyNewPassword/`, { email, password })
 
     },
     async requestEmailMatchToSpring({ }, { email }) {
-        return axiosInst.post(`/member/emailMatch`, { email })
+        return mainRequest.post(`/member/emailMatch`, { email })
 
     },
     async requestSignUpCheckEmailToSpring({ }, email) {
-        return axiosInst.post(`/member/check-email/${email}`)
+        return mainRequest.post(`/member/check-email/${email}`)
 
     },
     async requestSignUpCheckNickNameToSpring({ }, nickName) {
-        return axiosInst.post(`/member/check-nickName/${nickName}`)
+        return mainRequest.post(`/member/check-nickName/${nickName}`)
 
     },
     async requestSignUpCheckCafeCodeToSpring({ }, codeText) {
-        return axiosInst.post(`/member/check-cafe/${codeText}`)
+        return mainRequest.post(`/member/check-cafe/${codeText}`)
 
 
     },
     async requestSignUpCheckManagerCodeToSpring({ }, codeText) {
-        return axiosInst.post(`/member/check-manager/${codeText}`)
+        return mainRequest.post(`/member/check-manager/${codeText}`)
 
     },
     requestMemberToSpring({ commit }, token) {
-        return axiosInst.post("/member/user-verification", token)
+        return mainRequest.post("/member/user-verification", token)
             .then((res) => {
                 console.log("res", res);
                 console.log("res.data", res.data);
@@ -98,7 +99,7 @@ export default {
             });
     },
     requestSignOutToSpring({ commit }, token) {
-        return axiosInst.post("/member/logout", token)
+        return mainRequest.post("/member/logout", token)
             .then(() => {
                 alert("로그아웃 완료");
                 localStorage.removeItem("userInfo");
@@ -111,7 +112,7 @@ export default {
 
     requestSignUpToSpring({ }, payload) {
         const { email, password, nickName, birthdate, phoneNumber, authorityName, code, city, street, addressDetail, zipcode } = payload;
-        return axiosInst.post("/member/sign-up", {
+        return mainRequest.post("/member/sign-up", {
             email, password, city, nickName, birthdate, phoneNumber, authorityName, code, street, addressDetail, zipcode
         })
             .then((res) => {
@@ -129,7 +130,7 @@ export default {
     },
     requestMemberSignInToSpring({ commit }, payload) {
         const { email, password } = payload;
-        return axiosInst.post("/member/sign-in", { email, password })
+        return mainRequest.post("/member/sign-in", { email, password })
             .then((res) => {
                 if (res.data) {//토큰이오면
                     alert("로그인 성공!");
@@ -152,7 +153,7 @@ export default {
     },
     sendFavoriteStatusToSpring({ }, payload) {
         const { cafeId, memberId, isFavorite } = payload
-        return axiosInst.post("/member/favorites", { cafeId, memberId, isFavorite })
+        return mainRequest.post("/member/favorites", { cafeId, memberId, isFavorite })
             .then((res) => {
                 if (res.data) {
                     alert(res.data)
@@ -164,7 +165,7 @@ export default {
     },
     checkFavoriteStatus({ }, payload) {
         const { cafeId, memberId } = payload
-        return axiosInst.get(`/member/favorites/${memberId}/${cafeId}`)
+        return mainRequest.get(`/member/favorites/${memberId}/${cafeId}`)
 
 
     }

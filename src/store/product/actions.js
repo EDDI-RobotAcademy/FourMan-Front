@@ -3,16 +3,15 @@ import {
    REQUEST_ALL_PRODUCT_TO_SPRING,
 
 } from './mutation-types'
-
-import axiosInst from '@/utility/axiosObject'
-
+// import axiosInst from '@/utility/axiosObject'
+import mainRequest from "@/api/mainRequest";
 export default {
    
    // 상품 관련
    requestCreateProductToSpring ({}, payload) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return axiosInst.post('/product/register', payload, 
+      return mainRequest.post('/product/register', payload, 
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -29,7 +28,7 @@ export default {
    },
    requestAllOfProductToSpring ({ commit }, cafeId) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.get(`/product/all/${cafeId}`,
+      return mainRequest.get(`/product/all/${cafeId}`,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -44,7 +43,7 @@ export default {
    requestEditProductWithoutImageToSpring({}, payload) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return axiosInst.post('/product/editProductWithoutImage', payload,
+      return mainRequest.post('/product/editProductWithoutImage', payload,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -61,7 +60,7 @@ export default {
    requestEditProductWithImageToSpring({}, payload) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return axiosInst.post('/product/editProductWithImage', payload,
+      return mainRequest.post('/product/editProductWithImage', payload,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -77,7 +76,7 @@ export default {
    },
    requestDeleteProductToSpring({}, productId) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.delete(`/product/${productId}`, 
+      return mainRequest.delete(`/product/${productId}`, 
          {
             headers: {
                'Authorization': `Basic ${token}`

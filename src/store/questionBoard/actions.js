@@ -14,12 +14,12 @@ import {
 //REQUEST_QUESTION_BOARD_VIEW_CNT_INCREASE_TO_SPRING,
 } from './mutation-types'
 
-// import axios from 'axios'
-import axiosInst from '@/utility/axiosObject'
+// import axiosInst from '@/utility/axiosObject'
+import mainRequest from "@/api/mainRequest";
 export default {
 
     requestQuestionBoardListToSpring ({ commit }) {
-        return axiosInst.get('/question-board/all-list')
+        return mainRequest.get('/question-board/all-list')
             .then((res) => {
                 commit(REQUEST_QUESTION_BOARD_LIST_TO_SPRING, res.data)
             })
@@ -28,7 +28,7 @@ export default {
     requestCreateQuestionBoardToSpring({}, payload) {
         const { title, questionType, writer, content, memberId, secret} = payload
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        return axiosInst.post('/question-board/register',
+        return mainRequest.post('/question-board/register',
         { title, questionType, writer, content, memberId, secret} ,{
             headers: {
                 'Authorization': `Basic ${token}`
@@ -44,7 +44,7 @@ export default {
     },
 
     requestQuestionBoardToSpring({commit}, boardId) {
-        return axiosInst.get(`/question-board/${boardId}`, { withCredentials: true })
+        return mainRequest.get(`/question-board/${boardId}`, { withCredentials: true })
         .then((res) =>{
             commit(REQUEST_QUESTION_BOARD_TO_SPRING, res.data)
         })
@@ -53,7 +53,7 @@ export default {
     requestQuestionBoardModifyToSpring({}, payload) {
         const { boardId, title, content} = payload
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        return axiosInst.put(`/question-board/${boardId}`,
+        return mainRequest.put(`/question-board/${boardId}`,
         { title, content}, {
             headers: {
                 'Authorization': `Basic ${token}`
@@ -68,7 +68,7 @@ export default {
     },
 
     requestQuestionBoardDeleteToSpring ({}, boardId) {
-        return axiosInst.delete(`/question-board/${boardId}`)
+        return mainRequest.delete(`/question-board/${boardId}`)
             .then(() => {
                 alert("삭제 성공")
             })
@@ -80,7 +80,7 @@ export default {
     //게시물 검색 관련
     requestSearchBoardToSpring({commit}, searchText) {
         console.log('requestSearchBoardToSpring 작동')
-        return axiosInst.get(`/question-board/search/${searchText}`)
+        return mainRequest.get(`/question-board/search/${searchText}`)
             .then((res) => {
                 commit(REQUEST_SEARCH_BOARD_TO_SPRING, res.data)
                 console.log('searchBoard res.data' + res.data)
@@ -96,7 +96,7 @@ export default {
         const {comment, boardId, commentWriter,memberId} = payload
         const token = JSON.parse(localStorage.getItem('userInfo')).token
         console.log('데이터보내져랏')
-        return axiosInst.post('/question-board/comment/register',
+        return mainRequest.post('/question-board/comment/register',
             {comment, boardId, commentWriter, memberId}, {
                 headers: {
                     'Authorization': `Basic ${token}`
@@ -108,7 +108,7 @@ export default {
     },
     requestQuestionBoardCommentListToSpring( { commit }, boardId ) {
         console.log('commentList :')
-        return axiosInst.get(`/question-board/comment/${boardId}`)
+        return mainRequest.get(`/question-board/comment/${boardId}`)
             .then((res) => {
                 commit(REQUEST_QUESTION_BOARD_COMMENT_LIST_TO_SPRING, res.data)
             })
@@ -116,7 +116,7 @@ export default {
     requestQuestionBoardCommentDeleteToSpring ({}, commentId) {
         console.log('delete 전송 되냐?')
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        return axiosInst.delete(`/question-board/comment/${commentId}`, {
+        return mainRequest.delete(`/question-board/comment/${commentId}`, {
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -133,7 +133,7 @@ export default {
         console.log('comment Modify 전송')
         const token = JSON.parse(localStorage.getItem('userInfo')).token
         const { commentId, commentModify } = payload
-        return axiosInst.put(`/question-board/comment/${commentId}`,
+        return mainRequest.put(`/question-board/comment/${commentId}`,
         { commentId, comment: commentModify }, {
             headers: {
                 'Authorization': `Basic ${token}`
@@ -151,7 +151,7 @@ export default {
     // 조회수
     // requestQuestionBoardViewCntIncreaseToSpring({ commit }, boardId) {
     //     console.log('조회수 액션 실행')
-    //     return axiosInst.get(`/question-board/view/${boardId}`)
+    //     return mainRequest.get(`/question-board/view/${boardId}`)
     //     .then((res) =>{
     //         commit(REQUEST_QUESTION_BOARD_VIEW_CNT_INCREASE_TO_SPRING, res.data)
     //     })
@@ -162,7 +162,7 @@ export default {
     requestCreateReplyToSpring({}, payload) {
         const { title, questionType, writer, content, memberId, secret, parentBoardId } = payload
         const token = JSON.parse(localStorage.getItem('userInfo')).token
-        return axiosInst.post("/question-board/register-reply", {
+        return mainRequest.post("/question-board/register-reply", {
           title, questionType, writer, content, memberId, secret, parentBoardId
         },
          {

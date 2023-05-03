@@ -8,7 +8,8 @@ import {
 
 } from './mutation-types'
 
-import axiosInst from '@/utility/axiosObject'
+// import axiosInst from '@/utility/axiosObject'
+import mainRequest from "@/api/mainRequest";
 
 export default {
 
@@ -17,7 +18,7 @@ export default {
     requestCreateCafeToSpring({ }, formData) {
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestCreateCafeToSpring() 작동")
-        return axiosInst.post("/cafe/register", formData, {
+        return mainRequest.post("/cafe/register", formData, {
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -37,7 +38,7 @@ export default {
 
     requestCafeListToSpring({ commit }) {
         console.log("requestCafeListToSpring() 작동")
-        return axiosInst.get(`/cafe/list`)
+        return mainRequest.get(`/cafe/list`)
             .then((res) => {
                 commit(REQUEST_CAFE_LIST_TO_SPRING, res.data)
                 console.log("res.data : " + res.data)
@@ -48,7 +49,7 @@ export default {
     },
     requestCafeNumToSpring({ commit }) {
         console.log("requestCafeNumToSpring() 작동")
-        return axiosInst.post(`/cafe/check-code/${JSON.parse(localStorage.getItem('userInfo')).code}`)
+        return mainRequest.post(`/cafe/check-code/${JSON.parse(localStorage.getItem('userInfo')).code}`)
             .then((res) => {
                 console.log("성공res.data:", res.data)
                 commit(REQUEST_CAFE_NUM_TO_SPRING, res.data)
@@ -60,7 +61,7 @@ export default {
     },
     requestCafeDetailToSpring({ commit }, cafeId) {
         console.log("requestCafeDetailToSpring() 작동")
-        return axiosInst.get(`/cafe/detail/${cafeId}`)
+        return mainRequest.get(`/cafe/detail/${cafeId}`)
             .then((res) => {
                 commit(REQUEST_CAFE_DETAIL_TO_SPRING, res.data)
                 console.log("res.data!@~@ : " + res.data)
@@ -73,7 +74,7 @@ export default {
     requestModifyCafeToSpring({}, { formData, cafeId }) {
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestCafeModifyToSpring() 작동")
-        return axiosInst.put(`/cafe/modify/${cafeId}`,formData, {
+        return mainRequest.put(`/cafe/modify/${cafeId}`,formData, {
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -89,7 +90,7 @@ export default {
     requestDeleteCafeToSpring({},cafeId){
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log(" requestDeleteCafeToSpring() 작동")
-        return axiosInst.delete(`/cafe/delete/${cafeId}`, {
+        return mainRequest.delete(`/cafe/delete/${cafeId}`, {
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -104,12 +105,12 @@ export default {
     },
     async requestCafeRatingToSpring({ }, cafeName) {
         console.log("requestCafeRatingToSpring() 작동")
-        return axiosInst.get(`/review-board/rating/${cafeName}`)
+        return mainRequest.get(`/review-board/rating/${cafeName}`)
     },
     requestFavoriteCafeListToSpring({ commit },memberId) {
         const token =JSON.parse(localStorage.getItem('userInfo')).token
         console.log("requestFavoriteCafeListToSpring 작동")
-        return axiosInst.get(`/cafe/list/${memberId}`,{
+        return mainRequest.get(`/cafe/list/${memberId}`,{
             headers: {
                 'Authorization': `Basic ${token}`
             }
@@ -125,7 +126,7 @@ export default {
 
     requestTop3MenuToSpring({ commit }, cafeId) {
         console.log("requestTop3MenuToSpring 작동")
-        return axiosInst.get(`/cafe/top3/${cafeId}`)
+        return mainRequest.get(`/cafe/top3/${cafeId}`)
             .then((res) => {
                 commit(REQUEST_CAFE_TOP3_TO_SPRING, res.data)
                 console.log("res.data!@~@ : " + res.data)

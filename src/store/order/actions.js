@@ -7,16 +7,15 @@ import {
    REQUEST_IS_RESERVATION_AVAILABLE_TO_SPRING,
 
 } from './mutation-types'
-
-import axiosInst from '@/utility/axiosObject'
-
+// import axiosInst from '@/utility/axiosObject'
+import mainRequest from "@/api/mainRequest";
 export default {
    
    //주문 관련
    requestCreateOrderInformationsToSpring({}, payload) {
       const token = JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return axiosInst.post('/order/register', payload,
+      return mainRequest.post('/order/register', payload,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -32,7 +31,7 @@ export default {
    },
    requestOrderInformationsToSpring({ commit }, memberId) {
       const token = JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.get(`/order/orderList/${memberId}`,
+      return mainRequest.get(`/order/orderList/${memberId}`,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -50,7 +49,7 @@ export default {
    },
    requestHoldPointToSpring({ commit }, memberId) {
       const token = JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.get(`/order/point/${memberId}`,
+      return mainRequest.get(`/order/point/${memberId}`,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -65,7 +64,7 @@ export default {
    requestCancelOrderToSpring({}, cancelReservation) {
       const token = JSON.parse(localStorage.getItem('userInfo')).token
       const{ orderId, reservationTime, seatNoList } = cancelReservation
-      return axiosInst.post(`/order/cancel/${orderId}`, { reservationTime, seatNoList },
+      return mainRequest.post(`/order/cancel/${orderId}`, { reservationTime, seatNoList },
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -81,7 +80,7 @@ export default {
    },
    requestCafeOrderListToSpring({ commit }, cafeId) {
       const token = JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.get(`/order/cafeOrderList/${cafeId}`,
+      return mainRequest.get(`/order/cafeOrderList/${cafeId}`,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -95,7 +94,7 @@ export default {
    },
    requestOrderIsReadySpring({}, orderId) {
       const token = JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.post(`/order/ready/${orderId}`, {},
+      return mainRequest.post(`/order/ready/${orderId}`, {},
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -111,7 +110,7 @@ export default {
    },
    requestIsReservationAvailableToSpring({ commit }, {cafeId, formData}) {
       const token = JSON.parse(localStorage.getItem('userInfo')).token
-      return axiosInst.post(`/order/isReservationAvailable/${cafeId}`, formData,
+      return mainRequest.post(`/order/isReservationAvailable/${cafeId}`, formData,
          {
             headers: {
                'Authorization': `Basic ${token}`
