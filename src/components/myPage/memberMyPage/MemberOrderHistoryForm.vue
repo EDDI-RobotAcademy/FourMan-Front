@@ -29,24 +29,24 @@
                <v-card-subtitle style="border-bottom: 1px solid #eaebee;">
                   <v-layout>
                      <h3 style="display:flex; align-items:center;"> {{ orderInfo.cafeName }}</h3>
-                     
+
                      <span style="display:flex; align-items:center;" class="ml-3">
                         {{ orderInfo.orderNo }} | {{ orderInfo. orderDate }}
                      </span>
                      <v-spacer />
-                     <v-sheet v-if="orderInfo.packing == true && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center primary white--text mr-3" :elevation="0" 
+                     <v-sheet v-if="orderInfo.packing == true && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center primary white--text mr-3" :elevation="0"
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
                      포장 주문
                      </v-sheet>
-                     <v-sheet v-if="orderInfo.ready == false && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center white--text" :elevation="0" 
+                     <v-sheet v-if="orderInfo.ready == false && orderInfo.canceledAt == null" class="d-inline-flex align-center justify-center white--text" :elevation="0"
                      style="width: 80px; height: 35px; font-weight: bold;  background-color: #ff9800" rounded>
                      준비중
                      </v-sheet>
-                     <v-sheet v-else-if="orderInfo.canceledAt != null" class="d-inline-flex align-center justify-center white--text error" :elevation="0" 
+                     <v-sheet v-else-if="orderInfo.canceledAt != null" class="d-inline-flex align-center justify-center white--text error" :elevation="0"
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
                      취소 완료
                      </v-sheet>
-                     <v-sheet v-else class="d-inline-flex align-center justify-center white--text success" :elevation="0" 
+                     <v-sheet v-else class="d-inline-flex align-center justify-center white--text success" :elevation="0"
                      style="width: 80px; height: 35px; font-weight: bold;" rounded>
                      준비 완료
                      </v-sheet>
@@ -56,17 +56,17 @@
                <div>
                   <v-card flat>
                      <v-expansion-panel-header @click="whenExpanded(index)">
-                        
+
                         <!-- 펼치기 전 header -->
                         <div v-if="(isExpanded == false || expandedArr[index] != true)">
                            <table class="d-block" style="text-align: center; border: 1px; border-collapse: collapse;">
                               <tr>
                                  <td width="80">
                                     <center>
-                                       <v-img :src="require(`../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
+                                       <v-img :src="require(`../../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
                                     </center>
                                  </td>
-                                 <td width="300"> 
+                                 <td width="300">
                                     <h3>상품 정보</h3>
                                     <div class="mt-3">
                                        <span class="d-block" style="font-size: 16px;">
@@ -81,7 +81,7 @@
                                     <h3 class="mt-2">예약 정보</h3>
                                     <div class="mt-2">
                                        <div class="d-flex align-center justify-center">
-                                          <v-icon class="mr-2">mdi-clock-time-eight-outline</v-icon> 
+                                          <v-icon class="mr-2">mdi-clock-time-eight-outline</v-icon>
                                           <span style="font-size: 16px;">{{ orderInfo.reservationTime }}</span>
                                        </div>
                                        <div class="d-flex align-center mt-2 justify-center">
@@ -101,10 +101,10 @@
                         <!-- 펼쳤을 시 header -->
                         <div v-else-if="isExpanded == true && expandedArr[index] == true">
                            <table class="d-block" style="text-align: center; border: 1px; border-collapse: collapse;">
-                              <tr>
+                              <tr>ㄴ
                                  <td width="80">
                                     <center>
-                                       <v-img :src="require(`../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
+                                       <v-img :src="require(`../../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
                                     </center>
                                  </td>
                                  <td width="300">
@@ -136,12 +136,12 @@
                                        </div>
                                     </div>
                                  </td>
-                                 <td width="300" v-if="orderInfo.reservationTime != null"> 
+                                 <td width="300" v-if="orderInfo.reservationTime != null">
                                     <h3 class="mt-2">예약 정보</h3>
                                     <div>
                                        <div class="mt-2">
                                           <div class="d-flex align-center justify-center">
-                                             <v-icon class="mr-2">mdi-clock-time-eight-outline</v-icon> 
+                                             <v-icon class="mr-2">mdi-clock-time-eight-outline</v-icon>
                                              <span style="font-size: 16px;">{{ orderInfo.reservationTime }}</span>
                                           </div>
                                        </div>
@@ -157,12 +157,12 @@
                                  </td>
                                  <td v-else width="300">
                                  </td>
-                                 <td width="300" v-if="orderInfo.canceledAt != null"> 
+                                 <td width="300" v-if="orderInfo.canceledAt != null">
                                     <h3 class="mt-2 red--text">취소 일자</h3>
                                     <div>
                                        <div class="mt-2">
                                           <div class="d-flex align-center justify-center">
-                                             <v-icon class="mr-2 red--text">mdi-close-outline</v-icon> 
+                                             <v-icon class="mr-2 red--text">mdi-close-outline</v-icon>
                                              <span style="font-size: 16px;">{{ orderInfo.canceledAt }}</span>
                                           </div>
                                        </div>
@@ -183,7 +183,7 @@
                                        <v-img :src="require(`@/assets/product/uploadImgs/${ orderProduct.imageResource }`)" width="80px" height="100px" />
                                     </center>
                                  </td>
-                                 <td width="300"> 
+                                 <td width="300">
                                     <h4 class="d-block">{{ orderProduct.productName }}</h4>
                                     <span class="d-block ">{{ orderProduct.price | comma }}원</span>
                                     <span class="d-block ">{{ orderProduct.drinkType }}</span>
@@ -291,7 +291,7 @@ export default {
       goReview(cafeName) {
          this.$router.push({
                name: "ReviewBoardRegisterPage",
-               params: { reviewCafeName: cafeName } 
+               params: { reviewCafeName: cafeName }
          })
       }
    },

@@ -15,9 +15,9 @@
   <script>
 
   import FreeBoardListForm from '@/components/freeBoard/FreeBoardListForm.vue'
-  // import MyFreeBoardForm from '@/components/cafeMyPage/MyFreeBoardForm.vue'
+  // import MyFreeBoardForm from '@/components/myPage/memberMyPage/MyFreeBoardForm.vue'
   import { mapActions, mapState } from 'vuex'
-  import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+  import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
 
   const myPageModule = 'myPageModule'
 

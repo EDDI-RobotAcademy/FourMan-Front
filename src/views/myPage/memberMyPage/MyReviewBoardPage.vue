@@ -12,9 +12,9 @@
   </template>
 
   <script>
-  // import MyReviewBoardForm from '@/components/cafeMyPage/MyReviewBoardForm.vue'
+  // import MyReviewBoardForm from '@/components/memberMyPage/MyReviewBoardForm.vue'
   import ReviewBoardListForm from '@/components/reviewBoard/ReviewBoardListForm.vue'
-  import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+  import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
   import { mapActions, mapState } from 'vuex'
   const myPageModule = 'myPageModule'
 

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
-import MyCafeOrderListForm from '@/components/cafeMyPage/MyCafeOrderListForm.vue'
+import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
+import MyCafeOrderListForm from '@/components/myPage/cafeMyPage/MyCafeOrderListForm.vue'
 import { mapState, mapActions } from "vuex";
 
 const orderModule = 'orderModule'

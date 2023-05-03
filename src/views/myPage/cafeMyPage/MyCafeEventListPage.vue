@@ -12,7 +12,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import MyPageSideBarForm from "@/components/memberMyPage/MyPageSideBarForm.vue";
+import MyPageSideBarForm from "@/components/myPage/MyPageSideBarForm.vue";
 import EventBoardListForm from "@/components/eventBoard/EventBoardListForm.vue";
 const eventBoardModule = "eventBoardModule";
 

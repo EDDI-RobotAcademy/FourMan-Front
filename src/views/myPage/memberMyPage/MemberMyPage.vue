@@ -1,7 +1,7 @@
 <template>
    <div class="d-flex">
       <my-page-side-bar-form />
-      
+
       <v-container style="width: 1000px">
          <member-my-info-form v-if="myInfo" :myInfo="myInfo" />
       </v-container>
@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import MemberMyInfoForm from '@/components/memberMyPage/MemberMyInfoForm.vue'
-import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+import MemberMyInfoForm from '@/components/myPage/memberMyPage/MemberMyInfoForm.vue'
+import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
 import { mapActions, mapState } from 'vuex'
 const myPageModule= 'myPageModule'
 
