@@ -2,9 +2,9 @@
   <v-footer inset padless class="justify-center pl-0">
     <v-card
       flat
-      class="text-center white--text"
+      class="text-center black--text"
       width="100%"
-      color="brown lighten-2"
+      color="#F2F3F4"
     >
       <v-divider></v-divider>
       <v-container style="width: 1000px">
@@ -58,7 +58,7 @@
                     : shareOnInstagram()
                 "
               >
-                <v-icon size="24" color="white">
+                <v-icon size="24">
                   {{ icon }}
                 </v-icon>
               </v-btn>

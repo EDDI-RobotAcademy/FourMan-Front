@@ -45,3 +45,14 @@
 .omyu_pretty {
     font-family: 'omyu_pretty', sans-serif;
 }
+@font-face {
+    font-family: 'MBC-Font';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/MBC1961M.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.MBC-Font {
+    font-family: 'MBC-Font', sans-serif;
+}

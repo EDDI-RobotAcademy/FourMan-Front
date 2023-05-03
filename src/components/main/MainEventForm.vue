@@ -6,7 +6,7 @@
           to="/event-board-list-page"
           style="text-decoration: none; color: inherit"
         >
-          <h2 class="NanumGothic">이벤트 <v-icon>mdi-coffee</v-icon></h2>
+          <h2 class="MBC-Font">이벤트 <v-icon>mdi-coffee</v-icon></h2>
         </router-link>
       </div>
       <div
@@ -48,7 +48,7 @@
           ><v-icon>mdi-chevron-right</v-icon></v-btn
         >
       </div>
-    
+
     </v-container>
   </div>
 </template>

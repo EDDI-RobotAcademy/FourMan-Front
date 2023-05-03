@@ -9,7 +9,7 @@
       <v-toolbar
         color="brown lighten-1">
         <v-toolbar-title class="mx-auto">
-          <b class="toolbar-title"> 오늘의 추천 카페!!</b>
+          <b class="toolbar-title MBC-Font"> 오늘의 추천 카페!!</b>
         </v-toolbar-title>
       </v-toolbar>
     <div @click="goPopUpCafe">
@@ -24,7 +24,7 @@
       <!-- v-img는 클릭가능영역이 없으므로 btn을 만들어서 넘기기 -->
     </v-img>
     </div>
-    <v-card-title>
+    <v-card-title class="MBC-Font">
       스타벅스 강남GT타워점
     </v-card-title>
     <v-card-subtitle class="pt-4" style="max-height: 600px; overflow-y: auto;">
@@ -42,7 +42,7 @@
 
     <v-card-actions>
       <v-btn
-        class="mb-1 me-0 brown darken-2 white--text"
+        class="MBC-Font mb-1 me-0 brown darken-2 white--text"
         @click="hideDialog">
         오늘 하루 보지않기
       </v-btn>
