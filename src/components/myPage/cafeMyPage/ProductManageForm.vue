@@ -38,7 +38,9 @@
                </tr>
                <tr v-else v-for="(product,index) in calData" :key="index">
                   <td>
+                     <!-- AWS s3 사용을 위한 주석 -->
                      <v-img :src="require(`@/assets/product/uploadImgs/${product.imageResourceList[0].imageResourcePath}`)" width="50px" height="80px">
+                     <!-- <v-img :src="`https://s3-test-3737.s3.ap-northeast-2.amazonaws.com/${product.imageResourceList[0].imageResourcePath}`" width="50px" height="80px"> -->
                         <template v-slot:placeholder>
                            <div class="fill-height ma-0" align="center" justify="center">
                               <v-progress-circular indeterminate color="grey lighten-5"/>
@@ -90,6 +92,7 @@
 
 <script>
 import ProductModifyForm from '@/components/myPage/cafeMyPage/ProductModifyForm.vue'
+import AWS from 'aws-sdk'
 import { mapActions } from 'vuex'
 
 const productModule = 'productModule'
@@ -115,6 +118,10 @@ export default {
          modifyDialog: false,
          editedProduct: Object,
          isExist: true,
+         awsBucketName: 'vue-s3-test-fourman',
+         awsBucketRegion: 'ap-northeast-2',
+         awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+         s3: null,
       }
    },
    props: {
@@ -152,8 +159,25 @@ export default {
                params: { modifyProduct: product }
             })
       },
+      // * AWS s3 사용을 위한 주석
+      // async deleteBtn(product) {
+      //    if (confirm("정말 삭제 하시겠습니까?")) {
+      //       let productId = product.productId
+      //       await this.requestDeleteProductToSpring(productId)
+            
+      //       // 새로고침
+      //       this.$router.go()
+      //    } else {
+      //       console.log("상품 삭제 취소되었습니다.")
+      //    }
+      // },
+
+      // AWS s3
       async deleteBtn(product) {
          if (confirm("정말 삭제 하시겠습니까?")) {
+
+            await this.deleteImageFromS3(product.imageResourceList[0].imageResourcePath);
+
             let productId = product.productId
             await this.requestDeleteProductToSpring(productId)
 
@@ -162,7 +186,44 @@ export default {
          } else {
             console.log("상품 삭제 취소되었습니다.")
          }
-      }
+      },
+      
+      awsS3Config () {
+         AWS.config.update({
+               region: this.awsBucketRegion,
+               credentials: new AWS.CognitoIdentityCredentials({
+                  IdentityPoolId: this.awsIdentityPoolId
+               })
+         })
+
+         this.s3 = new AWS.S3({
+               apiVersion: '2006-03-01',
+               params: {
+                  Bucket: this.awsBucketName
+               }
+         })
+      },
+      async deleteImageFromS3(imagePath) {
+         try {
+
+            this.awsS3Config()
+
+            // 삭제할 객체의 키를 생성
+            const objectKey = imagePath;
+
+            // 객체 삭제
+            const deleteParams = {
+            Bucket: this.awsBucketName,
+            Key: objectKey
+            };
+
+            await this.s3.deleteObject(deleteParams).promise();
+
+            console.log("이미지가 S3에서 삭제되었습니다.");
+         } catch (error) {
+            console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
+         }
+      },
    },
    computed: {
       startOffset() {
@@ -188,8 +249,7 @@ export default {
    },
    async updated() {
       console.log(JSON.stringify(this.filteredItems))
-   }
-
+   },
 }
 </script>
 
