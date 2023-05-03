@@ -11,7 +11,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
 import CafeIntroBoardListForm from "@/components/cafeIntroduceBoard/CafeIntroBoardListForm.vue";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {

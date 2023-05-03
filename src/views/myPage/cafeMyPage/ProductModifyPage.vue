@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
-import ProductModifyForm from '@/components/cafeMyPage/ProductModifyForm.vue'
+import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
+import ProductModifyForm from '@/components/myPage/cafeMyPage/ProductModifyForm.vue'
 
 export default {
    name: "ProductModifyPage",
-   components: { 
+   components: {
       ProductModifyForm,
       MyPageSideBarForm
     },

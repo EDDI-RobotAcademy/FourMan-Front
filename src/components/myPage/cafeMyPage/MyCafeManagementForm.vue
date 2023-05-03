@@ -158,9 +158,9 @@ export default {
             const { email, password } = this;
             const boolean = await this.requestPasswordCheckToSpring({ email, password })
             if(boolean) {
-                await this.$router.push({ 
+                await this.$router.push({
                     name: 'CafeIntroBoardModifyPage',
-                    params: { cafeId: this.myCafeInfo.cafeId.toString() } 
+                    params: { cafeId: this.myCafeInfo.cafeId.toString() }
                 })
             }
         },

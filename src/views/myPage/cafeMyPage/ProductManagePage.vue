@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
-import ProductManageForm from '@/components/cafeMyPage/ProductManageForm.vue'
+import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
+import ProductManageForm from '@/components/myPage/cafeMyPage/ProductManageForm.vue'
 import { mapState, mapActions } from "vuex";
 
 const productModule = 'productModule'
@@ -23,7 +23,7 @@ export default {
    },
    data() {
       return {
-         
+
       }
    },
    computed: {

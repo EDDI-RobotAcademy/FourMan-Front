@@ -13,9 +13,9 @@
 
   <script>
 
-  // import MyQuestionBoardForm from '@/components/cafeMyPage/MyQuestionBoardForm.vue'
+  // import MyQuestionBoardForm from '@/components/memberMyPage/MyQuestionBoardForm.vue'
   import QuestionBoardListForm from '@/components/questionBoard/QuestionBoardListForm.vue';
-  import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+  import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
   import { mapActions, mapState } from 'vuex'
   const myPageModule ='myPageModule'
   const questionBoardModule= 'questionBoardModule'
