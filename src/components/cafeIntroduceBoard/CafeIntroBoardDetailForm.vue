@@ -3,11 +3,16 @@
     <v-card class="mx-auto overflow-hidden" style="max-width: 1200px">
       <v-row>
         <v-col cols="6">
-          <v-img
+          <!-- aws S3 사용을 위한 주석 -->
+          <!-- <v-img
             :style="{ height: '350px', width: '100%' }"
             :src="
               require(`../../../public/assets/cafe/uploadImgs/${allImages[selectedImageIndex]}`)
             "
+          /> -->
+          <v-img
+            :style="{ height: '350px', width: '100%' }"
+            :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${allImages[selectedImageIndex]}`"
           />
         </v-col>
         <v-col class="d-flex" cols="6">
@@ -200,6 +205,7 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
 import { mapActions, mapState } from "vuex";
 const memberModule = "memberModule";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
@@ -227,6 +233,11 @@ export default {
     copied: false,
     dialog: false,
     shareUrl: "",
+
+    awsBucketName: "vue-s3-test-fourman",
+    awsBucketRegion: "ap-northeast-2",
+    awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+    s3: null,
   }),
 
   methods: {
@@ -236,6 +247,41 @@ export default {
       "sendFavoriteStatusToSpring",
       "checkFavoriteStatus",
     ]),
+    awsS3Config() {
+      AWS.config.update({
+        region: this.awsBucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.awsIdentityPoolId,
+        }),
+      });
+
+      this.s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.awsBucketName,
+        },
+      });
+    },
+    async deleteImageFromS3(imagePath) {
+      try {
+        this.awsS3Config();
+
+        // 삭제할 객체의 키를 생성
+        const objectKey = imagePath;
+
+        // 객체 삭제
+        const deleteParams = {
+          Bucket: this.awsBucketName,
+          Key: objectKey,
+        };
+
+        await this.s3.deleteObject(deleteParams).promise();
+
+        console.log("이미지가 S3에서 삭제되었습니다.");
+      } catch (error) {
+        console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
+      }
+    },
     async toggleFavorite() {
       if (this.isAuthenticated) {
         this.isFavorite = !this.isFavorite;
@@ -253,12 +299,31 @@ export default {
 
     getImagePath(imageName) {
       if (imageName) {
-        return require(`../../../public/assets/cafe/uploadImgs/${imageName}`);
+        // aws s3 사용을위한 주석
+        // return require(`../../../public/assets/cafe/uploadImgs/${imageName}`);
+        return `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${imageName}`;
       }
       return null;
     },
+
+    //AWS s3 적용을 위한 주석처리
+
+    // async deleteCafe() {
+    //   try {
+    //     await this.requestDeleteCafeToSpring(this.cafe.cafeId);
+    //     this.$router.push({ name: "CafeIntroBoardListPage" });
+    //   } catch (error) {
+    //     console.error("Failed to delete cafe:", error);
+    //   }
+    // },
+
     async deleteCafe() {
       try {
+        // S3에서 이미지 삭제
+        for (const imageName of this.allImages) {
+          await this.deleteImageFromS3(imageName);
+        }
+
         await this.requestDeleteCafeToSpring(this.cafe.cafeId);
         this.$router.push({ name: "CafeIntroBoardListPage" });
       } catch (error) {
@@ -377,7 +442,9 @@ export default {
       // 이미지 배열에서 정의되지 않은 요소를 제거합니다.
       return images.filter((image) => {
         try {
-          require(`../../../public/assets/cafe/uploadImgs/${image}`);
+          //aws s3 사용을 위한 주석
+          // require(`../../../public/assets/cafe/uploadImgs/${image}`);
+          `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${image}`;
           return true;
         } catch (e) {
           console.error(`Cannot find image: ${image}`);

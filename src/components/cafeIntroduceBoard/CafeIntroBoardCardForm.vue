@@ -20,10 +20,16 @@
             <v-img
               v-if="cafe && loaded"
               height="250"
+              :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${cafe.cafeInfo.thumbnailFileName}`"
+            />
+            <!-- AWS를 위한 주석처리 -->
+             <!-- <v-img
+              v-if="cafe && loaded"
+              height="250"
               :src="
                 require(`../../../public/assets/cafe/uploadImgs/${cafe.cafeInfo.thumbnailFileName}`)
               "
-            />
+            /> -->
           </router-link>
         </div>
         <v-card-title class="cafeName">{{ cafe.cafeName }}</v-card-title>

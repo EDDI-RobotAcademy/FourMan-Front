@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import MainPage from "@/views/MainPage.vue";
+import AWS_s3_test from "@/views/AWS_s3_test.vue";
 
 //예약페이지관련
 
@@ -190,6 +191,13 @@ const routes = [
     name: 'MainPage',
     component: MainPage
   },
+  {
+    path: '/aws',
+    name: 'AWS_s3_test',
+    component: AWS_s3_test
+  },
+
+
 
   //예약 페이지 관련
   {

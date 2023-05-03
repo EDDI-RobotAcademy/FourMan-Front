@@ -215,7 +215,7 @@
               class="ml-3 brown darken-2 white--text"
               large
               style="width: 200px; font-size: 18px"
-              >등록
+              >수정
             </v-btn>
           </div>
         </v-row>
@@ -225,6 +225,8 @@
 </template>
 
 <script>
+import AWS from "aws-sdk";
+import { v4 as uuidv4 } from "uuid";
 import { mapActions } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
@@ -243,11 +245,15 @@ export default {
     this.subTitle = this.cafe.cafeInfo.subTitle;
     this.description = this.cafe.cafeInfo.description;
     this.thumbnailFile = this.cafe.cafeInfo.thumbnailFileName;
+    this.originalThumbnail = this.cafe.cafeInfo.thumbnailFileName;
+
     console.log(
       " this.cafe.cafeInfo.thumbnailFileName:",
       this.cafe.cafeInfo.thumbnailFileName
     );
-    this.thumbnailPreview = `/assets/cafe/uploadImgs/${this.thumbnailFile}`;
+    // aws s3사용을 위한 주석
+    // this.thumbnailPreview = `/assets/cafe/uploadImgs/${this.thumbnailFile}`;
+    this.thumbnailPreview = `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${this.thumbnailFile}`;
     console.log("this.thumbnailPreview", this.thumbnailPreview);
 
     console.log(
@@ -259,11 +265,26 @@ export default {
       this.multipleFiles = this.cafe.cafeInfo.cafeImagesName.map((fileName) => {
         return {
           file: fileName,
-          url: `/assets/cafe/uploadImgs/${fileName}`,
+          // aws s3사용을 위한 주석
+          // url: `/assets/cafe/uploadImgs/${fileName}`,
+          url: `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${fileName}`,
         };
       });
     }
     console.log("this.multipleFiles", this.multipleFiles);
+
+    if (this.cafe.cafeInfo && this.cafe.cafeInfo.cafeImagesName) {
+      this.originalMultipleFiles = this.cafe.cafeInfo.cafeImagesName.map(
+        (fileName) => {
+          return {
+            file: fileName,
+            // aws s3사용을 위한 주석
+            // url: `/assets/cafe/uploadImgs/${fileName}`,
+            url: `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${fileName}`,
+          };
+        }
+      );
+    }
 
     const startTime = new Date();
     startTime.setHours(0, 0, 0, 0); // 00:00:00
@@ -312,10 +333,16 @@ export default {
 
       thumbnailFile: "",
       multipleFiles: "",
+      originalThumbnail: "",
+      originalMultipleFiles: "",
       fileNum: 0,
       // multiplePreview: [],
       thumbnailPreview: [],
-      add:true
+      add: true,
+      awsBucketName: "vue-s3-test-fourman",
+      awsBucketRegion: "ap-northeast-2",
+      awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+      s3: null,
     };
   },
 
@@ -324,6 +351,20 @@ export default {
       "requestCreateCafeToSpring",
       "requestCafeListToSpring",
     ]),
+    awsS3Config() {
+      AWS.config.update({
+        region: this.awsBucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.awsIdentityPoolId,
+        }),
+      });
+      this.s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.awsBucketName,
+        },
+      });
+    },
     handleFileUpload() {
       this.thumbnailFile = this.$refs.thumbnailFile.files;
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
@@ -347,19 +388,234 @@ export default {
       this.$refs.multipleFiles.value = "";
       console.log("this.$refs.multipleFiles후", this.$refs.multipleFiles);
     },
+    //aws s3 적용을 위한 주석처리
+    // async onSubmit() {
+    //   console.log("카페 등록- registerform");
+    //   //파일 업로드한 경우
+    //   if (!this.multipleFiles.length == 0 && !this.thumbnailFile.length == 0) {
+    //     let formData = new FormData();
+
+    //     formData.append("thumbnail", this.thumbnailFile[0]);
+
+    //     for (let idx = 0; idx < this.multipleFiles.length; idx++) {
+    //       console.log("파일리스트 반복문:" + idx);
+    //       console.log("this.multipleFiles[idx]" + this.multipleFiles[idx]);
+    //       formData.append("fileList", this.multipleFiles[idx].file);
+    //     }
+
+    //     let cafeContents = {
+    //       cafeAddress: this.cafeAddress,
+    //       cafeTel: this.cafeTel,
+    //       startTime: this.startTime,
+    //       endTime: this.endTime,
+    //       subTitle: this.subTitle,
+    //       description: this.description,
+    //       code: JSON.parse(localStorage.getItem("userInfo")).code,
+    //       add: this.add,
+    //     };
+
+    //     formData.append(
+    //       "info",
+    //       new Blob([JSON.stringify(cafeContents)], {
+    //         type: "application/json",
+    //       })
+    //     );
+    //     this.$emit("submit", formData);
+
+    //     //파일 업로드 하지 않은 경우
+    //   } else {
+    //     alert("카페 사진을 업로드해주세요");
+    //   }
+    // },
+
+    async uploadAwsS3(file) {
+      this.awsS3Config();
+
+      const fileExtension = file.name.split(".").pop();
+      const fileName = `cafe/${uuidv4()}.${fileExtension}`;
+
+      return new Promise((resolve, reject) => {
+        this.s3.upload(
+          {
+            Key: fileName,
+            Body: file,
+            ACL: "public-read",
+          },
+          (err, data) => {
+            if (err) {
+              console.log(err);
+              reject(err.message);
+            } else {
+              resolve(fileName);
+            }
+          }
+        );
+      });
+    },
+    async multipleuploadAwsS3(file) {
+      this.awsS3Config();
+
+      const fileExtension = file.file.name.split(".").pop();
+      const fileName = `cafe/${uuidv4()}.${fileExtension}`;
+
+      return new Promise((resolve, reject) => {
+        this.s3.upload(
+          {
+            Key: fileName,
+            Body: file.file,
+            ACL: "public-read",
+          },
+          (err, data) => {
+            if (err) {
+              console.log(err);
+              reject(err.message);
+            } else {
+              resolve(fileName);
+            }
+          }
+        );
+      });
+    },
+    async deleteImageFromS3(imagePath) {
+      try {
+        this.awsS3Config();
+
+        // 삭제할 객체의 키를 생성
+        const objectKey = imagePath;
+
+        // 객체 삭제
+        const deleteParams = {
+          Bucket: this.awsBucketName,
+          Key: objectKey,
+        };
+
+        await this.s3.deleteObject(deleteParams).promise();
+
+        console.log("이미지가 S3에서 삭제되었습니다.");
+      } catch (error) {
+        console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
+      }
+    },
+    arraysEqual(a, b) {
+      if (a.length !== b.length) return false;
+
+      for (let i = 0; i < a.length; i++) {
+        if (a[i].file !== b[i].file || a[i].url !== b[i].url) {
+          return false;
+        }
+      }
+
+      return true;
+    },
 
     async onSubmit() {
-      console.log("카페 등록- registerform");
+      console.log("카페 수정- modifyform");
+
       //파일 업로드한 경우
-      if (!this.multipleFiles.length == 0 && !this.thumbnailFile.length == 0) {
+      if (!this.multipleFiles.length == 0 || !this.thumbnailFile.length == 0) {
         let formData = new FormData();
 
-        formData.append("thumbnail", this.thumbnailFile[0]);
+        console.log("this.thumbnailFile", this.thumbnailFile);
+        console.log("this.originalThumbnail", this.originalThumbnail);
+        console.log(
+          "this.thumbnailFile != this.originalThumbnail",
+          this.thumbnailFile != this.originalThumbnail
+        );
+        if (this.thumbnailFile != this.originalThumbnail) {
+          const thumbnailFileNameList = [];
+          await this.deleteImageFromS3(
+            `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${this.originalThumbnailFile}`
+          );
 
-        for (let idx = 0; idx < this.multipleFiles.length; idx++) {
-          console.log("파일리스트 반복문:" + idx);
-          console.log("this.multipleFiles[idx]" + this.multipleFiles[idx]);
-          formData.append("fileList", this.multipleFiles[idx].file);
+          for (const file of this.thumbnailFile) {
+            try {
+              const fileName = await this.uploadAwsS3(file);
+              thumbnailFileNameList.push(fileName);
+            } catch (error) {
+              console.error("Error in uploadAwsS3():", error); // 추가된 코드
+              alert(
+                "업로드 중 문제 발생 (사진 썸네일파일에 문제가 있음)",
+                error
+              );
+              return;
+            }
+          }
+          formData.append(
+            "thumbnailFileNameList",
+            new Blob([JSON.stringify(thumbnailFileNameList)], {
+              type: "application/json",
+            })
+          );
+        }
+        console.log("this.multipleFiles", this.multipleFiles);
+        console.log("this.originalMultipleFiles", this.originalMultipleFiles);
+        console.log(
+          "this.multipleFiles != this.originalMultipleFiles",
+          this.multipleFiles != this.originalMultipleFiles
+        );
+        console.log(
+          "!arraysEqual(this.multipleFiles, this.originalMultipleFiles",
+          !this.arraysEqual(this.multipleFiles, this.originalMultipleFiles)
+        );
+        if (!this.arraysEqual(this.multipleFiles, this.originalMultipleFiles)) {
+          const multipleFileNameList = [];
+          if (this.add == true) {
+            //사진추가.
+            const addedFiles = this.multipleFiles.filter((file) => {
+              return !this.originalMultipleFiles.some(
+                (originalFile) => originalFile.file.name === file.file.name
+              );
+            });
+            for (const file of addedFiles) {
+              try {
+                console.log("addedFiles", addedFiles);
+                console.log("this.add", this.add);
+                console.log("file", file);
+                console.log("file.file", file.file);
+                console.log("file.file.name", file.file.name);
+                const fileName = await this.multipleuploadAwsS3(file);
+
+                multipleFileNameList.push(fileName);
+              } catch (error) {
+                console.error("Error in uploadAwsS3():", error);
+                alert(
+                  "업로드 중 문제 발생 (사진 멀티플파일에 문제가 있음)",
+                  error
+                );
+                return;
+              }
+            }
+          } else {
+            //사진초기화
+            await this.deleteImageFromS3(
+              `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${this.originalMultipleFiles}`
+            );
+
+            for (const file of this.multipleFiles) {
+              try {
+                console.log("file", file);
+                console.log("file.file", file.file);
+                console.log("file.file.name", file.file.name);
+                const fileName = await this.multipleuploadAwsS3(file);
+
+                multipleFileNameList.push(fileName);
+              } catch (error) {
+                console.error("Error in uploadAwsS3():", error);
+                alert(
+                  "업로드 중 문제 발생 (사진 멀티플파일에 문제가 있음)",
+                  error
+                );
+                return;
+              }
+            }
+          }
+
+          formData.append(
+            "multipleFileNameList",
+            new Blob([JSON.stringify(multipleFileNameList)], {
+              type: "application/json",
+            })
+          );
         }
 
         let cafeContents = {
@@ -370,7 +626,7 @@ export default {
           subTitle: this.subTitle,
           description: this.description,
           code: JSON.parse(localStorage.getItem("userInfo")).code,
-          add:this.add
+          add: this.add,
         };
 
         formData.append(
@@ -379,13 +635,13 @@ export default {
             type: "application/json",
           })
         );
-        this.$emit("submit", formData);
 
-        //파일 업로드 하지 않은 경우
+        this.$emit("submit", formData);
       } else {
         alert("카페 사진을 업로드해주세요");
       }
     },
+
     thumbnailCancel() {
       this.thumbnailFile = "";
       this.$refs.thumbnailFile.value = "";
@@ -394,7 +650,7 @@ export default {
     uploadCancel() {
       this.multipleFiles = "";
       this.$refs.multipleFiles.value = "";
-      this.add=false;
+      this.add = false;
     },
     cancel() {
       this.$router.go(-1);
