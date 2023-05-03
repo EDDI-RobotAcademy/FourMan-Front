@@ -15,7 +15,7 @@
             <v-card-text class="text-center px-12 py-16">
 
               <v-form @submit.prevent="onSubmit">
-                <div class="text-h4 font-weight-black mb-10 brown--text">로그인</div>
+                <div class="NanumGothic text-h4 font-weight-black mb-10 brown--text">로그인</div>
 
                 <div class="d-flex">
                   <v-text-field
