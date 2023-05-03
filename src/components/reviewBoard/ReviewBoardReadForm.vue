@@ -1,15 +1,25 @@
 <template>
-  <div style="margin-left: 100px; margin-right: 100px;">
-    <div class="mt-5 mb-5" style="border: 1px solid #ccc; min-height: 700px">
-      <div style="margin: 20px">
-        <div style="color: #5D4037;">
-          [{{ reviewBoard.cafeName }}]
-        </div>
-        <div>
-          <span class="HANNA">
-            <h1>{{ reviewBoard.title }}</h1>
-          </span>
-        </div>
+  <div class="mt-10 mb-10" style="margin-left: 100px; margin-right: 100px;">
+    <v-card
+      class="mx-auto"
+      max-width="600"
+    >
+      <v-toolbar
+        elevation="0">
+        <v-toolbar-title class="NanumGothic">
+          <h4>[{{ reviewBoard.cafeName }}] {{ reviewBoard.title }}</h4>
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-carousel hide-delimiters v-if="reviewBoardImages.length != 0">
+        <v-carousel-item
+        v-for="(imagePath, idx) in reviewBoardImages" :key="idx"
+        cover>
+          <img class="align-end" :src="require(`@/assets/reviewImage/${imagePath.reviewBoardImageResourcePath}`)" style="object-fit: contain; width: 100%; height: 100%; color: white;">
+        </v-carousel-item>
+      </v-carousel>
+        
+  
+      <v-card-subtitle class="pt-4">
         <div>
           <span>{{ reviewBoard.writer }}</span>
         </div>
@@ -37,24 +47,13 @@
             </v-btn>
           </span>
         </div>
-        <v-divider class="mt-3 mb-3"></v-divider>
-        <div class="mt-10 mb-10" v-if="reviewBoardImages.length != 0" style="margin-left: 100px; margin-right: 100px;">
-          <v-carousel hide-delimiters>
-            <v-carousel-item
-            v-for="(imagePath, idx) in reviewBoardImages" :key="idx"
-            cover>
-              <img :src="require(`@/assets/reviewImage/${imagePath.reviewBoardImageResourcePath}`)" style="object-fit: contain; width: 100%; height: 100%;">
-            </v-carousel-item>
-          </v-carousel>
-        </div>
+      </v-card-subtitle>
+  
+      <v-card-text>
         <div v-html="compiledMarkdown"></div>
-      </div>
-    </div>
-    <div>
-      <v-btn class="brown darken-2 white--text mb-5" :to="{ name: 'ReviewBoardListPage' }" style="float: right;">
-        목록
-      </v-btn>
-    </div>
+      </v-card-text>
+      
+    </v-card>
   </div>
   </template>
   
