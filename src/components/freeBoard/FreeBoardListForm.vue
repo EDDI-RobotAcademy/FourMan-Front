@@ -120,7 +120,7 @@ import router from "@/router"
         // },
         calBestData() {
           if(this.bestFreeBoards) {
-            return this.bestFreeBoards.slice(0, 3);
+            return this.bestFreeBoards
           }
         },
         // calFreeData() {

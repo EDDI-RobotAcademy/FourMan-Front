@@ -14,7 +14,7 @@
     </div>
     <div class="mb-10">
       <img
-        src="@/assets/naver.jpeg"
+        src="@/assets/siteIntroduceImg.jpg"
         style="width: 100%; height: 300px; margin: 0; padding: 0"
       />
     </div>

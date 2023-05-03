@@ -24,7 +24,7 @@
 
   <script>
 
-  import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
+  // import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
   import FreeBoardListForm from '@/components/freeBoard/FreeBoardListForm.vue'
   // import FreeBoardSearchResultForm from '@/components/freeBoard/FreeBoardSearchResultForm.vue'
   import { mapActions, mapState } from 'vuex'
@@ -33,7 +33,7 @@
   export default {
     components: {
       FreeBoardListForm,
-      SearchBarForm,
+      // SearchBarForm,
       // FreeBoardSearchResultForm
      },
     name: "FreeBoardListPage",

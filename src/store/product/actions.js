@@ -43,7 +43,7 @@ export default {
    requestEditProductWithoutImageToSpring({}, payload) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return mainRequest.post('/product/editProductWithoutImage', payload,
+      return mainRequest.put('/product/editProductWithoutImage', payload,
          {
             headers: {
                'Authorization': `Basic ${token}`
@@ -60,7 +60,7 @@ export default {
    requestEditProductWithImageToSpring({}, payload) {
       const token =JSON.parse(localStorage.getItem('userInfo')).token
       console.log('payload: ' + payload)
-      return mainRequest.post('/product/editProductWithImage', payload,
+      return mainRequest.put('/product/editProductWithImage', payload,
          {
             headers: {
                'Authorization': `Basic ${token}`

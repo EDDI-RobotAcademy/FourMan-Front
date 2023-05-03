@@ -5,38 +5,44 @@
   <v-dialog v-model="dialogVisible" transition="dialog-bottom-transition" width="auto">
     <v-card
     class="mx-auto"
-    max-width="500">
+    width="600">
       <v-toolbar
         color="brown lighten-1">
-        <v-toolbar-title> 오늘의 추천 카페!!</v-toolbar-title>
+        <v-toolbar-title class="mx-auto">
+          <b class="toolbar-title MBC-Font"> 오늘의 추천 카페!!</b>
+        </v-toolbar-title>
       </v-toolbar>
-    <div @click="goToCafe">
+    <div @click="goPopUpCafe">
     <v-img
       class="align-end text-white"
       max-height="500"
-      src="@/assets/logo/eddi.png"
-      @click="goToCafe">
+      :src="require('../../../public/assets/cafe/uploadImgs/t20230503170137.jpg')"
+      @click="goPopUpCafe">
       <v-btn primary
       style="display : none;"
-      @click.stop="goToCafe">open</v-btn>
+      @click.stop="goPopUpCafe">open</v-btn>
       <!-- v-img는 클릭가능영역이 없으므로 btn을 만들어서 넘기기 -->
     </v-img>
     </div>
-    <v-card-title>
-      카페명
+    <v-card-title class="MBC-Font">
+      스타벅스 강남GT타워점
     </v-card-title>
-    <v-card-subtitle class="pt-4">
-      주소
+    <v-card-subtitle class="pt-4" style="max-height: 600px; overflow-y: auto;">
+      서울 강남구 강남대로 390
     </v-card-subtitle>
     <v-card-text>
       <!-- <div>로 내용 본문 내용 추가 -->
-      <div> card-text 본문자리 -> 길어지면 스크롤 될 수 있도록 자동 설정
+      <div> 1.주차가능<br>
+         2.주차장위치-지하주차장<br>
+          3.주차가능대수-100대이상<br>
+           4.주차조건-1시간 무료<br>
+            5.주차정산방법-파트너에게 요청
       </div>
     </v-card-text>
 
     <v-card-actions>
       <v-btn
-        class="mb-1 me-0 brown darken-2 white--text"
+        class="MBC-Font mb-1 me-0 brown darken-2 white--text"
         @click="hideDialog">
         오늘 하루 보지않기
       </v-btn>
@@ -71,8 +77,14 @@ export default {
       this.dialogVisible = false;
       // 하루간 보지 않기 클릭시 작동 할 메서드
      },
-     async goToCafe () {
-      await this.$router.push({name: "QuestionBoardListPage" })
+     async goPopUpCafe () {
+        await this.$router.push({
+          name: "CafeIntroBoardDetailPage",
+          params: {
+            cafeId: '1'
+            //정적 페이지 이므로 직접 1번으로 이동시킴
+    }
+      })
       // 상품 혹은 카페 예약 페이지로 이동하도록 하면 됨
      },
 
@@ -89,3 +101,10 @@ export default {
   }
 }
 </script>
+<style scope>
+.toolbar-title {
+  color:aliceblue;
+  justify-content: center;
+  margin-top: 2px;
+}
+</style>
