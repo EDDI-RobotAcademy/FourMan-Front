@@ -25,7 +25,7 @@
 <script>
 
 import QuestionBoardListForm from '@/components/questionBoard/QuestionBoardListForm.vue';
-import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
+// import SearchBarForm from '@/components/searchBoard/SearchBarForm.vue'
 // import QuestionBoardSearchResultForm from '@/components/questionBoard/QuestionBoardSearchResultForm.vue'
 import { mapActions, mapState } from 'vuex'
 const questionBoardModule= 'questionBoardModule'
@@ -39,7 +39,7 @@ export default {
     },
     components : {
       QuestionBoardListForm,
-      SearchBarForm,
+      // SearchBarForm,
       // QuestionBoardSearchResultForm,
      },
 

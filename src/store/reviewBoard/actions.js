@@ -20,7 +20,7 @@ export default {
             }
             )
             .then(() => {
-                alert('상품 등록 성공!')
+                alert('리뷰 등록 성공!')
             })
             .catch(() => {
                 alert('문제 발생!')
