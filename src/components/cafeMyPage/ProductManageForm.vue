@@ -156,7 +156,7 @@ export default {
          if (confirm("정말 삭제 하시겠습니까?")) {
             let productId = product.productId
             await this.requestDeleteProductToSpring(productId)
-            
+
             // 새로고침
             this.$router.go()
          } else {
