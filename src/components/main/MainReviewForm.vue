@@ -10,7 +10,6 @@
         </router-link>
       </div>
       <div
-        class="EULJIRO mt-5 mb-5"
         style="
           height: 250px;
           display: flex;
