@@ -1,7 +1,7 @@
 <template>
   <nav>
     <v-app-bar
-      color="brown lighten-1"
+      color="#FFFDF3"
       height="80"
       class="d-flex justify-space-around align-center"
       dark
@@ -16,39 +16,39 @@
         />
       </router-link>
       <router-link to="/" style="text-decoration: none">
-        <v-toolbar-title class="text--darken-4 white--text ml-3 mr-15">
-          <span>FOURMAN</span>
+        <v-toolbar-title class="text--darken-4 black--text ml-3 mr-15">
+          <span class="MBC-Font" style="font-size: 21px;">FOURMAN</span>
         </v-toolbar-title>
       </router-link>
 
       <router-link to="/site-introduce-page" style="text-decoration: none">
         <span class="text-center">
-          <v-btn text color="white" dark> 사이트 소개 </v-btn>
+          <v-btn text color="black" dark class="MBC-Font" style="font-size: 18px;"> 사이트 소개 </v-btn>
         </span>
       </router-link>
 
       <router-link to="/cafe-board-list-page" style="text-decoration: none">
         <span class="">
-          <v-btn text color="white" dark> 카페 소개/예약/주문</v-btn>
+          <v-btn text color="black" dark class="MBC-Font" style="font-size: 18px;"> 카페 소개/예약/주문</v-btn>
         </span>
       </router-link>
 
       <router-link to="/event-board-list-page" style="text-decoration: none">
         <span class="">
-          <v-btn text color="white" dark> 이벤트 </v-btn>
+          <v-btn text color="black" dark class="MBC-Font" style="font-size: 18px;"> 이벤트 </v-btn>
         </span>
       </router-link>
 
       <v-menu open-on-hover offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn text color="white" dark v-on="on">커뮤니티</v-btn>
+          <v-btn text color="black" class="MBC-Font" style="font-size: 18px;" dark v-on="on">커뮤니티</v-btn>
         </template>
-        <v-list color="brown lighten-1">
+        <v-list color="#ECECE9">
           <v-list-item
             v-for="(item, index) in comunityList"
             :key="index"
             @click="selectItem(item)"
-            class="white--text"
+            class="MBC-Font" style="font-size: 18px;"
           >
             <v-list-item-title>{{ item }}</v-list-item-title>
           </v-list-item>
@@ -57,14 +57,14 @@
 
       <v-menu open-on-hover offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn text color="white" dark v-on="on">고객센터</v-btn>
+          <v-btn text color="black" class="MBC-Font" style="font-size: 18px;" dark v-on="on">고객센터</v-btn>
         </template>
-        <v-list color="brown lighten-1">
+        <v-list color="#ECECE9">
           <v-list-item
             v-for="(item, index) in serviceCenterList"
             :key="index"
             @click="selectItem(item)"
-            class="white--text"
+            class="MBC-Font" style="font-size: 18px;"
           >
             <v-list-item-title>{{ item }}</v-list-item-title>
           </v-list-item>
@@ -74,14 +74,14 @@
       <!-- 로그인 안되어있을경우 -->
       <span class="ml-15">
         <router-link v-if="isAuthenticated == false" to="/sign-up-choice">
-          <v-btn text color="white">
-            <span>회원가입</span>
+          <v-btn text color="black">
+            <span class="MBC-Font" style="font-size: 15px;">회원가입</span>
             <v-icon right>mdi-account-plus-outline</v-icon>
           </v-btn>
         </router-link>
         <router-link v-else to="/member-my-page">
-          <v-btn text color="white">
-            <span>마이 페이지</span>
+          <v-btn text color="black">
+            <span class="MBC-Font" style="font-size: 15px;">마이 페이지</span>
             <!-- 아이콘 수정 필요  -->
           </v-btn>
         </router-link>
@@ -89,13 +89,13 @@
 
       <span>
         <router-link v-if="isAuthenticated == false" to="/sign-in">
-          <v-btn text color="white">
-            <span>로그인</span>
+          <v-btn text color="black">
+            <span class="MBC-Font" style="font-size: 15px;">로그인</span>
             <v-icon right>mdi-login</v-icon>
           </v-btn>
         </router-link>
-        <v-btn v-else text color="white" v-on:click="logout">
-          <span>로그아웃</span>
+        <v-btn v-else text color="black" v-on:click="logout">
+          <span class="MBC-Font" style="font-size: 15px;">로그아웃</span>
           <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
       </span>
@@ -184,5 +184,6 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
+
 </style>

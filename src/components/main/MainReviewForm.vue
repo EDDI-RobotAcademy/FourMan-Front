@@ -6,11 +6,10 @@
           to="/review-board-list-page"
           style="text-decoration: none; color: inherit"
         >
-          <h2 class="NanumGothic">실시간 리뷰 <v-icon>mdi-camera</v-icon></h2>
+          <h2 class="MBC-Font">실시간 리뷰 <v-icon>mdi-camera</v-icon></h2>
         </router-link>
       </div>
       <div
-        class="EULJIRO mt-5 mb-5"
         style="
           height: 250px;
           display: flex;
@@ -74,7 +73,7 @@
     </v-container>
   </div>
 </template>
-  
+
   <script>
 import { mapActions, mapState } from "vuex";
 const reviewBoardModule = "reviewBoardModule";
@@ -96,6 +95,6 @@ export default {
   },
 };
 </script>
-  
+
 <style>
 </style>
