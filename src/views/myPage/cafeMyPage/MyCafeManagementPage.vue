@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import MyCafeManagementForm from "@/components/cafeMyPage/MyCafeManagementForm.vue";
-import MyPageSideBarForm from "@/components/memberMyPage/MyPageSideBarForm.vue";
+import MyCafeManagementForm from "@/components/myPage/cafeMyPage/MyCafeManagementForm.vue";
+import MyPageSideBarForm from "@/components/myPage/MyPageSideBarForm.vue";
 import CafeIntroBoardDetailForm from "@/components/cafeIntroduceBoard/CafeIntroBoardDetailForm.vue";
 
 import { mapActions, mapState } from "vuex";

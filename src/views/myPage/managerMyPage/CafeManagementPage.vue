@@ -1,37 +1,37 @@
 <template>
     <div class="d-flex">
     <my-page-side-bar-form />
-    
+
     <v-container style="width: 1000px">
-        <member-management-form :memberInfoList="memberInfoList" />
+        <cafe-management-form :cafeInfoList="cafeInfoList" />
     </v-container>
 </div>
 </template>
 
 <script>
-import MemberManagementForm from '@/components/managerMyPage/MemberManagementForm.vue'
-import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+import CafeManagementForm from '@/components/myPage/managerMyPage/CafeManagementForm.vue'
+import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
 
 import { mapActions, mapState } from 'vuex'
 const myPageModule= 'myPageModule'
 
 export default {
-    name: "MemberManagementPage",
+    name: "CafeManagementPage",
     components: {
-        MemberManagementForm,
+        CafeManagementForm,
         MyPageSideBarForm
     },
     computed: {
         ...mapState(myPageModule,[
-            'memberInfoList',
+            'cafeInfoList',
         ]),
     },
     created () {
-        this.requestMemberInfoListToSpring()
+        this.requestCafeInfoListToSpring()
     },
     methods: {
         ...mapActions(myPageModule,[
-            'requestMemberInfoListToSpring'
+            'requestCafeInfoListToSpring'
         ]),
     }
 }

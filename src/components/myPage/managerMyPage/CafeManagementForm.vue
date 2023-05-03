@@ -103,13 +103,13 @@
         </div>
         <CafeIntroBoardCardForm/>
     </div>
-    
-    
+
+
 </template>
 
 <script>
 import { Chart } from 'chart.js/auto';
-import CafeIntroBoardCardForm from "@/components/managerMyPage/CafeCodeRegisterForm.vue";
+import CafeIntroBoardCardForm from "@/components/myPage/managerMyPage/CafeCodeRegisterForm.vue";
 
 export default {
     name: 'CafeManagementForm',
@@ -141,7 +141,7 @@ export default {
         this.totalSales = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthTotalSales, 0);
         this.totalOrderCount = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthOrderCount, 0);
         this.totalReservationCount = this.cafeInfoList.reduce((acc, cafe) => acc + cafe.monthReservationCount, 0);
-        
+
         const ctx = this.$refs.myChart.getContext('2d');
         new Chart(ctx, {
           type: 'bar',
@@ -192,7 +192,7 @@ body {
     padding:1.5em;
     background: #f5f5f5
   }
-  
+
   table {
     border: 1px #a39485 solid;
     font-size: .9em;
@@ -202,69 +202,69 @@ body {
     border-radius: 5px;
     overflow: hidden;
   }
-  
+
   th {
     text-align: left;
   }
-    
+
   thead {
     font-weight: bold;
     color: #fff;
     background: #73685d;
   }
-    
+
    td, th {
     padding: 1em .5em;
     vertical-align: middle;
   }
-    
+
    td {
     border-bottom: 1px solid rgba(0,0,0,.1);
     background: #fff;
   }
-  
+
   a {
     color: #73685d;
   }
-    
+
    @media all and (max-width: 768px) {
-      
+
     table, thead, tbody, th, td, tr {
       display: block;
     }
-    
+
     th {
       text-align: right;
     }
-    
+
     table {
-      position: relative; 
+      position: relative;
       padding-bottom: 0;
       border: none;
       box-shadow: 0 0 10px rgba(0,0,0,.2);
     }
-    
+
     thead {
       float: left;
       white-space: nowrap;
     }
-    
+
     tbody {
       overflow-x: auto;
       overflow-y: hidden;
       position: relative;
       white-space: nowrap;
     }
-    
+
     tr {
       display: inline-block;
       vertical-align: top;
     }
-    
+
     th {
       border-bottom: 1px solid #a39485;
     }
-    
+
     td {
       border-bottom: 1px solid #e5e5e5;
     }

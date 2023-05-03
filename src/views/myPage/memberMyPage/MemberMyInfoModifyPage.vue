@@ -1,19 +1,19 @@
 <template>
     <div class="d-flex">
        <my-page-side-bar-form />
-       
+
        <v-container style="width: 1000px">
           <member-my-info-modify-form v-if="myInfo" :myInfo="myInfo" @submit="onSubmit"/>
        </v-container>
     </div>
  </template>
- 
+
  <script>
- import MemberMyInfoModifyForm from '@/components/memberMyPage/MemberMyInfoModifyForm.vue'
- import MyPageSideBarForm from '@/components/memberMyPage/MyPageSideBarForm.vue'
+ import MemberMyInfoModifyForm from '@/components/myPage/memberMyPage/MemberMyInfoModifyForm.vue'
+ import MyPageSideBarForm from '@/components/myPage/MyPageSideBarForm.vue'
  import { mapActions, mapState } from 'vuex'
  const myPageModule= 'myPageModule'
- 
+
  export default {
     name: "MemberMyInfoModifyPage",
     components: {
@@ -45,7 +45,7 @@
    }
  }
  </script>
- 
+
  <style>
- 
+
  </style>
