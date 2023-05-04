@@ -29,7 +29,10 @@
                   <v-avatar
                       :size="120"
                       color="grey lighten-4">
-                    <v-img v-if="this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" :src="require(`@/assets/myPage/${ this.myInfoSideBar.profileImage }`)"/>
+                    <!-- AWS s3 사용을 위한 주석 처리 -->
+                    <!-- <v-img v-if="this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" :src="require(`@/assets/myPage/${ this.myInfoSideBar.profileImage }`)"/> -->
+                    <v-img v-if="this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${ this.myInfoSideBar.profileImage }`"/>
+
                     <v-img v-else :src="require(`@/assets/myPage/defaultProfileImage.png`)"/>
                   </v-avatar>
                 </div>
@@ -44,7 +47,10 @@
                 <v-card-text>
                   <div align="center" class="mt-10">
                     <!-- 기존 이미지 -->
-                    <v-img v-if="imageFile == null && this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" class="imagePreview" :src="require(`@/assets/myPage/${ this.myInfoSideBar.profileImage }`)" max-width="120px" max-height="120px" />
+                    <!-- AWS s3 사용을 위한 주석 처리 -->
+                    <!-- <v-img v-if="imageFile == null && this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" class="imagePreview" :src="require(`@/assets/myPage/${ this.myInfoSideBar.profileImage }`)" max-width="120px" max-height="120px" /> -->
+                    <v-img v-if="imageFile == null && this.myInfoSideBar.profileImage && this.myInfoSideBar.profileImage !== 'defaultProfileImage.png'" class="imagePreview" :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${ this.myInfoSideBar.profileImage }`" max-width="120px" max-height="120px" />
+
                     <v-img v-else-if="this.myInfoSideBar.profileImage == 'defaultProfileImage.png' && imageFile == null" :src="require(`@/assets/myPage/defaultProfileImage.png`)" class="imagePreview" max-width="120px" max-height="120px"/>
 
                     <!-- 이미지 변경 있을 시 -->
@@ -113,7 +119,9 @@
 </template>
 
 <script>
+import AWS from 'aws-sdk'
 import { mapState, mapActions } from "vuex";
+import { v4 as uuidv4 } from 'uuid'
 
 const myPageModule = 'myPageModule'
 
@@ -129,6 +137,10 @@ export default {
       search: "",
       preview: '',
       imageFile: null,
+      awsBucketName: 'vue-s3-test-fourman',
+      awsBucketRegion: 'ap-northeast-2',
+      awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+      s3: null,
       menusForMember: [
          {
             title: "내 정보",
@@ -224,17 +236,32 @@ export default {
     filterMenus() {
       return this.menus.filter(menu => menu.title.toLowerCase().includes(this.search.toLowerCase()));
     },
+    // * AWS s3 사용을 위한 주석
+    // async changeProfileImage() {
+    //   let memberId = JSON.parse(localStorage.getItem('userInfo')).id
+
+    //   const formData = new FormData();
+    //   formData.append('imageFile', this.imageFile);
+
+    //   console.log(this.imageFile)
+    //   await this.requestModifyProfileImageToSpring({memberId, formData})
+
+    //   this.$router.go()
+    // },
+
     async changeProfileImage() {
       let memberId = JSON.parse(localStorage.getItem('userInfo')).id
 
-      const formData = new FormData();
-      formData.append('imageFile', this.imageFile);
+      const imageFileName = await this.uploadAwsS3(this.imageFile);
 
-      console.log(this.imageFile)
+      const formData = new FormData();
+      formData.append('imageFileName', imageFileName);
+
       await this.requestModifyProfileImageToSpring({memberId, formData})
 
       this.$router.go()
     },
+
     previewFile(file) {
       if (!file) {
         this.preview = ""
@@ -250,6 +277,42 @@ export default {
         fileData(reader.result)
       }, false)
     },
+    awsS3Config () {
+      AWS.config.update({
+          region: this.awsBucketRegion,
+          credentials: new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: this.awsIdentityPoolId
+          })
+      })
+
+      this.s3 = new AWS.S3({
+          apiVersion: '2006-03-01',
+          params: {
+              Bucket: this.awsBucketName
+          }
+      })
+    },
+    async uploadAwsS3(file) {
+      this.awsS3Config()
+
+      const fileExtension = file.name.split('.').pop()
+      const fileName = `profileImage/${uuidv4()}.${fileExtension}`
+
+      return new Promise((resolve, reject) => {
+          this.s3.upload({
+              Key: fileName,
+              Body: file,
+              ACL: 'public-read',
+          }, (err, data) => {
+              if (err) {
+                  console.log(err)
+                  reject(err.message)
+              } else {
+                  resolve(fileName)
+              }
+          })
+      })
+  },
   },
   computed: {
     ...mapState(
