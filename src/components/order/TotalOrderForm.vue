@@ -312,6 +312,8 @@ export default {
         var vm = this;
         var IMP = window.IMP; 
 
+        let totalPrice = this.totalOrderPrice - this.usePoint
+
         IMP.init("imp60856856");
 
         // 결제창 호출 코드
@@ -320,7 +322,7 @@ export default {
           pay_method : 'card',
           merchant_uid : 'merchant_' + new Date().getTime(),
           name : '결제',
-          amount : this.totalOrderPrice,
+          amount : totalPrice,
           buyer_email : '구매자 이메일',
           buyer_name : '구매자 이름',
           buyer_tel : '구매자 번호',
