@@ -39,8 +39,8 @@
                <tr v-else v-for="(product,index) in calData" :key="index">
                   <td>
                      <!-- AWS s3 사용을 위한 주석 -->
-                     <v-img :src="require(`@/assets/product/uploadImgs/${product.imageResourceList[0].imageResourcePath}`)" width="50px" height="80px">
-                     <!-- <v-img :src="`https://s3-test-3737.s3.ap-northeast-2.amazonaws.com/${product.imageResourceList[0].imageResourcePath}`" width="50px" height="80px"> -->
+                     <!-- <v-img :src="require(`@/assets/product/uploadImgs/${product.imageResourceList[0].imageResourcePath}`)" width="50px" height="80px"> -->
+                     <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${product.imageResourceList[0].imageResourcePath}`" width="50px" height="80px">
                         <template v-slot:placeholder>
                            <div class="fill-height ma-0" align="center" justify="center">
                               <v-progress-circular indeterminate color="grey lighten-5"/>

@@ -29,10 +29,13 @@
         <textarea v-model="content" style="display: none;"/>
       </div>
     </form>
-  </template>
+</template>
   
-  <script>
+<script>
+import AWS from 'aws-sdk'
 import { mapActions } from 'vuex'
+import { v4 as uuidv4 } from 'uuid'
+
 const reviewBoardModule= 'reviewBoardModule'
 
 import Editor from '@toast-ui/editor';
@@ -53,6 +56,10 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         memberId: JSON.parse(localStorage.getItem('userInfo')).id,
         rating: 3,
         cafeList: [],
+        awsBucketName: 'vue-s3-test-fourman',
+        awsBucketRegion: 'ap-northeast-2',
+        awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+        s3: null,
       };
     },
     props: {
@@ -68,7 +75,53 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         // handleFileUpload () {
         //       this.files = this.$refs.files.files
         // },
-        onSubmit () {
+
+        // AWS s3 사용을 위한 주석 처리
+        // onSubmit () {
+        //   let formData = new FormData()
+        //   let reviewBoardInfo = {
+        //     cafeName: this.cafeName,
+        //     title: this.title,
+        //     writer: this.writer,
+        //     content: this.content,
+        //     rating: this.rating,
+        //     memberId: this.memberId,
+        // }
+        // const editor = document.getElementById('editor'); // HTML 요소 가져오기
+        // const html = editor.innerHTML;
+
+        // const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
+        // const matches = html.match(regex);
+
+        // if(matches != null) {
+        //   matches.forEach((match, index) => {
+        //     const base64Data = match.split(',')[1]; // Base64 문자열 추출
+        //     const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
+        //     const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
+        //     formData.append('fileList', file); // Form 데이터에 File 객체 추가
+        //   });
+        // }
+
+        // // // 사진
+        // // for (let idx = 0; idx < this.files.length; idx++) {
+        // //   formData.append('fileList', this.files[idx])
+        // // }
+        // // 글자
+        // formData.append(
+        //   "reviewBoardInfo",
+        //   new Blob([JSON.stringify(reviewBoardInfo)], { type: "application/json" })
+        // )
+        
+        // this.$emit('submit', formData)
+        // },
+        // async requestCafeList() {
+        //   const cafeList = await this.requestCafeListToSpring()
+        //   console.log(cafeList)
+
+        //   this.cafeList = cafeList
+        // },
+
+        async onSubmit () {
           let formData = new FormData()
           let reviewBoardInfo = {
             cafeName: this.cafeName,
@@ -77,29 +130,36 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
             content: this.content,
             rating: this.rating,
             memberId: this.memberId,
-        }
-        const editor = document.getElementById('editor'); // HTML 요소 가져오기
-        const html = editor.innerHTML;
+          }
+          const editor = document.getElementById('editor'); // HTML 요소 가져오기
+          const html = editor.innerHTML;
 
-        const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
-        const matches = html.match(regex);
+          const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
+          const matches = html.match(regex);
 
-        if(matches != null) {
-          matches.forEach((match, index) => {
-            const base64Data = match.split(',')[1]; // Base64 문자열 추출
-            const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
-            const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
-            formData.append('fileList', file); // Form 데이터에 File 객체 추가
-          });
-        }
-        
-        
+          const uploadedFileNames = [];
 
-        // // 사진
-        // for (let idx = 0; idx < this.files.length; idx++) {
-        //   formData.append('fileList', this.files[idx])
-        // }
-        // 글자
+          if (matches != null) {
+            for (const match of matches) {
+              const base64Data = match.split(",")[1]; // Base64 문자열 추출
+              const blob = new Blob(
+                [Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0))],
+                { type: "image/png" }
+              ); // Blob 생성
+              const file = new File([blob], `image_${uploadedFileNames.length}.png`, {
+                type: "image/png",
+              }); // File 객체 생성
+
+              const uploadedFileName = await this.uploadAwsS3(file);
+              uploadedFileNames.push(uploadedFileName);
+            }
+          }
+
+        formData.append(
+          "ImageFileNameList",
+          new Blob([JSON.stringify(uploadedFileNames)], { type: "application/json" })
+        )
+
         formData.append(
           "reviewBoardInfo",
           new Blob([JSON.stringify(reviewBoardInfo)], { type: "application/json" })
@@ -107,12 +167,49 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         
         this.$emit('submit', formData)
         },
+
         async requestCafeList() {
           const cafeList = await this.requestCafeListToSpring()
           console.log(cafeList)
 
           this.cafeList = cafeList
         },
+        awsS3Config () {
+          AWS.config.update({
+              region: this.awsBucketRegion,
+              credentials: new AWS.CognitoIdentityCredentials({
+                  IdentityPoolId: this.awsIdentityPoolId
+              })
+          })
+
+          this.s3 = new AWS.S3({
+              apiVersion: '2006-03-01',
+              params: {
+                  Bucket: this.awsBucketName
+              }
+          })
+        },
+        async uploadAwsS3(file) {
+          this.awsS3Config()
+
+          const fileExtension = file.name.split('.').pop()
+          const fileName = `reviewBoard/${uuidv4()}.${fileExtension}`
+
+          return new Promise((resolve, reject) => {
+              this.s3.upload({
+                  Key: fileName,
+                  Body: file,
+                  ACL: 'public-read',
+              }, (err, data) => {
+                  if (err) {
+                      console.log(err)
+                      reject(err.message)
+                  } else {
+                      resolve(fileName)
+                  }
+              })
+          })
+        }
     },
     created() {
       this.requestCafeList()
@@ -133,9 +230,9 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         this.content = this.editor.getMarkdown();
       });
       console.log(this.reviewCafeName)
-    }
-  };
-  </script>
+    },
+  }
+</script>
   
-  <style>
-  </style>
+<style>
+</style>

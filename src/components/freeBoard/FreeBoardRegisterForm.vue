@@ -13,9 +13,11 @@
         <textarea v-model="content" style="display: none;"/>
       </div>
     </form>
-  </template>
+</template>
   
-  <script>
+<script>
+import AWS from 'aws-sdk'
+import { v4 as uuidv4 } from 'uuid'
 
 import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
@@ -32,10 +34,45 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
               content: '',
               memberId: JSON.parse(localStorage.getItem('userInfo')).id,
               editor: null,
+              awsBucketName: 'vue-s3-test-fourman',
+              awsBucketRegion: 'ap-northeast-2',
+              awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+              s3: null,
           }
       },
       methods: {
-          onSubmit () {
+          // AWS s3 사용을 위한 주석 처리  
+          // onSubmit () {
+          //   let formData = new FormData()
+          //   let freeBoardInfo = {
+          //       title: this.title,
+          //       writer: this.writer,
+          //       content: this.content,
+          //       memberId: this.memberId,
+          //   }
+
+          //   const editor = document.getElementById('editor'); // HTML 요소 가져오기
+          //   const html = editor.innerHTML;
+
+          //   const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
+          //   const matches = html.match(regex);
+
+          //   if(matches != null) {
+          //     matches.forEach((match, index) => {
+          //       const base64Data = match.split(',')[1]; // Base64 문자열 추출
+          //       const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
+          //       const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
+          //       formData.append('fileList', file); // Form 데이터에 File 객체 추가
+          //     });
+          //   }
+          //   formData.append(
+          //     "freeBoardInfo",
+          //     new Blob([JSON.stringify(freeBoardInfo)], { type: "application/json" })
+          //   )
+            
+          //   this.$emit('submit', formData)
+          // },
+          async onSubmit () {
             let formData = new FormData()
             let freeBoardInfo = {
                 title: this.title,
@@ -50,21 +87,68 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
             const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
             const matches = html.match(regex);
 
+            const uploadedFileNames = [];
+
             if(matches != null) {
-              matches.forEach((match, index) => {
+              for (const match of matches) {
                 const base64Data = match.split(',')[1]; // Base64 문자열 추출
                 const blob = new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: 'image/png' }); // Blob 생성
-                const file = new File([blob], `image_${index}.png`, { type: 'image/png' }); // File 객체 생성
-                formData.append('fileList', file); // Form 데이터에 File 객체 추가
-              });
+                const file = new File([blob], `image_${uploadedFileNames.length}.png`, {type: "image/png",}); // File 객체 생성
+
+                const uploadedFileName = await this.uploadAwsS3(file);
+                uploadedFileNames.push(uploadedFileName);
+              }
             }
+
+            formData.append(
+              "ImageFileNameList",
+              new Blob([JSON.stringify(uploadedFileNames)], { type: "application/json" })
+            )
+
             formData.append(
               "freeBoardInfo",
               new Blob([JSON.stringify(freeBoardInfo)], { type: "application/json" })
             )
             
             this.$emit('submit', formData)
+          },
+            awsS3Config () {
+              AWS.config.update({
+                  region: this.awsBucketRegion,
+                  credentials: new AWS.CognitoIdentityCredentials({
+                      IdentityPoolId: this.awsIdentityPoolId
+                  })
+              })
+
+              this.s3 = new AWS.S3({
+                  apiVersion: '2006-03-01',
+                  params: {
+                      Bucket: this.awsBucketName
+                  }
+              })
             },
+            async uploadAwsS3(file) {
+              this.awsS3Config()
+
+              const fileExtension = file.name.split('.').pop()
+              const fileName = `freeBoard/${uuidv4()}.${fileExtension}`
+
+              return new Promise((resolve, reject) => {
+                  this.s3.upload({
+                      Key: fileName,
+                      Body: file,
+                      ACL: 'public-read',
+                  }, (err, data) => {
+                      if (err) {
+                          console.log(err)
+                          reject(err.message)
+                      } else {
+                          resolve(fileName)
+                      }
+                  })
+              })
+            },
+
       },
       mounted() {
         this.editor = new Editor({
@@ -80,7 +164,7 @@ import '@toast-ui/editor/dist/toastui-editor.css'; // Editor's Style
         });
       }
   }
-  </script>
-  
-  <style>
-  </style>
+</script>
+
+<style>
+</style>

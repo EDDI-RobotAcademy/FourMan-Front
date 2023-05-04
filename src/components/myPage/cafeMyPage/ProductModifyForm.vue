@@ -6,9 +6,9 @@
         <v-form>
           <div align="center">
             <!-- AWS s3 설정을 위한 주석 처리 -->
-            <v-img v-if="file == null" class="imagePreview" :src="require(`@/assets/product/uploadImgs/${editedProduct.imageResourceList[0].imageResourcePath}`)" max-width="90px" max-height="120px" />
+            <!-- <v-img v-if="file == null" class="imagePreview" :src="require(`@/assets/product/uploadImgs/${editedProduct.imageResourceList[0].imageResourcePath}`)" max-width="90px" max-height="120px" /> -->
 
-            <!-- <v-img v-if="file == null" :src="`https://s3-test-3737.s3.ap-northeast-2.amazonaws.com/${editedProduct.imageResourceList[0].imageResourcePath}`" width="90px" height="120px" /> -->
+            <v-img v-if="file == null" :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${editedProduct.imageResourceList[0].imageResourcePath}`" width="90px" height="120px" />
             <!-- 이미지 변경 있을 시 -->
             <v-img else class="imagePreview" :src="preview" max-width="90px" max-height="120px" />
           </div>
@@ -70,87 +70,87 @@ export default {
       ['requestEditProductWithoutImageToSpring', 'requestEditProductWithImageToSpring'],
     ),
     // * AWS s3 사용을 위한 주석 처리
-    async save() {
-      
-      let formData = new FormData()
-
-      const { productId, productName, price, drinkType } = this.editedProduct
-
-      let editedProductInfo = {
-            productId: productId,
-            productName: productName,
-            price: price,
-            drinkType: drinkType,
-      }
-
-      formData.append(
-            "editedProductInfo",
-            new Blob([JSON.stringify(editedProductInfo)], { type: "application/json" })
-      )
-
-      if(this.file == null) {
-        await this.requestEditProductWithoutImageToSpring(formData)
-        this.$router.push({
-              name: "ProductManagePage"
-        })
-      } else {
-        formData.append('editedProductImage', this.file)
-        await this.requestEditProductWithImageToSpring(formData)
-        this.$router.push({
-               name: "ProductManagePage"
-         })
-      }
-    },
-
     // async save() {
       
     //   let formData = new FormData()
 
     //   const { productId, productName, price, drinkType } = this.editedProduct
 
-    //   if(this.file == null) {
-    //     let editedProductInfo = {
-    //       productId: productId,
-    //       productName: productName,
-    //       price: price,
-    //       drinkType: drinkType,
-    //       editedProductImageName: null
-    //     }
-
-    //     formData.append(
-    //       "editedProductInfo",
-    //           new Blob([JSON.stringify(editedProductInfo)], { type: "application/json" })
-    //     )
-
-    //     await this.requestEditProductWithoutImageToSpring(formData)
-        
-    //   } else {
-    //     // s3 에 존재하던 기존 사진 삭제
-    //     await this.deleteImageFromS3(this.editedProduct.imageResourceList[0].imageResourcePath);
-
-    //     // 바꾸려는 새로운 사진 저장
-    //     const fileName = await this.uploadAwsS3(this.file)
-
-    //     let editedProductInfo = {
-    //       productId: productId,
-    //       productName: productName,
-    //       price: price,
-    //       drinkType: drinkType,
-    //       editedProductImageName: fileName
-    //     }
-
-    //     formData.append(
-    //     "editedProductInfo",
-    //         new Blob([JSON.stringify(editedProductInfo)], { type: "application/json" })
-    //     )
-
-    //     await this.requestEditProductWithImageToSpring(formData)
+    //   let editedProductInfo = {
+    //         productId: productId,
+    //         productName: productName,
+    //         price: price,
+    //         drinkType: drinkType,
     //   }
 
-    //   this.$router.push({
-    //     name: "ProductManagePage"
-    //   })
+    //   formData.append(
+    //         "editedProductInfo",
+    //         new Blob([JSON.stringify(editedProductInfo)], { type: "application/json" })
+    //   )
+
+    //   if(this.file == null) {
+    //     await this.requestEditProductWithoutImageToSpring(formData)
+    //     this.$router.push({
+    //           name: "ProductManagePage"
+    //     })
+    //   } else {
+    //     formData.append('editedProductImage', this.file)
+    //     await this.requestEditProductWithImageToSpring(formData)
+    //     this.$router.push({
+    //            name: "ProductManagePage"
+    //      })
+    //   }
     // },
+
+    async save() {
+      
+      let formData = new FormData()
+
+      const { productId, productName, price, drinkType } = this.editedProduct
+
+      if(this.file == null) {
+        let editedProductInfo = {
+          productId: productId,
+          productName: productName,
+          price: price,
+          drinkType: drinkType,
+          editedProductImageName: null
+        }
+
+        formData.append(
+          "editedProductInfo",
+              new Blob([JSON.stringify(editedProductInfo)], { type: "application/json" })
+        )
+
+        await this.requestEditProductWithoutImageToSpring(formData)
+        
+      } else {
+        // s3 에 존재하던 기존 사진 삭제
+        await this.deleteImageFromS3(this.editedProduct.imageResourceList[0].imageResourcePath);
+
+        // 바꾸려는 새로운 사진 저장
+        const fileName = await this.uploadAwsS3(this.file)
+
+        let editedProductInfo = {
+          productId: productId,
+          productName: productName,
+          price: price,
+          drinkType: drinkType,
+          editedProductImageName: fileName
+        }
+
+        formData.append(
+        "editedProductInfo",
+            new Blob([JSON.stringify(editedProductInfo)], { type: "application/json" })
+        )
+
+        await this.requestEditProductWithImageToSpring(formData)
+      }
+
+      this.$router.push({
+        name: "ProductManagePage"
+      })
+    },
     cancel() {
       this.$router.push({
                name: "ProductManagePage",
@@ -175,62 +175,62 @@ export default {
           this.editedProduct.drinkType = drinkType
     },
 
-    // awsS3Config () {
-    //      AWS.config.update({
-    //            region: this.awsBucketRegion,
-    //            credentials: new AWS.CognitoIdentityCredentials({
-    //               IdentityPoolId: this.awsIdentityPoolId
-    //            })
-    //      })
+    awsS3Config () {
+         AWS.config.update({
+               region: this.awsBucketRegion,
+               credentials: new AWS.CognitoIdentityCredentials({
+                  IdentityPoolId: this.awsIdentityPoolId
+               })
+         })
 
-    //      this.s3 = new AWS.S3({
-    //            apiVersion: '2006-03-01',
-    //            params: {
-    //               Bucket: this.awsBucketName
-    //            }
-    //      })
-    // },
-    // async uploadAwsS3(file) {
-    //       this.awsS3Config()
+         this.s3 = new AWS.S3({
+               apiVersion: '2006-03-01',
+               params: {
+                  Bucket: this.awsBucketName
+               }
+         })
+    },
+    async uploadAwsS3(file) {
+          this.awsS3Config()
 
-    //       const fileExtension = file.name.split('.').pop()
-    //       const fileName = `${uuidv4()}.${fileExtension}`
+          const fileExtension = file.name.split('.').pop()
+          const fileName = `${uuidv4()}.${fileExtension}`
 
-    //       return new Promise((resolve, reject) => {
-    //           this.s3.upload({
-    //               Key: fileName,
-    //               Body: file,
-    //               ACL: 'public-read',
-    //           }, (err, data) => {
-    //               if (err) {
-    //                   console.log(err)
-    //                   reject(err.message)
-    //               } else {
-    //                   resolve(fileName)
-    //               }
-    //           })
-    //       })
-    // },
-    // async deleteImageFromS3(imagePath) {
-    //     try {
-    //       this.awsS3Config()
+          return new Promise((resolve, reject) => {
+              this.s3.upload({
+                  Key: fileName,
+                  Body: file,
+                  ACL: 'public-read',
+              }, (err, data) => {
+                  if (err) {
+                      console.log(err)
+                      reject(err.message)
+                  } else {
+                      resolve(fileName)
+                  }
+              })
+          })
+    },
+    async deleteImageFromS3(imagePath) {
+        try {
+          this.awsS3Config()
 
-    //       // 삭제할 객체의 키를 생성
-    //       const objectKey = imagePath;
+          // 삭제할 객체의 키를 생성
+          const objectKey = imagePath;
 
-    //       // 객체 삭제
-    //       const deleteParams = {
-    //       Bucket: this.awsBucketName,
-    //       Key: objectKey
-    //       };
+          // 객체 삭제
+          const deleteParams = {
+          Bucket: this.awsBucketName,
+          Key: objectKey
+          };
 
-    //       await this.s3.deleteObject(deleteParams).promise();
+          await this.s3.deleteObject(deleteParams).promise();
 
-    //       console.log("이미지가 S3에서 삭제되었습니다.");
-    //     } catch (error) {
-    //       console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
-    //     }
-    // },
+          console.log("이미지가 S3에서 삭제되었습니다.");
+        } catch (error) {
+          console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
+        }
+    },
   },
   mounted() {
     console.log('product: ' + JSON.stringify(this.modifyProduct))

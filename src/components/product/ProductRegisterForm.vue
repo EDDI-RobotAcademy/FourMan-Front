@@ -50,99 +50,53 @@ export default {
         }
     },
     methods: {
-        // awsS3Config () {
-        //   AWS.config.update({
-        //       region: this.awsBucketRegion,
-        //       credentials: new AWS.CognitoIdentityCredentials({
-        //           IdentityPoolId: this.awsIdentityPoolId
-        //       })
-        //   })
+        awsS3Config () {
+          AWS.config.update({
+              region: this.awsBucketRegion,
+              credentials: new AWS.CognitoIdentityCredentials({
+                  IdentityPoolId: this.awsIdentityPoolId
+              })
+          })
 
-        //   this.s3 = new AWS.S3({
-        //       apiVersion: '2006-03-01',
-        //       params: {
-        //           Bucket: this.awsBucketName
-        //       }
-        //   })
-        // },
-        // async uploadAwsS3(file) {
-        //     this.awsS3Config()
+          this.s3 = new AWS.S3({
+              apiVersion: '2006-03-01',
+              params: {
+                  Bucket: this.awsBucketName
+              }
+          })
+        },
+        async uploadAwsS3(file) {
+            this.awsS3Config()
 
-        //     const fileExtension = file.name.split('.').pop()
-        //     const fileName = `product/${uuidv4()}.${fileExtension}`
+            const fileExtension = file.name.split('.').pop()
+            const fileName = `product/${uuidv4()}.${fileExtension}`
 
-        //     return new Promise((resolve, reject) => {
-        //         this.s3.upload({
-        //             Key: fileName,
-        //             Body: file,
-        //             ACL: 'public-read',
-        //         }, (err, data) => {
-        //             if (err) {
-        //                 console.log(err)
-        //                 reject(err.message)
-        //             } else {
-        //                 resolve(fileName)
-        //             }
-        //         })
-        //     })
-        // },
+            return new Promise((resolve, reject) => {
+                this.s3.upload({
+                    Key: fileName,
+                    Body: file,
+                    ACL: 'public-read',
+                }, (err, data) => {
+                    if (err) {
+                        console.log(err)
+                        reject(err.message)
+                    } else {
+                        resolve(fileName)
+                    }
+                })
+            })
+        },
         
         // * AWS s3 사용을 위한 주석
-        onSubmit () {
-          if(this.drinkType.length == 0 || this.cafeId.length == 0 || this.price.length == 0 || this.productName.length == 0 || this.files.length == 0) {
-            alert('정보를 다 기입해주셔야 합니다!')
-          } else {
-            let formData = new FormData()
-  
-            for(let idx = 0; idx < this.files.length; idx++) {
-              formData.append('imageFileList', this.files[idx])
-            }
-  
-            const { cafeId, productName, price, drinkType } = this
-            
-            let productInfo = {
-              cafeId: cafeId,
-              productName: productName,
-              price: price,
-              drinkType: drinkType,
-            }
-  
-            console.log('productInfo: ' + JSON.stringify(productInfo))
-  
-            formData.append(
-              "productInfo",
-              new Blob([JSON.stringify(productInfo)], { type: "application/json" })
-            )
-  
-            console.log('formData: ' + JSON.stringify(formData))
-  
-            this.$emit('submit', formData)
-          }
-        },
-
-        // async onSubmit () {
+        // onSubmit () {
         //   if(this.drinkType.length == 0 || this.cafeId.length == 0 || this.price.length == 0 || this.productName.length == 0 || this.files.length == 0) {
         //     alert('정보를 다 기입해주셔야 합니다!')
         //   } else {
         //     let formData = new FormData()
-
-        //     const imageFileNameList = []
-
-        //     for (const file of this.files) {
-        //         try {
-        //             const fileName = await this.uploadAwsS3(file)
-        //             imageFileNameList.push(fileName)
-        //         } catch (error) {
-        //             alert('업로드 중 문제 발생 (사진 파일에 문제가 있음)', error)
-        //             return
-        //         }
+  
+        //     for(let idx = 0; idx < this.files.length; idx++) {
+        //       formData.append('imageFileList', this.files[idx])
         //     }
-
-        //     formData.append(
-        //       "imageFileNameList",
-        //       new Blob([JSON.stringify(imageFileNameList)], { type: "application/json" })
-        //     );
-
   
         //     const { cafeId, productName, price, drinkType } = this
             
@@ -165,6 +119,52 @@ export default {
         //     this.$emit('submit', formData)
         //   }
         // },
+
+        async onSubmit () {
+          if(this.drinkType.length == 0 || this.cafeId.length == 0 || this.price.length == 0 || this.productName.length == 0 || this.files.length == 0) {
+            alert('정보를 다 기입해주셔야 합니다!')
+          } else {
+            let formData = new FormData()
+
+            const imageFileNameList = []
+
+            for (const file of this.files) {
+                try {
+                    const fileName = await this.uploadAwsS3(file)
+                    imageFileNameList.push(fileName)
+                } catch (error) {
+                    alert('업로드 중 문제 발생 (사진 파일에 문제가 있음)', error)
+                    return
+                }
+            }
+
+            formData.append(
+              "imageFileNameList",
+              new Blob([JSON.stringify(imageFileNameList)], { type: "application/json" })
+            );
+
+  
+            const { cafeId, productName, price, drinkType } = this
+            
+            let productInfo = {
+              cafeId: cafeId,
+              productName: productName,
+              price: price,
+              drinkType: drinkType,
+            }
+  
+            console.log('productInfo: ' + JSON.stringify(productInfo))
+  
+            formData.append(
+              "productInfo",
+              new Blob([JSON.stringify(productInfo)], { type: "application/json" })
+            )
+  
+            console.log('formData: ' + JSON.stringify(formData))
+  
+            this.$emit('submit', formData)
+          }
+        },
         handleFileUpload() {
           this.files = this.$refs.files.files
         },
