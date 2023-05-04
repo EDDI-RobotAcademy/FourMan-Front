@@ -1,9 +1,9 @@
 <template>
   <div class="NanumGothic mt-16">
-    <div class="text-center mb-10" style="font-size: 35px; font-weight: bold">
+    <div class="NanumGothic text-center mb-10" style="font-size: 35px; font-weight: bold">
       FOUR MAN 소개
     </div>
-    <div class="text-center mb-6" style="font-size: 17px">
+    <div class="NanumGothic text-center mb-6" style="font-size: 17px">
       카페는 많고 다양한 사람들이 휴식 공간, 회의, 공부 등 다양한 목적으로
       이용하는 공간입니다.<br />
       이러한 카페는 막상 이용하고자 하는 시간에 사람들이 몰리거나 원하는 자리에

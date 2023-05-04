@@ -12,7 +12,7 @@
             <v-tab>최신 등록 순</v-tab>
             <v-tab>최다 주문 순</v-tab>
             <v-tab>별점 높은 순</v-tab>
-            <v-tab>별점 많은 순</v-tab>
+            <v-tab>후기 많은 순</v-tab>
             <v-tab>찜 많은 순</v-tab>
           </v-tabs>
         </v-col>
@@ -177,7 +177,7 @@ export default {
           console.log("별점높은순 정렬!!");
           return filteredBySearchText.sort((a, b) => b.avgRating - a.avgRating);
         case 3:
-          console.log("별점많은순 정렬!!");
+          console.log("후기많은순 정렬!!");
           return filteredBySearchText.sort(
             (a, b) => b.totalRating - a.totalRating
           );
