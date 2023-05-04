@@ -586,7 +586,7 @@ export default {
               }
             }
           } else {
-            //사진초기화
+            //사진 초기화누르고 업로드
             await this.deleteImageFromS3(
               `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${this.originalMultipleFiles}`
             );
