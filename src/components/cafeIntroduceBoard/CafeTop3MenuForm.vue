@@ -13,9 +13,18 @@
         <v-card class="mx-auto" max-width="400">
           <v-layout column align-center>
             <v-flex>
-              <v-img
+            <!-- AWS s3를 위한 주석첯리 -->
+              <!-- <v-img
                 :src="
                   require(`@/assets/product/uploadImgs/${menu.imageResource}`)
+                "
+                width="50px"
+                height="100px"
+                aspect-ratio="1"
+              ></v-img> -->
+                <v-img
+                :src="
+                  `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${menu.imageResource}`
                 "
                 width="50px"
                 height="100px"
