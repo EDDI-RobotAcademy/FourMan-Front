@@ -172,6 +172,8 @@
 </template>
 
 <script>
+import AWS from "aws-sdk";
+import { v4 as uuidv4 } from "uuid";
 import { mapActions } from "vuex";
 const eventBoardModule = "eventBoardModule";
 import Editor from "@toast-ui/editor";
@@ -215,11 +217,56 @@ export default {
       thumbnailFile: "",
 
       thumbnailPreview: [],
+
+      awsBucketName: "vue-s3-test-fourman",
+      awsBucketRegion: "ap-northeast-2",
+      awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+      s3: null,
     };
   },
 
   methods: {
     ...mapActions(eventBoardModule, ["requestImageURLToSpring"]),
+
+    awsS3Config() {
+      AWS.config.update({
+        region: this.awsBucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.awsIdentityPoolId,
+        }),
+      });
+      this.s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.awsBucketName,
+        },
+      });
+    },
+
+    async uploadAwsS3(file) {
+      this.awsS3Config();
+
+      const fileExtension = file.name.split(".").pop();
+      const fileName = `event/${uuidv4()}.${fileExtension}`;
+
+      return new Promise((resolve, reject) => {
+        this.s3.upload(
+          {
+            Key: fileName,
+            Body: file,
+            ACL: "public-read",
+          },
+          (err, data) => {
+            if (err) {
+              console.log(err);
+              reject(err.message);
+            } else {
+              resolve(fileName);
+            }
+          }
+        );
+      });
+    },
     onStartDateSelected() {
       this.startDateMenu = false;
     },
@@ -227,26 +274,48 @@ export default {
     onEndDateSelected() {
       this.endDateMenu = false;
     },
+    //AWS s3 적용을 위한 주석처리
+    // async uploadImage(blob, callback) {
+    //   let formData = new FormData();
+    //   const fileExtension = blob.type.split("/")[1];
+    //   // 영문으로 된 랜덤 파일 이름 생성
+    //   const randomFileName = `image_${Math.random()
+    //     .toString(36)
+    //     .substring(2)}.${fileExtension}`;
+    //   // 수정된 파일 이름으로 Blob 객체를 File 객체로 변환
+    //   const file = new File([blob], randomFileName, { type: blob.type });
+    //   formData.append("file", file);
+
+    //   try {
+    //     const response = await this.requestImageURLToSpring(formData);
+    //     console.log("response", response);
+    //     console.log("response.data", response.data);
+    //     const imageUrl = response.data;
+    //     console.log("imageUrl", imageUrl);
+    //     // const decodedImageUrl = decodeURIComponent(imageUrl);
+    //     // callback(decodedImageUrl, "alt text");
+    //     callback(imageUrl, "alt text");
+    //   } catch (error) {
+    //     console.error("Error uploading image:", error);
+    //   }
+    // },
 
     async uploadImage(blob, callback) {
-      let formData = new FormData();
       const fileExtension = blob.type.split("/")[1];
       // 영문으로 된 랜덤 파일 이름 생성
-      const randomFileName = `image_${Math.random()
-        .toString(36)
-        .substring(2)}.${fileExtension}`;
+      const randomFileName = `image_${uuidv4()}.${fileExtension}`;
       // 수정된 파일 이름으로 Blob 객체를 File 객체로 변환
       const file = new File([blob], randomFileName, { type: blob.type });
-      formData.append("file", file);
 
       try {
-        const response = await this.requestImageURLToSpring(formData);
-        console.log("response", response);
-        console.log("response.data", response.data);
-        const imageUrl = response.data;
-        console.log("imageUrl", imageUrl);
-        // const decodedImageUrl = decodeURIComponent(imageUrl);
-        // callback(decodedImageUrl, "alt text");
+        const uploadedFileName = await this.uploadAwsS3(file);
+        const imageUrl = `https://${this.awsBucketName}.s3.${this.awsBucketRegion}.amazonaws.com/${uploadedFileName}`;
+
+        // // 이미지 URL을 스프링부트 서버에 전송
+        // const formData = new FormData();
+        // formData.append("imageUrl", imageUrl);
+        // const response = await this.requestImageURLToSpring(formData);
+
         callback(imageUrl, "alt text");
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -269,6 +338,38 @@ export default {
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
       console.log("this.thumbnailPreview", this.thumbnailPreview);
     },
+    // AWS s3 적용을 위한 주석처리
+
+    // async onSubmit() {
+    //   console.log("이벤트 등록- registerform");
+    //   console.log("eventStartDate", this.eventStartDate);
+    //   console.log("eventEndDate", this.eventEndDate);
+
+    //   //파일 업로드한 경우
+    //   if (!this.thumbnailFile.length == 0) {
+    //     let formData = new FormData();
+
+    //     formData.append("thumbnail", this.thumbnailFile[0]);
+
+    //     let eventContents = {
+    //       eventName: this.eventName,
+    //       eventStartDate: this.eventStartDate,
+    //       eventEndDate: this.eventEndDate,
+    //       content: this.content,
+    //       code: JSON.parse(localStorage.getItem("userInfo")).code,
+    //     };
+
+    //     formData.append(
+    //       "info",
+    //       new Blob([JSON.stringify(eventContents)], {
+    //         type: "application/json",
+    //       })
+    //     );
+    //     this.$emit("submit", formData);
+    //   } else {
+    //     alert("이벤트 사진을 업로드해주세요");
+    //   }
+    // },
 
     async onSubmit() {
       console.log("이벤트 등록- registerform");
@@ -278,8 +379,24 @@ export default {
       //파일 업로드한 경우
       if (!this.thumbnailFile.length == 0) {
         let formData = new FormData();
+        const thumbnailFileNameList = [];
+        for (const file of this.thumbnailFile) {
+          try {
+            const fileName = await this.uploadAwsS3(file);
+            thumbnailFileNameList.push(fileName);
+          } catch (error) {
+            console.log(error)
+            alert("업로드 중 문제 발생 (사진 파일에 문제가 있음)", error);
+            return;
+          }
+        }
 
-        formData.append("thumbnail", this.thumbnailFile[0]);
+        formData.append(
+          "thumbnailFileNameList",
+          new Blob([JSON.stringify(thumbnailFileNameList)], {
+            type: "application/json",
+          })
+        );
 
         let eventContents = {
           eventName: this.eventName,
@@ -288,25 +405,6 @@ export default {
           content: this.content,
           code: JSON.parse(localStorage.getItem("userInfo")).code,
         };
-        // const editor = document.getElementById("editor"); // HTML 요소 가져오기
-        // const html = editor.innerHTML;
-
-        // const regex = /data:image\/.*?;base64,([^\"]+)/g; // Base64 코드 추출을 위한 정규표현식
-        // const matches = html.match(regex);
-
-        // if (matches != null) {
-        //   matches.forEach((match, index) => {
-        //     const base64Data = match.split(",")[1]; // Base64 문자열 추출
-        //     const blob = new Blob(
-        //       [Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0))],
-        //       { type: "image/png" }
-        //     ); // Blob 생성
-        //     const file = new File([blob], `image_${index}.png`, {
-        //       type: "image/png",
-        //     }); // File 객체 생성
-        //     formData.append("fileList", file); // Form 데이터에 File 객체 추가
-        //   });
-        // }
 
         formData.append(
           "info",

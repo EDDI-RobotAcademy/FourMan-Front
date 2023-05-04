@@ -16,7 +16,6 @@
             >
           </v-col>
           <v-col cols="auto" class="d-flex align-center">
-            
             <v-btn
               class="brown darken-2 white--text mr-10"
               text
@@ -96,13 +95,21 @@
 
       <v-row justify="center">
         <v-col cols="auto">
-          <v-img
+          <!-- AwS s3 적용을 위한 조석처리 -->
+          <!-- <v-img
             v-if="event.thumbnailFileName"
             contain
             width="800px"
             :src="
               require(`../../../public/assets/event/uploadImgs/${event.thumbnailFileName}`)
             "
+            class="mx-auto"
+          /> -->
+          <v-img
+            v-if="event.thumbnailFileName"
+            contain
+            width="800px"
+            :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${event.thumbnailFileName}`"
             class="mx-auto"
           />
         </v-col>
@@ -148,12 +155,45 @@ export default {
   methods: {
     ...mapActions(eventBoardModule, ["requestCafeByEventId"]),
     ...mapActions(eventBoardModule, ["requestDeleteEventToSpring"]),
+    // async deleteEvent() {
+    //   try {
+    //     await this.requestDeleteEventToSpring(this.event.eventId);
+    //     this.$router.push({ name: "EventBoardListPage" });
+    //   } catch (error) {
+    //     console.error("Failed to delete event:", error);
+    //   }
+    // },
     async deleteEvent() {
       try {
+        // Delete image from S3
+        await this.deleteImageFromS3(this.event.thumbnailFileName);
+
+        // Delete event from the database
         await this.requestDeleteEventToSpring(this.event.eventId);
         this.$router.push({ name: "EventBoardListPage" });
       } catch (error) {
         console.error("Failed to delete event:", error);
+      }
+    },
+
+    async deleteImageFromS3(imagePath) {
+      try {
+        this.awsS3Config();
+
+        // 삭제할 객체의 키를 생성
+        const objectKey = imagePath;
+
+        // 객체 삭제
+        const deleteParams = {
+          Bucket: this.awsBucketName,
+          Key: objectKey,
+        };
+
+        await this.s3.deleteObject(deleteParams).promise();
+
+        console.log("이미지가 S3에서 삭제되었습니다.");
+      } catch (error) {
+        console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
       }
     },
 
