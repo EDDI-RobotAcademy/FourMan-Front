@@ -10,7 +10,7 @@
       <div class="preview-container">
         <img v-if="previewImage" :src="previewImage" class="image-preview"/>
       </div>
-        <v-btn class="brown darken-2 white--text" @click="clickFileInput">파일 선택</v-btn>
+        <v-btn class="grey darken-3 white--text" @click="clickFileInput">파일 선택</v-btn>
     </div>
     <div class="form-field">
       <label>카테고리</label>
