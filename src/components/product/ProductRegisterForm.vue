@@ -6,7 +6,11 @@
     </div>
     <div class="form-field">
       <label for="files">상품 사진</label>
-      <input type="file" id="files" ref="files" @change="handleFileUpload"/>
+      <input type="file" id="files" ref="files" @change="handleFileUpload" style="display:none" />
+      <div class="preview-container">
+        <img v-if="previewImage" :src="previewImage" class="image-preview"/>
+      </div>
+        <v-btn class="brown darken-2 white--text" @click="clickFileInput">파일 선택</v-btn>
     </div>
     <div class="form-field">
       <label>카테고리</label>
@@ -41,6 +45,7 @@ export default {
             files: '',
             drinkTypeList: ['COFFEE & LATTE', 'BUBBLETEA & NON-COFFEE', 'ADE & TEA', 'SMOOTHIE & FRUIT BEVERAGE'],
             drinkType: '',
+            previewImage: null,
             cafeName: JSON.parse(localStorage.getItem('userInfo')).cafeName,
             cafeId: JSON.parse(localStorage.getItem('userInfo')).cafeId,
             awsBucketName: 'vue-s3-test-fourman',
@@ -167,6 +172,16 @@ export default {
         },
         handleFileUpload() {
           this.files = this.$refs.files.files
+
+          if (this.files.length > 0) {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = (event) => {
+            this.previewImage = event.target.result;
+          };
+          } else {
+            this.previewImage = null;
+          }
         },
         cancel() {
           this.$router.push( {
@@ -177,7 +192,10 @@ export default {
           this.drinkType = drinkType
         },
         restrictToNumbers(event) {
-        event.target.value = event.target.value.replace(/[^0-9]/g, '');
+          event.target.value = event.target.value.replace(/[^0-9]/g, '');
+        },
+        clickFileInput() {
+          this.$refs.files.click();
         },
     },
     updated() {
@@ -248,5 +266,18 @@ button {
 .cancel-button {
   text-decoration: none;
   color: white;
+}
+
+.image-preview {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
