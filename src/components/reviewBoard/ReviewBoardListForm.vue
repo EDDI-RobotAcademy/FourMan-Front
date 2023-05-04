@@ -13,8 +13,15 @@
           md="3"
           >
             <v-card class="text-center" :to="{ name: 'ReviewBoardReadPage', params: { reviewBoardId: reviewBoard.reviewBoardId.toString() }}">
-            <v-img
-              :src="reviewBoard.firstPhoto ? getImagePath(reviewBoard.firstPhoto) : require(`@/assets/logo.png`)"
+              <!-- AWS s3 사용을 위한 주석 처리 -->
+              <!-- <v-img
+                :src="reviewBoard.firstPhoto ? getImagePath(reviewBoard.firstPhoto) : require(`@/assets/logo.png`)"
+                aspect-ratio="1"
+                class="grey lighten-3"
+                ></v-img> -->
+
+              <v-img
+              :src="reviewBoard.firstPhoto ? `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${reviewBoard.firstPhoto}` : require(`@/assets/logo.png`)"
               aspect-ratio="1"
               class="grey lighten-3"
               ></v-img>
