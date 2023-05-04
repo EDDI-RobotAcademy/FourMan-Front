@@ -23,7 +23,9 @@
         </div>
         <v-divider class="mt-3 mb-3"></v-divider>
         <div class="ms-4 mt-10 mb-10" v-if="freeBoardImages.length != 0">
-          <img v-for="(imagePath, idx) in freeBoardImages" :key="idx" :src="require(`@/assets/freeBoardImages/${imagePath.freeBoardImageResourcePath}`)" :style="{ maxWidth: '600px' }">
+          <!-- AWS s3 사용을 위한 주석 처리 -->
+          <!-- <img v-for="(imagePath, idx) in freeBoardImages" :key="idx" :src="require(`@/assets/freeBoardImages/${imagePath.freeBoardImageResourcePath}`)" :style="{ maxWidth: '600px' }"> -->
+          <img v-for="(imagePath, idx) in freeBoardImages" :key="idx" :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${imagePath.freeBoardImageResourcePath}`" :style="{ maxWidth: '600px' }">
         </div>
         <div v-html="compiledMarkdown"></div>
       </div>
@@ -72,9 +74,11 @@
       </v-btn>
     </div>
   </div>
-  </template>
+</template>
 
-  <script>
+<script>
+import AWS from 'aws-sdk'
+import { v4 as uuidv4 } from 'uuid'
 
 import { mapActions } from 'vuex'
 import { marked } from 'marked'
@@ -83,6 +87,14 @@ const freeBoardModule= 'freeBoardModule'
 
   export default {
       name: "FreeBoardReadForm",
+      data() {
+        return {
+          awsBucketName: 'vue-s3-test-fourman',
+          awsBucketRegion: 'ap-northeast-2',
+          awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+          s3: null,
+        }
+      },
       props: {
           freeBoard: {
               type: Object,
@@ -122,7 +134,21 @@ const freeBoardModule= 'freeBoardModule'
               })
             }
           },
+          // AWS s3 사용을 위한 주석 처리
+          // async onDelete () {
+
+          //   await this.requestDeleteFreeBoardToSpring(this.freeBoard.boardId)
+          //   await this.$router.push({ name: 'FreeBoardListPage' })
+          // },
+
           async onDelete () {
+
+            if (this.freeBoardImages.length > 0) {
+            for (const imagePath of this.freeBoardImages) {
+              await this.deleteImageFromS3(imagePath.freeBoardImageResourcePath);
+            }
+          }
+
             await this.requestDeleteFreeBoardToSpring(this.freeBoard.boardId)
             await this.$router.push({ name: 'FreeBoardListPage' })
           },
@@ -141,6 +167,43 @@ const freeBoardModule= 'freeBoardModule'
             await this.requestFreeBoardDecRecommendationToSpring({boardId, memberId})
             await this.$router.go((this.$router.currentRoute))
           },
+
+          awsS3Config () {
+            AWS.config.update({
+                  region: this.awsBucketRegion,
+                  credentials: new AWS.CognitoIdentityCredentials({
+                      IdentityPoolId: this.awsIdentityPoolId
+                  })
+            })
+
+            this.s3 = new AWS.S3({
+                  apiVersion: '2006-03-01',
+                  params: {
+                      Bucket: this.awsBucketName
+                  }
+            })
+          },
+          async deleteImageFromS3(imagePath) {
+            try {
+
+                this.awsS3Config()
+
+                // 삭제할 객체의 키를 생성
+                const objectKey = imagePath;
+
+                // 객체 삭제
+                const deleteParams = {
+                Bucket: this.awsBucketName,
+                Key: objectKey
+                };
+
+                await this.s3.deleteObject(deleteParams).promise();
+
+                console.log("이미지가 S3에서 삭제되었습니다.");
+            } catch (error) {
+                console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
+            }
+          },
       },
       computed: {
         compiledMarkdown: function () {
@@ -148,7 +211,7 @@ const freeBoardModule= 'freeBoardModule'
         }
       },
   }
-  </script>
+</script>
 
  <style scoped>
 .border-blue {
