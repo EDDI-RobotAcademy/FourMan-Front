@@ -200,36 +200,6 @@
           </table>
         </v-row>
 
-        <!-- <v-row class="mt-10">
-          <table v-show="this.multipleFiles.length > 0">
-            <tr>
-              <td align="right">
-                <v-btn
-                  text
-                  color="grey"
-                  style="font-size: 16px"
-                  @click="uploadCancel"
-                  >cancel<v-icon>mdi-delete-outline</v-icon></v-btn
-                >
-              </td>
-            </tr>
-            <tr
-              v-for="(image, index) in this.multiplePreview"
-              :key="index"
-              style="border-bottom: none"
-            >
-              <td colspan="4" class="imageTd">
-                <v-img
-                  :src="image"
-                  width="400px"
-                  contain
-                  style=" display: block"
-                />
-              </td>
-            </tr>
-          </table>
-        </v-row> -->
-
         <!-- 등록하기 -->
         <v-row class="justify-center mt-15 mb-5">
           <div>
@@ -256,6 +226,8 @@
 </template>
 
 <script>
+import AWS from "aws-sdk";
+import { v4 as uuidv4 } from "uuid";
 import { mapActions } from "vuex";
 const cafeIntroduceBoardModule = "cafeIntroduceBoardModule";
 export default {
@@ -311,6 +283,11 @@ export default {
       fileNum: 0,
       multiplePreview: [],
       thumbnailPreview: [],
+
+      awsBucketName: "vue-s3-test-fourman",
+      awsBucketRegion: "ap-northeast-2",
+      awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+      s3: null,
     };
   },
 
@@ -319,10 +296,26 @@ export default {
       "requestCreateCafeToSpring",
       "requestCafeListToSpring",
     ]),
+    awsS3Config() {
+      AWS.config.update({
+        region: this.awsBucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.awsIdentityPoolId,
+        }),
+      });
+      this.s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.awsBucketName,
+        },
+      });
+    },
     handleFileUpload() {
       this.thumbnailFile = this.$refs.thumbnailFile.files;
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
     },
+
+
     handleMultipleFileUpload() {
       this.multipleFiles = this.$refs.multipleFiles.files;
       this.fileNum += this.$refs.multipleFiles.files.length;
@@ -332,6 +325,71 @@ export default {
         );
       }
     },
+  
+    //@AWS S3적용을 위한 주석처리
+    // async onSubmit() {
+    //   console.log("카페 등록- registerform");
+
+    //   //파일 업로드한 경우
+    //   if (!this.multipleFiles.length == 0 && !this.thumbnailFile.length == 0) {
+    //     let formData = new FormData();
+
+    //     formData.append("thumbnail", this.thumbnailFile[0]);
+
+    //     for (let idx = 0; idx < this.multipleFiles.length; idx++) {
+    //       console.log("파일리스트 반복문:" + idx);
+    //       formData.append("fileList", this.multipleFiles[idx]);
+    //     }
+
+    //     let cafeContents = {
+    //       cafeAddress: this.cafeAddress,
+    //       cafeTel: this.cafeTel,
+    //       startTime: this.startTime,
+    //       endTime: this.endTime,
+    //       subTitle: this.subTitle,
+    //       description: this.description,
+    //       code: JSON.parse(localStorage.getItem("userInfo")).code,
+    //     };
+
+    //     formData.append(
+    //       "info",
+    //       new Blob([JSON.stringify(cafeContents)], {
+    //         type: "application/json",
+    //       })
+    //     );
+
+    //     await this.requestCreateCafeToSpring(formData);
+    //     await this.requestCafeListToSpring();
+    //     await this.$router.push({ name: "CafeIntroBoardListPage" });
+    //     //파일 업로드 하지 않은 경우
+    //   } else {
+    //     alert("카페 사진을 업로드해주세요");
+    //   }
+    // },
+    async uploadAwsS3(file) {
+      this.awsS3Config();
+
+      const fileExtension = file.name.split(".").pop();
+      const fileName = `cafe/${uuidv4()}.${fileExtension}`;
+
+      return new Promise((resolve, reject) => {
+        this.s3.upload(
+          {
+            Key: fileName,
+            Body: file,
+            ACL: "public-read",
+          },
+          (err, data) => {
+            if (err) {
+              console.log(err);
+              reject(err.message);
+            } else {
+              resolve(fileName);
+            }
+          }
+        );
+      });
+    },
 
     async onSubmit() {
       console.log("카페 등록- registerform");
@@ -339,13 +397,43 @@ export default {
       //파일 업로드한 경우
       if (!this.multipleFiles.length == 0 && !this.thumbnailFile.length == 0) {
         let formData = new FormData();
+        const thumbnailFileNameList = [];
 
-        formData.append("thumbnail", this.thumbnailFile[0]);
-
-        for (let idx = 0; idx < this.multipleFiles.length; idx++) {
-          console.log("파일리스트 반복문:" + idx);
-          formData.append("fileList", this.multipleFiles[idx]);
+        for (const file of this.thumbnailFile) {
+          try {
+            const fileName = await this.uploadAwsS3(file);
+            thumbnailFileNameList.push(fileName);
+          } catch (error) {
+            alert("업로드 중 문제 발생 (사진 파일에 문제가 있음)", error);
+            return;
+          }
         }
+
+        formData.append(
+          "thumbnailFileNameList",
+          new Blob([JSON.stringify(thumbnailFileNameList)], {
+            type: "application/json",
+          })
+        );
+
+        const multipleFileNameList = [];
+
+        for (const file of this.multipleFiles) {
+          try {
+            const fileName = await this.uploadAwsS3(file);
+            multipleFileNameList.push(fileName);
+          } catch (error) {
+            alert("업로드 중 문제 발생 (사진 파일에 문제가 있음)", error);
+            return;
+          }
+        }
+
+        formData.append(
+          "multipleFileNameList",
+          new Blob([JSON.stringify(multipleFileNameList)], {
+            type: "application/json",
+          })
+        );
 
         let cafeContents = {
           cafeAddress: this.cafeAddress,
@@ -372,6 +460,7 @@ export default {
         alert("카페 사진을 업로드해주세요");
       }
     },
+
     thumbnailCancel() {
       this.thumbnailFile = "";
       this.$refs.thumbnailFile.value = "";
@@ -382,6 +471,9 @@ export default {
     },
     cancel() {
       this.$router.go(-1);
+    },
+    created() {
+      this.awsS3Config();
     },
   },
 };

@@ -17,12 +17,21 @@
       </template>
 
       <div class="thumb">
-        <v-img
+      <!-- aws s3 적용을 위한 주석처리 -->
+        <!-- <v-img
           v-if="event"
           height="200"
           class="white--text align-end"
           :src="
             require(`../../../public/assets/event/uploadImgs/${event.thumbnailFileName}`)
+          "
+        > -->
+        <v-img
+          v-if="event"
+          height="200"
+          class="white--text align-end"
+          :src="
+            `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${event.thumbnailFileName}`
           "
         >
           <div v-if="isEventExpired()" class="overlay">이벤트 종료</div>

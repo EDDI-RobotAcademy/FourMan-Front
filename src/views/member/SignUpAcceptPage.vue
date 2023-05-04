@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <v-row justify="center" class="logo"
-        ><div class="brown--text">카페예약사이트</div></v-row
+        ><div class=" NanumGothic brown--text">FOURMAN 카페 예약</div></v-row
       >
       <v-layout column class="mx-auto">
         <v-checkbox
@@ -518,13 +518,13 @@
         <v-col cols="auto">
           <router-link to="/sign-up-choice"
             ><v-btn class="brown darken-2 white--text"
-              >CANCLE</v-btn
+              >취소</v-btn
             ></router-link
           >
         </v-col>
         <v-col cols="auto">
           <v-btn class="brown darken-2 white--text" dark @click="ckCheck"
-            >NEXT</v-btn
+            >다음</v-btn
           >
         </v-col>
       </v-row>

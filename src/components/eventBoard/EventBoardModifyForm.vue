@@ -172,6 +172,8 @@
 </template>
 
 <script>
+import AWS from "aws-sdk";
+import { v4 as uuidv4 } from "uuid";
 import { mapActions } from "vuex";
 const eventBoardModule = "eventBoardModule";
 import Editor from "@toast-ui/editor";
@@ -195,12 +197,12 @@ export default {
     this.eventEndDate = this.event.eventEndDate;
     this.content = this.event.content;
     this.thumbnailFile = this.event.thumbnailFileName;
+    this.originalThumbnail = this.event.thumbnailFileName;
     console.log(" this.event.thumbnailFileName:", this.event.thumbnailFileName);
-    this.thumbnailPreview = `/assets/event/uploadImgs/${this.thumbnailFile}`;
+    this.thumbnailPreview = `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${this.thumbnailFile}`;
     console.log("this.thumbnailPreview", this.thumbnailPreview);
   },
   mounted() {
-
     this.editor = new Editor({
       el: document.querySelector("#editor"),
       height: "500px",
@@ -229,12 +231,77 @@ export default {
       content: "",
       uploadPreThumbnailUrl: [],
       thumbnailFile: "",
+      originalThumbnail: "",
       thumbnailPreview: [],
+
+      awsBucketName: "vue-s3-test-fourman",
+      awsBucketRegion: "ap-northeast-2",
+      awsIdentityPoolId: "ap-northeast-2:ce9c61fa-af5d-4ed1-8e3d-9b8d460ee927",
+      s3: null,
     };
   },
 
   methods: {
     ...mapActions(eventBoardModule, ["requestImageURLToSpring"]),
+
+    awsS3Config() {
+      AWS.config.update({
+        region: this.awsBucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.awsIdentityPoolId,
+        }),
+      });
+      this.s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.awsBucketName,
+        },
+      });
+    },
+    async uploadAwsS3(file) {
+      this.awsS3Config();
+
+      const fileExtension = file.name.split(".").pop();
+      const fileName = `event/${uuidv4()}.${fileExtension}`;
+
+      return new Promise((resolve, reject) => {
+        this.s3.upload(
+          {
+            Key: fileName,
+            Body: file,
+            ACL: "public-read",
+          },
+          (err, data) => {
+            if (err) {
+              console.log(err);
+              reject(err.message);
+            } else {
+              resolve(fileName);
+            }
+          }
+        );
+      });
+    },
+    async deleteImageFromS3(imagePath) {
+      try {
+        this.awsS3Config();
+
+        // 삭제할 객체의 키를 생성
+        const objectKey = imagePath;
+
+        // 객체 삭제
+        const deleteParams = {
+          Bucket: this.awsBucketName,
+          Key: objectKey,
+        };
+
+        await this.s3.deleteObject(deleteParams).promise();
+
+        console.log("이미지가 S3에서 삭제되었습니다.");
+      } catch (error) {
+        console.error("S3에서 이미지를 삭제하는 데 실패했습니다.", error);
+      }
+    },
     onStartDateSelected() {
       this.startDateMenu = false;
     },
@@ -242,23 +309,46 @@ export default {
     onEndDateSelected() {
       this.endDateMenu = false;
     },
+    // AWS s3적용을 위한 주석 처리
+    // async uploadImage(blob, callback) {
+    //   let formData = new FormData();
+    //   const fileExtension = blob.type.split("/")[1];
+    //   // 영문으로 된 랜덤 파일 이름 생성
+    //   const randomFileName = `image_${Math.random()
+    //     .toString(36)
+    //     .substring(2)}.${fileExtension}`;
+    //   // 수정된 파일 이름으로 Blob 객체를 File 객체로 변환
+    //   const file = new File([blob], randomFileName, { type: blob.type });
+    //   formData.append("file", file);
+
+    //   try {
+    //     const response = await this.requestImageURLToSpring(formData);
+    //     console.log("response", response);
+    //     console.log("response.data", response.data);
+    //     const imageUrl = response.data;
+    //     console.log("imageUrl", imageUrl);
+    //     callback(imageUrl, "alt text");
+    //   } catch (error) {
+    //     console.error("Error uploading image:", error);
+    //   }
+    // },
+
     async uploadImage(blob, callback) {
-      let formData = new FormData();
       const fileExtension = blob.type.split("/")[1];
       // 영문으로 된 랜덤 파일 이름 생성
-      const randomFileName = `image_${Math.random()
-        .toString(36)
-        .substring(2)}.${fileExtension}`;
+      const randomFileName = `image_${uuidv4()}.${fileExtension}`;
       // 수정된 파일 이름으로 Blob 객체를 File 객체로 변환
       const file = new File([blob], randomFileName, { type: blob.type });
-      formData.append("file", file);
 
       try {
-        const response = await this.requestImageURLToSpring(formData);
-        console.log("response", response);
-        console.log("response.data", response.data);
-        const imageUrl = response.data;
-        console.log("imageUrl", imageUrl);
+        const uploadedFileName = await this.uploadAwsS3(file);
+        const imageUrl = `https://${this.awsBucketName}.s3.${this.awsBucketRegion}.amazonaws.com/${uploadedFileName}`;
+
+        // // 이미지 URL을 스프링부트 서버에 전송
+        // const formData = new FormData();
+        // formData.append("imageUrl", imageUrl);
+        // const response = await this.requestImageURLToSpring(formData);
+
         callback(imageUrl, "alt text");
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -278,36 +368,84 @@ export default {
       this.thumbnailFile = this.$refs.thumbnailFile.files;
       this.thumbnailPreview = URL.createObjectURL(this.thumbnailFile[0]);
     },
+    // AWS s3 적용을 위한 주석처리
+    // async onSubmit() {
+    //   console.log("이벤트 등록- registerform");
+    //   console.log("eventStartDate", this.eventStartDate);
+    //   console.log("eventEndDate", this.eventEndDate);
+
+    //   //파일 업로드한 경우
+    //   if (!this.thumbnailFile.length == 0) {
+    //     let formData = new FormData();
+
+    //     formData.append("thumbnail", this.thumbnailFile[0]);
+
+    //     let eventContents = {
+    //       eventName: this.eventName,
+    //       eventStartDate: this.eventStartDate,
+    //       eventEndDate: this.eventEndDate,
+    //       content: this.content,
+    //       code: JSON.parse(localStorage.getItem("userInfo")).code,
+    //     };
+
+    //     formData.append(
+    //       "info",
+    //       new Blob([JSON.stringify(eventContents)], {
+    //         type: "application/json",
+    //       })
+    //     );
+    //     this.$emit("submit", formData);
+    //   } else {
+    //     alert("이벤트 사진을 업로드해주세요");
+    //   }
+    // },
 
     async onSubmit() {
-      console.log("이벤트 등록- registerform");
+      console.log("이벤트 수정- modifyform");
       console.log("eventStartDate", this.eventStartDate);
       console.log("eventEndDate", this.eventEndDate);
+      let formData = new FormData();
 
       //파일 업로드한 경우
-      if (!this.thumbnailFile.length == 0) {
-        let formData = new FormData();
-
-        formData.append("thumbnail", this.thumbnailFile[0]);
-
-        let eventContents = {
-          eventName: this.eventName,
-          eventStartDate: this.eventStartDate,
-          eventEndDate: this.eventEndDate,
-          content: this.content,
-          code: JSON.parse(localStorage.getItem("userInfo")).code,
-        };
+      if (this.thumbnailFile != this.originalThumbnail) {
+        const thumbnailFileNameList = [];
+        await this.deleteImageFromS3(
+          `https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${this.originalThumbnailFile}`
+        );
+        for (const file of this.thumbnailFile) {
+          try {
+            const fileName = await this.uploadAwsS3(file);
+            thumbnailFileNameList.push(fileName);
+          } catch (error) {
+            console.error("Error in uploadAwsS3():", error);
+            alert("업로드 중 문제 발생 (썸네일사진 파일에 문제가 있음)", error);
+            return;
+          }
+        }
 
         formData.append(
-          "info",
-          new Blob([JSON.stringify(eventContents)], {
+          "thumbnailFileNameList",
+          new Blob([JSON.stringify(thumbnailFileNameList)], {
             type: "application/json",
           })
         );
-        this.$emit("submit", formData);
-      } else {
-        alert("이벤트 사진을 업로드해주세요");
       }
+
+      let eventContents = {
+        eventName: this.eventName,
+        eventStartDate: this.eventStartDate,
+        eventEndDate: this.eventEndDate,
+        content: this.content,
+        code: JSON.parse(localStorage.getItem("userInfo")).code,
+      };
+
+      formData.append(
+        "info",
+        new Blob([JSON.stringify(eventContents)], {
+          type: "application/json",
+        })
+      );
+      this.$emit("submit", formData);
     },
     thumbnailCancel() {
       this.thumbnailFile = "";
@@ -352,5 +490,4 @@ table.thumbTable {
   line-height: 24px;
   margin-bottom: 50px;
 }
-
 </style>
