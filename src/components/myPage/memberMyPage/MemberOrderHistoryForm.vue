@@ -63,7 +63,10 @@
                               <tr>
                                  <td width="80">
                                     <center>
-                                       <v-img :src="require(`../../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
+                                       <!-- AWS s3 사용을 위한 주석 처리 -->
+                                       <!-- <v-img :src="require(`../../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" /> -->
+                                       <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${orderInfo.cafeThumbnailFile}`" width="80px" height="100px" />
+                                       
                                     </center>
                                  </td>
                                  <td width="300">
@@ -104,7 +107,9 @@
                               <tr>ㄴ
                                  <td width="80">
                                     <center>
-                                       <v-img :src="require(`../../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" />
+                                       <!-- AWS s3 사용을 위한 주석 처리 -->
+                                       <!-- <v-img :src="require(`../../../../public/assets/cafe/uploadImgs/${orderInfo.cafeThumbnailFile }`)" width="80px" height="100px" /> -->
+                                       <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${orderInfo.cafeThumbnailFile}`" width="80px" height="100px" />
                                     </center>
                                  </td>
                                  <td width="300">
@@ -180,7 +185,9 @@
                               <tr>
                                  <td width="80">
                                     <center>
-                                       <v-img :src="require(`@/assets/product/uploadImgs/${ orderProduct.imageResource }`)" width="80px" height="100px" />
+                                       <!-- AWS s3 사용을 위한 주석 처리 -->
+                                       <!-- <v-img :src="require(`@/assets/product/uploadImgs/${ orderProduct.imageResource }`)" width="80px" height="100px" /> -->
+                                       <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${ orderProduct.imageResource }`" width="80px" height="100px" />
                                     </center>
                                  </td>
                                  <td width="300">
