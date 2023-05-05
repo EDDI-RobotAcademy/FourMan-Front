@@ -7,7 +7,7 @@
         :cycle="cycle"
         :interval="interval"
         :height="height"
-        max-height="500px"
+       
       >
         <v-carousel-item>
           <div class="video-container">
@@ -37,7 +37,7 @@ export default {
       ],
       cycle: true,
       interval: 9999, // ms 단위
-      height: 500,
+      height: 650,
       width: 600,
     };
   },
