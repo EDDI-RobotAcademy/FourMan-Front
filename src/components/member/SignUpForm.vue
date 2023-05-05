@@ -254,11 +254,13 @@ export default {
       password_confirm: "",
       nickName: "",
       birthdate: "",
+      // phoneNumber: "",
       phoneNumber: "010-1234-1234", //@@@@@@항상 true로 폰인증꺼놈
       city: "",
       street: "",
       addressDetail: "",
       zipcode: "",
+      // phonePass: false,
       phonePass: true, //@@@@@@항상 true로 폰인증꺼놈
       authorityPass: false,
       emailPass: false, //아디중복체크후 사용가능한 이메일인지 여부
@@ -352,6 +354,12 @@ export default {
     async sendVerificationPhone() {
       try {
         const { phoneNumber } = this;
+        const isPhoneNumberValid =
+          this.phoneNumber_rule[1](phoneNumber) === true;
+        if (!isPhoneNumberValid) {
+          alert("제대로 작성해주세요.");
+          return;
+        }
         console.log("보냄phoneNumber", phoneNumber);
         const response = await this.sendVerificationPhoneToSpring(phoneNumber);
         console.log("보냄response:", response);
