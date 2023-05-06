@@ -18,7 +18,9 @@
             <tr v-else v-for="(cartItem, idx) in cartItems" :key="idx">
                <td>
                   <center>
-                  <v-img :src="require(`@/assets/product/uploadImgs/${cartItem.imageResourceList[0].imageResourcePath}`)" width="50px"/>
+                  <!-- AWS s3 사용을 위한 주석 처리 -->
+                  <!-- <v-img :src="require(`@/assets/product/uploadImgs/${cartItem.imageResourceList[0].imageResourcePath}`)" width="50px"/> -->
+                  <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${cartItem.imageResourceList[0].imageResourcePath}`" width="50px">
                   </center>
                </td>
                <td>{{ cartItem.productName }}</td>
