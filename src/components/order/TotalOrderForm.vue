@@ -27,7 +27,9 @@
                       <tr v-for="(item, index) in cartItems" :key="index">
                         <td>
                           <center>
-                          <v-img :src="require(`@/assets/product/uploadImgs/${item.imageResourceList[0].imageResourcePath}`)" width="50px"/>
+                          <!-- AWS s3 사용을 위한 주석 처리 -->
+                          <!-- <v-img :src="require(`@/assets/product/uploadImgs/${item.imageResourceList[0].imageResourcePath}`)" width="50px"/> -->
+                          <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${item.imageResourceList[0].imageResourcePath}`" width="50px">
                           </center>
                         </td>
                         <td class="product">
