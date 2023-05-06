@@ -226,10 +226,12 @@ export default {
     },
 
     reserve() {
+      console.log("this.cafe", this.cafe);
+      console.log("this.cafe.cafeId", this.cafe.cafeId);
       this.$router.push({
         name: "HallSeatPage",
         params: {
-          cafe: this.cafe,
+          cafeId: this.cafe.cafeId,
         },
       });
     },

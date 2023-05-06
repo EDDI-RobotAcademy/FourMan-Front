@@ -85,6 +85,29 @@
               mdi-heart
             </v-icon>
             ({{ cafe.favorites }})
+            <v-dialog v-model="favoritedialog" persistent max-width="290">
+              <v-card>
+                <v-card-title class="headline"
+                  >로그인이 필요합니다</v-card-title
+                >
+                <v-card-text>로그인 페이지로 이동하시겠습니까?</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    class="brown darken-2 white--text"
+                    text
+                    @click="goToLoginPage"
+                    >예</v-btn
+                  >
+                  <v-btn
+                    class="brown darken-2 white--text"
+                    text
+                    @click="favoritedialog = false"
+                    >아니오</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
         </v-row>
 
@@ -229,7 +252,7 @@ export default {
     isFavorite: false,
     map: null,
     marker: null,
-
+    favoritedialog: false,
     copied: false,
     dialog: false,
     shareUrl: "",
@@ -247,6 +270,10 @@ export default {
       "sendFavoriteStatusToSpring",
       "checkFavoriteStatus",
     ]),
+    goToLoginPage() {
+      this.favoritedialog = false;
+      this.$router.push({ name: "SignInPage" });
+    },
     awsS3Config() {
       AWS.config.update({
         region: this.awsBucketRegion,
@@ -293,7 +320,7 @@ export default {
         await this.sendFavoriteStatusToSpring(payload);
         this.$emit("updateCafe");
       } else {
-        this.dialog = true;
+        this.favoritedialog = true;
       }
     },
 

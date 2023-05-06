@@ -45,7 +45,7 @@
           !eventLists || (Array.isArray(eventLists) && eventLists.length === 0)
         "
       >
-        <h1 class="text-center title-text">이벤트가가 존재하지 않습니다.</h1>
+        <h1 class="text-center title-text">이벤트가 존재하지 않습니다.</h1>
       </div>
       <v-row>
         <v-col
