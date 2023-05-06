@@ -295,6 +295,11 @@ export default {
       });
     },
     async order() {
+      if (!this.isAuthenticated){
+        this.dialog=true
+        return
+      }
+      
       const payload = {
         cafe: this.cafe,
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
