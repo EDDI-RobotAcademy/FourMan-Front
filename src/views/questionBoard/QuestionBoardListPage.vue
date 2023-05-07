@@ -68,30 +68,34 @@ export default {
               this.$router.push({ name: 'QuestionBoardRegisterPage'})
           }
       },
-      checkSecret (index, questionBoard) {
+      checkSecret(index, questionBoard) {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-        if(JSON.parse(localStorage.getItem('userInfo'))){
-          const loginId = JSON.parse(localStorage.getItem('userInfo')).id
-          const memberId = this.$store.state.questionBoardModule.questionBoards[index].memberId
-          const authorityName = JSON.parse(localStorage.getItem('userInfo')).authorityName
+        if (questionBoard.secret === false && userInfo) {
+          this.$router.push({
+            name: 'QuestionBoardReadPage',
+            params: { boardId: questionBoard.boardId.toString() },
+          });
+        } else if (userInfo) {
+          const loginId = userInfo.id;
+          const memberId = this.$store.state.questionBoardModule.questionBoards[index].memberId;
+          const authorityName = userInfo.authorityName;
 
-            if(loginId === memberId || authorityName === 'MANAGER') {
-              this.$router.push({
-                name: 'QuestionBoardReadPage',
-                params: { boardId : questionBoard.boardId.toString()}
-              })
-            } else {
-              alert('작성자만 확인 가능한 게시물 입니다')
-            }
+          if (loginId === memberId || authorityName === 'MANAGER') {
+            this.$router.push({
+              name: 'QuestionBoardReadPage',
+              params: { boardId: questionBoard.boardId.toString() },
+            });
+          } else {
+            alert('작성자만 확인 가능한 게시물 입니다');
           }
-
-            if(!JSON.parse(localStorage.getItem('userInfo'))) {
-              if(confirm('글을 확인하려면 로그인이 필요합니다. 로그인 하시겠습니까?')) {
-                this.$router.push({
-                  name: 'SignInPage'
-                })
-              }
-            }
+        } else {
+          if (confirm('글을 확인하려면 로그인이 필요합니다. 로그인 하시겠습니까?')) {
+            this.$router.push({
+              name: 'SignInPage',
+            });
+          }
+        }
       },
       async onSearch(searchText) {
         console.log('searchText 내용 :' + searchText)

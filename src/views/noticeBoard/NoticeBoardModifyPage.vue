@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <div class="EULJIRO mt-5 mb-5 text-center">
+        <div class="NanumGothic mt-5 mb-5 text-center">
             <h1> 공지사항 <v-icon>mdi-bullhorn</v-icon></h1>
             <notice-board-modify-form v-if="noticeBoard" :noticeBoard="noticeBoard" @submit="onSubmitNotice" />
             <p v-else> 로딩중 </p>
