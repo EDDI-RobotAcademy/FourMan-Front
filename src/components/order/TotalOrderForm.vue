@@ -213,18 +213,20 @@ export default {
       ),
       async purchase() {
         // 예약 가능한지 좌석 체크
-        await this.isAvailable()
+        // await this.isAvailable()
 
-        if(this.isReservationAvailable == true) {
-          await this.kakaoPayAPI()
-        } else if(this.isReservationAvailable == false) {
-          alert('이미 예약된 좌석입니다 다시 좌석과 시간을 선택해 주세요!')
-          this.$router.push({ name: "CafeIntroBoardListPage" });
-          // this.$router.push({ path: '/seats/:cafeId', params: { cafeId: this.selectedSeats.cafe.cafeId } })
-        } else {
-          console.log('포장 주문')
-          await this.kakaoPayAPI()
-        }
+        // if(this.isReservationAvailable == true) {
+        //   await this.kakaoPayAPI()
+        // } else if(this.isReservationAvailable == false) {
+        //   alert('이미 예약된 좌석입니다 다시 좌석과 시간을 선택해 주세요!')
+        //   this.$router.push({ name: "CafeIntroBoardListPage" });
+        //   // this.$router.push({ path: '/seats/:cafeId', params: { cafeId: this.selectedSeats.cafe.cafeId } })
+        // } else {
+        //   console.log('포장 주문')
+        //   await this.kakaoPayAPI()
+        // }
+
+        this.kakaoPayAPI()
       },
       async isAvailable() {
         if(this.isOrderPacking == false) {
@@ -249,7 +251,7 @@ export default {
           )
 
           await this.requestIsReservationAvailableToSpring({cafeId, formData})
-          console.log('ddd' + this.isReservationAvailable)
+          console.log('' + this.isReservationAvailable)
         } 
       },
       saveOrderInformations() {
