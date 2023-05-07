@@ -41,6 +41,7 @@
   <script>
 
   import {mapActions} from 'vuex'
+  const noticeBoardModule = 'noticeBoardModule'
 
   export default {
     name: 'NoticeBoardReadForm',
@@ -51,7 +52,7 @@
       }
     },
     methods: {
-          ...mapActions([
+          ...mapActions(noticeBoardModule, [
             'requestNoticeBoardDeleteToSpring'
           ]),
 
