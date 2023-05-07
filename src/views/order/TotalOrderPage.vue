@@ -46,9 +46,6 @@ export default {
          this.$router.push({ name: "CafeIntroBoardListPage" });
       } else {
          this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
-         if(this.isOrderPacking == false) {
-            this.totalOrderPrice = 3000
-         } 
          for(let i = 0; i < this.cartItems.length; i++) {
                 this.totalOrderPrice += this.cartItems[i].totalPrice
          } 
