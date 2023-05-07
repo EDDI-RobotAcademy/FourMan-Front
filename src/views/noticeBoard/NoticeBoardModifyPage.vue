@@ -45,7 +45,7 @@ export default {
               await this.requestNoticeBoardModifyToSpring({ boardId, title, content })
               await this.$router.push({
                   name: 'NoticeBoardReadPage',
-                  params: { boardId: this.boardId }
+                  params: { boardId: this.boardId.toString() }
               })
           }
     },
