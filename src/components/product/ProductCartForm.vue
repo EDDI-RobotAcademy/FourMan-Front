@@ -20,7 +20,7 @@
                   <center>
                   <!-- AWS s3 사용을 위한 주석 처리 -->
                   <!-- <v-img :src="require(`@/assets/product/uploadImgs/${cartItem.imageResourceList[0].imageResourcePath}`)" width="50px"/> -->
-                  <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${cartItem.imageResourceList[0].imageResourcePath}`" width="50px">
+                  <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${cartItem.imageResourceList[0].imageResourcePath}`" width="50px" />
                   </center>
                </td>
                <td>{{ cartItem.productName }}</td>
@@ -97,7 +97,7 @@
          </v-container>
       </v-card>
       <v-card v-else class="mt-10" style="height: 100px; border: 3px solid black" flat>
-         <v-container style="width: 400px">
+         <v-container style="width: 500px">
             <v-layout class="text-center" style="height: 100%; width: 100%; display:flex; align-items:center; margin-top: 5px;" justify-center>
                <div>
                   <h5 style="font-weight: normal">선택한 카페(포장)</h5>

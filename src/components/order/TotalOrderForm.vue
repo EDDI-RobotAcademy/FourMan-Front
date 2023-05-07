@@ -29,7 +29,7 @@
                           <center>
                           <!-- AWS s3 사용을 위한 주석 처리 -->
                           <!-- <v-img :src="require(`@/assets/product/uploadImgs/${item.imageResourceList[0].imageResourcePath}`)" width="50px"/> -->
-                          <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${item.imageResourceList[0].imageResourcePath}`" width="50px">
+                          <v-img :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${item.imageResourceList[0].imageResourcePath}`" width="50px" />
                           </center>
                         </td>
                         <td class="product">
@@ -92,10 +92,10 @@
                       <h3 class="mt-1">결제 정보</h3>
                       <div class="mt-3">
                         <span class="d-flex align-center" style="font-size: 18px;">
-                          상품 금액 <v-spacer/> + {{ totalOrderPrice - 1000 | comma}}원
+                          상품 금액 <v-spacer/> + {{ totalOrderPrice | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          예약 비용 <v-spacer/> + {{ 1000 | comma}}원
+                          예약 비용 <v-spacer/> + {{ reservationFee | comma}}원
                         </span>
                         <span class="d-flex align-center mt-3" style="font-size: 18px;">
                           포인트 사용 <v-spacer/> <span class="mr-1" v-if="this.usePoint != 0">-</span>{{ usePoint | comma}}원
@@ -103,7 +103,7 @@
                       </div>
                       <v-divider class="mt-3" />
                       <span class="d-flex align-center mt-3" style="font-size: 18px;">
-                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice - usePoint | comma }}원
+                          최종 결제 금액 <v-spacer/> {{ totalOrderPrice + reservationFee - usePoint | comma }}원
                         </span>
                     </v-card-text>
                   </v-card>
@@ -149,7 +149,7 @@
           </v-card>
           <div>
             <v-btn @click="purchase" block x-large color="#5F4F4F" style="color: white; font-size: 1.1em" >
-              {{ totalOrderPrice - usePoint | comma }}원 결제하기
+              {{ totalOrderPrice + reservationFee - usePoint | comma }}원 결제하기
             </v-btn>
           </div> 
         </div>
@@ -169,6 +169,7 @@ export default {
     return {
       totalOrderPriceData: Number,
       usePoint: 0,
+      reservationFee: this.isOrderPacking ? 0 : 1000
     }
    },
    props: {
@@ -259,7 +260,7 @@ export default {
         for(let i = 0; i < this.cartItems.length; i++) {
           totalQuantity += this.cartItems[i].count
         }
-        let totalPrice = this.totalOrderPrice - this.usePoint
+        let totalPrice = this.totalOrderPrice + this.reservationFee - this.usePoint
         let cartItemList = []
 
         for(let i = 0; i < this.cartItems.length; i++) {
@@ -314,7 +315,7 @@ export default {
         var vm = this;
         var IMP = window.IMP; 
 
-        let totalPrice = this.totalOrderPrice - this.usePoint
+        let totalPrice = this.totalOrderPrice + this.reservationFee - this.usePoint
 
         IMP.init("imp60856856");
 
@@ -335,7 +336,7 @@ export default {
             if ( rsp.success ) {
               vm.saveOrderInformations()
               var msg = '결제가 완료되었습니다.';
-              location.href='http://localhost:8887/member-order-history-page';
+              vm.$router.push({ name: "MemberOrderHistoryPage" });
               alert(msg)
             } else {
               var msg = '결제에 실패하였습니다.';
