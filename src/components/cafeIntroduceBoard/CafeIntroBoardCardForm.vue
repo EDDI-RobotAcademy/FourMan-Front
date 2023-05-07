@@ -1,6 +1,11 @@
 <template>
   <v-container fluid>
-    <v-card class="mx-auto my-12 cafeCard" min-width="270px" elevation="3">
+    <v-card
+      class="mx-auto my-12 cafeCard"
+      min-width="270px"
+      height="800px"
+      elevation="3"
+    >
       <div class="cafeInfo">
         <template slot="progress">
           <v-progress-linear
@@ -23,7 +28,7 @@
               :src="`https://vue-s3-test-fourman.s3.ap-northeast-2.amazonaws.com/${cafe.cafeInfo.thumbnailFileName}`"
             />
             <!-- AWS를 위한 주석처리 -->
-             <!-- <v-img
+            <!-- <v-img
               v-if="cafe && loaded"
               height="250"
               :src="
@@ -32,87 +37,90 @@
             /> -->
           </router-link>
         </div>
-        <v-card-title class="cafeName">{{ cafe.cafeName }}</v-card-title>
+        <div style="height: 280px; overflow: auto">
+          <v-card-title class="cafeName">{{ cafe.cafeName }}</v-card-title>
 
-        <v-card-text>
-          <v-row align="center" class="mx-0">
-            <v-rating
-              :value="cafe.avgRating"
-              color="amber"
-              dense
-              half-increments
-              readonly
-              size="14"
-              background-color="gray"
-            ></v-rating>
+          <v-card-text>
+            <v-row align="center" class="mx-0">
+              <v-rating
+                :value="cafe.avgRating"
+                color="amber"
+                dense
+                half-increments
+                readonly
+                size="14"
+                background-color="gray"
+              ></v-rating>
 
-            <div class="ms-4">
-              <span>{{ cafe.avgRating.toFixed(1) }}</span>
-              <span> ({{ cafe.totalRating }})</span>
+              <div class="ms-4">
+                <span>{{ cafe.avgRating.toFixed(1) }}</span>
+                <span> ({{ cafe.totalRating }})</span>
 
-              <v-icon
-                v-if="!isFavorite"
-                class="ml-5"
-                color="grey"
-                @click="toggleFavorite"
-              >
-                mdi-heart-outline
-              </v-icon>
-              <v-icon v-else class="mx-2" color="red" @click="toggleFavorite">
-                mdi-heart
-              </v-icon>
-              ({{ cafe.favorites }})
-              <!-- 비회원이 찜눌럿을때 -->
-              <v-dialog v-model="dialog" persistent max-width="290">
-                <v-card>
-                  <v-card-title class="headline"
-                    >로그인이 필요합니다</v-card-title
-                  >
-                  <v-card-text>로그인 페이지로 이동하시겠습니까?</v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="brown darken-2 white--text"
-                      text
-                      @click="goToLoginPage"
-                      >예</v-btn
+                <v-icon
+                  v-if="!isFavorite"
+                  class="ml-5"
+                  color="grey"
+                  @click="toggleFavorite"
+                >
+                  mdi-heart-outline
+                </v-icon>
+                <v-icon v-else class="mx-2" color="red" @click="toggleFavorite">
+                  mdi-heart
+                </v-icon>
+                ({{ cafe.favorites }})
+                <!-- 비회원이 찜눌럿을때 -->
+                <v-dialog v-model="dialog" persistent max-width="290">
+                  <v-card>
+                    <v-card-title class="headline"
+                      >로그인이 필요합니다</v-card-title
                     >
-                    <v-btn
-                      class="brown darken-2 white--text"
-                      text
-                      @click="dialog = false"
-                      >아니오</v-btn
-                    >
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+                    <v-card-text>로그인 페이지로 이동하시겠습니까?</v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        class="brown darken-2 white--text"
+                        text
+                        @click="goToLoginPage"
+                        >예</v-btn
+                      >
+                      <v-btn
+                        class="brown darken-2 white--text"
+                        text
+                        @click="dialog = false"
+                        >아니오</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
+            </v-row>
+
+            <div class="my-4 text-subtitle-1">
+              {{ cafe.cafeInfo.subTitle }}
             </div>
-          </v-row>
 
-          <div class="my-4 text-subtitle-1">
-            {{ cafe.cafeInfo.subTitle }}
-          </div>
-
-          <div>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</div>
-          <br />
-          영업 시간: {{ cafe.startTime }} ~ {{ cafe.endTime }}
-        </v-card-text>
+            <div>{{ cafe.cafeAddress }} , {{ cafe.cafeTel }}</div>
+            <br />
+            영업 시간: {{ cafe.startTime }} ~ {{ cafe.endTime }}
+          </v-card-text>
+        </div>
 
         <v-divider class="mx-4"></v-divider>
+        <div style="height: 220px; overflow: auto">
+          <v-card-title>Today's availability</v-card-title>
 
-        <v-card-title>Today's availability</v-card-title>
-
-        <v-card-text class="availableTimesContainer">
-          <v-chip-group
-            v-model="selection"
-            active-class="brown darken-2 white--text"
-            column
-          >
-            <v-chip v-for="(time, index) in availableTimes" :key="index">
-              {{ time }}
-            </v-chip>
-          </v-chip-group>
-        </v-card-text>
+          <v-card-text class="availableTimesContainer">
+            <v-chip-group
+              v-model="selection"
+              active-class="brown darken-2 white--text"
+              column
+            >
+              <v-chip v-for="(time, index) in availableTimes" :key="index">
+                {{ time }}
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
+        </div>
 
         <v-card-actions
           class="actions-container d-flex flex-sm-row justify-space-around"
@@ -295,11 +303,11 @@ export default {
       });
     },
     async order() {
-      if (!this.isAuthenticated){
-        this.dialog=true
-        return
+      if (!this.isAuthenticated) {
+        this.dialog = true;
+        return;
       }
-      
+
       const payload = {
         cafe: this.cafe,
         memberId: JSON.parse(localStorage.getItem("userInfo")).id,
